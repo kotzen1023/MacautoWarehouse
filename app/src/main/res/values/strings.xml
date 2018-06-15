@@ -5,7 +5,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Scan Restart</string>
 
     <string name="ok">OK</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
@@ -45,4 +45,28 @@
     <string name="item_title_rvb33">Quantity</string>
     <string name="item_title_pmc03">Vendor</string>
     <string name="item_title_gen02">Warehouse staff</string>
+
+    <string name="action_shipment_main">Shipping Main</string>
+    <string name="action_shipment_find">Find in warehouse</string>
+
+    <string name="action_allocation_find">Find in warehouse</string>
+    <string name="action_allocation_replenishment">Replenishment</string>
+    <string name="action_allocation_send_msg_to_reserve">Send msg to reserve</string>
+    <string name="action_allocation_msg">Message</string>
+    <string name="action_allocation_area_confirm">Allocation area confirm</string>
+    <string name="action_allocation_direct">Direct Allocation</string>
+
+    <string name="action_receiving_main">Receiving</string>
+    <string name="action_receiving_record">Receiving Record</string>
+    <string name="action_receiving_board">Receiving Board</string>
+    <string name="action_receiving_multi">Receiving Multi</string>
+
+    <string name="action_entering_warehouse_main">Entering Warehouse</string>
+    <string name="action_entering_warehouse_find">Find in warehouse</string>
+
+    <string name="action_production_storage_main">Production Storage</string>
+    <string name="action_production_storage_find">Find in warehouse</string>
+    <string name="action_production_storage_scan">Scan receiving tag</string>
+
+    <string name="action_receiving_inspection_main">Receiving Inspection</string>
 </resources>

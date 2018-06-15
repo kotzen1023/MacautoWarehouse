@@ -2,20 +2,30 @@ package com.macauto.macautowarehouse.data;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.macauto.macautowarehouse.R;
+import com.macauto.macautowarehouse.table.DataRow;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+
 public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
+    private static final String TAG = InspectedReceiveExpanedAdater.class.getName();
     private Context context;
     private ArrayList<String> expandableListTitle;
     private HashMap<String, ArrayList<DetailItem>> expandableListDetail;
@@ -52,7 +62,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getChild(int listPosition, int expandedListPosition) {
+    public DetailItem getChild(int listPosition, int expandedListPosition) {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
                 .get(expandedListPosition);
     }
@@ -93,8 +103,10 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getChildView(final int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
+
+        //Log.e(TAG, "listPosition = "+listPosition+", expandedListPosition = "+expandedListPosition);
         /*final String expandedListText = (String) getChild(listPosition, expandedListPosition);
 
         if (convertView == null) {
@@ -110,10 +122,13 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceIdInside, parent, false);
-            holder = new ViewHolder();
+            holder = new ViewHolder(convertView);
 
             holder.title = (TextView) convertView.findViewById(R.id.itemTitle);
             holder.name = (TextView) convertView.findViewById(R.id.itemName);
+            holder.linearLayout = convertView.findViewById(R.id.itemLinearLayout);
+            holder.edit = convertView.findViewById(R.id.itemEdit);
+            holder.button = convertView.findViewById(R.id.itemConfirm);
 
             //holder.date = (TextView) convertView.findViewById(R.id.startDate);
             //holder.place = (TextView) convertView.findViewById(R.id.place);
@@ -133,6 +148,21 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
 
                 holder.title.setText(item.getTitle());
                 holder.name.setText(item.getName());
+                holder.edit.setText(item.getName());
+
+                holder.linearLayout.setVisibility(View.GONE);
+                holder.name.setVisibility(View.VISIBLE);
+                //EditText editText = convertView.findViewById(R.id.itemEdit);
+                //TextView textView = convertView.findViewById(R.id.itemName);
+
+                //item.getTextView().setText(item.getName());
+                item.setLinearLayout(holder.linearLayout);
+                item.setEdit(holder.edit);
+                item.setTextView(holder.name);
+                item.setButton(holder.button);
+
+                convertView.setBackgroundColor(Color.rgb(0xea, 0xea, 0xea));
+                //item.setTextView(textView);
                 /*if (item.getNick() != null && item.getNick().length() > 0) {
                     holder.jid.setText(item.getNick());
                 } else if ((item.getFirstName() != null && item.getFirstName().length() > 0) &&
@@ -161,6 +191,25 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
                         holder.avatar.setImageResource(R.drawable.ic_person_outline_black_48dp);
                     }
                 }*/
+                //holder.name.setOnClickListener(mClickListener);
+                holder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.name.setVisibility(View.VISIBLE);
+                        holder.linearLayout.setVisibility(View.GONE);
+
+                        String head = expandableListTitle.get(listPosition);
+                        DetailItem detailItem = expandableListDetail.get(head).get(expandedListPosition);
+                        detailItem.setName(holder.edit.getText().toString());
+
+                        if (dataTable != null) {
+                            dataTable.Rows.get(listPosition).setValue("rvv33", (holder.edit.getText().toString()));
+                        }
+
+                        Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_MODIFIED_ITEM_COMPLETE);
+                        context.sendBroadcast(getFailedIntent);
+                    }
+                });
 
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
@@ -175,8 +224,19 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
         return true;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         TextView title;
         TextView name;
+        LinearLayout linearLayout;
+        EditText edit;
+        Button button;
+
+        private ViewHolder(View view) {
+            this.title = view.findViewById(R.id.itemTitle);
+            this.name = view.findViewById(R.id.itemName);
+            this.linearLayout = view.findViewById(R.id.itemLinearLayout);
+            this.edit = view.findViewById(R.id.itemEdit);
+            this.button = view.findViewById(R.id.itemConfirm);
+        }
     }
 }

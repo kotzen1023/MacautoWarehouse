@@ -32,6 +32,7 @@
         <service android:name=".service.CheckEmpPasswordService" />
         <service android:name=".service.GetReceiveGoodsInDataService" />
         <service android:name=".service.LoginCheckService" />
+        <service android:name=".service.ConfirmEnteringWarehouseService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

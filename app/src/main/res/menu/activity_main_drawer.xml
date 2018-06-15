@@ -21,6 +21,7 @@
             android:id="@+id/nav_entering_warehouse"
             android:icon="@drawable/baseline_view_comfy_black_36"
             android:title="@string/nav_entering_warehouse" />
+
         <item
             android:id="@+id/nav_production_storage"
             android:icon="@drawable/baseline_move_to_inbox_black_36"

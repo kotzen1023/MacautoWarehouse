@@ -6,4 +6,87 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_receiving_main"
+        android:title="@string/action_receiving_main"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_receiving_record"
+        android:title="@string/action_receiving_record"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_receiving_board"
+        android:title="@string/action_receiving_board"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_receiving_multi"
+        android:title="@string/action_receiving_multi"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_shipping_main"
+        android:title="@string/action_shipment_main"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_shipping_find"
+        android:title="@string/action_shipment_find"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_allocation_find"
+        android:title="@string/action_allocation_find"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_allocation_replenishment"
+        android:title="@string/action_allocation_replenishment"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_allocation_send_msg_to_reserve"
+        android:title="@string/action_allocation_send_msg_to_reserve"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_allocation_msg"
+        android:title="@string/action_allocation_msg"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_allocation_area_confirm"
+        android:title="@string/action_allocation_area_confirm"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_allocation_direct"
+        android:title="@string/action_allocation_direct"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_entering_warehouse_main"
+        android:title="@string/action_entering_warehouse_main"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_entering_warehouse_find"
+        android:title="@string/action_entering_warehouse_find"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/action_production_storage_main"
+        android:title="@string/action_production_storage_main"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_production_storage_find"
+        android:title="@string/action_production_storage_find"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/action_production_storage_scan"
+        android:title="@string/action_production_storage_scan"
+        app:showAsAction="collapseActionView" />
 </menu>

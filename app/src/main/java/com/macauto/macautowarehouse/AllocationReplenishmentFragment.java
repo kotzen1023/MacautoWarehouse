@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
-public class ProductionStorageFragment extends Fragment {
-    private static final String TAG = ProductionStorageFragment.class.getName();
+public class AllocationReplenishmentFragment extends Fragment {
+    private static final String TAG = AllocationReplenishmentFragment.class.getName();
 
     private Context context;
 
@@ -23,8 +24,8 @@ public class ProductionStorageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = getContext();
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -34,9 +35,12 @@ public class ProductionStorageFragment extends Fragment {
 
 
 
-        final  View view = inflater.inflate(R.layout.production_storage_fragment, container, false);
+        final  View view = inflater.inflate(R.layout.allocation_replenishment_fragment, container, false);
 
-        TextView textView = view.findViewById(R.id.textProductionStorage);
+
+
+        context = getContext();
+
 
 
         return view;
@@ -46,6 +50,17 @@ public class ProductionStorageFragment extends Fragment {
     public void onDestroyView() {
         Log.i(TAG, "onDestroy");
 
+        if (isRegister && mReceiver != null) {
+            try {
+                context.unregisterReceiver(mReceiver);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+            isRegister = false;
+            mReceiver = null;
+            Log.d(TAG, "unregisterReceiver mReceiver");
+        }
+
         super.onDestroyView();
     }
 
@@ -54,5 +69,11 @@ public class ProductionStorageFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
+    }
+
+    public void toast(String message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
     }
 }

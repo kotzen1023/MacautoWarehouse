@@ -91,6 +91,32 @@ public class MainActivity extends AppCompatActivity
 
     public static boolean isLogin = false;
 
+    private MenuItem setting;
+
+    private MenuItem shipment_main;
+    private MenuItem shipment_find;
+
+    private MenuItem allocation_find;
+    private MenuItem allocation_replenishment;
+    private MenuItem allocation_send_msg;
+    private MenuItem allocation_msg;
+    private MenuItem allocation_area_confirm;
+    private MenuItem allocation_direct;
+
+    private MenuItem receiving_main;
+    private MenuItem receiving_record;
+    private MenuItem receiving_board;
+    private MenuItem receiving_multi;
+
+    private MenuItem entering_warehouse_main;
+    private MenuItem entering_warehouse_find;
+
+    private MenuItem production_storage_main;
+    private MenuItem production_storage_find;
+    private MenuItem production_storage_scan;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -237,6 +263,38 @@ public class MainActivity extends AppCompatActivity
                             menuItemLogout.setVisible(true);
                         }
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGOUT_ACTION)) {
+                        Log.d(TAG, "receive ACTION_LOGIN_SUCCESS!");
+
+                        Fragment fragment = null;
+                        Class fragmentClass;
+
+                        if (menuItemLogin != null && menuItemLogout != null) {
+                            menuItemReceiveGoods.setVisible(false);
+                            menuItemShipment.setVisible(false);
+                            menuItemAllocation.setVisible(false);
+                            menuItemEnteringWareHouse.setVisible(false);
+                            menuItemProductionStorage.setVisible(false);
+                            menuItemReceivingInspection.setVisible(false);
+
+                            menuItemLogin.setVisible(true);
+                            menuItemLogout.setVisible(false);
+                        }
+                        fragmentClass = LoginFragment.class;
+                        isLogin = false;
+
+                        entering_warehouse_main.setVisible(false);
+                        entering_warehouse_find.setVisible(false);
+
+                        try {
+                            fragment = (Fragment) fragmentClass.newInstance();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        // Insert the fragment by replacing any existing fragment
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
                     }
                 }
             }
@@ -246,6 +304,7 @@ public class MainActivity extends AppCompatActivity
             filter = new IntentFilter();
             filter.addAction(Constants.ACTION.ACTION_LOGIN_FAIL);
             filter.addAction(Constants.ACTION.ACTION_LOGIN_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_LOGOUT_ACTION);
             //filter.addAction("unitech.scanservice.data");
             context.registerReceiver(mReceiver, filter);
             isRegister = true;
@@ -286,6 +345,56 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        setting = menu.findItem(R.id.action_settings);
+
+        receiving_main = menu.findItem(R.id.action_receiving_main);
+        receiving_record = menu.findItem(R.id.action_receiving_record);
+        receiving_board = menu.findItem(R.id.action_receiving_board);
+        receiving_multi = menu.findItem(R.id.action_receiving_multi);
+
+        shipment_main = menu.findItem(R.id.action_shipping_main);
+        shipment_find = menu.findItem(R.id.action_shipping_find);
+
+        allocation_find = menu.findItem(R.id.action_allocation_find);
+        allocation_replenishment = menu.findItem(R.id.action_allocation_replenishment);
+        allocation_send_msg = menu.findItem(R.id.action_allocation_send_msg_to_reserve);
+        allocation_msg = menu.findItem(R.id.action_allocation_msg);
+        allocation_area_confirm = menu.findItem(R.id.action_allocation_area_confirm);
+        allocation_direct = menu.findItem(R.id.action_allocation_direct);
+
+        entering_warehouse_main = menu.findItem(R.id.action_entering_warehouse_main);
+        entering_warehouse_find = menu.findItem(R.id.action_entering_warehouse_find);
+
+        production_storage_main = menu.findItem(R.id.action_production_storage_main);
+        production_storage_find = menu.findItem(R.id.action_production_storage_find);
+        production_storage_scan = menu.findItem(R.id.action_production_storage_scan);
+
+
+        setting.setVisible(false);
+
+        receiving_main.setVisible(false);
+        receiving_record.setVisible(false);
+        receiving_board.setVisible(false);
+        receiving_multi.setVisible(false);
+
+        shipment_main.setVisible(false);
+        shipment_find.setVisible(false);
+
+        allocation_find.setVisible(false);
+        allocation_replenishment.setVisible(false);
+        allocation_send_msg.setVisible(false);
+        allocation_msg.setVisible(false);
+        allocation_area_confirm.setVisible(false);
+        allocation_direct.setVisible(false);
+
+        entering_warehouse_main.setVisible(false);
+        entering_warehouse_find.setVisible(false);
+
+        production_storage_main.setVisible(false);
+        production_storage_find.setVisible(false);
+        production_storage_scan.setVisible(false);
+
+
         //menuItemLogin = menu.findItem(R.id.nav_login);
         //menuItemLogout = menu.findItem(R.id.nav_logout);
 
@@ -299,12 +408,83 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        setTitle(item.getTitle());
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        Fragment fragment = null;
+        Class fragmentClass=null;
+
+        switch (id) {
+            case R.id.action_settings:
+                Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SCAN_RESET);
+                sendBroadcast(getSuccessIntent);
+                break;
+            case R.id.action_shipping_find:
+            case R.id.action_allocation_find:
+            case R.id.action_entering_warehouse_find:
+            case R.id.action_production_storage_find:
+                fragmentClass = LookupInStockFragment.class;
+                break;
+            case R.id.action_receiving_main:
+                fragmentClass = ReceivingFragment.class;
+                break;
+            case R.id.action_receiving_record:
+                fragmentClass = ReceivingRecordFragment.class;
+                break;
+            case R.id.action_receiving_board:
+                fragmentClass = ReceivingBoardFragment.class;
+                break;
+            case R.id.action_receiving_multi:
+                fragmentClass = ReceivingMultiFragment.class;
+                break;
+            case R.id.action_shipping_main:
+                fragmentClass = ShipmentFragment.class;
+                break;
+            case R.id.action_allocation_replenishment:
+                fragmentClass = AllocationReplenishmentFragment.class;
+                break;
+            case R.id.action_allocation_send_msg_to_reserve:
+                fragmentClass = AllocationSendMsgToReserveWarehouseFragment.class;
+                break;
+            case R.id.action_allocation_msg:
+                fragmentClass = AllocationMsgFragment.class;
+                break;
+            case R.id.action_allocation_area_confirm:
+                fragmentClass = AllocationAreaConfirmFragment.class;
+                break;
+            case R.id.action_allocation_direct:
+                fragmentClass = AllocationDirectFragment.class;
+                break;
+            case R.id.action_entering_warehouse_main:
+                fragmentClass = EnteringWarehouseFragmnet.class;
+                break;
+            case R.id.action_production_storage_main:
+                fragmentClass = ProductionStorageFragment.class;
+                break;
+            case R.id.action_production_storage_scan:
+                fragmentClass = ProductionFeedingScanFragment.class;
+                break;
         }
 
-        return super.onOptionsItemSelected(item);
+        if (fragmentClass != null) {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        }
+
+
+
+        /*if (id == R.id.action_settings) {
+
+            Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SCAN_RESET);
+            sendBroadcast(getSuccessIntent);
+        }*/
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -328,37 +508,209 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         Class fragmentClass=null;
 
+        String title="";
         //initializing the fragment object which is selected
         switch (menuItem.getItemId()) {
 
             case R.id.nav_receiving:
                 fragmentClass = ReceivingFragment.class;
+                title = getResources().getString(R.string.action_receiving_main);
+                receiving_main.setVisible(true);
+                receiving_record.setVisible(true);
+                receiving_board.setVisible(true);
+                receiving_multi.setVisible(true);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
             case R.id.nav_shipment:
                 fragmentClass = ShipmentFragment.class;
+                title = getResources().getString(R.string.action_shipment_main);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(true);
+                shipment_find.setVisible(true);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
 
             case R.id.nav_allocation:
                 fragmentClass = AllocationFragment.class;
+                title = getResources().getString(R.string.action_allocation_find);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(true);
+                allocation_replenishment.setVisible(true);
+                allocation_send_msg.setVisible(true);
+                allocation_msg.setVisible(true);
+                allocation_area_confirm.setVisible(true);
+                allocation_direct.setVisible(true);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
             case R.id.nav_entering_warehouse:
                 fragmentClass = EnteringWarehouseFragmnet.class;
+                title = getResources().getString(R.string.action_entering_warehouse_main);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(true);
+                entering_warehouse_find.setVisible(true);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
             case R.id.nav_production_storage:
                 fragmentClass = ProductionStorageFragment.class;
+                title = getResources().getString(R.string.action_production_storage_main);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(true);
+                production_storage_find.setVisible(true);
+                production_storage_scan.setVisible(true);
+
                 break;
             case R.id.nav_receiving_inspection:
                 fragmentClass = ReceivingInspectionFragment.class;
+                title = getResources().getString(R.string.action_receiving_inspection_main);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
             case R.id.nav_setting:
                 fragmentClass = SettingFragment.class;
+
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
             case R.id.nav_login:
                 fragmentClass = LoginFragment.class;
+
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
             case R.id.nav_logout:
+                fragmentClass = LogoutFragment.class;
 
-                if (menuItemLogin != null && menuItemLogout != null) {
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
+                /*if (menuItemLogin != null && menuItemLogout != null) {
                     menuItemReceiveGoods.setVisible(false);
                     menuItemShipment.setVisible(false);
                     menuItemAllocation.setVisible(false);
@@ -371,10 +723,33 @@ public class MainActivity extends AppCompatActivity
                 }
                 fragmentClass = LoginFragment.class;
                 isLogin = false;
+
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);*/
+
                 break;
 
             default:
                 fragmentClass = LoginFragment.class;
+
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+
                 break;
 
 
@@ -393,7 +768,10 @@ public class MainActivity extends AppCompatActivity
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
         // Set action bar title
-        setTitle(menuItem.getTitle());
+        if (title.length() > 0)
+            setTitle(title);
+        else
+            setTitle(menuItem.getTitle());
         // Close the navigation drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

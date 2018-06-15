@@ -5,7 +5,7 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">重新掃描</string>
 
     <string name="ok">OK</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
@@ -45,4 +45,28 @@
     <string name="item_title_rvb33">數量</string>
     <string name="item_title_pmc03">廠商</string>
     <string name="item_title_gen02">倉管人員</string>
+
+    <string name="action_shipment_main">出貨掃描確認作業</string>
+    <string name="action_shipment_find">庫存查詢</string>
+
+    <string name="action_allocation_find">庫存查詢</string>
+    <string name="action_allocation_replenishment">補貨看板-領用調撥扣帳</string>
+    <string name="action_allocation_send_msg_to_reserve">發訊息給物料備料到備料倉</string>
+    <string name="action_allocation_msg">待處理的備料訊息</string>
+    <string name="action_allocation_area_confirm">備料區調撥確認</string>
+    <string name="action_allocation_direct">直接調撥</string>
+
+    <string name="action_receiving_main">收料作業</string>
+    <string name="action_receiving_record">查詢收料紀錄</string>
+    <string name="action_receiving_board">收料看板</string>
+    <string name="action_receiving_multi">多張收料作業</string>
+
+    <string name="action_entering_warehouse_main">收貨收料驗收入庫確認作業</string>
+    <string name="action_entering_warehouse_find">庫存查詢</string>
+
+    <string name="action_production_storage_main">生產入庫確認作業</string>
+    <string name="action_production_storage_find">庫存查詢</string>
+    <string name="action_production_storage_scan">掃描進料標籤</string>
+
+    <string name="action_receiving_inspection_main">收料驗收作業</string>
 </resources>

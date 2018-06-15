@@ -30,7 +30,10 @@ import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
+
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.inspectedReceiveExpanedAdater;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 import static com.macauto.macautowarehouse.data.FileOperation.append_record;
 
@@ -83,8 +86,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
         Log.i(TAG, "Handle");
 
         //clear first
-        Intent cleanIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
-        sendBroadcast(cleanIntent);
+        //Intent cleanIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
+        //sendBroadcast(cleanIntent);
 
         //String device_id;
 
@@ -177,7 +180,11 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
                 //no_list.clear();
                 //detailList.clear();
-                DataTable dataTable = new DataTable();
+                //if (inspectedReceiveExpanedAdater != null)
+                //    inspectedReceiveExpanedAdater.notifyDataSetChanged();
+
+                dataTable = null;
+                dataTable = new DataTable();
 
                 dataTable.Columns.Add("check_sp");
                 dataTable.Columns.Add("rvu01");

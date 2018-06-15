@@ -126,6 +126,8 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
+
+
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
 
@@ -161,12 +163,15 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                 //toast("Splitter numbers matched!");
 
                                 String codeArray[] = intentData.split("#");
-                                Intent scanResultIntent = new Intent(Constants.ACTION.ACTION_GET_BARCODE_MESSGAGE_COMPLETE);
+                                Intent scanResultIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
                                 for (int i=0; i<codeArray.length; i++) {
                                     Log.e(TAG, "codeArray["+i+"] = "+codeArray[i]);
                                     String column = "COLUMN_"+String.valueOf(i);
                                     scanResultIntent.putExtra(column, codeArray[i]);
                                 }
+
+
+
                                 scanResultIntent.putExtra("BARCODE", intentData);
                                 sendBroadcast(scanResultIntent);
 
