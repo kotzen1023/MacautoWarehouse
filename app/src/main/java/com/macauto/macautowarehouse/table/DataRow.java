@@ -1,5 +1,6 @@
 package com.macauto.macautowarehouse.table;
 
+
 import java.util.LinkedHashMap;
 
 public class DataRow extends LinkedHashMap<String,Object> {
@@ -93,4 +94,6 @@ public class DataRow extends LinkedHashMap<String,Object> {
     public Object getValue(DataColumn column) {
         return this.get(column.ColumnName.toLowerCase());//利用欄名(Key)來取值
     }
+
+
 }

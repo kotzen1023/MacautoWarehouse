@@ -1,17 +1,13 @@
 package com.macauto.macautowarehouse.service;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
-import android.util.Xml;
 
 import com.macauto.macautowarehouse.R;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.data.InspectedReceiveItem;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
@@ -20,28 +16,19 @@ import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.inspectedReceiveExpanedAdater;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
-import static com.macauto.macautowarehouse.MainActivity.k_id;
-import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
-import static com.macauto.macautowarehouse.data.FileOperation.append_record;
 
-public class GetReceiveGoodsInDataService extends IntentService {
-    public static final String TAG = "GetReceiveService";
+public class GetPartWarehouseListService extends IntentService {
+    public static final String TAG = "GetPartWarehouseList";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -49,21 +36,15 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "Get_TT_ReceiveGoods_IN_Data"; // 方法名稱
+    private static final String METHOD_NAME = "get_part_warehouse_list"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/Get_TT_ReceiveGoods_IN_Data"; // SOAP_ACTION
-    //normal port 8000, test port 8484
-    //private static final String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+    private static final String SOAP_ACTION1 = "http://tempuri.org/get_part_warehouse_list"; // SOAP_ACTION
 
-    public GetReceiveGoodsInDataService() {
-        super("GetReceiveGoodsInDataService");
+    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+
+    public GetPartWarehouseListService() {
+        super("GetPartWarehouseListService");
     }
-
-
-    //private String account;
-    //private String device_id;
-
-
 
     @Override
     public void onCreate() {
@@ -95,13 +76,13 @@ public class GetReceiveGoodsInDataService extends IntentService {
         //String device_id;
 
         String part_no = intent.getStringExtra("PART_NO");
-        String barcode_no = intent.getStringExtra("BARCODE_NO");
+        //String stock_no = intent.getStringExtra("STOCK_NO");
+        //String locate_no = intent.getStringExtra("LOCATE_NO");
+        String batch_no = intent.getStringExtra("BATCH_NO");
+        String ima02 = intent.getStringExtra("IMA02");
+        String ima021 = intent.getStringExtra("IMA021");
+        String query_all = intent.getStringExtra("QUERY_ALL");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
-
-        Log.e(TAG, "part_no = "+part_no);
-        Log.e(TAG, "barcode_no = "+barcode_no);
-        Log.e(TAG, "URL = "+URL);
         //device_id = intent.getStringExtra("DEVICE_ID");
         //String service_ip = intent.getStringExtra(SERVICE_IP);
         //String service_port = intent.getStringExtra(SERVICE_PORT);
@@ -109,8 +90,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_CHECK_RECEIVE_GOODS)) {
-                Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_ACTION)) {
+                Log.i(TAG, "ACTION_SEARCH_PART_WAREHOUSE_LIST_ACTION");
             }
         }
 
@@ -123,12 +104,15 @@ public class GetReceiveGoodsInDataService extends IntentService {
                     METHOD_NAME);
 
             // 輸出值，帳號(account)、密碼(password)
-            Log.e(TAG, "k_id = "+k_id);
 
             request.addProperty("SID", "MAT");
             request.addProperty("part_no", part_no);
-            request.addProperty("barcode_no", barcode_no);
-            request.addProperty("k_id", k_id);
+            //request.addProperty("stock_no", stock_no);
+            //request.addProperty("locate_no", locate_no);
+            request.addProperty("batch_no", batch_no);
+            request.addProperty("ima02", ima02);
+            request.addProperty("ima021", ima021);
+            request.addProperty("query_all", "Y");
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -165,15 +149,13 @@ public class GetReceiveGoodsInDataService extends IntentService {
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED);
-                sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
                 //append_record(String.valueOf(resultsRequestSOAP)+"\n\n\n\n", "test");
 
-                SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("Get_TT_ReceiveGoods_IN_DataResult");
+                /*SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("Get_TT_ReceiveGoods_IN_DataResult");
 
 
                 Log.d(TAG, "count = "+s_deals.getPropertyCount());
@@ -221,7 +203,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
                     SoapObject min_property = (SoapObject) sub_property.getProperty(i);
 
-                    String header = String.valueOf(i+1)+"#"+min_property.getProperty(3).toString();
+                    String header = String.valueOf(i+1)+"#"+min_property.getProperty(1).toString();
                     no_list.add(header);
                     detailList.put(header, new ArrayList<DetailItem>());
 
@@ -289,10 +271,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                             detailList.get(header).add(item);
 
 
-                        /*if (j == 1) {
-                            String header = min_property.getProperty(1).toString()+"#"+String.valueOf(i+1);
-                            no_list.add(header);
-                        }*/
+
                     }
 
                     dataTable.Rows.add(dataRow);
@@ -312,52 +291,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                     System.out.print("\n");
                 }
                 Log.e(TAG, "========================================================");
-                /*do {
-                    sub_property = (SoapObject) sub_property.getProperty(0);
-                    count = sub_property.getPropertyCount();
-                    Log.d(TAG, "count = "+count);
-                } while (count == 1);
 
-                Log.d(TAG, "count = "+sub_property.getPropertyCount());
-
-                for (int i=0; i < sub_property.getPropertyCount(); i++) {
-                    //Object property = s_deals.getProperty(i);
-                    //SoapObject category_list = (SoapObject) property;
-                    Log.d(TAG, "object["+i+"] = "+sub_property.getProperty(i));
-                }*/
-
-                /*for (int i=0; i < s_deals.getPropertyCount(); i++) {
-                    Object property = s_deals.getProperty(i);
-                    if (property instanceof SoapObject)
-                    {
-                        SoapObject category_list = (SoapObject) property;
-                        String check_sp = category_list.getProperty("check_sp").toString();
-                        String col_rvu01 = category_list.getProperty("rvu01").toString();
-                        String col_rvv02 = category_list.getProperty("rvv02").toString();
-                        String col_rvb05 = category_list.getProperty("rvb05").toString();
-                        String col_pmn041 = category_list.getProperty("pmn041").toString();
-                        String col_ima021 = category_list.getProperty("ima021").toString();
-                        String col_rvv32 = category_list.getProperty("rvv32").toString();
-                        String col_rvv33 = category_list.getProperty("rvv33").toString();
-                        String col_rvv34 = category_list.getProperty("rvv34").toString();
-                        String col_rvb33 = category_list.getProperty("rvb33").toString();
-                        String col_pmc03 = category_list.getProperty("pmc03").toString();
-                        String col_gen02 = category_list.getProperty("gen02").toString();
-
-                        Log.e(TAG, "check_sp = "+check_sp);
-                        Log.e(TAG, "col_rvu01 = "+col_rvu01);
-                        Log.e(TAG, "col_rvv02 = "+col_rvv02);
-                        Log.e(TAG, "col_rvb05 = "+col_rvb05);
-                        Log.e(TAG, "col_pmn041 = "+col_pmn041);
-                        Log.e(TAG, "col_ima021 = "+col_ima021);
-                        Log.e(TAG, "col_rvv32 = "+col_rvv32);
-                        Log.e(TAG, "col_rvv33 = "+col_rvv33);
-                        Log.e(TAG, "col_rvv34 = "+col_rvv34);
-                        Log.e(TAG, "col_rvb33 = "+col_rvb33);
-                        Log.e(TAG, "col_pmc03 = "+col_pmc03);
-                        Log.e(TAG, "col_gen02 = "+col_gen02);
-                    }
-                }*/
 
 
                 //result.setText(String.valueOf(resultsRequestSOAP));
@@ -367,10 +301,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
                 } else {
                     InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(Charset.forName("UTF-8")));
                     //LoadAndParseXML(stream);
-                }
+                }*/
 
-                Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
-                sendBroadcast(getSuccessIntent);
             }
 
             //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);
@@ -384,13 +316,14 @@ public class GetReceiveGoodsInDataService extends IntentService {
             //Log.e(TAG, bodyIn.toString());
 
             //DataTable dt = soapToDataTable(bodyIn);
-
+            Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS);
+            sendBroadcast(getSuccessIntent);
 
         } catch (Exception e) {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED);
+            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_FAILED);
             sendBroadcast(getFailedIntent);
         }
 
@@ -404,9 +337,6 @@ public class GetReceiveGoodsInDataService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
-        //sendBroadcast(intent);
+
     }
-
-
 }

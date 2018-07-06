@@ -7,7 +7,11 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">重新掃描</string>
 
-    <string name="ok">OK</string>
+    <string name="ok">好</string>
+    <string name="cancel">取消</string>
+    <string name="Processing">處理中...</string>
+    <string name="rescan">重新掃描</string>
+    <string name="search">搜尋</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
@@ -38,8 +42,8 @@
     <string name="item_title_rvv02">項次</string>
     <string name="item_title_rvb05">料件編號</string>
     <string name="item_title_pmn041">品名</string>
-    <string name="item_title_ima021">倉庫</string>
-    <string name="item_title_rvv32">預設儲位</string>
+    <string name="item_title_ima021">規格</string>
+    <string name="item_title_rvv32">倉庫別</string>
     <string name="item_title_rvv33">實際儲位</string>
     <string name="item_title_rvv34">批號</string>
     <string name="item_title_rvb33">數量</string>
@@ -67,6 +71,22 @@
     <string name="action_production_storage_main">生產入庫確認作業</string>
     <string name="action_production_storage_find">庫存查詢</string>
     <string name="action_production_storage_scan">掃描進料標籤</string>
+    <string name="action_camera_scan">相機掃描</string>
 
     <string name="action_receiving_inspection_main">收料驗收作業</string>
+    <string name="search_in_stock_part_no">料號</string>
+    <string name="search_in_stock_batch_no">批號</string>
+    <string name="search_in_stock_name">品名</string>
+    <string name="search_in_stock_spec">規格</string>
+
+    <string name="entering_warehouse_wait_for_scan_hint">等待掃描...</string>
+    <string name="entering_warehouse_rescan">重新掃描</string>
+    <string name="entering_warehouse_confirm">確認入庫</string>
+
+    <string name="get_receive_goods_fail">無法取得資料. 請重新掃描.</string>
+    <string name="get_receive_goods_success">取得資訊!</string>
+    <string name="entering_warehouse_dialog_title">入庫作業</string>
+    <string name="entering_warehouse_dialog_content">確認入庫?</string>
+    <string name="entering_warehouse_complete">入庫作業完成</string>
+    <string name="entering_warehouse_failed">入庫作業失敗. 請再重新嘗試一次.</string>
 </resources>

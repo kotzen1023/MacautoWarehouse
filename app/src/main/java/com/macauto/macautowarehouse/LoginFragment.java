@@ -21,7 +21,7 @@ import com.macauto.macautowarehouse.data.Constants;
 
 import com.macauto.macautowarehouse.service.CheckEmpExistService;
 import com.macauto.macautowarehouse.service.CheckEmpPasswordService;
-import com.macauto.macautowarehouse.service.LoginCheckService;
+
 
 public class LoginFragment extends Fragment {
     private static final String TAG = LoginFragment.class.getName();

@@ -6,39 +6,71 @@
     android:orientation="vertical"
     >
 
-    <ExpandableListView
-        android:id="@+id/listViewExpand"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
-        >
+        android:orientation="horizontal"
+        android:layout_weight="6"
+        android:id="@+id/barCodeLayout">
 
-
-    </ExpandableListView>
+        <EditText
+            android:id="@+id/barCode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/entering_warehouse_wait_for_scan_hint"
+            android:singleLine="true" />
+        <!--Button
+            android:id="@+id/btnOk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:text="Ok"/-->
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="8">
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btnEnteringWarehouseScan"
+        <ExpandableListView
+            android:id="@+id/listViewExpand"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Scan" />
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+            android:divider="@android:color/black"
+            android:dividerHeight="0.5dp"
+            >
 
-        <Button
-            android:id="@+id/btnEnteringWarehouseConfirm"
+
+        </ExpandableListView>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Confirm"
-            android:visibility="gone"/>
+            android:layout_weight="6"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnEnteringWarehouseScan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/entering_warehouse_rescan" />
+
+            <Button
+                android:id="@+id/btnEnteringWarehouseConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/entering_warehouse_confirm"
+                android:visibility="gone"/>
+        </LinearLayout>
     </LinearLayout>
+
+
 
 
 

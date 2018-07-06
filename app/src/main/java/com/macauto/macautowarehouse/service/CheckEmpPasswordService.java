@@ -34,7 +34,7 @@ public class CheckEmpPasswordService extends IntentService {
     private static final String METHOD_NAME = "check_emp_password"; // 方法名稱
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/check_emp_password"; // SOAP_ACTION
-
+    //normal port 8000, test port 8484
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public CheckEmpPasswordService() {

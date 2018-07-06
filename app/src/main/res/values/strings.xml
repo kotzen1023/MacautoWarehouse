@@ -8,6 +8,10 @@
     <string name="action_settings">Scan Restart</string>
 
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="Processing">Processing...</string>
+    <string name="rescan">Re-scan</string>
+    <string name="search">Search</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
@@ -38,8 +42,8 @@
     <string name="item_title_rvv02">No.</string>
     <string name="item_title_rvb05">Dash Number</string>
     <string name="item_title_pmn041">Name of product</string>
-    <string name="item_title_ima021">Warehouse</string>
-    <string name="item_title_rvv32">Storage spaces</string>
+    <string name="item_title_ima021">Spec</string>
+    <string name="item_title_rvv32">Warehouse No.</string>
     <string name="item_title_rvv33">Actual storage</string>
     <string name="item_title_rvv34">batch number</string>
     <string name="item_title_rvb33">Quantity</string>
@@ -67,6 +71,22 @@
     <string name="action_production_storage_main">Production Storage</string>
     <string name="action_production_storage_find">Find in warehouse</string>
     <string name="action_production_storage_scan">Scan receiving tag</string>
+    <string name="action_camera_scan">Camera Scan</string>
 
     <string name="action_receiving_inspection_main">Receiving Inspection</string>
+    <string name="search_in_stock_part_no">Part No.</string>
+    <string name="search_in_stock_batch_no">Batch No.</string>
+    <string name="search_in_stock_name">Name</string>
+    <string name="search_in_stock_spec">Specification</string>
+
+    <string name="entering_warehouse_wait_for_scan_hint">Wait for scan...</string>
+    <string name="entering_warehouse_rescan">Re-scan</string>
+    <string name="entering_warehouse_confirm">Enter Confirm</string>
+
+    <string name="get_receive_goods_fail">Can not get data. Please scan again.</string>
+    <string name="get_receive_goods_success">Get data success!</string>
+    <string name="entering_warehouse_dialog_title">Warehouse Storage</string>
+    <string name="entering_warehouse_dialog_content">Confirm this warehouse storage?</string>
+    <string name="entering_warehouse_complete">Warehouse storage complete</string>
+    <string name="entering_warehouse_failed">Warehouse storage failed. Please try again.</string>
 </resources>

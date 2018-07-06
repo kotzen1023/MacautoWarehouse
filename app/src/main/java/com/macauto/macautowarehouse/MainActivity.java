@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,6 +51,8 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.macauto.macautowarehouse.data.Constants;
+import com.macauto.macautowarehouse.data.GenerateRandomString;
+import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,6 +69,10 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getName();
 
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+
+    static SharedPreferences pref ;
+    static SharedPreferences.Editor editor;
+    private static final String FILE_NAME = "Preference";
 
     private static final String LOG_TAG = "Barcode Scanner API";
     private static final int PHOTO_REQUEST = 10;
@@ -115,17 +122,36 @@ public class MainActivity extends AppCompatActivity
     private MenuItem production_storage_find;
     private MenuItem production_storage_scan;
 
-
+    public static int pda_type;
+    private InputMethodManager imm;
+    public static String k_id;
+    public static String web_soap_port;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d(TAG, "onCreate");
+        //create a new kid
+        GenerateRandomString rString = new GenerateRandomString();
+        k_id = rString.randomString(32);
+        Log.e(TAG, "session_id = "+k_id);
+
+        //get default pda type
+        pref = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
+
+        //String account = pref.getString("PDA_TYPE", "");
+        pda_type = pref.getInt("PDA_TYPE", 0);
+        web_soap_port = pref.getString("WEB_SOAP_PORT", "8484");
+
         context = getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //get virtual keyboard
+        imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -155,21 +181,7 @@ public class MainActivity extends AppCompatActivity
         menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
 
 
-        if (!isLogin) {
-            Fragment fragment = null;
-            Class fragmentClass;
-            fragmentClass = LoginFragment.class;
 
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        }
 
         /*Button button = (Button) findViewById(R.id.button);
         scanResults = (TextView) findViewById(R.id.scan_results);
@@ -197,17 +209,37 @@ public class MainActivity extends AppCompatActivity
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             //init_folder_and_files();
             //init_setting();
-            init_folder_and_files();
+            //init_folder_and_files();
             //loadSongs();
 
         } else {
             if(checkAndRequestPermissions()) {
                 // carry on the normal flow, as the case of  permissions  granted.
 
-                init_folder_and_files();
+                //init_folder_and_files();
                 //loadSongs();
             }
         }
+
+        Log.d(TAG, "isLogin = "+isLogin);
+
+        if (!isLogin) {
+            Fragment fragment = null;
+            Class fragmentClass;
+            fragmentClass = LoginFragment.class;
+
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commitAllowingStateLoss();
+
+        }
+
 
         IntentFilter filter;
 
@@ -216,8 +248,27 @@ public class MainActivity extends AppCompatActivity
             public void onReceive(Context context, Intent intent) {
 
                 if (intent.getAction() != null) {
+                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION)) {
+                        Log.d(TAG, "receive ACTION_SETTING_PDA_TYPE_ACTION !");
 
-                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGIN_SUCCESS)) {
+                        String ret = intent.getStringExtra("MODEL_TYPE");
+                        pda_type = Integer.valueOf(ret);
+
+                        editor = pref.edit();
+                        editor.putInt("PDA_TYPE", pda_type);
+                        editor.apply();
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SETTING_WEB_SOAP_PORT_ACTION)) {
+                        Log.d(TAG, "receive ACTION_SETTING_WEB_SOAP_PORT_ACTION !");
+
+                        web_soap_port = intent.getStringExtra("WEB_SOAP_PORT");
+                        Log.e(TAG, "web_soap_port = "+web_soap_port);
+
+                        editor = pref.edit();
+                        editor.putString("WEB_SOAP_PORT", web_soap_port);
+                        editor.apply();
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGIN_SUCCESS)) {
                         Log.d(TAG, "receive brocast !");
 
                         isLogin = true;
@@ -225,10 +276,10 @@ public class MainActivity extends AppCompatActivity
 
 
                         TextView empID = findViewById(R.id.empId);
-                        TextView password = findViewById(R.id.empName);
+                        //TextView password = findViewById(R.id.empName);
 
                         empID.setText(intent.getStringExtra("ACCOUNT"));
-                        password.setText(intent.getStringExtra("PASSWORD"));
+                        //password.setText(intent.getStringExtra("PASSWORD"));
 
 
                         Fragment fragment = null;
@@ -242,8 +293,8 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         FragmentManager fragmentManager = getSupportFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
+                        //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commitAllowingStateLoss();
                         // Highlight the selected item has been done by NavigationView
                         //menuItem.setChecked(true);
                         // Set action bar title
@@ -252,6 +303,11 @@ public class MainActivity extends AppCompatActivity
                         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                         //drawer.closeDrawer(GravityCompat.START);
                         if (menuItemLogin != null && menuItemLogout != null) {
+                            receiving_main.setVisible(true);
+                            receiving_record.setVisible(true);
+                            receiving_board.setVisible(true);
+                            receiving_multi.setVisible(true);
+
                             menuItemReceiveGoods.setVisible(true);
                             menuItemShipment.setVisible(true);
                             menuItemAllocation.setVisible(true);
@@ -262,6 +318,14 @@ public class MainActivity extends AppCompatActivity
                             menuItemLogin.setVisible(false);
                             menuItemLogout.setVisible(true);
                         }
+
+                        //init scan
+                        //Intent scanIntent = new Intent();
+                        //scanIntent.setAction("unitech.scanservice.scan2key_setting");
+                        //scanIntent.putExtra("scan2key", false);
+                        //sendBroadcast(scanIntent);
+                        View view = getCurrentFocus();
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGOUT_ACTION)) {
                         Log.d(TAG, "receive ACTION_LOGIN_SUCCESS!");
@@ -294,9 +358,34 @@ public class MainActivity extends AppCompatActivity
 
                         // Insert the fragment by replacing any existing fragment
                         FragmentManager fragmentManager = getSupportFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                        //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+                        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commitAllowingStateLoss();
+                    }
+
+
+                }
+
+                if("unitech.scanservice.data" .equals(intent.getAction()))
+                {
+                    Bundle bundle = intent.getExtras();
+                    if(bundle != null )
+                    {
+                        String text = bundle.getString("text");
+                        Log.e(TAG, "text = "+text);
                     }
                 }
+                if("unitech.scanservice.datatype" .equals(intent.getAction()))
+                {
+                    Bundle bundle = intent.getExtras();
+                    if(bundle != null )
+                    {
+                        String type = bundle.getString("text");
+
+                        Log.e(TAG, "type = "+type);
+
+                    }
+                }
+
             }
         };
 
@@ -305,7 +394,10 @@ public class MainActivity extends AppCompatActivity
             filter.addAction(Constants.ACTION.ACTION_LOGIN_FAIL);
             filter.addAction(Constants.ACTION.ACTION_LOGIN_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_LOGOUT_ACTION);
-            //filter.addAction("unitech.scanservice.data");
+            filter.addAction(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
+            filter.addAction((Constants.ACTION.ACTION_SETTING_WEB_SOAP_PORT_ACTION));
+            filter.addAction("unitech.scanservice.data");
+            filter.addAction("unitech.scanservice.datatype");
             context.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
@@ -318,7 +410,7 @@ public class MainActivity extends AppCompatActivity
 
         if (isRegister && mReceiver != null) {
             try {
-                unregisterReceiver(mReceiver);
+                context.unregisterReceiver(mReceiver);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             }
@@ -332,17 +424,40 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
+        android.app.AlertDialog.Builder confirmdialog = new android.app.AlertDialog.Builder(MainActivity.this);
+        confirmdialog.setIcon(R.drawable.baseline_exit_to_app_black_48);
+        confirmdialog.setTitle("Exit App");
+        confirmdialog.setMessage("Exit this App?");
+        confirmdialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                DrawerLayout drawer = findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                }
+
+                finish();
+            }
+        });
+        confirmdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // btnScan.setVisibility(View.VISIBLE);
+                // btnConfirm.setVisibility(View.GONE);
+
+            }
+        });
+        confirmdialog.show();
+
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
+        Log.e(TAG, "onCreateOptionsMenu");
+
         getMenuInflater().inflate(R.menu.main, menu);
 
         setting = menu.findItem(R.id.action_settings);
@@ -370,7 +485,74 @@ public class MainActivity extends AppCompatActivity
         production_storage_scan = menu.findItem(R.id.action_production_storage_scan);
 
 
-        setting.setVisible(false);
+        if (isLogin) {
+            setting.setVisible(false);
+
+            receiving_main.setVisible(true);
+            receiving_record.setVisible(true);
+            receiving_board.setVisible(true);
+            receiving_multi.setVisible(true);
+
+            /*shipment_main.setVisible(false);
+            shipment_find.setVisible(false);
+
+            allocation_find.setVisible(false);
+            allocation_replenishment.setVisible(false);
+            allocation_send_msg.setVisible(false);
+            allocation_msg.setVisible(false);
+            allocation_area_confirm.setVisible(true);
+            allocation_direct.setVisible(true);
+
+            entering_warehouse_main.setVisible(true);
+            entering_warehouse_find.setVisible(true);
+
+            production_storage_main.setVisible(true);
+            production_storage_find.setVisible(true);
+            production_storage_scan.setVisible(true);*/
+
+            menuItemLogin.setVisible(false);
+            menuItemLogout.setVisible(true);
+            menuItemReceiveGoods.setVisible(true);
+            menuItemShipment.setVisible(true);
+            menuItemAllocation.setVisible(true);
+            menuItemEnteringWareHouse.setVisible(true);
+            menuItemReceivingInspection.setVisible(true);
+            menuItemProductionStorage.setVisible(true);
+        } else {
+            setting.setVisible(false);
+
+            receiving_main.setVisible(false);
+            receiving_record.setVisible(false);
+            receiving_board.setVisible(false);
+            receiving_multi.setVisible(false);
+
+            shipment_main.setVisible(false);
+            shipment_find.setVisible(false);
+
+            allocation_find.setVisible(false);
+            allocation_replenishment.setVisible(false);
+            allocation_send_msg.setVisible(false);
+            allocation_msg.setVisible(false);
+            allocation_area_confirm.setVisible(false);
+            allocation_direct.setVisible(false);
+
+            entering_warehouse_main.setVisible(false);
+            entering_warehouse_find.setVisible(false);
+
+            production_storage_main.setVisible(false);
+            production_storage_find.setVisible(false);
+            production_storage_scan.setVisible(false);
+
+            menuItemLogin.setVisible(true);
+            menuItemLogout.setVisible(false);
+            menuItemReceiveGoods.setVisible(false);
+            menuItemShipment.setVisible(false);
+            menuItemAllocation.setVisible(false);
+            menuItemEnteringWareHouse.setVisible(false);
+            menuItemReceivingInspection.setVisible(false);
+            menuItemProductionStorage.setVisible(false);
+        }
+        /*setting.setVisible(false);
 
         receiving_main.setVisible(false);
         receiving_record.setVisible(false);
@@ -392,11 +574,18 @@ public class MainActivity extends AppCompatActivity
 
         production_storage_main.setVisible(false);
         production_storage_find.setVisible(false);
-        production_storage_scan.setVisible(false);
+        production_storage_scan.setVisible(false);*/
 
 
         //menuItemLogin = menu.findItem(R.id.nav_login);
         //menuItemLogout = menu.findItem(R.id.nav_logout);
+        /*menuItemLogout.setVisible(false);
+        menuItemReceiveGoods.setVisible(false);
+        menuItemShipment.setVisible(false);
+        menuItemAllocation.setVisible(false);
+        menuItemEnteringWareHouse.setVisible(false);
+        menuItemReceivingInspection.setVisible(false);
+        menuItemProductionStorage.setVisible(false);*/
 
         return true;
     }
@@ -474,7 +663,8 @@ public class MainActivity extends AppCompatActivity
 
             // Insert the fragment by replacing any existing fragment
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commitAllowingStateLoss();
         }
 
 
@@ -763,7 +953,8 @@ public class MainActivity extends AppCompatActivity
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commitAllowingStateLoss();
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
@@ -837,9 +1028,9 @@ public class MainActivity extends AppCompatActivity
         //int accessWiFiStatePermission = ContextCompat.checkSelfPermission(this,
         //        Manifest.permission.ACCESS_WIFI_STATE);
 
-        int readPermission = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
-        int writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        //int readPermission = ContextCompat.checkSelfPermission(this,
+        //        Manifest.permission.READ_EXTERNAL_STORAGE);
+        //int writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         int networkPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET);
 
@@ -847,13 +1038,13 @@ public class MainActivity extends AppCompatActivity
 
         List<String> listPermissionsNeeded = new ArrayList<>();
 
-        if (readPermission != PackageManager.PERMISSION_GRANTED) {
+        /*f (readPermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE);
         }
 
         if (writePermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
+        }*/
 
         if (networkPermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.INTERNET);
@@ -917,8 +1108,8 @@ public class MainActivity extends AppCompatActivity
 
                 Map<String, Integer> perms = new HashMap<>();
                 // Initialize the map with both permissions
-                perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-                perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                //perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                //perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
                 perms.put(android.Manifest.permission.INTERNET, PackageManager.PERMISSION_GRANTED);
                 //perms.put(Manifest.permission.ACCESS_NETWORK_STATE, PackageManager.PERMISSION_GRANTED);
                 //perms.put(Manifest.permission.ACCESS_WIFI_STATE, PackageManager.PERMISSION_GRANTED);
@@ -927,9 +1118,9 @@ public class MainActivity extends AppCompatActivity
                     for (int i = 0; i < permissions.length; i++)
                         perms.put(permissions[i], grantResults[i]);
                     // Check for both permissions
-                    if (perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
+                    if (//perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                        //    && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                             perms.get(Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
                             //&& perms.get(Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED &&
                             //perms.get(Manifest.permission.ACCESS_WIFI_STATE) == PackageManager.PERMISSION_GRANTED
                             )
@@ -946,9 +1137,9 @@ public class MainActivity extends AppCompatActivity
                         //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
 //                        // shouldShowRequestPermissionRationale will return true
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                                || ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                || ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.INTERNET )
+                        if (//ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                            //    || ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.INTERNET )
                                 //|| ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NETWORK_STATE )
                                 //|| ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_WIFI_STATE )
                                 ) {
@@ -990,4 +1181,6 @@ public class MainActivity extends AppCompatActivity
                 .create()
                 .show();
     }
+
+
 }

@@ -91,8 +91,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
         //}
 
         if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.
-                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
         TextView listTitleTextView = (TextView) convertView
@@ -150,8 +149,8 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
                 holder.name.setText(item.getName());
                 holder.edit.setText(item.getName());
 
-                holder.linearLayout.setVisibility(View.GONE);
-                holder.name.setVisibility(View.VISIBLE);
+                //holder.linearLayout.setVisibility(View.GONE);
+                //holder.name.setVisibility(View.VISIBLE);
                 //EditText editText = convertView.findViewById(R.id.itemEdit);
                 //TextView textView = convertView.findViewById(R.id.itemName);
 
@@ -162,35 +161,11 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
                 item.setButton(holder.button);
 
                 convertView.setBackgroundColor(Color.rgb(0xea, 0xea, 0xea));
-                //item.setTextView(textView);
-                /*if (item.getNick() != null && item.getNick().length() > 0) {
-                    holder.jid.setText(item.getNick());
-                } else if ((item.getFirstName() != null && item.getFirstName().length() > 0) &&
-                        (item.getLastName() != null && item.getLastName().length() > 0)) {
-                    holder.jid.setText(item.getFirstName() + " " + item.getLastName());
-                } else if (item.getFirstName() != null && item.getFirstName().length() > 0) {
-                    holder.jid.setText(item.getFirstName());
-                } else if (item.getLastName() != null && item.getLastName().length() > 0) {
-                    holder.jid.setText(item.getLastName());
-                } else {
-                    String split[] = item.getJid().split("@");
-                    if (split[1].equals("group")) {
-                        holder.jid.setText(split[0].split("_")[1]);
-                    } else {
-                        holder.jid.setText(split[0]);
-                    }
+
+                if (holder.linearLayout.getVisibility() == View.VISIBLE) {
+                    holder.edit.requestFocus();
+                    holder.edit.setSelection(item.getName().length());
                 }
-
-
-                if (item.getAvatar() != null)
-                    holder.avatar.setImageBitmap(item.getAvatar());
-                else {
-                    if (item.getJid().split("@")[1].equals("group")) {
-                        holder.avatar.setImageResource(R.drawable.ic_people_outline_black_48dp);
-                    } else {
-                        holder.avatar.setImageResource(R.drawable.ic_person_outline_black_48dp);
-                    }
-                }*/
                 //holder.name.setOnClickListener(mClickListener);
                 holder.button.setOnClickListener(new View.OnClickListener() {
                     @Override

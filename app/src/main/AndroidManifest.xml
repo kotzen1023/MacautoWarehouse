@@ -20,6 +20,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,8 +32,10 @@
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />
         <service android:name=".service.GetReceiveGoodsInDataService" />
-        <service android:name=".service.LoginCheckService" />
         <service android:name=".service.ConfirmEnteringWarehouseService" />
+        <service android:name=".service.GetDocTypeIsRegOrSubService" />
+        <service android:name=".service.ExecuteScriptTTService" />
+        <service android:name=".service.GetPartWarehouseListService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

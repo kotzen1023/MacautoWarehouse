@@ -1,5 +1,6 @@
 package com.macauto.macautowarehouse.table;
 
+
 public class DataTable {
     /**
      * 保存DataRow的集合，在DataTable初始化時，便會建立
@@ -91,4 +92,6 @@ public class DataTable {
     public Object getValue(int rowindex,String columnName) {
         return this.Rows.get(rowindex).getValue(columnName.toLowerCase());
     }
+
+
 }

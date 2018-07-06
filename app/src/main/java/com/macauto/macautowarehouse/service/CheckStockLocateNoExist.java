@@ -2,9 +2,7 @@ package com.macauto.macautowarehouse.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
-import android.util.Xml;
 
 import com.macauto.macautowarehouse.data.Constants;
 
@@ -13,17 +11,10 @@ import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
-public class CheckEmpExistService extends IntentService {
-    public static final String TAG = "CheckEmpExistService";
+public class CheckStockLocateNoExist extends IntentService {
+    public static final String TAG = "CheckStockLocateNoExist";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -31,20 +22,15 @@ public class CheckEmpExistService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "check_emp_exist"; // 方法名稱
+    private static final String METHOD_NAME = "Check_stock_locate_no_exist"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/check_emp_exist"; // SOAP_ACTION
-    //normal port 8000, test port 8484
+    private static final String SOAP_ACTION1 = "http://tempuri.org/Check_stock_locate_no_exist"; // SOAP_ACTION
+
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    public CheckEmpExistService() {
-        super("CheckEmpExistService");
+    public CheckStockLocateNoExist() {
+        super("CheckStockLocateNoExist");
     }
-
-
-    //private String account;
-    //private String device_id;
-    private boolean is_exist = false;
 
 
     @Override
@@ -54,15 +40,7 @@ public class CheckEmpExistService extends IntentService {
 
 
 
-        /*pref = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
-        name = pref.getString("NAME", "");
-        account = pref.getString("ACCOUNT", "");
-        alarm_interval = pref.getInt("ALARM_INTERVAL", 30);
-        sync_option = pref.getInt("SYNC_SETTING", 0);*/
 
-        //context = getApplicationContext();
-
-        // = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.TAIWAN);
     }
 
     @Override
@@ -70,24 +48,14 @@ public class CheckEmpExistService extends IntentService {
 
         Log.i(TAG, "Handle");
 
-
-        //String device_id;
-
-        String emp_no = intent.getStringExtra("EMP_NO");
-        //String barcode_no = intent.getStringExtra("BARCODE_NO");
-
-        //device_id = intent.getStringExtra("DEVICE_ID");
-        //String service_ip = intent.getStringExtra(SERVICE_IP);
-        //String service_port = intent.getStringExtra(SERVICE_PORT);
-
-        //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
+        String stock_no = intent.getStringExtra("STOCK_NO");
+        String locate_no = intent.getStringExtra("LOCATE_NO");
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_CHECK_EMP_EXIST_ACTION)) {
-                Log.i(TAG, "ACTION_CHECK_EMP_EXIST_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_CHECK_STOCK_LOCATE_NO_EXIST_ACTION)) {
+                Log.i(TAG, "ACTION_CHECK_STOCK_LOCATE_NO_EXIST_ACTION");
             }
         }
-
 
 
         try {
@@ -98,7 +66,9 @@ public class CheckEmpExistService extends IntentService {
 
             // 輸出值，帳號(account)、密碼(password)
 
-            request.addProperty("user_no", emp_no);
+            request.addProperty("SID", "MAT");
+            request.addProperty("stock_no", stock_no);
+            request.addProperty("locate_no", locate_no);
 
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
@@ -141,17 +111,17 @@ public class CheckEmpExistService extends IntentService {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.d(TAG, String.valueOf(resultsRequestSOAP));
 
-                if (String.valueOf(resultsRequestSOAP).indexOf("true") > 0) {
+                /*if (String.valueOf(resultsRequestSOAP).indexOf("true") > 0) {
                     Log.e(TAG, "ret = true");
-                    is_exist = true;
+                    //is_exist = true;
                     //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
                     //sendBroadcast(loginResultIntent);
                 } else {
                     Log.e(TAG, "ret = false");
-                    is_exist = false;
+                    //is_exist = false;
                     //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
                     //sendBroadcast(loginResultIntent);
-                }
+                }*/
                 /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(StandardCharsets.UTF_8));
                     LoadAndParseXML(stream);
@@ -185,26 +155,13 @@ public class CheckEmpExistService extends IntentService {
         //MeetingAlarm.last_sync_setting = sync_option;
         //Intent decryptDoneIntent = new Intent(Constants.ACTION.GET_PERSONAL_MEETING_LIST_COMPLETE);
         //sendBroadcast(decryptDoneIntent);
-
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        Intent loginResultIntent;
-        if (!is_exist) {
-            loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
-            sendBroadcast(loginResultIntent);
-        } else {
-            loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
-            sendBroadcast(loginResultIntent);
-        }
-
         //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
         //sendBroadcast(intent);
     }
-
-
 }

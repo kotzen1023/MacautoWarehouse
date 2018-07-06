@@ -13,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.service.CheckEmpExistService;
 import com.macauto.macautowarehouse.service.CheckEmpPasswordService;
+import com.macauto.macautowarehouse.service.GetPartWarehouseListService;
 
 public class LookupInStockFragment extends Fragment {
     private static final String TAG = LookupInStockFragment.class.getName();
@@ -26,6 +28,11 @@ public class LookupInStockFragment extends Fragment {
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
+
+    private EditText partNo;
+    private EditText batchNo;
+    private EditText name;
+    private EditText spec;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,24 @@ public class LookupInStockFragment extends Fragment {
 
         context = getContext();
 
+        Button btnSearch = view.findViewById(R.id.btnSearch);
+
+        partNo = view.findViewById(R.id.serachPartNo);
+        batchNo =view.findViewById(R.id.searchBatchNo);
+        name = view.findViewById(R.id.searchName);
+        spec = view.findViewById(R.id.searchSpec);
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent getintent = new Intent(context, GetPartWarehouseListService.class);
+                getintent.putExtra("PART_NO", partNo.getText().toString());
+                getintent.putExtra("BATCH_NO", batchNo.getText().toString());
+                getintent.putExtra("NAME", name.getText().toString());
+                getintent.putExtra("SPEC", spec.getText().toString());
+                context.startService(getintent);
+            }
+        });
 
 
         return view;

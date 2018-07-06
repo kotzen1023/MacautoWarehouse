@@ -13,17 +13,21 @@ import com.macauto.macautowarehouse.data.InspectedReceiveItem;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
+
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParser;
+
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -47,6 +51,9 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
+    //private StringWriter writer;
+    private String rvu01="";
+
     public ConfirmEnteringWarehouseService() {
         super("ConfirmEnteringWarehouseService");
     }
@@ -66,6 +73,11 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
                 for (int j = 0; j < dataTable.Columns.size(); j++) {
                     System.out.print(dataTable.Rows.get(i).getValue(j));
+
+                    if (j == 1) {
+                        rvu01 = dataTable.Rows.get(i).getValue(j).toString();
+                    }
+
                     if (j < dataTable.Columns.size() - 1) {
                         System.out.print(", ");
                     }
@@ -74,6 +86,10 @@ public class ConfirmEnteringWarehouseService extends IntentService {
             }
             Log.e(TAG, "========================================================");
         }
+
+        Log.e(TAG, "parse to xml start");
+
+
     }
 
     @Override
@@ -87,10 +103,202 @@ public class ConfirmEnteringWarehouseService extends IntentService {
             }
         }
 
+        Log.e(TAG, "rvu01 = "+rvu01);
+
+        StringWriter writer = new StringWriter();
 
         if (dataTable != null) {
+            XmlSerializer xmlSerializer = Xml.newSerializer();
 
-            /*try {
+
+
+            try {
+
+                xmlSerializer.setOutput(writer);
+
+                xmlSerializer.startDocument("UTF-8", true);
+
+                xmlSerializer.startTag("", "printx");
+                //declare
+                //xs:schema
+                xmlSerializer.startTag("", "xs:schema");
+                xmlSerializer.attribute("", "id", "printx");
+                xmlSerializer.attribute("", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
+                xmlSerializer.attribute("", "xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
+                //xs:element
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "printx");
+                xmlSerializer.attribute("", "msdata:IsDataSet", "true");
+                xmlSerializer.attribute("", "msdata:UseCurrentLocale", "true");
+                //xs:complexType
+                xmlSerializer.startTag("", "xs:complexType");
+                //xs:choice
+                xmlSerializer.startTag("", "xs:choice");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.attribute("", "maxOccurs", "unbounded");
+                //xs:element
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "Table");
+                //xs:complexType
+                xmlSerializer.startTag("", "xs:complexType");
+                //xs:sequence
+                xmlSerializer.startTag("", "xs:sequence");
+                //xs:element
+                //check_sp
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "check_sp");
+                xmlSerializer.attribute("", "type", "xs:boolean");
+                xmlSerializer.endTag("", "xs:element");
+                //rvu01
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "rvu01");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //rvu02
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "rvu02");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //rvb05
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "rvb05");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //pmn041
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "pmn041");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //ima021
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "ima021");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //rvv32
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "rvv32");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //rvv33
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "rvv33");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //rvv34
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "rvv34");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //rvb33
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "rvb33");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //pmc03
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "pmc03");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+                //gen02
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", "gen02");
+                xmlSerializer.attribute("", "type", "xs:string");
+                xmlSerializer.attribute("", "minOccurs", "0");
+                xmlSerializer.endTag("", "xs:element");
+
+                xmlSerializer.endTag("", "xs:sequence");
+                xmlSerializer.endTag("", "xs:complexType");
+                xmlSerializer.endTag("", "xs:element");
+                xmlSerializer.endTag("", "xs:choice");
+                xmlSerializer.endTag("", "xs:complexType");
+                xmlSerializer.endTag("", "xs:element");
+                xmlSerializer.endTag("", "xs:schema");
+                //end tag <schema>
+                //table start
+                for (int i = 0; i < dataTable.Rows.size(); i++) {
+                    xmlSerializer.startTag("", "Table");
+                    for (int j = 0; j < dataTable.Columns.size(); j++) {
+                        if (j==0) {
+                            xmlSerializer.startTag("", "check_sp");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "check_sp");
+                        } else if (j == 1) {
+                            xmlSerializer.startTag("", "rvu01");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "rvu01");
+                        } else if (j == 2) {
+                            xmlSerializer.startTag("", "rvu02");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "rvu02");
+                        } else if (j == 3) {
+                            xmlSerializer.startTag("", "rvb05");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "rvb05");
+                        } else if (j == 4) {
+                            xmlSerializer.startTag("", "pmn041");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "pmn041");
+                        } else if (j == 5) {
+                            xmlSerializer.startTag("", "ima021");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "ima021");
+                        } else if (j == 6) {
+                            xmlSerializer.startTag("", "rvv32");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "rvv32");
+                        } else if (j == 7) {
+                            xmlSerializer.startTag("", "rvv33");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "rvv33");
+                        } else if (j == 8) {
+                            xmlSerializer.startTag("", "rvv34");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "rvv34");
+                        } else if (j == 9) {
+                            xmlSerializer.startTag("", "rvb33");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "rvb33");
+                        } else if (j == 10) {
+                            xmlSerializer.startTag("", "pmc03");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "pmc03");
+                        } else if (j == 11) {
+                            xmlSerializer.startTag("", "gen02");
+                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                            xmlSerializer.endTag("", "gen02");
+                        }
+
+
+                        /*System.out.print(dataTable.Rows.get(i).getValue(j));
+                        if (j < dataTable.Columns.size() - 1) {
+                            System.out.print(", ");
+                        }*/
+                    }
+                    //System.out.print("\n");
+                    xmlSerializer.endTag("", "Table");
+                }
+                //table end
+                xmlSerializer.endTag("", "printx");
+                xmlSerializer.endDocument();
+
+                Log.e(TAG, "xml = "+writer.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+            try {
                 // 建立一個 WebService 請求
 
                 SoapObject request = new SoapObject(NAMESPACE,
@@ -99,8 +307,8 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
+                request.addProperty("HAA", writer.toString());
 
-                request.addProperty("HAA", dataTable);
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");
                 //request.addProperty("emp_no", account);
@@ -133,16 +341,40 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
                 // 將 WebService 資訊轉為 DataTable
                 if (envelope.bodyIn instanceof SoapFault) {
-                    String str = ((SoapFault) envelope.bodyIn).faultstring;
+                    String str= ((SoapFault) envelope.bodyIn).faultstring;
                     Log.e(TAG, str);
+                    intent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+                    sendBroadcast(intent);
                 } else {
                     SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                     Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                    //append_record(String.valueOf(resultsRequestSOAP)+"\n\n\n\n", "test");
 
 
+
+                    //result.setText(String.valueOf(resultsRequestSOAP));
+                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(StandardCharsets.UTF_8));
+                        //LoadAndParseXML(stream);
+                    } else {
+                        InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(Charset.forName("UTF-8")));
+                        //LoadAndParseXML(stream);
+                    }*/
+                    intent = new Intent(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_SUCCESS);
+                    sendBroadcast(intent);
                 }
+
+                //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);
+                //listView.setAdapter(meetingArrayAdapter);
+
+
+                //Intent meetingAddintent = new Intent(Constants.ACTION.MEETING_NEW_BROCAST);
+                //context.sendBroadcast(meetingAddintent);
+                //SoapObject bodyIn = (SoapObject) envelope.bodyIn; // KDOM 節點文字編碼
+
+                //Log.e(TAG, bodyIn.toString());
+
+                //DataTable dt = soapToDataTable(bodyIn);
 
 
 
@@ -150,13 +382,10 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                 // 抓到錯誤訊息
 
                 e.printStackTrace();
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_FAILED);
-                sendBroadcast(getFailedIntent);
-            }
+                intent = new Intent(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_FAILED);
+                sendBroadcast(intent);
 
-            //MeetingAlarm.last_sync_setting = sync_option;
-            Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_SUCCESS);
-            sendBroadcast(getSuccessIntent);*/
+            }
         } else {
             Log.e(TAG, "dataTable = null");
         }
@@ -168,6 +397,8 @@ public class ConfirmEnteringWarehouseService extends IntentService {
         Log.d(TAG, "onDestroy()");
         //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
         //sendBroadcast(intent);
+
+
     }
 
 
