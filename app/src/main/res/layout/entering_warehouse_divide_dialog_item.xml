@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="test"
+            android:id="@+id/itemIndex"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center"
+            android:layout_weight="4">
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/itemQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:singleLine="true"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/itemDelete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Delete"/>
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

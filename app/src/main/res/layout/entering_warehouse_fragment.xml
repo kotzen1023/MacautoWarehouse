@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="6"
+            android:id="@+id/layoutBottom"
             android:visibility="gone">
 
             <Button
@@ -58,7 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/entering_warehouse_rescan" />
+                android:text="@string/entering_warehouse_rescan"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btnEnteringWarehouseConfirm"
@@ -66,7 +68,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/entering_warehouse_confirm"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
         </LinearLayout>
     </LinearLayout>
 

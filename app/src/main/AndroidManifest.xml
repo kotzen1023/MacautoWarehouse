@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScannedBarcodeActivity" />
+        <activity android:name=".EnteringWarehouseDividedDialogActivity" />
 
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />

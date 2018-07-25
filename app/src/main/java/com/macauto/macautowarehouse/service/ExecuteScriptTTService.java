@@ -17,6 +17,7 @@ import org.xmlpull.v1.XmlSerializer;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 
 public class ExecuteScriptTTService extends IntentService {
@@ -232,7 +233,62 @@ public class ExecuteScriptTTService extends IntentService {
                     //sendBroadcast(loginResultIntent);
                 }*/
 
-                if (Integer.valueOf(current_table) == dataTable.Rows.size() -1 ) { //the last one
+                boolean success = Boolean.valueOf(ret);
+                if (success) {
+                    int found_index = -1;
+                    int next_table;
+                /*if (Integer.valueOf(current_table) > 0) {
+                    next_table = Integer.valueOf(current_table) - 1;
+                } else {
+                    next_table = -1;
+                }*/
+                    next_table = Integer.valueOf(current_table) - 1;
+                    Log.e(TAG, "=== [ExecuteScriptTTService] check stock in start ===");
+                    for (int i=0; i < check_stock_in.size(); i++) {
+                        Log.e(TAG, "check_stock_in["+i+"] = "+check_stock_in.get(i));
+                    }
+                    Log.e(TAG, "=== [ExecuteScriptTTService] check stock in end ===");
+
+                    for (int i=next_table; i>=0; i--) {
+                        if (check_stock_in.get(i)) {
+                            Log.e(TAG, "found_index =>>>>> "+i);
+                            found_index = i;
+                            break;
+                        }
+                    }
+
+                    Intent getSuccessIntent = new Intent();
+                    if (found_index != -1) {
+
+
+                        if (next_table == -1) {
+                            getSuccessIntent.setAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
+                            getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
+                            sendBroadcast(getSuccessIntent);
+                        } else {
+                            Log.e(TAG, "send current index back and go next");
+                            getSuccessIntent.setAction(Constants.ACTION.ACTION_EXECUTE_TT_SUCCESS);
+                            getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
+                            getSuccessIntent.putExtra("NEXT_TABLE", String.valueOf(found_index));
+                            sendBroadcast(getSuccessIntent);
+                        }
+
+
+                    } else {
+                        Log.e(TAG, "send complete to stop!");
+                        getSuccessIntent.setAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
+                        getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
+                        sendBroadcast(getSuccessIntent);
+
+                    }
+                } else {
+                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
+                    sendBroadcast(getFailedIntent);
+                }
+
+
+
+                /*if (Integer.valueOf(current_table) == dataTable.Rows.size() -1 ) { //the last one
                     Log.e(TAG, "send complete to stop!");
                     Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
                     sendBroadcast(getSuccessIntent);
@@ -241,7 +297,7 @@ public class ExecuteScriptTTService extends IntentService {
                     Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_SUCCESS);
                     getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
                     sendBroadcast(getSuccessIntent);
-                }
+                }*/
 
 
             }

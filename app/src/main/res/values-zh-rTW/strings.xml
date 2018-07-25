@@ -8,7 +8,10 @@
     <string name="action_settings">重新掃描</string>
 
     <string name="ok">好</string>
+    <string name="confirm">確認</string>
     <string name="cancel">取消</string>
+    <string name="delete">刪除</string>
+    <string name="add">新增</string>
     <string name="Processing">處理中...</string>
     <string name="rescan">重新掃描</string>
     <string name="search">搜尋</string>
@@ -49,6 +52,7 @@
     <string name="item_title_rvb33">數量</string>
     <string name="item_title_pmc03">廠商</string>
     <string name="item_title_gen02">倉管人員</string>
+    <string name="item_title_confirm_stock_in">確認入庫</string>
 
     <string name="action_shipment_main">出貨掃描確認作業</string>
     <string name="action_shipment_find">庫存查詢</string>
@@ -89,4 +93,8 @@
     <string name="entering_warehouse_dialog_content">確認入庫?</string>
     <string name="entering_warehouse_complete">入庫作業完成</string>
     <string name="entering_warehouse_failed">入庫作業失敗. 請再重新嘗試一次.</string>
+    <string name="entering_warehouse_dialog_total">總數 : %s</string>
+    <string name="entering_warehouse_dialog_index">項次</string>
+    <string name="entering_warehouse_dialog_head">儲位分拆</string>
+    <string name="entering_warehouse_into_stock">入庫</string>
 </resources>

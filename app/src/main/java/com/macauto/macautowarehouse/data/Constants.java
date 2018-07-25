@@ -4,6 +4,10 @@ public class Constants {
     public interface ACTION {
         String SOAP_CONNECTION_FAIL = "com.macauto.MacautoWarehoouse.SoapConnectionFail";
 
+        //login
+        String ACTION_LOGIN_FAIL = "com.macauto.MacautoWarehoouse.Login.Fail";
+        String ACTION_LOGIN_SUCCESS = "com.macauto.MacautoWarehoouse.Login.Success";
+        String ACTION_LOGOUT_ACTION = "com.macauto.MacautoWarehoouse.LogoutAction";
         //
         String ACTION_SHOW_VIRTUAL_KEYBOARD_ACTION = "com.macauto.MacautoWarehoouse.ShowVirtualKeyboardAction";
         String ACTION_HIDE_VIRTUAL_KEYBOARD_ACTION = "com.macauto.MacautoWarehoouse.HideVirtualKeyboardAction";
@@ -32,6 +36,12 @@ public class Constants {
         String ACTION_EXECUTE_TT_FAILED = "com.macauto.MacautoWarehoouse.ExcuteTtFailed";
         String ACTION_ENTERING_WAREHOUSE_COMPLETE = "com.macauto.MacautoWarehoouse.EnteringWarehouseComplete";
 
+        String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_TEXT_CHANGE = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogTextChange";
+        String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogAdd";
+        //String ACTION_ENTERING_WAREHOUSE_SHOW_CONFIRM_BUTTON = "com.macauto.MacautoWarehoouse.EnteringWarehouseShowConfirmButton";
+        //String ACTION_ENTERING_WAREHOUSE_HIDE_CONFIRM_BUTTON = "com.macauto.MacautoWarehoouse.EnteringWarehouseHideConfirmButton";
+        String ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE = "com.macauto.MacautoWarehoouse.EnteringWarehouseCheckboxChange";
+
         //Search Parts
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_ACTION = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListAction";
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_CLEAN = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListClean";
@@ -39,15 +49,11 @@ public class Constants {
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListSuccess";
 
         String ACTION_SCAN_RESET = "com.macauto.MacautoWarehoouse.ScanReset";
-
-        String ACTION_LOGIN_FAIL = "com.macauto.MacautoWarehoouse.Login.Fail";
-        String ACTION_LOGIN_SUCCESS = "com.macauto.MacautoWarehoouse.Login.Success";
-        String ACTION_LOGOUT_ACTION = "com.macauto.MacautoWarehoouse.LogoutAction";
-
         String ACTION_CHECK_STOCK_LOCATE_NO_EXIST_ACTION = "com.macauto.MacautoWarehoouse.CheckStockLocateNoExist";
 
         String ACTION_SCAN = "com.macauto.MacautoWarehoouse.client.android.SCAN";
         String ACTION_GET_BARCODE_MESSGAGE_COMPLETE = "com.macauto.MacautoWarehoouse.GetBarcodeMessageComplete";
         String ACTION_CHECK_RECEIVE_GOODS = "com.macauto.MacautoWarehoouse.CheckReceiveGoods.Action";
+
     }
 }

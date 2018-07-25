@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/btnAdd"
+                android:text="@string/add"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/entering_warehouse_dialog_index"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="4"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Quantity"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/textViewQuantity"
+                    android:layout_weight="1"
+                    android:gravity="center"/>
+                <TextView
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/delete"
+                    android:layout_weight="2"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewDivide"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="false">
+
+
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="8">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cancel"/>
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="@string/ok"/>
+    </LinearLayout>
+
+</LinearLayout>

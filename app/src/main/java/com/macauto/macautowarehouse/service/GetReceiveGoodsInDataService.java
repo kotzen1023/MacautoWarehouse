@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 
@@ -128,7 +129,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
             request.addProperty("SID", "MAT");
             request.addProperty("part_no", part_no);
             request.addProperty("barcode_no", barcode_no);
-            request.addProperty("k_id", k_id);
+            request.addProperty("k_id", "123456");
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -223,6 +224,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
                     String header = String.valueOf(i+1)+"#"+min_property.getProperty(3).toString();
                     no_list.add(header);
+                    check_stock_in.add(false);
                     detailList.put(header, new ArrayList<DetailItem>());
 
                     //ArrayList detailArrayList = new ArrayList();
@@ -285,6 +287,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
                             dataRow.setValue("gen02", min_property.getProperty(j).toString());
                         }
 
+
+
                         if (item != null)
                             detailList.get(header).add(item);
 
@@ -294,6 +298,10 @@ public class GetReceiveGoodsInDataService extends IntentService {
                             no_list.add(header);
                         }*/
                     }
+
+                    DetailItem checkItem = new DetailItem();
+                    checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
+                    detailList.get(header).add(checkItem);
 
                     dataTable.Rows.add(dataRow);
 

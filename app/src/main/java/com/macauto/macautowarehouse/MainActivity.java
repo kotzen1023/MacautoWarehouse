@@ -379,7 +379,7 @@ public class MainActivity extends AppCompatActivity
                     Bundle bundle = intent.getExtras();
                     if(bundle != null )
                     {
-                        String type = bundle.getString("text");
+                        int type = bundle.getInt("text");
 
                         Log.e(TAG, "type = "+type);
 
@@ -461,6 +461,8 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
 
         setting = menu.findItem(R.id.action_settings);
+
+
 
         receiving_main = menu.findItem(R.id.action_receiving_main);
         receiving_record = menu.findItem(R.id.action_receiving_record);
