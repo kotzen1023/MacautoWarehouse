@@ -129,7 +129,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
             request.addProperty("SID", "MAT");
             request.addProperty("part_no", part_no);
             request.addProperty("barcode_no", barcode_no);
-            request.addProperty("k_id", "123456");
+            request.addProperty("k_id", k_id);
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -187,198 +187,150 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
                 int count = property.getPropertyCount();
 
-                SoapObject sub_property = (SoapObject) property.getProperty(0);
+                if (count > 0) {
+                    SoapObject sub_property = (SoapObject) property.getProperty(0);
 
-                Log.d(TAG, "object = "+sub_property);
-                Log.d(TAG, "count = "+sub_property.getPropertyCount());
+                    Log.d(TAG, "object = "+sub_property);
+                    Log.d(TAG, "count = "+sub_property.getPropertyCount());
 
-                //no_list.clear();
-                //detailList.clear();
-                //if (inspectedReceiveExpanedAdater != null)
-                //    inspectedReceiveExpanedAdater.notifyDataSetChanged();
+                    //no_list.clear();
+                    //detailList.clear();
+                    //if (inspectedReceiveExpanedAdater != null)
+                    //    inspectedReceiveExpanedAdater.notifyDataSetChanged();
 
-                dataTable = null;
-                dataTable = new DataTable();
+                    dataTable = null;
+                    dataTable = new DataTable();
 
-                dataTable.Columns.Add("check_sp");
-                dataTable.Columns.Add("rvu01");
-                dataTable.Columns.Add("rvu02");
-                dataTable.Columns.Add("rvb05");
-                dataTable.Columns.Add("pmn041");
-                dataTable.Columns.Add("ima021");
-                dataTable.Columns.Add("rvv32");
-                dataTable.Columns.Add("rvv33");
-                dataTable.Columns.Add("rvv34");
-                dataTable.Columns.Add("rvb33");
-                dataTable.Columns.Add("pmc03");
-                dataTable.Columns.Add("gen02");
+                    dataTable.Columns.Add("check_sp");
+                    dataTable.Columns.Add("rvu01");
+                    dataTable.Columns.Add("rvu02");
+                    dataTable.Columns.Add("rvb05");
+                    dataTable.Columns.Add("pmn041");
+                    dataTable.Columns.Add("ima021");
+                    dataTable.Columns.Add("rvv32");
+                    dataTable.Columns.Add("rvv33");
+                    dataTable.Columns.Add("rvv34");
+                    dataTable.Columns.Add("rvb33");
+                    dataTable.Columns.Add("pmc03");
+                    dataTable.Columns.Add("gen02");
 
-                for (int i=0; i < sub_property.getPropertyCount(); i++) {
-
-
-                    //Object property = s_deals.getProperty(i);
-                    //SoapObject category_list = (SoapObject) property;
-                    Log.d(TAG, "object["+i+"] = "+sub_property.getProperty(i));
-
-                    SoapObject min_property = (SoapObject) sub_property.getProperty(i);
-
-                    String header = String.valueOf(i+1)+"#"+min_property.getProperty(3).toString();
-                    no_list.add(header);
-                    check_stock_in.add(false);
-                    detailList.put(header, new ArrayList<DetailItem>());
-
-                    //ArrayList detailArrayList = new ArrayList();
-                    DataRow dataRow = dataTable.NewRow();
+                    for (int i=0; i < sub_property.getPropertyCount(); i++) {
 
 
-                    for (int j=0; j < min_property.getPropertyCount(); j++) {
-                        DetailItem item = new DetailItem();
-                        //SoapObject form_no = (SoapObject) min_property.getProperty(1);
-                        Log.e(TAG, "sub_object = "+min_property.getProperty(j));
+                        //Object property = s_deals.getProperty(i);
+                        //SoapObject category_list = (SoapObject) property;
+                        Log.d(TAG, "object["+i+"] = "+sub_property.getProperty(i));
+
+                        SoapObject min_property = (SoapObject) sub_property.getProperty(i);
+
+                        String header = String.valueOf(i+1)+"#"+min_property.getProperty(3).toString();
+                        no_list.add(header);
+                        check_stock_in.add(false);
+                        detailList.put(header, new ArrayList<DetailItem>());
+
+                        //ArrayList detailArrayList = new ArrayList();
+                        DataRow dataRow = dataTable.NewRow();
 
 
-                        if (j==0) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_check_sp));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("check_sp", min_property.getProperty(j).toString());
-                        } else if (j==1) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_rvu01));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("rvu01", min_property.getProperty(j).toString());
-                        } else if (j==2) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_rvv02));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("rvu02", min_property.getProperty(j).toString());
-                        } else if (j==3) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_rvb05));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("rvb05", min_property.getProperty(j).toString());
-                        } else if (j==4) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_pmn041));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("pmn041", min_property.getProperty(j).toString());
-                        } else if (j==5) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_ima021));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("ima021", min_property.getProperty(j).toString());
-                        } else if (j==6) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_rvv32));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("rvv32", min_property.getProperty(j).toString());
-                        } else if (j==7) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_rvv33));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("rvv33", min_property.getProperty(j).toString());
-                        } else if (j==8) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_rvv34));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("rvv34", min_property.getProperty(j).toString());
-                        } else if (j==9) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_rvb33));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("rvb33", min_property.getProperty(j).toString());
-                        } else if (j==10) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_pmc03));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("pmc03", min_property.getProperty(j).toString());
-                        } else if (j==11) {
-                            item.setTitle(this.getResources().getString(R.string.item_title_gen02));
-                            item.setName(min_property.getProperty(j).toString());
-                            dataRow.setValue("gen02", min_property.getProperty(j).toString());
-                        }
+                        for (int j=0; j < min_property.getPropertyCount(); j++) {
+                            DetailItem item = new DetailItem();
+                            //SoapObject form_no = (SoapObject) min_property.getProperty(1);
+                            Log.e(TAG, "sub_object = "+min_property.getProperty(j));
+
+
+                            if (j==0) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_check_sp));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("check_sp", min_property.getProperty(j).toString());
+                            } else if (j==1) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_rvu01));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("rvu01", min_property.getProperty(j).toString());
+                            } else if (j==2) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_rvv02));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("rvu02", min_property.getProperty(j).toString());
+                            } else if (j==3) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_rvb05));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("rvb05", min_property.getProperty(j).toString());
+                            } else if (j==4) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_pmn041));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("pmn041", min_property.getProperty(j).toString());
+                            } else if (j==5) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_ima021));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("ima021", min_property.getProperty(j).toString());
+                            } else if (j==6) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_rvv32));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("rvv32", min_property.getProperty(j).toString());
+                            } else if (j==7) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_rvv33));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("rvv33", min_property.getProperty(j).toString());
+                            } else if (j==8) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_rvv34));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("rvv34", min_property.getProperty(j).toString());
+                            } else if (j==9) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_rvb33));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("rvb33", min_property.getProperty(j).toString());
+                            } else if (j==10) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_pmc03));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("pmc03", min_property.getProperty(j).toString());
+                            } else if (j==11) {
+                                item.setTitle(this.getResources().getString(R.string.item_title_gen02));
+                                item.setName(min_property.getProperty(j).toString());
+                                dataRow.setValue("gen02", min_property.getProperty(j).toString());
+                            }
 
 
 
-                        if (item != null)
-                            detailList.get(header).add(item);
+                            if (item != null)
+                                detailList.get(header).add(item);
 
 
                         /*if (j == 1) {
                             String header = min_property.getProperty(1).toString()+"#"+String.valueOf(i+1);
                             no_list.add(header);
                         }*/
-                    }
-
-                    DetailItem checkItem = new DetailItem();
-                    checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
-                    detailList.get(header).add(checkItem);
-
-                    dataTable.Rows.add(dataRow);
-
-
-                }
-
-                Log.e(TAG, "========================================================");
-                for (int i=0; i<dataTable.Rows.size(); i++) {
-
-                    for (int j=0; j<dataTable.Columns.size(); j++) {
-                        System.out.print(dataTable.Rows.get(i).getValue(j));
-                        if (j < dataTable.Columns.size() - 1) {
-                            System.out.print(", ");
                         }
+
+                        DetailItem checkItem = new DetailItem();
+                        checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
+                        detailList.get(header).add(checkItem);
+
+                        dataTable.Rows.add(dataRow);
+
+
                     }
-                    System.out.print("\n");
-                }
-                Log.e(TAG, "========================================================");
-                /*do {
-                    sub_property = (SoapObject) sub_property.getProperty(0);
-                    count = sub_property.getPropertyCount();
-                    Log.d(TAG, "count = "+count);
-                } while (count == 1);
 
-                Log.d(TAG, "count = "+sub_property.getPropertyCount());
+                    Log.e(TAG, "========================================================");
+                    for (int i=0; i<dataTable.Rows.size(); i++) {
 
-                for (int i=0; i < sub_property.getPropertyCount(); i++) {
-                    //Object property = s_deals.getProperty(i);
-                    //SoapObject category_list = (SoapObject) property;
-                    Log.d(TAG, "object["+i+"] = "+sub_property.getProperty(i));
-                }*/
-
-                /*for (int i=0; i < s_deals.getPropertyCount(); i++) {
-                    Object property = s_deals.getProperty(i);
-                    if (property instanceof SoapObject)
-                    {
-                        SoapObject category_list = (SoapObject) property;
-                        String check_sp = category_list.getProperty("check_sp").toString();
-                        String col_rvu01 = category_list.getProperty("rvu01").toString();
-                        String col_rvv02 = category_list.getProperty("rvv02").toString();
-                        String col_rvb05 = category_list.getProperty("rvb05").toString();
-                        String col_pmn041 = category_list.getProperty("pmn041").toString();
-                        String col_ima021 = category_list.getProperty("ima021").toString();
-                        String col_rvv32 = category_list.getProperty("rvv32").toString();
-                        String col_rvv33 = category_list.getProperty("rvv33").toString();
-                        String col_rvv34 = category_list.getProperty("rvv34").toString();
-                        String col_rvb33 = category_list.getProperty("rvb33").toString();
-                        String col_pmc03 = category_list.getProperty("pmc03").toString();
-                        String col_gen02 = category_list.getProperty("gen02").toString();
-
-                        Log.e(TAG, "check_sp = "+check_sp);
-                        Log.e(TAG, "col_rvu01 = "+col_rvu01);
-                        Log.e(TAG, "col_rvv02 = "+col_rvv02);
-                        Log.e(TAG, "col_rvb05 = "+col_rvb05);
-                        Log.e(TAG, "col_pmn041 = "+col_pmn041);
-                        Log.e(TAG, "col_ima021 = "+col_ima021);
-                        Log.e(TAG, "col_rvv32 = "+col_rvv32);
-                        Log.e(TAG, "col_rvv33 = "+col_rvv33);
-                        Log.e(TAG, "col_rvv34 = "+col_rvv34);
-                        Log.e(TAG, "col_rvb33 = "+col_rvb33);
-                        Log.e(TAG, "col_pmc03 = "+col_pmc03);
-                        Log.e(TAG, "col_gen02 = "+col_gen02);
+                        for (int j=0; j<dataTable.Columns.size(); j++) {
+                            System.out.print(dataTable.Rows.get(i).getValue(j));
+                            if (j < dataTable.Columns.size() - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.print("\n");
                     }
-                }*/
+                    Log.e(TAG, "========================================================");
 
 
-                //result.setText(String.valueOf(resultsRequestSOAP));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(StandardCharsets.UTF_8));
-                    //LoadAndParseXML(stream);
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
+                    sendBroadcast(getSuccessIntent);
                 } else {
-                    InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(Charset.forName("UTF-8")));
-                    //LoadAndParseXML(stream);
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
+                    sendBroadcast(getSuccessIntent);
                 }
 
-                Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
-                sendBroadcast(getSuccessIntent);
+
             }
 
             //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);

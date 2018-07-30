@@ -324,6 +324,8 @@ public class MainActivity extends AppCompatActivity
                         //scanIntent.setAction("unitech.scanservice.scan2key_setting");
                         //scanIntent.putExtra("scan2key", false);
                         //sendBroadcast(scanIntent);
+                        setTitle(getResources().getString(R.string.action_receiving_main));
+
                         View view = getCurrentFocus();
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
@@ -606,6 +608,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.action_settings:
+                //hide virtual keoboard
                 Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SCAN_RESET);
                 sendBroadcast(getSuccessIntent);
                 break;
@@ -701,6 +704,8 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass=null;
 
         String title="";
+        if (imm.isAcceptingText())
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         //initializing the fragment object which is selected
         switch (menuItem.getItemId()) {
 
@@ -857,6 +862,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
+
 
                 break;
             case R.id.nav_login:

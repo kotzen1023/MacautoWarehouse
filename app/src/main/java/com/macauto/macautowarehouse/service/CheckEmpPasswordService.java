@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+
 public class CheckEmpPasswordService extends IntentService {
     public static final String TAG = "CheckEmpPasswordService";
 
@@ -35,7 +37,7 @@ public class CheckEmpPasswordService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/check_emp_password"; // SOAP_ACTION
     //normal port 8000, test port 8484
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public CheckEmpPasswordService() {
         super("CheckEmpPasswordService");
@@ -75,6 +77,8 @@ public class CheckEmpPasswordService extends IntentService {
 
         String emp_no = intent.getStringExtra("EMP_NO");
         String emp_password = intent.getStringExtra("EMP_PASSWORD");
+        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        Log.e(TAG, "URL = "+URL);
 
         //device_id = intent.getStringExtra("DEVICE_ID");
         //String service_ip = intent.getStringExtra(SERVICE_IP);

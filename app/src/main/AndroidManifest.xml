@@ -29,6 +29,7 @@
         </activity>
         <activity android:name=".ScannedBarcodeActivity" />
         <activity android:name=".EnteringWarehouseDividedDialogActivity" />
+        <activity android:name=".ReceivingAddDialogActivity" />
 
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />
@@ -37,6 +38,7 @@
         <service android:name=".service.GetDocTypeIsRegOrSubService" />
         <service android:name=".service.ExecuteScriptTTService" />
         <service android:name=".service.GetPartWarehouseListService" />
+        <service android:name=".service.GetTTReceiveGoodsDataService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

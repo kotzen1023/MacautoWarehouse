@@ -364,6 +364,10 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         //btnScan.setVisibility(View.GONE);
                         btnConfirm.setVisibility(View.VISIBLE);
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY)) {
+                        Log.d(TAG, "receive ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY");
+                        toast(context.getResources().getString(R.string.entering_warehouse_no_record));
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED)) {
                         toast(context.getResources().getString(R.string.get_receive_goods_fail));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD)) {
@@ -671,6 +675,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_GET_BARCODE_MESSGAGE_COMPLETE);
             filter.addAction(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
             filter.addAction(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED);
 
             filter.addAction(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_SUCCESS);

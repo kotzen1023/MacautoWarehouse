@@ -12,6 +12,7 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="add">Add</string>
+    <string name="save">Save</string>
     <string name="Processing">Processing...</string>
     <string name="rescan">Re-scan</string>
     <string name="search">Search</string>
@@ -37,9 +38,9 @@
     <string name="nav_setting">Setting</string>
     <string name="nav_logout">Logout</string>
     <string name="nav_login">Login</string>
-    <string name="login_account"></string>
-    <string name="login_password"></string>
-    <string name="login_confirm"></string>
+    <string name="login_account">Account</string>
+    <string name="login_password">Password</string>
+    <string name="login_confirm">Confirm</string>
     <string name="item_title_check_sp">V</string>
     <string name="item_title_rvu01">Stock In No.</string>
     <string name="item_title_rvv02">No.</string>
@@ -97,4 +98,12 @@
     <string name="entering_warehouse_dialog_index">Index</string>
     <string name="entering_warehouse_dialog_head">Storing place split</string>
     <string name="entering_warehouse_into_stock">Into Stock</string>
+    <string name="entering_warehouse_no_record">No Record</string>
+
+    <string name="receiving_rec_no">Receiving No.</string>
+    <string name="receiving_rec_date">Receiving Date (yyyyMMdd)</string>
+    <string name="receiving_vendor_no">Vendor No.</string>
+    <string name="receiving_edi_shipping_no">EDI Shipping No.(Scan Barcode)</string>
+    <string name="receiving_rec_locate_no">Receiving Location</string>
+    <string name="receiving_progress_delivery_note_enter">Delivery note enter</string>
 </resources>

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 public class GetDocTypeIsRegOrSubService extends IntentService {
     public static final String TAG = "GetDocTypeService";
@@ -45,7 +46,7 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/Get_TT_doc_type_is_REG_or_SUB"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     private String doc_type = "";
 
@@ -90,6 +91,9 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
 
 
         String current_table = intent.getStringExtra("CURRENT_TABLE");
+
+        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        Log.e(TAG, "URL = "+URL);
 
 
 

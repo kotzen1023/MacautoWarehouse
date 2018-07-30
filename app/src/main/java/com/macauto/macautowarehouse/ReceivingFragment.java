@@ -7,28 +7,32 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.macauto.macautowarehouse.data.Constants;
+import com.macauto.macautowarehouse.table.DataTable;
 
 public class ReceivingFragment extends Fragment {
     private static final String TAG = ReceivingFragment.class.getName();
 
-    private Context context;
+    private Context fragmentContext;
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
+    public static DataTable ReceivingDataTable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = getContext();
+        fragmentContext = getContext();
     }
 
     @Override
@@ -41,7 +45,19 @@ public class ReceivingFragment extends Fragment {
 
         final  View view = inflater.inflate(R.layout.receiving_fragment, container, false);
 
-        TextView textView = view.findViewById(R.id.textPurchase);
+        Button btnAdd = view.findViewById(R.id.btnReceivingAdd);
+        Button btnSave = view.findViewById(R.id.btnReceivingSave);
+        LinearLayout layoutBottom = view.findViewById(R.id.layoutReceivingBottom);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(fragmentContext, ReceivingAddDialogActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         /*Button btnScan = view.findViewById(R.id.btnScan);
 
         btnScan.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +91,7 @@ public class ReceivingFragment extends Fragment {
         if (!isRegister) {
             filter = new IntentFilter();
             filter.addAction(Constants.ACTION.ACTION_GET_BARCODE_MESSGAGE_COMPLETE);
-            context.registerReceiver(mReceiver, filter);
+            fragmentContext.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
         }
@@ -89,7 +105,7 @@ public class ReceivingFragment extends Fragment {
 
         if (isRegister && mReceiver != null) {
             try {
-                context.unregisterReceiver(mReceiver);
+                fragmentContext.unregisterReceiver(mReceiver);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             }

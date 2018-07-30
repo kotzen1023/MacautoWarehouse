@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 public class ConfirmEnteringWarehouseService extends IntentService {
     public static final String TAG = "ConfirmEnteringService";
@@ -49,7 +50,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/Update_TT_ReceiveGoods_IN_Rvv33"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private StringWriter writer;
     private String rvu01="";
@@ -102,6 +103,9 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                 Log.i(TAG, "ACTION_CONFIRM_ENTERING_WAREHOUSE_ACTION");
             }
         }
+
+        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        Log.e(TAG, "URL = "+URL);
 
         Log.e(TAG, "rvu01 = "+rvu01);
 

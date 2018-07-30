@@ -12,6 +12,7 @@
     <string name="cancel">取消</string>
     <string name="delete">刪除</string>
     <string name="add">新增</string>
+    <string name="save">儲存</string>
     <string name="Processing">處理中...</string>
     <string name="rescan">重新掃描</string>
     <string name="search">搜尋</string>
@@ -97,4 +98,12 @@
     <string name="entering_warehouse_dialog_index">項次</string>
     <string name="entering_warehouse_dialog_head">儲位分拆</string>
     <string name="entering_warehouse_into_stock">入庫</string>
+    <string name="entering_warehouse_no_record">沒有資料</string>
+    
+    <string name="receiving_rec_no">收貨單號</string>
+    <string name="receiving_rec_date">收貨日期 (yyyyMMdd)</string>
+    <string name="receiving_vendor_no">廠商編號</string>
+    <string name="receiving_edi_shipping_no">EDI送貨單號(請掃描Barcode)</string>
+    <string name="receiving_rec_locate_no">收貨區儲位</string>
+    <string name="receiving_progress_delivery_note_enter">送貨單批次轉入</string>
 </resources>

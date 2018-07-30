@@ -15,6 +15,7 @@ public class Constants {
         String ACTION_SETTING_PDA_TYPE_ACTION = "com.macauto.MacautoWarehoouse.SettingPdaTypeAction";
         String ACTION_SETTING_WEB_SOAP_PORT_ACTION = "com.macauto.MacautoWarehoouse.SettingWebSoapPortAction";
 
+        //into stock
         String ACTION_CHECK_EMP_EXIST_ACTION = "com.macauto.MacautoWarehoouse.CheckEmpExistAction";
         String ACTION_CHECK_EMP_EXIST_SUCCESS = "com.macauto.MacautoWarehoouse.CheckEmpExistSuccess";
         String ACTION_CHECK_EMP_EXIST_NOT_EXIST = "com.macauto.MacautoWarehoouse.CheckEmpExistNotExist";
@@ -23,6 +24,7 @@ public class Constants {
         String ACTION_CHECK_EMP_PASSWORD_FAILED = "com.macauto.MacautoWarehoouse.CheckEmpPasswordFailed";
         String ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN = "com.macauto.MacautoWarehoouse.SetInspectedReceiveItemClean";
         String ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemSuccess";
+        String ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemEmpty";
         String ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemFailed";
         String ACTION_MODIFIED_ITEM_COMPLETE = "com.macauto.MacautoWarehoouse.ModifiedItemComplete";
         String ACTION_CONFIRM_ENTERING_WAREHOUSE_ACTION = "com.macauto.MacautoWarehoouse.ConfirmEnteringWarehouse";
@@ -41,6 +43,13 @@ public class Constants {
         //String ACTION_ENTERING_WAREHOUSE_SHOW_CONFIRM_BUTTON = "com.macauto.MacautoWarehoouse.EnteringWarehouseShowConfirmButton";
         //String ACTION_ENTERING_WAREHOUSE_HIDE_CONFIRM_BUTTON = "com.macauto.MacautoWarehoouse.EnteringWarehouseHideConfirmButton";
         String ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE = "com.macauto.MacautoWarehoouse.EnteringWarehouseCheckboxChange";
+
+        //receiving goods
+        String ACTION_RECEIVING_GOODS_DATA_ACTION = "com.macauto.MacautoWarehoouse.ReceivingGoodsData";
+        String ACTION_RECEIVING_GOODS_DATA_FAILED = "com.macauto.MacautoWarehoouse.ReceivingGoodsDataFailed";
+        String ACTION_RECEIVING_GOODS_DATA_SUCCESS = "com.macauto.MacautoWarehoouse.ReceivingGoodsDataSuccess";
+        String ACTION_RECEIVING_GOODS_DATA_NO_VENDOR_DATA = "com.macauto.MacautoWarehoouse.ReceivingGoodsDataNoVendorData";
+
 
         //Search Parts
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_ACTION = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListAction";

@@ -19,6 +19,7 @@ import java.io.StringWriter;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 public class ExecuteScriptTTService extends IntentService {
     public static final String TAG = "ExecuteScriptTTService";
@@ -33,7 +34,7 @@ public class ExecuteScriptTTService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/Execute_Script_TT"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private String doc_type = "";
 
@@ -81,6 +82,8 @@ public class ExecuteScriptTTService extends IntentService {
         String doc_type = intent.getStringExtra("DOC_TYPE");
         String rvu01 = intent.getStringExtra("RVU01");
 
+        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        Log.e(TAG, "URL = "+URL);
 
         if (intent.getAction() != null) {
             if (intent.getAction().equals(Constants.ACTION.ACTION_EXECUTE_TT_ACTION)) {
