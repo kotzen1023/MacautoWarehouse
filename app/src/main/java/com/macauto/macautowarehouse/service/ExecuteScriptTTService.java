@@ -20,6 +20,7 @@ import java.io.StringWriter;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class ExecuteScriptTTService extends IntentService {
     public static final String TAG = "ExecuteScriptTTService";
@@ -221,8 +222,8 @@ public class ExecuteScriptTTService extends IntentService {
                 //SoapObject ret  = (SoapObject )resultsRequestSOAP.getAttribute("Get_TT_doc_type_is_REG_or_SUBResult");
 
                 //doc_type = ret.toString();
-                String ret  = resultsRequestSOAP.getPrimitiveProperty("Execute_Script_TTResult").toString();
-                Log.d(TAG, "ret = "+ret);
+                //String ret  = resultsRequestSOAP.getPrimitiveProperty("Execute_Script_TTResult").toString();
+                //Log.d(TAG, "ret = "+ret);
 
                 /*if (String.valueOf(resultsRequestSOAP).indexOf("REG") > 0) {
                     Log.e(TAG, "ret = true");
@@ -236,7 +237,8 @@ public class ExecuteScriptTTService extends IntentService {
                     //sendBroadcast(loginResultIntent);
                 }*/
 
-                boolean success = Boolean.valueOf(ret);
+                //boolean success = Boolean.valueOf(ret);
+                boolean success = parseToBoolean(resultsRequestSOAP);
                 if (success) {
                     int found_index = -1;
                     int next_table;

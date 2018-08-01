@@ -114,7 +114,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
 
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
-        if (expandableListDetail.get(listTitle).get(0).getName().equals("true")) {
+        if (expandableListDetail.get(listTitle).get(1).getName().equals("true")) {
             try {
                 view.setBackgroundColor(Color.rgb(0xff, 0xd6, 0x00));
             } catch (NullPointerException e) {
@@ -182,7 +182,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
 
                 //int text_color = holder.name.getCurrentTextColor();
 
-                if (expandedListPosition != 9) {
+                if (expandedListPosition != 10) {
                     //holder.linearLayout.setVisibility(View.GONE);
                     holder.name.setVisibility(View.VISIBLE);
 

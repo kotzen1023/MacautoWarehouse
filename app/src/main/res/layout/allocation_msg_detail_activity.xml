@@ -8,10 +8,10 @@
 
 
     <ListView
-        android:id="@+id/listViewAllocationMsg"
+        android:id="@+id/listViewAllocationMsgDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:choiceMode="singleChoice">
+        >
 
 
     </ListView>

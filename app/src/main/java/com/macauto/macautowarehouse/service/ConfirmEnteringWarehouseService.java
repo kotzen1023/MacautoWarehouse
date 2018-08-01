@@ -36,6 +36,7 @@ import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 
 public class ConfirmEnteringWarehouseService extends IntentService {
     public static final String TAG = "ConfirmEnteringService";
@@ -112,9 +113,10 @@ public class ConfirmEnteringWarehouseService extends IntentService {
         StringWriter writer = new StringWriter();
 
         if (dataTable != null) {
-            XmlSerializer xmlSerializer = Xml.newSerializer();
 
+            writer = parseDataTableToXml(dataTable);
 
+            /*XmlSerializer xmlSerializer = Xml.newSerializer();
 
             try {
 
@@ -283,10 +285,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                         }
 
 
-                        /*System.out.print(dataTable.Rows.get(i).getValue(j));
-                        if (j < dataTable.Columns.size() - 1) {
-                            System.out.print(", ");
-                        }*/
+
                     }
                     //System.out.print("\n");
                     xmlSerializer.endTag("", "Table");
@@ -298,7 +297,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                 Log.e(TAG, "xml = "+writer.toString());
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
 

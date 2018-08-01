@@ -50,6 +50,14 @@ public class Constants {
         String ACTION_RECEIVING_GOODS_DATA_SUCCESS = "com.macauto.MacautoWarehoouse.ReceivingGoodsDataSuccess";
         String ACTION_RECEIVING_GOODS_DATA_NO_VENDOR_DATA = "com.macauto.MacautoWarehoouse.ReceivingGoodsDataNoVendorData";
 
+        //allocation
+        String ACTION_ALLOCATION_GET_MY_MESS_LIST_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListAction";
+        String ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListSuccess";
+        String ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListEmpty";
+        String ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListFailed";
+        String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailAction";
+        String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailSuccess";
+        String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailFailed";
 
         //Search Parts
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_ACTION = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListAction";

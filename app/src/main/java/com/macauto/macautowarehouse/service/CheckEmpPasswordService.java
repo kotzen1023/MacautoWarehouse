@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class CheckEmpPasswordService extends IntentService {
     public static final String TAG = "CheckEmpPasswordService";
@@ -147,12 +148,16 @@ public class CheckEmpPasswordService extends IntentService {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.d(TAG, String.valueOf(resultsRequestSOAP));
 
-                if (String.valueOf(resultsRequestSOAP).indexOf("true") > 0) {
-                    Log.e(TAG, "ret = true");
+                boolean ret = parseToBoolean(resultsRequestSOAP);
+
+                Log.e(TAG, "parseToBoolean = "+ ret);
+
+                if (ret) {
+                    //Log.e(TAG, "ret = true");
                     loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_SUCCESS);
                     sendBroadcast(loginResultIntent);
                 } else {
-                    Log.e(TAG, "ret = false");
+                    //Log.e(TAG, "ret = false");
                     loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_FAILED);
                     sendBroadcast(loginResultIntent);
                 }

@@ -39,6 +39,8 @@
         <service android:name=".service.ExecuteScriptTTService" />
         <service android:name=".service.GetPartWarehouseListService" />
         <service android:name=".service.GetTTReceiveGoodsDataService" />
+        <service android:name=".service.GetMyMessListService" />
+        <service android:name=".service.GetMyMessDetailService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

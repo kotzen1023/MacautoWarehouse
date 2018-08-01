@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.DetailItem;
 import com.macauto.macautowarehouse.data.DividedItem;
 import com.macauto.macautowarehouse.data.DividedItemAdapter;
+import com.macauto.macautowarehouse.data.GenerateRandomString;
 import com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater;
 import com.macauto.macautowarehouse.data.InspectedReceiveItem;
 import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
@@ -40,6 +42,8 @@ import com.macauto.macautowarehouse.table.DataTable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
 
@@ -47,6 +51,11 @@ public class EnteringWarehouseFragmnet extends Fragment {
     private static final String TAG = EnteringWarehouseFragmnet.class.getName();
 
     private Context fragmentContext;
+
+    static SharedPreferences pref ;
+    static SharedPreferences.Editor editor;
+    private static final String FILE_NAME = "Preference";
+
     private ExpandableListView expandableListView;
     public static InspectedReceiveExpanedAdater inspectedReceiveExpanedAdater;
 
@@ -102,7 +111,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                 DetailItem item = inspectedReceiveExpanedAdater.getChild(groupPosition, childPosition);
 
-                if (childPosition == 9) { //rvv33(stock no), rvb33(quantity)
+                if (childPosition == 10) { //rvv33(stock no), rvb33(quantity)
 
                     float quantity = Float.valueOf(item.getName());
                     int quantity_int = (int)quantity;
@@ -283,9 +292,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
                 String msg = "";
                 for (int i=0; i< check_stock_in.size(); i++) {
                     if (check_stock_in.get(i)) {
-                        msg += detailList.get(no_list.get(i)).get(3).getName()+" ["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
-                                detailList.get(no_list.get(i)).get(7).getName()+"] ["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
-                                detailList.get(no_list.get(i)).get(9).getName()+"]\n\n";
+                        msg += detailList.get(no_list.get(i)).get(4).getName()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
+                                detailList.get(no_list.get(i)).get(8).getName()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
+                                detailList.get(no_list.get(i)).get(10).getName()+"]\n\n";
                     }
                 }
 
@@ -430,6 +439,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             Intent getintent = new Intent(context, GetReceiveGoodsInDataService.class);
                             getintent.putExtra("PART_NO", intent.getStringExtra("COLUMN_0"));
                             getintent.putExtra("BARCODE_NO", barcode);
+                            getintent.putExtra("K_ID", k_id);
                             context.startService(getintent);
                             is_barcode_receive = true;
                         }
@@ -597,6 +607,13 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                                 if (counter == 8) {
 
+                                    //regenerate new session id
+                                    GenerateRandomString rString = new GenerateRandomString();
+                                    k_id = rString.randomString(32);
+                                    Log.e(TAG, "session_id = "+k_id);
+
+
+
                                     String codeArray[] = text.toString().split("#");
                                     Intent scanResultIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
                                     for (int i = 0; i < codeArray.length; i++) {
@@ -607,6 +624,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
 
                                     scanResultIntent.putExtra("BARCODE", text.toString());
+                                    scanResultIntent.putExtra("K_ID", k_id);
                                     fragmentContext.sendBroadcast(scanResultIntent);
                                 } else {
                                     toast(text);

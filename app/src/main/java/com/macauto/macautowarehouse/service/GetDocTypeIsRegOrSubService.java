@@ -32,6 +32,7 @@ import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
 public class GetDocTypeIsRegOrSubService extends IntentService {
     public static final String TAG = "GetDocTypeService";
@@ -171,7 +172,10 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
                 //SoapObject ret  = (SoapObject )resultsRequestSOAP.getAttribute("Get_TT_doc_type_is_REG_or_SUBResult");
 
                 //doc_type = ret.toString();
-                doc_type = resultsRequestSOAP.getPrimitiveProperty("Get_TT_doc_type_is_REG_or_SUBResult").toString();
+
+                doc_type = parseToString(resultsRequestSOAP);
+
+                //doc_type = resultsRequestSOAP.getPrimitiveProperty("Get_TT_doc_type_is_REG_or_SUBResult").toString();
                 Log.d(TAG, "doc_type = "+doc_type);
 
                 /*if (String.valueOf(resultsRequestSOAP).indexOf("REG") > 0) {

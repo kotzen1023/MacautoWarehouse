@@ -106,4 +106,6 @@
     <string name="receiving_edi_shipping_no">EDI Shipping No.(Scan Barcode)</string>
     <string name="receiving_rec_locate_no">Receiving Location</string>
     <string name="receiving_progress_delivery_note_enter">Delivery note enter</string>
+
+    <string name="allocation_no_message">No Message</string>
 </resources>

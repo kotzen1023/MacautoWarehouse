@@ -5,14 +5,14 @@
 
     <group android:checkableBehavior="single">
 
-        <item
+        <!--item
             android:id="@+id/nav_receiving"
             android:icon="@drawable/baseline_archive_black_36"
             android:title="@string/nav_receiving" />
         <item
             android:id="@+id/nav_shipment"
             android:icon="@drawable/baseline_local_shipping_black_36"
-            android:title="@string/nav_shipment" />
+            android:title="@string/nav_shipment" /-->
         <item
             android:id="@+id/nav_allocation"
             android:icon="@drawable/baseline_unarchive_black_36"
@@ -22,14 +22,14 @@
             android:icon="@drawable/baseline_view_comfy_black_36"
             android:title="@string/nav_entering_warehouse" />
 
-        <item
+        <!--item
             android:id="@+id/nav_production_storage"
             android:icon="@drawable/baseline_move_to_inbox_black_36"
             android:title="@string/nav_production_storage" />
         <item
             android:id="@+id/nav_receiving_inspection"
             android:icon="@drawable/baseline_find_in_page_black_36"
-            android:title="@string/nav_receiving_inspection" />
+            android:title="@string/nav_receiving_inspection" /-->
     </group>
 
     <item android:title="@string/nav_other">

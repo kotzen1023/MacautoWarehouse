@@ -40,6 +40,7 @@ import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.FileOperation.append_record;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
 public class GetReceiveGoodsInDataService extends IntentService {
     public static final String TAG = "GetReceiveService";
@@ -97,12 +98,14 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
         String part_no = intent.getStringExtra("PART_NO");
         String barcode_no = intent.getStringExtra("BARCODE_NO");
+        String k_id = intent.getStringExtra("K_ID");
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
         Log.e(TAG, "part_no = "+part_no);
         Log.e(TAG, "barcode_no = "+barcode_no);
         Log.e(TAG, "URL = "+URL);
+
         //device_id = intent.getStringExtra("DEVICE_ID");
         //String service_ip = intent.getStringExtra(SERVICE_IP);
         //String service_port = intent.getStringExtra(SERVICE_PORT);
@@ -129,7 +132,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
             request.addProperty("SID", "MAT");
             request.addProperty("part_no", part_no);
             request.addProperty("barcode_no", barcode_no);
-            request.addProperty("k_id", k_id);
+            request.addProperty("k_id", "123456");
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -176,8 +179,84 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
                 SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("Get_TT_ReceiveGoods_IN_DataResult");
 
+                dataTable = null;
+                dataTable = new DataTable();
+                dataTable = parseXmlToDataTable(s_deals);
 
-                Log.d(TAG, "count = "+s_deals.getPropertyCount());
+                if (dataTable != null) {
+
+                    Log.e(TAG, "dataTable.Rows.size() = "+dataTable.Rows.size());
+
+                    if (dataTable.Rows.size() == 0) {
+                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
+                        sendBroadcast(getSuccessIntent);
+                    } else {
+                        for (int i=0; i < dataTable.Rows.size(); i++) {
+                            String header = String.valueOf(i+1)+"#"+dataTable.getValue(i, 3).toString();
+                            no_list.add(header);
+                            check_stock_in.add(false);
+                            detailList.put(header, new ArrayList<DetailItem>());
+
+                            //add into stock check first
+                            DetailItem checkItem = new DetailItem();
+                            checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
+                            detailList.get(header).add(checkItem);
+
+                            Log.e(TAG, "dataTable.Columns.size() = "+dataTable.Columns.size());
+
+                            for (int j=0; j < dataTable.Columns.size(); j++) {
+                                DetailItem item = new DetailItem();
+
+                                if (j==0) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_check_sp));
+
+                                } else if (j==1) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_rvu01));
+                                } else if (j==2) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv02));
+                                } else if (j==3) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_rvb05));
+                                } else if (j==4) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_pmn041));
+                                } else if (j==5) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_ima021));
+                                } else if (j==6) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv32));
+                                } else if (j==7) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv33));
+                                } else if (j==8) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv34));
+                                } else if (j==9) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_rvb33));
+                                } else if (j==10) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_pmc03));
+                                } else if (j==11) {
+                                    item.setTitle(this.getResources().getString(R.string.item_title_gen02));
+                                }
+                                item.setName(dataTable.getValue(i,j).toString());
+
+
+                                if (item != null)
+                                    detailList.get(header).add(item);
+                            }
+
+
+
+                        }
+
+                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
+                        sendBroadcast(getSuccessIntent);
+                    }
+
+
+
+                } else {
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
+                    sendBroadcast(getSuccessIntent);
+                }
+
+
+                /*Log.d(TAG, "count = "+s_deals.getPropertyCount());
 
                 SoapObject property = (SoapObject) s_deals.getProperty(1);
 
@@ -231,11 +310,17 @@ public class GetReceiveGoodsInDataService extends IntentService {
                         //ArrayList detailArrayList = new ArrayList();
                         DataRow dataRow = dataTable.NewRow();
 
+                        //add into stock check first
+                        DetailItem checkItem = new DetailItem();
+                        checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
+                        detailList.get(header).add(checkItem);
 
                         for (int j=0; j < min_property.getPropertyCount(); j++) {
                             DetailItem item = new DetailItem();
                             //SoapObject form_no = (SoapObject) min_property.getProperty(1);
-                            Log.e(TAG, "sub_object = "+min_property.getProperty(j));
+                            Log.e(TAG, "sub_object = "+min_property.getProperty(j)+" name = "+min_property.getPropertyInfo(j).toString().trim().split(":")[0]);
+
+
 
 
                             if (j==0) {
@@ -294,15 +379,10 @@ public class GetReceiveGoodsInDataService extends IntentService {
                                 detailList.get(header).add(item);
 
 
-                        /*if (j == 1) {
-                            String header = min_property.getProperty(1).toString()+"#"+String.valueOf(i+1);
-                            no_list.add(header);
-                        }*/
+
                         }
 
-                        DetailItem checkItem = new DetailItem();
-                        checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
-                        detailList.get(header).add(checkItem);
+
 
                         dataTable.Rows.add(dataRow);
 
@@ -328,7 +408,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                 } else {
                     Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
                     sendBroadcast(getSuccessIntent);
-                }
+                }*/
 
 
             }

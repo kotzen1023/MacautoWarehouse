@@ -2,31 +2,24 @@ package com.macauto.macautowarehouse.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
-import android.util.Xml;
 
+import com.macauto.macautowarehouse.data.AllocationMsgItem;
 import com.macauto.macautowarehouse.data.Constants;
+
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
+import static com.macauto.macautowarehouse.AllocationMsgFragment.msg_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
-public class CheckEmpExistService extends IntentService {
-    public static final String TAG = "CheckEmpExistService";
+public class GetMyMessListService extends IntentService{
+    public static final String TAG = "GetMyMessList";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -34,20 +27,20 @@ public class CheckEmpExistService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "check_emp_exist"; // 方法名稱
+    private static final String METHOD_NAME = "get_my_mess_list"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/check_emp_exist"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/get_my_mess_list"; // SOAP_ACTION
     //normal port 8000, test port 8484
-    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
-    public CheckEmpExistService() {
-        super("CheckEmpExistService");
+    public GetMyMessListService() {
+        super("GetMyMessListService");
     }
 
 
     //private String account;
     //private String device_id;
-    private boolean is_exist = false;
+
 
 
     @Override
@@ -73,13 +66,21 @@ public class CheckEmpExistService extends IntentService {
 
         Log.i(TAG, "Handle");
 
+        //clear first
+        //Intent cleanIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
+        //sendBroadcast(cleanIntent);
 
         //String device_id;
 
-        String emp_no = intent.getStringExtra("EMP_NO");
-        //String barcode_no = intent.getStringExtra("BARCODE_NO");
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        String user_no = intent.getStringExtra("USER_NO");
+
+
+        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+
+        Log.e(TAG, "user_no = "+user_no);
+
         Log.e(TAG, "URL = "+URL);
+
         //device_id = intent.getStringExtra("DEVICE_ID");
         //String service_ip = intent.getStringExtra(SERVICE_IP);
         //String service_port = intent.getStringExtra(SERVICE_PORT);
@@ -87,8 +88,8 @@ public class CheckEmpExistService extends IntentService {
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_CHECK_EMP_EXIST_ACTION)) {
-                Log.i(TAG, "ACTION_CHECK_EMP_EXIST_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_ACTION)) {
+                Log.i(TAG, "ACTION_ALLOCATION_GET_MY_MESS_LIST_ACTION");
             }
         }
 
@@ -100,9 +101,10 @@ public class CheckEmpExistService extends IntentService {
             SoapObject request = new SoapObject(NAMESPACE,
                     METHOD_NAME);
 
-            // 輸出值，帳號(account)、密碼(password)
 
-            request.addProperty("user_no", emp_no);
+
+
+            request.addProperty("user_no", user_no);
 
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
@@ -118,12 +120,13 @@ public class CheckEmpExistService extends IntentService {
 
             // 擴充 SOAP 序列化功能為第11版
 
+
+
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);
             envelope.dotNet = true; // 設定為 .net 預設編碼
 
             envelope.setOutputSoapObject(request); // 設定輸出的 SOAP 物件
-
 
             // 建立一個 HTTP 傳輸層
 
@@ -131,42 +134,56 @@ public class CheckEmpExistService extends IntentService {
             httpTransport.debug = true; // 測試模式使用
 
 
+
             httpTransport.call(SOAP_ACTION1, envelope); // 設定 SoapAction 所需的標題欄位
 
 
             // 將 WebService 資訊轉為 DataTable
             if (envelope.bodyIn instanceof SoapFault) {
-                String str = ((SoapFault) envelope.bodyIn).faultstring;
+                String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent decryptDoneIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-                sendBroadcast(decryptDoneIntent);
+                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED);
+                sendBroadcast(getFailedIntent);
             } else {
-                //Intent loginResultIntent;
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
-                Log.d(TAG, String.valueOf(resultsRequestSOAP));
+                Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                //Log.e(TAG, "parseToBoolean = "+ parseToBoolean(resultsRequestSOAP));
+                SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("get_my_mess_listResult");
 
-                is_exist = parseToBoolean(resultsRequestSOAP);
 
-                /*if (String.valueOf(resultsRequestSOAP).indexOf("true") > 0) {
-                    Log.e(TAG, "ret = true");
-                    is_exist = true;
-                    //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
-                    //sendBroadcast(loginResultIntent);
+                Log.d(TAG, "s_deals = "+s_deals.toString());
+
+                if (s_deals.toString().equals("anyType{}")) {
+                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY);
+                    sendBroadcast(getFailedIntent);
                 } else {
-                    Log.e(TAG, "ret = false");
-                    is_exist = false;
-                    //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
-                    //sendBroadcast(loginResultIntent);
-                }*/
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(StandardCharsets.UTF_8));
-                    LoadAndParseXML(stream);
-                } else {
-                    InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(Charset.forName("UTF-8")));
-                    LoadAndParseXML(stream);
-                }*/
+                    String msg[] = s_deals.toString().split("$");
+
+                    if (msg.length > 0) {
+
+                        for (int i = 0; i < msg.length; i++)
+                        {
+                            Log.e(TAG, "msg["+i+"] = "+msg[i]);
+                            if (msg[i] != null && msg[i].trim().length() > 0)
+                            {
+                                AllocationMsgItem item = new AllocationMsgItem();
+                                item.setMsg(msg[i]);
+                                msg_list.add(item);
+                            }
+                        }
+
+                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS);
+                        sendBroadcast(getSuccessIntent);
+                    } else {
+                        Intent getEmptyIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY);
+                        sendBroadcast(getEmptyIntent);
+                    }
+                }
+
+
+
+
+
 
             }
 
@@ -182,17 +199,17 @@ public class CheckEmpExistService extends IntentService {
 
             //DataTable dt = soapToDataTable(bodyIn);
 
+
         } catch (Exception e) {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            //Intent decryptDoneIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-            //sendBroadcast(decryptDoneIntent);
+            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED);
+            sendBroadcast(getFailedIntent);
         }
 
         //MeetingAlarm.last_sync_setting = sync_option;
-        //Intent decryptDoneIntent = new Intent(Constants.ACTION.GET_PERSONAL_MEETING_LIST_COMPLETE);
-        //sendBroadcast(decryptDoneIntent);
+
 
 
     }
@@ -201,18 +218,7 @@ public class CheckEmpExistService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        Intent loginResultIntent;
-        if (!is_exist) {
-            loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
-            sendBroadcast(loginResultIntent);
-        } else {
-            loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
-            sendBroadcast(loginResultIntent);
-        }
-
         //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
         //sendBroadcast(intent);
     }
-
-
 }

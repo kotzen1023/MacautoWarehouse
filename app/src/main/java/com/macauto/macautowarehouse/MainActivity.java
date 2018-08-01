@@ -87,12 +87,12 @@ public class MainActivity extends AppCompatActivity
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
-    private MenuItem menuItemReceiveGoods;
-    private MenuItem menuItemShipment;
+    //private MenuItem menuItemReceiveGoods;
+    //private MenuItem menuItemShipment;
     private MenuItem menuItemAllocation;
     private MenuItem menuItemEnteringWareHouse;
-    private MenuItem menuItemProductionStorage;
-    private MenuItem menuItemReceivingInspection;
+    //private MenuItem menuItemProductionStorage;
+    //private MenuItem menuItemReceivingInspection;
     private MenuItem menuItemLogin;
     private MenuItem menuItemLogout;
 
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity
     private InputMethodManager imm;
     public static String k_id;
     public static String web_soap_port;
+    public static String emp_no;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,9 +135,9 @@ public class MainActivity extends AppCompatActivity
 
         Log.d(TAG, "onCreate");
         //create a new kid
-        GenerateRandomString rString = new GenerateRandomString();
-        k_id = rString.randomString(32);
-        Log.e(TAG, "session_id = "+k_id);
+        //GenerateRandomString rString = new GenerateRandomString();
+        //k_id = rString.randomString(32);
+        //Log.e(TAG, "session_id = "+k_id);
 
         //get default pda type
         pref = getSharedPreferences(FILE_NAME, MODE_PRIVATE);
@@ -173,12 +174,12 @@ public class MainActivity extends AppCompatActivity
 
         menuItemLogin = navigationView.getMenu().findItem(R.id.nav_login);
         menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
-        menuItemReceiveGoods = navigationView.getMenu().findItem(R.id.nav_receiving);
-        menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
+        //menuItemReceiveGoods = navigationView.getMenu().findItem(R.id.nav_receiving);
+        //menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
         menuItemAllocation = navigationView.getMenu().findItem(R.id.nav_allocation);
         menuItemEnteringWareHouse = navigationView.getMenu().findItem(R.id.nav_entering_warehouse);
-        menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
-        menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
+        //menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
+        //menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
 
 
 
@@ -273,18 +274,18 @@ public class MainActivity extends AppCompatActivity
 
                         isLogin = true;
 
-
+                        emp_no = intent.getStringExtra("ACCOUNT");
 
                         TextView empID = findViewById(R.id.empId);
                         //TextView password = findViewById(R.id.empName);
 
-                        empID.setText(intent.getStringExtra("ACCOUNT"));
+                        empID.setText(emp_no);
                         //password.setText(intent.getStringExtra("PASSWORD"));
 
 
                         Fragment fragment = null;
                         Class fragmentClass=null;
-                        fragmentClass = ReceivingFragment.class;
+                        fragmentClass = AllocationMsgFragment.class;
 
                         try {
                             fragment = (Fragment) fragmentClass.newInstance();
@@ -308,12 +309,12 @@ public class MainActivity extends AppCompatActivity
                             receiving_board.setVisible(true);
                             receiving_multi.setVisible(true);
 
-                            menuItemReceiveGoods.setVisible(true);
-                            menuItemShipment.setVisible(true);
+                            //menuItemReceiveGoods.setVisible(true);
+                            //menuItemShipment.setVisible(true);
                             menuItemAllocation.setVisible(true);
                             menuItemEnteringWareHouse.setVisible(true);
-                            menuItemProductionStorage.setVisible(true);
-                            menuItemReceivingInspection.setVisible(true);
+                            //menuItemProductionStorage.setVisible(true);
+                            //menuItemReceivingInspection.setVisible(true);
 
                             menuItemLogin.setVisible(false);
                             menuItemLogout.setVisible(true);
@@ -324,7 +325,7 @@ public class MainActivity extends AppCompatActivity
                         //scanIntent.setAction("unitech.scanservice.scan2key_setting");
                         //scanIntent.putExtra("scan2key", false);
                         //sendBroadcast(scanIntent);
-                        setTitle(getResources().getString(R.string.action_receiving_main));
+                        setTitle(getResources().getString(R.string.action_allocation_msg));
 
                         View view = getCurrentFocus();
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -336,12 +337,12 @@ public class MainActivity extends AppCompatActivity
                         Class fragmentClass;
 
                         if (menuItemLogin != null && menuItemLogout != null) {
-                            menuItemReceiveGoods.setVisible(false);
-                            menuItemShipment.setVisible(false);
+                            //menuItemReceiveGoods.setVisible(false);
+                            //menuItemShipment.setVisible(false);
                             menuItemAllocation.setVisible(false);
                             menuItemEnteringWareHouse.setVisible(false);
-                            menuItemProductionStorage.setVisible(false);
-                            menuItemReceivingInspection.setVisible(false);
+                            //menuItemProductionStorage.setVisible(false);
+                            //menuItemReceivingInspection.setVisible(false);
 
                             menuItemLogin.setVisible(true);
                             menuItemLogout.setVisible(false);
@@ -516,12 +517,12 @@ public class MainActivity extends AppCompatActivity
 
             menuItemLogin.setVisible(false);
             menuItemLogout.setVisible(true);
-            menuItemReceiveGoods.setVisible(true);
-            menuItemShipment.setVisible(true);
+            //menuItemReceiveGoods.setVisible(true);
+            //menuItemShipment.setVisible(true);
             menuItemAllocation.setVisible(true);
             menuItemEnteringWareHouse.setVisible(true);
-            menuItemReceivingInspection.setVisible(true);
-            menuItemProductionStorage.setVisible(true);
+            //menuItemReceivingInspection.setVisible(true);
+            //menuItemProductionStorage.setVisible(true);
         } else {
             setting.setVisible(false);
 
@@ -549,12 +550,12 @@ public class MainActivity extends AppCompatActivity
 
             menuItemLogin.setVisible(true);
             menuItemLogout.setVisible(false);
-            menuItemReceiveGoods.setVisible(false);
-            menuItemShipment.setVisible(false);
+            //menuItemReceiveGoods.setVisible(false);
+            //menuItemShipment.setVisible(false);
             menuItemAllocation.setVisible(false);
             menuItemEnteringWareHouse.setVisible(false);
-            menuItemReceivingInspection.setVisible(false);
-            menuItemProductionStorage.setVisible(false);
+            //menuItemReceivingInspection.setVisible(false);
+            //menuItemProductionStorage.setVisible(false);
         }
         /*setting.setVisible(false);
 
@@ -709,7 +710,7 @@ public class MainActivity extends AppCompatActivity
         //initializing the fragment object which is selected
         switch (menuItem.getItemId()) {
 
-            case R.id.nav_receiving:
+            /*case R.id.nav_receiving:
                 fragmentClass = ReceivingFragment.class;
                 title = getResources().getString(R.string.action_receiving_main);
                 receiving_main.setVisible(true);
@@ -752,11 +753,11 @@ public class MainActivity extends AppCompatActivity
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
 
-                break;
+                break;*/
 
             case R.id.nav_allocation:
-                fragmentClass = AllocationFragment.class;
-                title = getResources().getString(R.string.action_allocation_find);
+                fragmentClass = AllocationMsgFragment.class;
+                title = getResources().getString(R.string.action_allocation_msg);
                 receiving_main.setVisible(false);
                 receiving_record.setVisible(false);
                 receiving_board.setVisible(false);
@@ -798,7 +799,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_scan.setVisible(false);
 
                 break;
-            case R.id.nav_production_storage:
+            /*case R.id.nav_production_storage:
                 fragmentClass = ProductionStorageFragment.class;
                 title = getResources().getString(R.string.action_production_storage_main);
                 receiving_main.setVisible(false);
@@ -841,7 +842,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
 
-                break;
+                break;*/
             case R.id.nav_setting:
                 fragmentClass = SettingFragment.class;
 

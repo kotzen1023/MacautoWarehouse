@@ -141,7 +141,10 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                     DataRow copy_dataRow = dataTable.NewRow();
 
                     for (int k=0; k< dataTable.Columns.size(); k++) {
-                        if (k==0) {
+
+                        copy_dataRow.setValue(dataTable.Columns.get(k).ColumnName, dataTable.Rows.get(base_index).getValue(k));
+
+                        /*if (k==0) {
                             copy_dataRow.setValue("check_sp", dataTable.Rows.get(base_index).getValue(k));
                         } else if (k==1) {
                             copy_dataRow.setValue("rvu01", dataTable.Rows.get(base_index).getValue(k));
@@ -165,11 +168,11 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                             copy_dataRow.setValue("pmc03", dataTable.Rows.get(base_index).getValue(k));
                         } else if (k==11) {
                             copy_dataRow.setValue("gen02", dataTable.Rows.get(base_index).getValue(k));
-                        }
+                        }*/
                     }
                     //DataRow copy_dataRow = dataTable.Rows.get(base_index);
                     //fix quantity
-                    copy_list.get(9).setName(String.valueOf(temp_count_list.get(i)));
+                    copy_list.get(10).setName(String.valueOf(temp_count_list.get(i)));
                     detailList.put(head, copy_list);
                     Log.e(TAG, "temp_count_list["+i+"] = "+temp_count_list.get(i));
 
