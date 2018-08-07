@@ -31,6 +31,7 @@ import com.macauto.macautowarehouse.service.GetDocTypeIsRegOrSubService;
 import com.macauto.macautowarehouse.service.GetMyMessDetailService;
 import com.macauto.macautowarehouse.service.GetMyMessListService;
 import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataService;
+import com.macauto.macautowarehouse.table.DataTable;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,8 @@ public class AllocationMsgFragment extends Fragment {
     private AllocationMsgAdapter allocationMsgAdapter;
     private ListView msgListView;
 
+    public static DataTable msgDataTable;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,25 +73,56 @@ public class AllocationMsgFragment extends Fragment {
         final  View view = inflater.inflate(R.layout.allocation_msg_fragment, container, false);
         msgListView = view.findViewById(R.id.listViewAllocationMsg);
 
-        msgListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        msgListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "select "+position);
 
-                String[] p_no = msg_list.get(position).getMsg().split("#");
 
-                Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
-                getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
-                getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
-                fragmentContext.startService(getMessDetailIntent);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                //deselect other
+                for (int i=0; i<msg_list.size(); i++) {
 
+                    if (i == position) {
+
+                        if (msg_list.get(i).isSelected()) {
+                            Log.e(TAG, "already selected.");
+
+                            String[] p_no = msg_list.get(position).getMsg().split("#");
+
+                            Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
+                            getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
+                            getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
+                            fragmentContext.startService(getMessDetailIntent);
+                        } else {
+                            msg_list.get(i).setSelected(true);
+                        }
+
+
+
+                    } else {
+                        msg_list.get(i).setSelected(false);
+
+                    }
+                }
+
+                msgListView.invalidateViews();
             }
         });
 
         msg_list.clear();
+
+        AllocationMsgItem item1 = new AllocationMsgItem();
+        item1.setMsg("20180802-001");
+        msg_list.add(item1);
+
+        AllocationMsgItem item2 = new AllocationMsgItem();
+        item2.setMsg("20180802-002");
+        msg_list.add(item2);
+
+        allocationMsgAdapter = new AllocationMsgAdapter(fragmentContext, R.layout.allocation_msg_list_item, msg_list);
+        msgListView.setAdapter(allocationMsgAdapter);
 
         //get my mess list
         Intent getMessIntent = new Intent(fragmentContext, GetMyMessListService.class);
@@ -132,12 +166,14 @@ public class AllocationMsgFragment extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED");
 
-
+                        toast(getResources().getString(R.string.allocation_get_msg_detail_error));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS");
 
-
+                        Intent successIntent = new Intent(fragmentContext, AllocationMsgDetailActivity.class);
+                        //intent.putExtra("GROUP_INDEX", String.valueOf(successIntent));
+                        startActivity(successIntent);
 
                     } else if("unitech.scanservice.data" .equals(intent.getAction())) {
                         Log.d(TAG, "unitech.scanservice.data");

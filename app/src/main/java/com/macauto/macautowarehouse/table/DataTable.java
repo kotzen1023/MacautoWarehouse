@@ -93,5 +93,13 @@ public class DataTable {
         return this.Rows.get(rowindex).getValue(columnName.toLowerCase());
     }
 
+    public void clear() {
+        for (int i = this.Rows.size()-1; i >= 0; i--) {
+            this.Rows.remove(i);
+        }
 
+        for (int i = this.Columns.size()-1; i >= 0; i--) {
+            this.Columns.remove(i);
+        }
+    }
 }

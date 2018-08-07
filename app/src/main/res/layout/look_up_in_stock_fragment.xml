@@ -81,22 +81,20 @@
         android:id="@+id/layoutResultView"
         android:visibility="gone">
 
-        <ExpandableListView
-            android:id="@+id/listViewExpand"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewSearch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="0.5dp"
+            android:scrollbars="vertical"
             >
 
 
-        </ExpandableListView>
+        </android.support.v7.widget.RecyclerView>
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Search again"
+            android:text="@string/search_again"
             android:id="@+id/btnResearch"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_weight="8" />

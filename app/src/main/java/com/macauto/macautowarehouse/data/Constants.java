@@ -59,11 +59,20 @@ public class Constants {
         String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailSuccess";
         String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailFailed";
 
+        //batch_no
+        String ACTION_SEARCH_PART_BATCH_ACTION = "com.macauto.MacautoWarehoouse.SearchPartWarehouseBatchAction";
+        String ACTION_SEARCH_PART_BATCH_CLEAN = "com.macauto.MacautoWarehoouse.SearchPartWarehouseBatchClean";
+        String ACTION_SEARCH_PART_BATCH_FAILED = "com.macauto.MacautoWarehoouse.SearchPartWarehouseBatchFailed";
+        String ACTION_SEARCH_PART_BATCH_SUCCESS = "com.macauto.MacautoWarehoouse.SearchPartWarehouseBatchSuccess";
+
         //Search Parts
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_ACTION = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListAction";
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_CLEAN = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListClean";
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_FAILED = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListFailed";
         String ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListSuccess";
+        String ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY = "com.macauto.MacautoWarehoouse.SearchPartWarehouseListEmpty";
+        String ACTION_SEARCH_PART_WAREHOUSE_SORT_COMPLETE = "com.macauto.MacautoWarehoouse.SearchPartWarehouseSortComplete";
+        String ACTION_SEARCH_PART_WAREHOUSE_GET_ORIGINAL_LIST = "com.macauto.MacautoWarehoouse.SearchPartWarehouseGetOriginalList";
 
         String ACTION_SCAN_RESET = "com.macauto.MacautoWarehoouse.ScanReset";
         String ACTION_CHECK_STOCK_LOCATE_NO_EXIST_ACTION = "com.macauto.MacautoWarehoouse.CheckStockLocateNoExist";
@@ -72,5 +81,8 @@ public class Constants {
         String ACTION_GET_BARCODE_MESSGAGE_COMPLETE = "com.macauto.MacautoWarehoouse.GetBarcodeMessageComplete";
         String ACTION_CHECK_RECEIVE_GOODS = "com.macauto.MacautoWarehoouse.CheckReceiveGoods.Action";
 
+        String ACTION_SEARCH_MENU_SHOW_ACTION = "com.macauto.MacautoWarehoouse.SearchMenuShowAction";
+        String ACTION_SEARCH_MENU_HIDE_ACTION = "com.macauto.MacautoWarehoouse.SearchMenuHideAction";
+        String ACTION_RESET_TITLE_PART_IN_STOCK = "com.macauto.MacautoWarehoouse.ResetTitlePartInStock";
     }
 }

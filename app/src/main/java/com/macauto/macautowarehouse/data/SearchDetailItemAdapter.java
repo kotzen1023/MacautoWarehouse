@@ -1,7 +1,6 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +12,19 @@ import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
 
-public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
+public class SearchDetailItemAdapter extends ArrayAdapter<SearchDetailItem> {
     private LayoutInflater inflater = null;
 
     private int layoutResourceId;
-    private ArrayList<AllocationMsgItem> items = new ArrayList<>();
+    private ArrayList<SearchDetailItem> items = new ArrayList<>();
+    private Context context;
 
-    public AllocationMsgAdapter(Context context, int textViewResourceId,
-                                       ArrayList<AllocationMsgItem> objects) {
+    public SearchDetailItemAdapter(Context context, int textViewResourceId,
+                                       ArrayList<SearchDetailItem> objects) {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
+        this.context = context;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -35,7 +36,7 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
 
     }
 
-    public AllocationMsgItem getItem(int position)
+    public SearchDetailItem getItem(int position)
     {
         return items.get(position);
     }
@@ -67,21 +68,12 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
         //holder.filename = (TextView) view.findViewById(R.id.fileChooseFileName);
         //holder.checkbox = (CheckBox) view.findViewById(R.id.checkBoxInRow);
 
-        AllocationMsgItem allocationMsgItem = items.get(position);
-        if (allocationMsgItem != null) {
-            holder.itemTitle.setText(allocationMsgItem.getMsg());
+        SearchDetailItem searchDetailItem = items.get(position);
+        if (searchDetailItem != null) {
+            holder.itemHeader.setText(searchDetailItem.getHeader());
+            holder.itemContent.setText(searchDetailItem.getContent());
 
 
-
-            if (allocationMsgItem.isSelected()) {
-                //Log.e(TAG, ""+position+" is selected.");
-                //view.setSelected(true);
-                view.setBackgroundColor(Color.rgb(0x4d, 0x90, 0xfe));
-            } else {
-                //Log.e(TAG, ""+position+" clear.");
-                //view.setSelected(false);
-                view.setBackgroundColor(Color.TRANSPARENT);
-            }
 
 
 
@@ -92,13 +84,13 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
     }
 
     private class ViewHolder {
-        TextView itemTitle;
-
+        TextView itemHeader;
+        TextView itemContent;
 
 
         private ViewHolder(View view) {
-            this.itemTitle = view.findViewById(R.id.itemTitle);
-
+            this.itemHeader = view.findViewById(R.id.itemDetailHeader);
+            this.itemContent = view.findViewById(R.id.itemDetailContent);
         }
     }
 }

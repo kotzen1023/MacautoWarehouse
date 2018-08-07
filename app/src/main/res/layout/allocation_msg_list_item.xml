@@ -6,7 +6,7 @@
     <TextView android:text="test"
         android:id="@+id/itemTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center_vertical"

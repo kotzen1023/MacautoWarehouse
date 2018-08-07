@@ -2,6 +2,7 @@ package com.macauto.macautowarehouse;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -52,6 +54,8 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.GenerateRandomString;
+import com.macauto.macautowarehouse.data.SearchDetailItem;
+import com.macauto.macautowarehouse.data.SearchItem;
 import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
 
 import java.io.File;
@@ -89,6 +93,7 @@ public class MainActivity extends AppCompatActivity
 
     //private MenuItem menuItemReceiveGoods;
     //private MenuItem menuItemShipment;
+    private MenuItem menuItemSearch;
     private MenuItem menuItemAllocation;
     private MenuItem menuItemEnteringWareHouse;
     //private MenuItem menuItemProductionStorage;
@@ -121,12 +126,16 @@ public class MainActivity extends AppCompatActivity
     private MenuItem production_storage_main;
     private MenuItem production_storage_find;
     private MenuItem production_storage_scan;
+    private MenuItem searchFilter;
 
     public static int pda_type;
     private InputMethodManager imm;
     public static String k_id;
     public static String web_soap_port;
     public static String emp_no;
+
+    public static ArrayList<SearchItem> searchList = new ArrayList<>();
+    public static ArrayList<SearchItem> sortedSearchList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +185,7 @@ public class MainActivity extends AppCompatActivity
         menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
         //menuItemReceiveGoods = navigationView.getMenu().findItem(R.id.nav_receiving);
         //menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
+        menuItemSearch = navigationView.getMenu().findItem(R.id.nav_search);
         menuItemAllocation = navigationView.getMenu().findItem(R.id.nav_allocation);
         menuItemEnteringWareHouse = navigationView.getMenu().findItem(R.id.nav_entering_warehouse);
         //menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
@@ -285,7 +295,7 @@ public class MainActivity extends AppCompatActivity
 
                         Fragment fragment = null;
                         Class fragmentClass=null;
-                        fragmentClass = AllocationMsgFragment.class;
+                        fragmentClass = LookupInStockFragment.class;
 
                         try {
                             fragment = (Fragment) fragmentClass.newInstance();
@@ -304,13 +314,10 @@ public class MainActivity extends AppCompatActivity
                         //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                         //drawer.closeDrawer(GravityCompat.START);
                         if (menuItemLogin != null && menuItemLogout != null) {
-                            receiving_main.setVisible(true);
-                            receiving_record.setVisible(true);
-                            receiving_board.setVisible(true);
-                            receiving_multi.setVisible(true);
 
                             //menuItemReceiveGoods.setVisible(true);
                             //menuItemShipment.setVisible(true);
+                            menuItemSearch.setVisible(true);
                             menuItemAllocation.setVisible(true);
                             menuItemEnteringWareHouse.setVisible(true);
                             //menuItemProductionStorage.setVisible(true);
@@ -325,7 +332,7 @@ public class MainActivity extends AppCompatActivity
                         //scanIntent.setAction("unitech.scanservice.scan2key_setting");
                         //scanIntent.putExtra("scan2key", false);
                         //sendBroadcast(scanIntent);
-                        setTitle(getResources().getString(R.string.action_allocation_msg));
+                        setTitle(getResources().getString(R.string.action_allocation_find));
 
                         View view = getCurrentFocus();
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -363,6 +370,18 @@ public class MainActivity extends AppCompatActivity
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
                         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commitAllowingStateLoss();
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_MENU_SHOW_ACTION)) {
+                        Log.d(TAG, "receive ACTION_SEARCH_MENU_SHOW_ACTION!");
+
+                        searchFilter.setVisible(true);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_MENU_HIDE_ACTION)) {
+                        Log.d(TAG, "receive ACTION_SEARCH_MENU_HIDE_ACTION!");
+
+                        searchFilter.setVisible(false);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK)) {
+                        Log.d(TAG, "receive ACTION_RESET_TITLE_PART_IN_STOCK!");
+
+                        setTitle(getResources().getString(R.string.action_allocation_find));
                     }
 
 
@@ -399,6 +418,9 @@ public class MainActivity extends AppCompatActivity
             filter.addAction(Constants.ACTION.ACTION_LOGOUT_ACTION);
             filter.addAction(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
             filter.addAction((Constants.ACTION.ACTION_SETTING_WEB_SOAP_PORT_ACTION));
+            filter.addAction(Constants.ACTION.ACTION_SEARCH_MENU_SHOW_ACTION);
+            filter.addAction(Constants.ACTION.ACTION_SEARCH_MENU_HIDE_ACTION);
+            filter.addAction(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK);
             filter.addAction("unitech.scanservice.data");
             filter.addAction("unitech.scanservice.datatype");
             context.registerReceiver(mReceiver, filter);
@@ -465,8 +487,6 @@ public class MainActivity extends AppCompatActivity
 
         setting = menu.findItem(R.id.action_settings);
 
-
-
         receiving_main = menu.findItem(R.id.action_receiving_main);
         receiving_record = menu.findItem(R.id.action_receiving_record);
         receiving_board = menu.findItem(R.id.action_receiving_board);
@@ -493,10 +513,10 @@ public class MainActivity extends AppCompatActivity
         if (isLogin) {
             setting.setVisible(false);
 
-            receiving_main.setVisible(true);
-            receiving_record.setVisible(true);
-            receiving_board.setVisible(true);
-            receiving_multi.setVisible(true);
+            receiving_main.setVisible(false);
+            receiving_record.setVisible(false);
+            receiving_board.setVisible(false);
+            receiving_multi.setVisible(false);
 
             /*shipment_main.setVisible(false);
             shipment_find.setVisible(false);
@@ -519,6 +539,7 @@ public class MainActivity extends AppCompatActivity
             menuItemLogout.setVisible(true);
             //menuItemReceiveGoods.setVisible(true);
             //menuItemShipment.setVisible(true);
+            menuItemSearch.setVisible(true);
             menuItemAllocation.setVisible(true);
             menuItemEnteringWareHouse.setVisible(true);
             //menuItemReceivingInspection.setVisible(true);
@@ -548,10 +569,12 @@ public class MainActivity extends AppCompatActivity
             production_storage_find.setVisible(false);
             production_storage_scan.setVisible(false);
 
+
             menuItemLogin.setVisible(true);
             menuItemLogout.setVisible(false);
             //menuItemReceiveGoods.setVisible(false);
             //menuItemShipment.setVisible(false);
+            menuItemSearch.setVisible(false);
             menuItemAllocation.setVisible(false);
             menuItemEnteringWareHouse.setVisible(false);
             //menuItemReceivingInspection.setVisible(false);
@@ -591,6 +614,29 @@ public class MainActivity extends AppCompatActivity
         menuItemEnteringWareHouse.setVisible(false);
         menuItemReceivingInspection.setVisible(false);
         menuItemProductionStorage.setVisible(false);*/
+
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        searchFilter = menu.findItem(R.id.action_search);
+        //SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+
+        if (searchManager != null) {
+
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+
+            //item_clear = menu.findItem(R.id.action_clear);
+
+            //item_clear.setVisible(false);
+
+            try {
+                //SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search_keeper));
+                searchView.setOnQueryTextListener(queryListener);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         return true;
     }
@@ -754,10 +800,33 @@ public class MainActivity extends AppCompatActivity
                 production_storage_scan.setVisible(false);
 
                 break;*/
+            case R.id.nav_search:
+                fragmentClass = LookupInStockFragment.class;
+                title = getResources().getString(R.string.action_allocation_find);
+                searchFilter.setVisible(false);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+                break;
 
             case R.id.nav_allocation:
                 fragmentClass = AllocationMsgFragment.class;
                 title = getResources().getString(R.string.action_allocation_msg);
+                searchFilter.setVisible(false);
                 receiving_main.setVisible(false);
                 receiving_record.setVisible(false);
                 receiving_board.setVisible(false);
@@ -780,6 +849,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_entering_warehouse:
                 fragmentClass = EnteringWarehouseFragmnet.class;
                 title = getResources().getString(R.string.action_entering_warehouse_main);
+                searchFilter.setVisible(false);
                 receiving_main.setVisible(false);
                 receiving_record.setVisible(false);
                 receiving_board.setVisible(false);
@@ -1191,5 +1261,75 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
+    final private android.support.v7.widget.SearchView.OnQueryTextListener queryListener = new android.support.v7.widget.SearchView.OnQueryTextListener() {
+        //searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
 
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            Intent intent;
+
+            //ArrayList<MeetingListItem> list = new ArrayList<>();
+            sortedSearchList.clear();
+            if (!newText.equals("")) {
+
+                for (int i = 0; i < searchList.size(); i++) {
+                    if (searchList.get(i).getItem_IMG01() != null && searchList.get(i).getItem_IMG01().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMA02() != null && searchList.get(i).getItem_IMA02().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMA021() != null && searchList.get(i).getItem_IMA021().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMG02() != null && searchList.get(i).getItem_IMG02().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMD02() != null && searchList.get(i).getItem_IMD02().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMG03() != null && searchList.get(i).getItem_IMG03().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMG04() != null && searchList.get(i).getItem_IMG04().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMG10() != null && searchList.get(i).getItem_IMG10().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMA25() != null && searchList.get(i).getItem_IMA25().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMG23() != null && searchList.get(i).getItem_IMG23().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMA08() != null && searchList.get(i).getItem_IMA08().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_STOCK_MAN() != null && searchList.get(i).getItem_STOCK_MAN().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_IMA03() != null && searchList.get(i).getItem_IMA03().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    } else if (searchList.get(i).getItem_PMC03() != null && searchList.get(i).getItem_PMC03().contains(newText)) {
+                        sortedSearchList.add(searchList.get(i));
+                    }
+                }
+
+                intent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_SORT_COMPLETE);
+                sendBroadcast(intent);
+
+
+                //listView.setAdapter(passwordKeeperArrayAdapter);
+
+            } else {
+                intent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_GET_ORIGINAL_LIST);
+                sendBroadcast(intent);
+
+
+                //passwordKeeperArrayAdapter = new PasswordKeeperArrayAdapter(Password_Keeper.this, R.layout.passwd_keeper_browsw_item, list);
+                //listView.setAdapter(passwordKeeperArrayAdapter);
+            }
+
+            //meetingArrayAdapter = new MeetingArrayAdapter(context, R.layout.meeting_list_item, list);
+            //AllFragment.resetAdapter(list);
+            //AllFragment.listView.setAdapter(AllFragment.meetingArrayAdapter);
+
+
+
+            return false;
+        }
+    };
 }

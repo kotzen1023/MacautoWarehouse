@@ -16,6 +16,7 @@
     <string name="Processing">Processing...</string>
     <string name="rescan">Re-scan</string>
     <string name="search">Search</string>
+    <string name="search_again">Re-search</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
@@ -108,4 +109,22 @@
     <string name="receiving_progress_delivery_note_enter">Delivery note enter</string>
 
     <string name="allocation_no_message">No Message</string>
+    <string name="allocation_get_msg_detail_error">Get detail error!</string>
+
+    <string name="look_up_in_stock_part_no">Part No.</string>
+    <string name="look_up_in_stock_part_name">Part Name</string>
+    <string name="look_up_in_stock_spec">Spec</string>
+    <string name="look_up_in_stock_stock_no">Stock No</string>
+    <string name="look_up_in_stock_stock_name">Stock Name</string>
+    <string name="look_up_in_stock_stock_locate">Stock Location</string>
+    <string name="look_up_in_stock_batch_no">Batch No</string>
+    <string name="look_up_in_stock_quantity">Quantity</string>
+    <string name="look_up_in_stock_part_stock_quantity">Part Unit</string>
+    <string name="look_up_in_stock_available">Available</string>
+    <string name="look_up_in_stock_source_code">Code</string>
+    <string name="look_up_in_stock_stock_man">Stock Man</string>
+    <string name="look_up_in_stock_model">Model Name</string>
+    <string name="look_up_in_stock_vender_name">Vendor Name</string>
+    <string name="look_up_in_stock_no_match_batch"></string>
+    <string name="look_up_in_stock_find_records">Find %s records</string>
 </resources>

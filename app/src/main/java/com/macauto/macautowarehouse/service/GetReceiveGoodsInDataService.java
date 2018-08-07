@@ -132,7 +132,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
             request.addProperty("SID", "MAT");
             request.addProperty("part_no", part_no);
             request.addProperty("barcode_no", barcode_no);
-            request.addProperty("k_id", "123456");
+            request.addProperty("k_id", k_id);
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -179,8 +179,12 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
                 SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("Get_TT_ReceiveGoods_IN_DataResult");
 
-                dataTable = null;
-                dataTable = new DataTable();
+                if (dataTable != null) {
+                    dataTable.clear();
+                } else {
+                    dataTable = new DataTable();
+                }
+
                 dataTable = parseXmlToDataTable(s_deals);
 
                 if (dataTable != null) {

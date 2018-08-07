@@ -8,6 +8,7 @@ import android.util.Log;
 import com.macauto.macautowarehouse.R;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.DetailItem;
+import com.macauto.macautowarehouse.data.SearchItem;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
@@ -23,9 +24,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+import static com.macauto.macautowarehouse.LookupInStockFragment.lookUpDataTable;
+import static com.macauto.macautowarehouse.MainActivity.searchList;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
 public class GetPartWarehouseListService extends IntentService {
     public static final String TAG = "GetPartWarehouseList";
@@ -79,9 +83,14 @@ public class GetPartWarehouseListService extends IntentService {
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");
         String batch_no = intent.getStringExtra("BATCH_NO");
-        String ima02 = intent.getStringExtra("IMA02");
-        String ima021 = intent.getStringExtra("IMA021");
+        String ima02 = intent.getStringExtra("NAME");
+        String ima021 = intent.getStringExtra("SPEC");
         String query_all = intent.getStringExtra("QUERY_ALL");
+
+        Log.e(TAG, "part_no = "+part_no);
+        Log.e(TAG, "batch_no = "+batch_no);
+        Log.e(TAG, "ima02 = "+ima02);
+        Log.e(TAG, "ima021 = "+ima021);
 
         //device_id = intent.getStringExtra("DEVICE_ID");
         //String service_ip = intent.getStringExtra(SERVICE_IP);
@@ -106,12 +115,24 @@ public class GetPartWarehouseListService extends IntentService {
             // 輸出值，帳號(account)、密碼(password)
 
             request.addProperty("SID", "MAT");
-            request.addProperty("part_no", part_no);
-            //request.addProperty("stock_no", stock_no);
-            //request.addProperty("locate_no", locate_no);
-            request.addProperty("batch_no", batch_no);
-            request.addProperty("ima02", ima02);
-            request.addProperty("ima021", ima021);
+            if (part_no != null)
+                request.addProperty("part_no", part_no);
+            else
+                request.addProperty("part_no", "");
+            request.addProperty("stock_no", "");
+            request.addProperty("locate_no", "");
+            if (batch_no != null)
+                request.addProperty("batch_no", batch_no);
+            else
+                request.addProperty("batch_no", "");
+            if (ima02 != null)
+                request.addProperty("ima02", ima02);
+            else
+                request.addProperty("ima02", "");
+            if (ima021 != null)
+                request.addProperty("ima021", ima021);
+            else
+                request.addProperty("ima021", "");
             request.addProperty("query_all", "Y");
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
@@ -149,9 +170,84 @@ public class GetPartWarehouseListService extends IntentService {
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
+
+                Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY);
+                sendBroadcast(getSuccessIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
+
+                SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("get_part_warehouse_listResult");
+
+                if (lookUpDataTable != null)
+                    lookUpDataTable.clear();
+                else
+                    lookUpDataTable = new DataTable();
+
+                lookUpDataTable = parseXmlToDataTable(s_deals);
+
+                if (lookUpDataTable != null) {
+                    if (lookUpDataTable.Rows.size() == 0) {
+                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY);
+                        sendBroadcast(getSuccessIntent);
+                    } else {
+                        for (int i=0; i < lookUpDataTable.Rows.size(); i++) {
+
+                            SearchItem searchItem = new SearchItem();
+
+                            for (int j=0; j < lookUpDataTable.Columns.size(); j++) {
+
+
+                                if (j==0) {
+                                    searchItem.setItem_IMG01(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==1) {
+                                    searchItem.setItem_IMA02(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==2) {
+                                    searchItem.setItem_IMA021(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==3) {
+                                    searchItem.setItem_IMG02(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==4) {
+                                    searchItem.setItem_IMD02(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==5) {
+                                    searchItem.setItem_IMG03(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==6) {
+                                    searchItem.setItem_IMG04(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==7) {
+                                    searchItem.setItem_IMG10(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==8) {
+                                    searchItem.setItem_IMA25(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==9) {
+                                    searchItem.setItem_IMG23(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==10) {
+                                    searchItem.setItem_IMA08(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==11) {
+                                    searchItem.setItem_STOCK_MAN(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==12) {
+                                    if (lookUpDataTable.getValue(i, j) != null)
+                                        searchItem.setItem_IMA03(lookUpDataTable.getValue(i, j).toString());
+                                } else if (j==13) {
+                                    if (lookUpDataTable.getValue(i, j) != null)
+                                        searchItem.setItem_PMC03(lookUpDataTable.getValue(i, j).toString());
+                                }
+
+
+
+                            }
+
+                            searchList.add(searchItem);
+
+                        }
+
+                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS);
+                        getSuccessIntent.putExtra("RECORDS", String.valueOf(lookUpDataTable.Rows.size()));
+                        sendBroadcast(getSuccessIntent);
+                    }
+                } else {
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY);
+                    sendBroadcast(getSuccessIntent);
+                }
+
+
 
                 //append_record(String.valueOf(resultsRequestSOAP)+"\n\n\n\n", "test");
 
@@ -316,8 +412,7 @@ public class GetPartWarehouseListService extends IntentService {
             //Log.e(TAG, bodyIn.toString());
 
             //DataTable dt = soapToDataTable(bodyIn);
-            Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS);
-            sendBroadcast(getSuccessIntent);
+
 
         } catch (Exception e) {
             // 抓到錯誤訊息

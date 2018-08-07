@@ -16,6 +16,7 @@
     <string name="Processing">處理中...</string>
     <string name="rescan">重新掃描</string>
     <string name="search">搜尋</string>
+    <string name="search_again">重新搜尋</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
@@ -108,4 +109,22 @@
     <string name="receiving_progress_delivery_note_enter">送貨單批次轉入</string>
 
     <string name="allocation_no_message">沒有訊息</string>
+    <string name="allocation_get_msg_detail_error">無法取得詳細資料!</string>
+
+    <string name="look_up_in_stock_part_no">料件編號</string>
+    <string name="look_up_in_stock_part_name">料件名稱</string>
+    <string name="look_up_in_stock_spec">規格</string>
+    <string name="look_up_in_stock_stock_no">倉庫別</string>
+    <string name="look_up_in_stock_stock_name">倉庫名稱</string>
+    <string name="look_up_in_stock_stock_locate">儲位</string>
+    <string name="look_up_in_stock_batch_no">批號</string>
+    <string name="look_up_in_stock_quantity">數量</string>
+    <string name="look_up_in_stock_part_stock_quantity">庫存單位</string>
+    <string name="look_up_in_stock_available">可用倉儲</string>
+    <string name="look_up_in_stock_source_code">來源碼</string>
+    <string name="look_up_in_stock_stock_man">倉管員</string>
+    <string name="look_up_in_stock_model">機種代號</string>
+    <string name="look_up_in_stock_vender_name">供應商簡稱</string>
+    <string name="look_up_in_stock_no_match_batch">沒有符合的批號</string>
+    <string name="look_up_in_stock_find_records">找到 %s 筆資料</string>
 </resources>

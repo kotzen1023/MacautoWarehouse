@@ -69,7 +69,7 @@ public class WebServiceParse {
 
                         Log.e(TAG, "sub_object = "+min_property.getProperty(j));
 
-                        if (i == 0) {
+                        if (i == 0 || j == dataTable.Columns.size()) {
                             dataTable.Columns.Add(min_property.getPropertyInfo(j).toString().split(":")[0].trim());
                         }
 

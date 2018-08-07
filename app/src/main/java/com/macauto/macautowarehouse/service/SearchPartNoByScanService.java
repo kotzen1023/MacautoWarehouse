@@ -6,9 +6,6 @@ import android.util.Log;
 
 import com.macauto.macautowarehouse.data.AllocationMsgItem;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.table.DataColumn;
-import com.macauto.macautowarehouse.table.DataRow;
-import com.macauto.macautowarehouse.table.DataTable;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -17,12 +14,11 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msg_list;
-import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
-public class GetMyMessDetailService extends IntentService{
-    public static final String TAG = "GetMyMessDetail";
+public class SearchPartNoByScanService extends IntentService {
+    public static final String TAG = "GetMyMessList";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -30,14 +26,14 @@ public class GetMyMessDetailService extends IntentService{
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "get_my_mess_detail"; // 方法名稱
+    private static final String METHOD_NAME = "get_lot_code_ver_2"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/get_my_mess_detail"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/get_lot_code_ver_2"; // SOAP_ACTION
     //normal port 8000, test port 8484
     //private static final String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
-    public GetMyMessDetailService() {
-        super("GetMyMessDetailService");
+    public SearchPartNoByScanService() {
+        super("SearchPartNoByScanService");
     }
 
 
@@ -75,12 +71,14 @@ public class GetMyMessDetailService extends IntentService{
 
         //String device_id;
 
-        String iss_no = intent.getStringExtra("ISS_NO");
+        String part_no = intent.getStringExtra("PART_NO");
+        String barcode = intent.getStringExtra("BARCODE");
 
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
-        Log.e(TAG, "iss_no = "+iss_no);
+        Log.e(TAG, "part_no = "+part_no);
+        Log.e(TAG, "barcode = "+barcode);
 
         Log.e(TAG, "URL = "+URL);
 
@@ -91,8 +89,8 @@ public class GetMyMessDetailService extends IntentService{
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION)) {
-                Log.i(TAG, "ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_SEARCH_PART_BATCH_ACTION)) {
+                Log.i(TAG, "ACTION_SEARCH_PART_BATCH_ACTION");
             }
         }
 
@@ -108,7 +106,8 @@ public class GetMyMessDetailService extends IntentService{
 
 
             request.addProperty("SID", "MAT");
-            request.addProperty("iss_no", iss_no);
+            request.addProperty("barcode_no", barcode);
+
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -145,46 +144,21 @@ public class GetMyMessDetailService extends IntentService{
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
+                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_BATCH_FAILED);
                 sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("get_my_mess_detailResult");
-                Log.d(TAG, "s_deals = "+s_deals.toString());
 
-                if (msgDataTable != null) {
-                    msgDataTable.clear();
-                } else {
-                    msgDataTable = new DataTable();
-                }
+                String batch_no_ret = parseToString(resultsRequestSOAP);
 
-
-                msgDataTable = parseXmlToDataTable(s_deals);
-
-
-
-
-                if (msgDataTable.Rows.size() > 0) {
-                    //add for scan
-                    DataColumn scan_sp = new DataColumn("scan_sp");
-                    DataColumn scan_desc = new DataColumn("scan_desc");
-
-                    msgDataTable.Columns.add(scan_sp);
-                    msgDataTable.Columns.add(scan_desc);
-
-                    for (DataRow rx : msgDataTable.Rows) {
-                        rx.setValue("scan_sp", "N");
-                        rx.setValue("scan_desc", "");
-                    }
-
-
-
-                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS);
+                if (batch_no_ret != null) {
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_BATCH_SUCCESS);
+                    getSuccessIntent.putExtra("BATCH_NO", batch_no_ret);
                     sendBroadcast(getSuccessIntent);
                 } else {
-                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
+                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_BATCH_FAILED);
                     sendBroadcast(getFailedIntent);
                 }
 
@@ -211,7 +185,7 @@ public class GetMyMessDetailService extends IntentService{
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
+            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_SEARCH_PART_BATCH_FAILED);
             sendBroadcast(getFailedIntent);
         }
 
