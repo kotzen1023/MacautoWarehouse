@@ -32,6 +32,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -173,7 +174,7 @@ public class MainActivity extends AppCompatActivity
         });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -279,7 +280,7 @@ public class MainActivity extends AppCompatActivity
                         editor.putString("WEB_SOAP_PORT", web_soap_port);
                         editor.apply();
 
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGIN_SUCCESS)) {
+                    }  else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGIN_SUCCESS)) {
                         Log.d(TAG, "receive brocast !");
 
                         isLogin = true;
@@ -370,6 +371,8 @@ public class MainActivity extends AppCompatActivity
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         //fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
                         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commitAllowingStateLoss();
+
+                        setTitle(getResources().getString(R.string.nav_login));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_MENU_SHOW_ACTION)) {
                         Log.d(TAG, "receive ACTION_SEARCH_MENU_SHOW_ACTION!");
 
@@ -777,7 +780,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
 
-                break;
+                break;*/
             case R.id.nav_shipment:
                 fragmentClass = ShipmentFragment.class;
                 title = getResources().getString(R.string.action_shipment_main);
@@ -785,8 +788,8 @@ public class MainActivity extends AppCompatActivity
                 receiving_record.setVisible(false);
                 receiving_board.setVisible(false);
                 receiving_multi.setVisible(false);
-                shipment_main.setVisible(true);
-                shipment_find.setVisible(true);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
                 allocation_find.setVisible(false);
                 allocation_replenishment.setVisible(false);
                 allocation_send_msg.setVisible(false);
@@ -799,7 +802,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
 
-                break;*/
+                break;
             case R.id.nav_search:
                 fragmentClass = LookupInStockFragment.class;
                 title = getResources().getString(R.string.action_allocation_find);
@@ -833,12 +836,12 @@ public class MainActivity extends AppCompatActivity
                 receiving_multi.setVisible(false);
                 shipment_main.setVisible(false);
                 shipment_find.setVisible(false);
-                allocation_find.setVisible(true);
-                allocation_replenishment.setVisible(true);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
                 allocation_send_msg.setVisible(true);
                 allocation_msg.setVisible(true);
-                allocation_area_confirm.setVisible(true);
-                allocation_direct.setVisible(true);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
                 entering_warehouse_main.setVisible(false);
                 entering_warehouse_find.setVisible(false);
                 production_storage_main.setVisible(false);
@@ -862,8 +865,8 @@ public class MainActivity extends AppCompatActivity
                 allocation_msg.setVisible(false);
                 allocation_area_confirm.setVisible(false);
                 allocation_direct.setVisible(false);
-                entering_warehouse_main.setVisible(true);
-                entering_warehouse_find.setVisible(true);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
@@ -1332,4 +1335,10 @@ public class MainActivity extends AppCompatActivity
             return false;
         }
     };
+
+    public void toast(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
+    }
 }

@@ -178,14 +178,19 @@ public class WebServiceParse {
                 xmlSerializer.startTag("", "xs:element");
                 xmlSerializer.attribute("", "name", dataTable.Columns.get(i).ColumnName);
 
-
-
-                if (dataTable.getValue(0, i).toString().equals("true") || dataTable.getValue(0, i).toString().equals("false")) {
-                    xmlSerializer.attribute("", "type", "xs:boolean");
+                if (dataTable.getValue(0, i) != null) {
+                    if (dataTable.getValue(0, i).toString().equals("true") || dataTable.getValue(0, i).toString().equals("false")) {
+                        xmlSerializer.attribute("", "type", "xs:boolean");
+                    } else {
+                        xmlSerializer.attribute("", "type", "xs:string");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    }
                 } else {
                     xmlSerializer.attribute("", "type", "xs:string");
                     xmlSerializer.attribute("", "minOccurs", "0");
                 }
+
+
 
                 xmlSerializer.endTag("", "xs:element");
             }
@@ -204,7 +209,12 @@ public class WebServiceParse {
                 for (int j = 0; j < dataTable.Columns.size(); j++) {
 
                     xmlSerializer.startTag("", dataTable.Columns.get(j).ColumnName);
-                    xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
+                    if (dataTable.getValue(i, j) != null) {
+                        xmlSerializer.text(dataTable.getValue(i,j).toString());
+                    } else {
+                        xmlSerializer.text("null");
+                    }
+
                     xmlSerializer.endTag("", dataTable.Columns.get(j).ColumnName);
                     /*if (j==0) {
                         xmlSerializer.startTag("", "check_sp");

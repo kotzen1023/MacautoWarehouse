@@ -634,7 +634,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
 
                                             String head = no_list.get(current_expanded_group);
-                                            DetailItem detailItem = detailList.get(head).get(7);
+                                            DetailItem detailItem = detailList.get(head).get(8);
                                             detailItem.setName(text);
 
                                             Log.e(TAG, "current_expanded_group = "+current_expanded_group+", head = "+head);

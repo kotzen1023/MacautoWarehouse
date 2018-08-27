@@ -38,6 +38,8 @@
                 android:id="@+id/searchItemDecrypt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="decrypt"
                 android:paddingLeft="10dp"
                 android:layout_weight="1"

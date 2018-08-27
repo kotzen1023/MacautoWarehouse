@@ -69,8 +69,8 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
 
         AllocationMsgItem allocationMsgItem = items.get(position);
         if (allocationMsgItem != null) {
-            holder.itemTitle.setText(allocationMsgItem.getMsg());
-
+            holder.itemTitle.setText(allocationMsgItem.getWork_order());
+            //holder.itemDate.setText(allocationMsgItem.getDate());
 
 
             if (allocationMsgItem.isSelected()) {
@@ -93,12 +93,12 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
 
     private class ViewHolder {
         TextView itemTitle;
-
+        //TextView itemDate;
 
 
         private ViewHolder(View view) {
             this.itemTitle = view.findViewById(R.id.itemTitle);
-
+            //this.itemDate = view.findViewById(R.id.itemDate);
         }
     }
 }

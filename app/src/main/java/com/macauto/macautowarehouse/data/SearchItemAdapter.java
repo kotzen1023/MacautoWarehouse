@@ -3,19 +3,16 @@ package com.macauto.macautowarehouse.data;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.macauto.macautowarehouse.R;
-import com.macauto.macautowarehouse.table.LookupInStockDetailActivity;
+import com.macauto.macautowarehouse.LookupInStockDetailActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.macauto.macautowarehouse.LookupInStockFragment.isSorted;
 import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
@@ -72,8 +69,8 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
 
         //Setting text view title
         String top = searchItem.getItem_IMG01();
-        String center = searchItem.getItem_IMA021();
-        String bottom = searchItem.getItem_IMA02()+"  "+searchItem.getItem_IMG10()+ " "+searchItem.getItem_IMA25();
+        String center = searchItem.getItem_IMA02()+"  "+searchItem.getItem_IMG10()+ " "+searchItem.getItem_IMA25();
+        String bottom = searchItem.getItem_IMG03();
         viewHolder.textViewIndex.setText(String.valueOf(position+1));
         viewHolder.textViewTop.setText(top);
         viewHolder.textViewCenter.setText(center);

@@ -30,7 +30,9 @@
         <activity android:name=".ScannedBarcodeActivity" />
         <activity android:name=".EnteringWarehouseDividedDialogActivity" />
         <activity android:name=".ReceivingAddDialogActivity" />
-        <activity android:name=".table.LookupInStockDetailActivity" />
+        <activity android:name=".LookupInStockDetailActivity" />
+        <activity android:name=".AllocationMsgDetailActivity" />
+        <activity android:name=".AllocationSendMsgStatusDetailActivity" />
 
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />
@@ -43,6 +45,19 @@
         <service android:name=".service.GetMyMessListService" />
         <service android:name=".service.GetMyMessDetailService" />
         <service android:name=".service.SearchPartNoByScanService" />
+        <service android:name=".service.CheckDeleteMessageRightsService" />
+        <service android:name=".service.GetLocateNoService" />
+        <service android:name=".service.CheckMadeNoExistService" />
+        <service android:name=".service.CheckStockNoExistService" />
+        <service android:name=".service.GetMadeInfoService" />
+        <service android:name=".service.GetSfaDataMessService" />
+        <service android:name=".service.GetVarValueService" />
+        <service android:name=".service.GetSfaDataMessMoveService" />
+        <service android:name=".service.DeleteMessageNoService" />
+        <service android:name=".service.ShippingGetPreShippingInfoService" />
+        <service android:name=".service.ShippingGetOgcFile2Service" />
+        <service android:name=".service.ShippingGetWarehouseQtyService" />
+        <service android:name=".service.ShippingGetPreShippingInfoConfirmSpService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

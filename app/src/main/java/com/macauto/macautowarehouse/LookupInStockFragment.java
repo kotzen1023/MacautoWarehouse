@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,30 +20,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.macauto.macautowarehouse.data.AllocationMsgAdapter;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.data.SearchDetailItem;
-import com.macauto.macautowarehouse.data.SearchItem;
 import com.macauto.macautowarehouse.data.SearchItemAdapter;
-import com.macauto.macautowarehouse.service.CheckEmpExistService;
-import com.macauto.macautowarehouse.service.CheckEmpPasswordService;
-import com.macauto.macautowarehouse.service.GetMyMessDetailService;
 import com.macauto.macautowarehouse.service.GetPartWarehouseListService;
-import com.macauto.macautowarehouse.service.SearchPartNoByScanService;
 import com.macauto.macautowarehouse.table.DataTable;
-import com.macauto.macautowarehouse.table.LookupInStockDetailActivity;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.macauto.macautowarehouse.MainActivity.emp_no;
-import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
 import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
 
@@ -269,6 +252,11 @@ public class LookupInStockFragment extends Fragment {
 
                         searchItemAdapter = new SearchItemAdapter(fragmentContext, searchList);
                         recyclerViewResult.setAdapter(searchItemAdapter);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
+                        Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
+                        loadDialog.dismiss();
+                        toast(getResources().getString(R.string.socket_timeout));
+
                     }
 
                     else if("unitech.scanservice.data" .equals(intent.getAction())) {
@@ -373,6 +361,7 @@ public class LookupInStockFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_SORT_COMPLETE);
             filter.addAction(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_GET_ORIGINAL_LIST);
+            filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             filter.addAction("unitech.scanservice.data");
             fragmentContext.registerReceiver(mReceiver, filter);
             isRegister = true;

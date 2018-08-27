@@ -39,6 +39,7 @@
     <string name="nav_setting">設定</string>
     <string name="nav_logout">登出</string>
     <string name="nav_login">登入</string>
+    <string name="socket_timeout">連線逾時, 請重新嘗試</string>
     <string name="login_account">帳號</string>
     <string name="login_password">密碼</string>
     <string name="login_confirm">確定</string>
@@ -108,8 +109,53 @@
     <string name="receiving_rec_locate_no">收貨區儲位</string>
     <string name="receiving_progress_delivery_note_enter">送貨單批次轉入</string>
 
+    <string name="allocation_send_message_to_material_work_order">工單號碼</string>
+    <string name="allocation_send_message_to_material_staging_area">備料倉位置</string>
+    <string name="allocation_send_message_to_material_stock_locate">儲位</string>
+    <string name="allocation_send_message_to_material_rate">備料比例</string>
+    <string name="allocation_send_message_to_material_production_no">生產料號</string>
+    <string name="allocation_send_message_to_material_model_type">機種</string>
+    <string name="allocation_send_message_to_material_predict_production_quantity">預計生產量</string>
+    <string name="allocation_send_message_to_material_real_production_quantity">已生產量</string>
+    <string name="allocation_send_message_to_material_date_year_month_day">日期</string>
+    <string name="allocation_send_message_to_material_date_hour">時</string>
+    <string name="allocation_send_message_to_material_date_minute">分</string>
+    <string name="allocation_send_message_to_material_produce_transfer">產生調撥資料</string>
+    <string name="allocation_send_message_to_material_re_produce_transfer">重新產生調撥資料</string>
+    <string name="allocation_send_message_to_material_delete_detail">刪除細項</string>
+    <string name="allocation_send_message_to_material_send_msg_to_material">發送調撥訊息給物料人員</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_failed">無法找到儲位資訊</string>
+    <string name="allocation_send_message_to_material_made_no_not_matched">沒有符合的工單號碼. 請輸入正確的工單編號</string>
+    <string name="allocation_send_message_to_material_staging_area_not_matched">沒有符合的倉庫編號</string>
+    <string name="allocation_send_message_to_material_request_time">需求時間</string>
+    <string name="allocation_send_message_to_material_get_sfa_mess_failed">無法取得調撥詳細資訊. 請重新嘗試.</string>
+    <string name="allocation_send_message_to_material_get_sfa_empty">沒有詳細資料.</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA03">料件編號</string>
+    <string name="allocation_send_message_to_material_status_detail_IMA021">名稱-規格</string>
+    <string name="allocation_send_message_to_material_status_detail_IMG10">可調撥數</string>
+    <string name="allocation_send_message_to_material_status_detail_MOVED_QTY">已調撥數</string>
+    <string name="allocation_send_message_to_material_status_detail_MESS_QTY">訊息數</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA05">應發數量</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA12">單位</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA11_NAME">旗標</string>
+    <string name="allocation_send_message_to_material_status_detail_TC_OBF013">備料區收容數</string>
+    <string name="allocation_send_message_to_material_reg_qty_zero">請輸入備料比例</string>
+    <string name="allocation_send_message_to_material_reg_qty_mismatch">請輸入正確的備料比例數字</string>
+    <string name="allocation_send_message_to_material_sotck_no_mismatch">備料倉位置錯誤</string>
+    <string name="allocation_send_message_to_material_send_stock_empty">預計發送的備料訊息內的料件, 均無庫存可備料</string>
+    <string name="allocation_send_message_to_material_send_error">發送訊息有誤,請洽資訊部</string>
+    <string name="allocation_send_message_to_material_the_msg_order_below">產生的訊息單號如下: </string>
+    <string name="allocation_handle_message_delete_select">刪除已選擇訊息單</string>
+
     <string name="allocation_no_message">沒有訊息</string>
     <string name="allocation_get_msg_detail_error">無法取得詳細資料!</string>
+    <string name="allocation_detail_message_material_sending_date">發料日期</string>
+    <string name="allocation_detail_message_work_order_no">工單編號</string>
+    <string name="allocation_detail_send_material_to_warehouse">請將料品備到備料倉</string>
+    <string name="allocation_detail_stock_no">儲位</string>
+    <string name="allocation_detail_request">需求時間</string>
+    <string name="allocation_detail_model">機種</string>
+    <string name="allocation_detail_barcode">條碼</string>
 
     <string name="look_up_in_stock_part_no">料件編號</string>
     <string name="look_up_in_stock_part_name">料件名稱</string>
@@ -127,4 +173,26 @@
     <string name="look_up_in_stock_vender_name">供應商簡稱</string>
     <string name="look_up_in_stock_no_match_batch">沒有符合的批號</string>
     <string name="look_up_in_stock_find_records">找到 %s 筆資料</string>
+
+    <string name="shipment_shipping_notification">出貨通知單號</string>
+    <string name="shipment_shipping_notification_empty">請輸入出貨通知單號</string>
+    <string name="shipment_shipping_notification_not_confirm">本張出貨通知單未確認, 請確認後再叫出該單據</string>
+    <string name="shipment_shipping_notification_order_disposed">打錯單或該單已作廢, 請重新輸入</string>
+    <string name="shipment_shipping_notification_rescan">無對應或順序的料批, 請重新掃描!.</string>
+    <string name="shipment_shipping_notification_input_shipping_notification_first">請先輸入出貨通知單號, 按下[確認], 再掃描barcode.</string>
+
+    <string name="shipment_shipping_item_ogb03">項次</string>
+    <string name="shipment_shipping_item_ogb04">料號</string>
+    <string name="shipment_shipping_item_ima021">規格</string>
+    <string name="shipment_shipping_item_ogb09">倉庫</string>
+    <string name="shipment_shipping_item_ogb12">出貨數量</string>
+    <string name="shipment_shipping_item_scanned_qty">已掃描數量</string>
+    <string name="shipment_shipping_item_other_wait_scan_qty">其他單待掃描數量</string>
+    <string name="shipment_shipping_item_ware_qty">現有庫存數量</string>
+    <string name="shipment_shipping_item_av_qty">可供掃描的庫存</string>
+    <string name="shipment_shipping_item_ogb05">單位</string>
+
+    <string name="shipment_shipping_shipping">出貨作業</string>
+    <string name="shipment_shipping_scanned">已掃描</string>
+    <string name="shipment_shipping_wait_scan">待掃描</string>
 </resources>

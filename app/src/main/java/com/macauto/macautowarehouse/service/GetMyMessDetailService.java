@@ -16,6 +16,8 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.net.SocketTimeoutException;
+
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msg_list;
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
@@ -101,11 +103,10 @@ public class GetMyMessDetailService extends IntentService{
         try {
             // 建立一個 WebService 請求
 
+
+
             SoapObject request = new SoapObject(NAMESPACE,
                     METHOD_NAME);
-
-
-
 
             request.addProperty("SID", "MAT");
             request.addProperty("iss_no", iss_no);
@@ -122,9 +123,6 @@ public class GetMyMessDetailService extends IntentService{
             //request.addProperty("passWord", "sunnyhitest");
 
             // 擴充 SOAP 序列化功能為第11版
-
-
-
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);
             envelope.dotNet = true; // 設定為 .net 預設編碼
@@ -135,6 +133,7 @@ public class GetMyMessDetailService extends IntentService{
 
             HttpTransportSE httpTransport = new HttpTransportSE(URL);
             httpTransport.debug = true; // 測試模式使用
+
 
 
 
@@ -182,6 +181,11 @@ public class GetMyMessDetailService extends IntentService{
 
 
                     Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS);
+                    getSuccessIntent.putExtra("ISS_DATE", msgDataTable.Rows.get(0).getValue("iss_date").toString());
+                    getSuccessIntent.putExtra("MADE_NO", msgDataTable.Rows.get(0).getValue("made_no").toString());
+                    getSuccessIntent.putExtra("TAG_LOCATE_NO", msgDataTable.Rows.get(0).getValue("tag_locate_no").toString());
+                    getSuccessIntent.putExtra("TAG_STOCK_NO", msgDataTable.Rows.get(0).getValue("tag_stock_no").toString());
+                    getSuccessIntent.putExtra("IMA03", msgDataTable.Rows.get(0).getValue("ima03").toString());
                     sendBroadcast(getSuccessIntent);
                 } else {
                     Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
@@ -207,6 +211,12 @@ public class GetMyMessDetailService extends IntentService{
             //DataTable dt = soapToDataTable(bodyIn);
 
 
+        } catch (SocketTimeoutException e) {
+            // 抓到錯誤訊息
+
+            e.printStackTrace();
+            Intent getTimeOutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            sendBroadcast(getTimeOutIntent);
         } catch (Exception e) {
             // 抓到錯誤訊息
 

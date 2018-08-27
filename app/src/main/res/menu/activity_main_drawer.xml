@@ -8,11 +8,8 @@
         <!--item
             android:id="@+id/nav_receiving"
             android:icon="@drawable/baseline_archive_black_36"
-            android:title="@string/nav_receiving" />
-        <item
-            android:id="@+id/nav_shipment"
-            android:icon="@drawable/baseline_local_shipping_black_36"
-            android:title="@string/nav_shipment" /-->
+            android:title="@string/nav_receiving" /-->
+
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/baseline_search_black_36"
@@ -26,6 +23,11 @@
             android:id="@+id/nav_entering_warehouse"
             android:icon="@drawable/baseline_view_comfy_black_36"
             android:title="@string/nav_entering_warehouse" />
+
+        <item
+            android:id="@+id/nav_shipment"
+            android:icon="@drawable/baseline_local_shipping_black_36"
+            android:title="@string/nav_shipment" />
 
         <!--item
             android:id="@+id/nav_production_storage"

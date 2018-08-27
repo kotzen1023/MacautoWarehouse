@@ -8,11 +8,9 @@
 
 
     <ListView
-        android:id="@+id/listViewAllocationMsgDetail"
+        android:id="@+id/allocationDetailListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
+        android:layout_height="match_parent">
 
 
     </ListView>

@@ -17,6 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msg_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
 public class GetMyMessListService extends IntentService{
     public static final String TAG = "GetMyMessList";
@@ -148,17 +149,17 @@ public class GetMyMessListService extends IntentService{
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("get_my_mess_listResult");
+                //SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("get_my_mess_listResult");
+                String ret = parseToString(resultsRequestSOAP);
 
+                Log.d(TAG, "ret = "+ret);
 
-                Log.d(TAG, "s_deals = "+s_deals.toString());
-
-                if (s_deals.toString().equals("anyType{}")) {
+                if (ret.equals("anyType{}")) {
                     Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY);
                     sendBroadcast(getFailedIntent);
                 } else {
-                    String msg[] = s_deals.toString().split("$");
-
+                    String msg[] = ret.trim().split("\\$");
+                    msg_list.clear();
                     if (msg.length > 0) {
 
                         for (int i = 0; i < msg.length; i++)
@@ -167,7 +168,7 @@ public class GetMyMessListService extends IntentService{
                             if (msg[i] != null && msg[i].trim().length() > 0)
                             {
                                 AllocationMsgItem item = new AllocationMsgItem();
-                                item.setMsg(msg[i]);
+                                item.setWork_order(msg[i]);
                                 msg_list.add(item);
                             }
                         }

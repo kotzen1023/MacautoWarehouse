@@ -1,22 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Send message to reserve warehouse"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
+
+
+
+        <ListView
+            android:id="@+id/listViewAllocationMsg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="false">
+
+        </ListView>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_weight="0"
+            android:background="#b7b7b7" />
+
+
+
+        <ListView
+            android:id="@+id/statusListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:scrollbars="vertical">
+
+
+        </ListView>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_weight="0"
+        android:background="#b7b7b7" />
+
+    <LinearLayout
+        android:id="@+id/layoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:id="@+id/leftArrow"
+            android:src="@drawable/baseline_keyboard_arrow_left_black_48"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/allocation_send_message_to_material_produce_transfer"
+                android:id="@+id/btnAllocateTransfer"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="1"
+                android:enabled="false"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/allocation_send_message_to_material_re_produce_transfer"
+                android:id="@+id/btnRest"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="1"
+                android:visibility="gone"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/allocation_send_message_to_material_delete_detail"
+                android:id="@+id/btnDelete"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:enabled="false"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/allocation_send_message_to_material_send_msg_to_material"
+                android:id="@+id/btnSend"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="1"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:id="@+id/rightArrow"
+                android:src="@drawable/baseline_keyboard_arrow_right_black_48"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

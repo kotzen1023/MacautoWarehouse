@@ -39,6 +39,7 @@
     <string name="nav_setting">Setting</string>
     <string name="nav_logout">Logout</string>
     <string name="nav_login">Login</string>
+    <string name="socket_timeout">Connection Timeout. Please try again.</string>
     <string name="login_account">Account</string>
     <string name="login_password">Password</string>
     <string name="login_confirm">Confirm</string>
@@ -108,8 +109,53 @@
     <string name="receiving_rec_locate_no">Receiving Location</string>
     <string name="receiving_progress_delivery_note_enter">Delivery note enter</string>
 
+    <string name="allocation_send_message_to_material_work_order">Work Order</string>
+    <string name="allocation_send_message_to_material_staging_area">Staging Area</string>
+    <string name="allocation_send_message_to_material_stock_locate">Stock Locate</string>
+    <string name="allocation_send_message_to_material_rate">Rate</string>
+    <string name="allocation_send_message_to_material_production_no">Production No.</string>
+    <string name="allocation_send_message_to_material_model_type">Model Type</string>
+    <string name="allocation_send_message_to_material_predict_production_quantity">Predict quantity</string>
+    <string name="allocation_send_message_to_material_real_production_quantity">Real quantity</string>
+    <string name="allocation_send_message_to_material_date_year_month_day">Date</string>
+    <string name="allocation_send_message_to_material_date_hour">Hour</string>
+    <string name="allocation_send_message_to_material_date_minute">Minute</string>
+    <string name="allocation_send_message_to_material_produce_transfer">Allocate and Transfer</string>
+    <string name="allocation_send_message_to_material_re_produce_transfer">Re-Allocate and Transfer</string>
+    <string name="allocation_send_message_to_material_delete_detail">Delete Item</string>
+    <string name="allocation_send_message_to_material_send_msg_to_material">Send Message</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_failed">Cannot find any Locate No.</string>
+    <string name="allocation_send_message_to_material_made_no_not_matched">No matched work order. Please input correct work order.</string>
+    <string name="allocation_send_message_to_material_staging_area_not_matched">No matched staging area</string>
+    <string name="allocation_send_message_to_material_request_time">Request Time</string>
+    <string name="allocation_send_message_to_material_get_sfa_mess_failed">Cannot get allocation detail information. Please retry.</string>
+    <string name="allocation_send_message_to_material_get_sfa_empty">No detail message.</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA03">Part No.</string>
+    <string name="allocation_send_message_to_material_status_detail_IMA021">Name-Spec</string>
+    <string name="allocation_send_message_to_material_status_detail_IMG10">Available Quantity</string>
+    <string name="allocation_send_message_to_material_status_detail_MOVED_QTY">Moved Quantity</string>
+    <string name="allocation_send_message_to_material_status_detail_MESS_QTY">Messages</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA05">Quantity should moved</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA12">Unit</string>
+    <string name="allocation_send_message_to_material_status_detail_SFA11_NAME">Flag</string>
+    <string name="allocation_send_message_to_material_status_detail_TC_OBF013">Capacity</string>
+    <string name="allocation_send_message_to_material_reg_qty_zero">Input proper quantity</string>
+    <string name="allocation_send_message_to_material_reg_qty_mismatch">Quantity mismatch</string>
+    <string name="allocation_send_message_to_material_sotck_no_mismatch">Stock No. mismatch</string>
+    <string name="allocation_send_message_to_material_send_stock_empty">The part in stock is empty. Cannot send msg. </string>
+    <string name="allocation_send_message_to_material_send_error">Send message error. Please Contact IT department.</string>
+    <string name="allocation_send_message_to_material_the_msg_order_below">The message order below: </string>
+    <string name="allocation_handle_message_delete_select">Delete elected message</string>
+    
     <string name="allocation_no_message">No Message</string>
     <string name="allocation_get_msg_detail_error">Get detail error!</string>
+    <string name="allocation_detail_message_material_sending_date">Material Sending Date</string>
+    <string name="allocation_detail_message_work_order_no">Work Order No.</string>
+    <string name="allocation_detail_send_material_to_warehouse">Send material to warehouse no.</string>
+    <string name="allocation_detail_stock_no">Stock No.</string>
+    <string name="allocation_detail_request">Request Time</string>
+    <string name="allocation_detail_model">Model</string>
+    <string name="allocation_detail_barcode">Barcode</string>
 
     <string name="look_up_in_stock_part_no">Part No.</string>
     <string name="look_up_in_stock_part_name">Part Name</string>
@@ -127,4 +173,25 @@
     <string name="look_up_in_stock_vender_name">Vendor Name</string>
     <string name="look_up_in_stock_no_match_batch"></string>
     <string name="look_up_in_stock_find_records">Find %s records</string>
+
+    <string name="shipment_shipping_notification">Shipping Notification No.</string>
+    <string name="shipment_shipping_notification_empty">Please input shipping notification no.</string>
+    <string name="shipment_shipping_notification_not_confirm">This shipping notification is not confirmed. Please confirm first.</string>
+    <string name="shipment_shipping_notification_order_disposed">This order is disposed. Please retry.</string>
+    <string name="shipment_shipping_notification_rescan">Part No not matched. Please re-scan.</string>
+    <string name="shipment_shipping_notification_input_shipping_notification_first">Please input shipping notification no and press confirm button. Then scan barcode.</string>
+
+    <string name="shipment_shipping_item_ogb03">No.</string>
+    <string name="shipment_shipping_item_ogb04">Part No.</string>
+    <string name="shipment_shipping_item_ima021">Spec</string>
+    <string name="shipment_shipping_item_ogb09">Warehouse</string>
+    <string name="shipment_shipping_item_ogb12">Shipping Quantity</string>
+    <string name="shipment_shipping_item_scanned_qty">Scanned Quantity</string>
+    <string name="shipment_shipping_item_other_wait_scan_qty">Other waited scan quantity</string>
+    <string name="shipment_shipping_item_ware_qty">Ware house quantity</string>
+    <string name="shipment_shipping_item_av_qty">Scan Available quantity</string>
+    <string name="shipment_shipping_item_ogb05">Unit</string>
+    <string name="shipment_shipping_shipping">Shipping</string>
+    <string name="shipment_shipping_scanned">Scanned</string>
+    <string name="shipment_shipping_wait_scan">Wait</string>
 </resources>

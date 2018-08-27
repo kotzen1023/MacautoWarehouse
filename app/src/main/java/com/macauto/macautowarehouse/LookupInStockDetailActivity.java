@@ -1,21 +1,13 @@
-package com.macauto.macautowarehouse.table;
+package com.macauto.macautowarehouse;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
-
-import com.macauto.macautowarehouse.R;
 
 import com.macauto.macautowarehouse.data.SearchDetailItem;
 import com.macauto.macautowarehouse.data.SearchDetailItemAdapter;
