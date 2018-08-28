@@ -1,6 +1,6 @@
 package com.macauto.macautowarehouse;
 
-import android.app.AlertDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
-import android.util.SparseBooleanArray;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,12 +38,12 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
     public static DividedItemAdapter dividedItemAdapter;
     public static ArrayList<DividedItem> dividedList = new ArrayList<>();
-    private static Button btnAdd;
-    private static Button btnCancel;
-    private static Button btnOk;
-    private static TextView textViewStatus;
-    private static TextView textViewQuantity;
-    private ListView listViewDivide;
+    //private static Button btnAdd;
+    //private static Button btnCancel;
+    private Button btnOk;
+    //private static TextView textViewStatus;
+    private TextView textViewQuantity;
+   // private ListView listViewDivide;
     private static int quantity_int;
 
     InputMethodManager imm;
@@ -74,12 +74,12 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
         quantity_int = (int)quantity;
 
-        btnAdd = findViewById(R.id.btnAdd);
+        Button btnAdd = findViewById(R.id.btnAdd);
         //textViewStatus = findViewById(R.id.textViewStatus);
         textViewQuantity = findViewById(R.id.textViewQuantity);
-        btnCancel = findViewById(R.id.btnCancel);
+        Button btnCancel = findViewById(R.id.btnCancel);
         btnOk = findViewById(R.id.btnOk);
-        listViewDivide = findViewById(R.id.listViewDivide);
+        ListView listViewDivide = findViewById(R.id.listViewDivide);
 
         //textViewQuantity.setText(getResources().getString(R.string.entering_warehouse_dialog_total, quantity_string));
 
@@ -238,7 +238,7 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
         String total = quantity_string+" / "+quantity_string;
         textViewQuantity.setText(total);
 
-        dividedItemAdapter = new DividedItemAdapter(EnteringWarehouseDividedDialogActivity.this, R.layout.entering_warehouse_divide_dialog_item, dividedList, quantity_int);
+        dividedItemAdapter = new DividedItemAdapter(EnteringWarehouseDividedDialogActivity.this, R.layout.entering_warehouse_divide_dialog_item, dividedList);
         listViewDivide.setAdapter(dividedItemAdapter);
 
 

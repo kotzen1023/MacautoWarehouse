@@ -4,11 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.R;
-import com.macauto.macautowarehouse.data.AllocationMsgItem;
+
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.data.SearchItem;
+
 import com.macauto.macautowarehouse.data.ShippingNotificationItem;
 import com.macauto.macautowarehouse.table.DataTable;
 
@@ -204,8 +202,8 @@ public class ShippingGetPreShippingInfoService extends IntentService {
 
                             }
 
-                            if (item != null)
-                                shippingNotifyList.add(item);
+
+                            shippingNotifyList.add(item);
 
                         }
 

@@ -26,7 +26,7 @@ public class DataTable {
 
     /**
      * 除了初始化DataTable， 可以指定DataTable的名字(沒什麼意義)
-     * @param //dataTableName DataTable的名字
+     * @param tableName //dataTableName DataTable的名字
      */
     public DataTable(String tableName) {
         this();
@@ -62,7 +62,7 @@ public class DataTable {
      * 把DataTable當做二維陣列，給列索引和行名稱，設定值的方法
      * <br/>(發佈者自行寫的方法)
      * @param rowIndex 列索引(從0算起)
-     * @param //columnIndex 行名稱
+     * @param columnName //columnIndex 行名稱
      * @param value 要給的值
      */
     public void setValue(int rowIndex,String columnName,Object value) {
@@ -85,7 +85,7 @@ public class DataTable {
     /**
      * 把DataTable當做二維陣列，給列索引和行名稱，取得值的方法
      * <br/>(發佈者自行寫的方法)
-     * @param //rowIndex 列索引(從0算起)
+     * @param rowindex //rowIndex 列索引(從0算起)
      * @param columnName 行名稱
      * @return 回傳該位置的值
      */

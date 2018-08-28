@@ -2,14 +2,14 @@ package com.macauto.macautowarehouse.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Build;
+
 import android.util.Log;
 
-import com.macauto.macautowarehouse.R;
+
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
+
 import com.macauto.macautowarehouse.data.SearchItem;
-import com.macauto.macautowarehouse.table.DataRow;
+
 import com.macauto.macautowarehouse.table.DataTable;
 
 import org.ksoap2.SoapEnvelope;
@@ -18,16 +18,9 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.net.SocketTimeoutException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+
 import static com.macauto.macautowarehouse.LookupInStockFragment.lookUpDataTable;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
@@ -86,7 +79,7 @@ public class GetPartWarehouseListService extends IntentService {
         String batch_no = intent.getStringExtra("BATCH_NO");
         String ima02 = intent.getStringExtra("NAME");
         String ima021 = intent.getStringExtra("SPEC");
-        String query_all = intent.getStringExtra("QUERY_ALL");
+        //String query_all = intent.getStringExtra("QUERY_ALL");
 
         Log.e(TAG, "part_no = "+part_no);
         Log.e(TAG, "batch_no = "+batch_no);

@@ -1,42 +1,42 @@
 package com.macauto.macautowarehouse.data;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.util.Log;
+
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
+
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.macauto.macautowarehouse.R;
-import com.macauto.macautowarehouse.table.DataRow;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+
 
 public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
-    private static final String TAG = InspectedReceiveExpanedAdater.class.getName();
+    //private static final String TAG = InspectedReceiveExpanedAdater.class.getName();
     private Context context;
     private ArrayList<String> expandableListTitle;
     private HashMap<String, ArrayList<DetailItem>> expandableListDetail;
     private int layoutResourceIdTitle;
     private int layoutResourceIdInside;
 
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
     public static SparseBooleanArray mSparseBooleanArray;
 
 
@@ -172,7 +172,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
 
             try {
 
-                DetailItem item = (DetailItem) getChild(listPosition, expandedListPosition);
+                DetailItem item = getChild(listPosition, expandedListPosition);
 
                 holder.title.setText(item.getTitle());
                 holder.name.setText(item.getName());

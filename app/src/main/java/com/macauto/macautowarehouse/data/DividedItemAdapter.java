@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,22 +24,22 @@ import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivit
 
 
 public class DividedItemAdapter extends ArrayAdapter<DividedItem> {
-    private static final String TAG = DividedItemAdapter.class.getName();
-    private LayoutInflater inflater = null;
+    //private static final String TAG = DividedItemAdapter.class.getName();
+    private LayoutInflater inflater;
     private Context context;
     private int layoutResourceId;
-    private ArrayList<DividedItem> items = new ArrayList<>();
-    private static String textChangeBefore;
-    private static String textChangeAfter;
-    private int total_quantity;
+    private ArrayList<DividedItem> items;
+    //private static String textChangeBefore;
+    //private static String textChangeAfter;
+    //private int total_quantity;
 
     public DividedItemAdapter(Context context, int textViewResourceId,
-                                       ArrayList<DividedItem> objects, int total_quantity) {
+                                       ArrayList<DividedItem> objects) {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
         this.context = context;
-        this.total_quantity = total_quantity;
+        //this.total_quantity = total_quantity;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
@@ -122,9 +122,9 @@ public class DividedItemAdapter extends ArrayAdapter<DividedItem> {
                 }
             });
 
-            if (Integer.valueOf(holder.itemIndex.getText().toString()) == position+1) {
+            /*if (Integer.valueOf(holder.itemIndex.getText().toString()) == position+1) {
 
-            }
+            }*/
 
             holder.itemQuantity.addTextChangedListener(new TextWatcher() {
 
@@ -157,11 +157,11 @@ public class DividedItemAdapter extends ArrayAdapter<DividedItem> {
                             temp_count_list.set(position, 0);
                         }
 
-                        int count = 0;
+                        /*int count = 0;
 
                         for (int i=0;i<temp_count_list.size(); i++) {
                             count+= temp_count_list.get(i);
-                        }
+                        }*/
                         //Log.e(TAG, "current total = "+count);
 
                         //if (count != total_quantity) {

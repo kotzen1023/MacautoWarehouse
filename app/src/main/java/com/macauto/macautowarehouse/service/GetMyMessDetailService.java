@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.data.AllocationMsgItem;
+
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
@@ -18,7 +18,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.AllocationMsgFragment.msg_list;
+
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;

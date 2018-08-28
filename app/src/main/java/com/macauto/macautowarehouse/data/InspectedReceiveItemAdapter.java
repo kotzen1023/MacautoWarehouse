@@ -1,28 +1,25 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import com.macauto.macautowarehouse.R;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+
 import java.util.ArrayList;
 
 public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveItem> {
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<InspectedReceiveItem> items = new ArrayList<>();
+    private ArrayList<InspectedReceiveItem> items;
 
     public InspectedReceiveItemAdapter(Context context, int textViewResourceId,
                             ArrayList<InspectedReceiveItem> objects) {

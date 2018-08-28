@@ -174,6 +174,8 @@
     <string name="look_up_in_stock_no_match_batch"></string>
     <string name="look_up_in_stock_find_records">Find %s records</string>
 
+    <string name="shipment_shipping_notification_scanned_confirm">Scanned Confirm</string>
+
     <string name="shipment_shipping_notification">Shipping Notification No.</string>
     <string name="shipment_shipping_notification_empty">Please input shipping notification no.</string>
     <string name="shipment_shipping_notification_not_confirm">This shipping notification is not confirmed. Please confirm first.</string>
@@ -193,5 +195,6 @@
     <string name="shipment_shipping_item_ogb05">Unit</string>
     <string name="shipment_shipping_shipping">Shipping</string>
     <string name="shipment_shipping_scanned">Scanned</string>
-    <string name="shipment_shipping_wait_scan">Wait</string>
+    <string name="shipment_shipping_wait_scan">Available</string>
+    <string name="shipment_shipping_rescan">Re-Scan</string>
 </resources>

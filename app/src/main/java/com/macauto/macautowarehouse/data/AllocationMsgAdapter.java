@@ -14,10 +14,10 @@ import com.macauto.macautowarehouse.R;
 import java.util.ArrayList;
 
 public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<AllocationMsgItem> items = new ArrayList<>();
+    private ArrayList<AllocationMsgItem> items;
 
     public AllocationMsgAdapter(Context context, int textViewResourceId,
                                        ArrayList<AllocationMsgItem> objects) {

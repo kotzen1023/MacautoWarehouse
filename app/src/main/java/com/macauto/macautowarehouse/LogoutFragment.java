@@ -1,11 +1,11 @@
 package com.macauto.macautowarehouse;
 
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,9 +18,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.service.CheckEmpExistService;
-import com.macauto.macautowarehouse.service.CheckEmpPasswordService;
-import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
+
 
 public class LogoutFragment extends Fragment {
     private static final String TAG = LogoutFragment.class.getName();

@@ -2,7 +2,7 @@ package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,10 +99,10 @@ public class ShippingWaitForScanItemAdapter extends RecyclerView.Adapter<Shippin
     }*/
 
     class ViewHolder  extends RecyclerView.ViewHolder {
-        protected TextView textViewIndex;
-        protected TextView textViewTop;
-        protected TextView textViewCenter;
-        protected TextView textViewBottom;
+        private TextView textViewIndex;
+        private TextView textViewTop;
+        private TextView textViewCenter;
+        private TextView textViewBottom;
 
         public ViewHolder(View view) {
             super(view);

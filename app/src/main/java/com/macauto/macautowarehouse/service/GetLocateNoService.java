@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.SearchItem;
-import com.macauto.macautowarehouse.table.DataTable;
+
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -18,7 +17,7 @@ import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateList;
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateNoTable;
-import static com.macauto.macautowarehouse.MainActivity.searchList;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
 public class GetLocateNoService extends IntentService {

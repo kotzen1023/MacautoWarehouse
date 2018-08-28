@@ -13,18 +13,18 @@ import com.macauto.macautowarehouse.R;
 import java.util.ArrayList;
 
 public class SearchDetailItemAdapter extends ArrayAdapter<SearchDetailItem> {
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<SearchDetailItem> items = new ArrayList<>();
-    private Context context;
+    private ArrayList<SearchDetailItem> items;
+    //private Context context;
 
     public SearchDetailItemAdapter(Context context, int textViewResourceId,
                                        ArrayList<SearchDetailItem> objects) {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
-        this.context = context;
+        //this.context = context;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

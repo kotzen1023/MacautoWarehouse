@@ -2,13 +2,10 @@ package com.macauto.macautowarehouse.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-
 import android.util.Log;
 
+
 import com.macauto.macautowarehouse.data.Constants;
-
-
-
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -17,16 +14,17 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
+
 import java.io.StringWriter;
 
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.ShipmentFragment.table_SCX;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
-public class ConfirmEnteringWarehouseService extends IntentService {
-    public static final String TAG = "ConfirmEnteringService";
+public class ShippingInsertOgcFileService extends IntentService {
+    public static final String TAG = "InsertOgcFile";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -34,17 +32,18 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "Update_TT_ReceiveGoods_IN_Rvv33"; // 方法名稱
+    private static final String METHOD_NAME = "SHIPPING_insert_ogc_file"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/Update_TT_ReceiveGoods_IN_Rvv33"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/SHIPPING_insert_ogc_file"; // SOAP_ACTION
 
     //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private StringWriter writer;
-    private String rvu01="";
+    //private String rvu01="";
+    private boolean is_success = false;
 
-    public ConfirmEnteringWarehouseService() {
-        super("ConfirmEnteringWarehouseService");
+    public ShippingInsertOgcFileService() {
+        super("ShippingInsertOgcFileService");
     }
 
 
@@ -53,28 +52,6 @@ public class ConfirmEnteringWarehouseService extends IntentService {
         super.onCreate();
         Log.d(TAG, "onCreate()");
 
-
-
-        if (dataTable != null) {
-
-            Log.e(TAG, "========================================================");
-            for (int i = 0; i < dataTable.Rows.size(); i++) {
-
-                for (int j = 0; j < dataTable.Columns.size(); j++) {
-                    System.out.print(dataTable.Rows.get(i).getValue(j));
-
-                    if (j == 1) {
-                        rvu01 = dataTable.Rows.get(i).getValue(j).toString();
-                    }
-
-                    if (j < dataTable.Columns.size() - 1) {
-                        System.out.print(", ");
-                    }
-                }
-                System.out.print("\n");
-            }
-            Log.e(TAG, "========================================================");
-        }
 
         Log.e(TAG, "parse to xml start");
 
@@ -87,21 +64,24 @@ public class ConfirmEnteringWarehouseService extends IntentService {
         Log.i(TAG, "Handle");
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_CONFIRM_ENTERING_WAREHOUSE_ACTION)) {
-                Log.i(TAG, "ACTION_CONFIRM_ENTERING_WAREHOUSE_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_ACTION)) {
+                Log.i(TAG, "ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_ACTION");
             }
         }
+
+
+
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
 
-        Log.e(TAG, "rvu01 = "+rvu01);
+        //Log.e(TAG, "rvu01 = "+rvu01);
 
         StringWriter writer;
 
-        if (dataTable != null) {
+        if (table_SCX != null) {
 
-            writer = parseDataTableToXml(dataTable);
+            writer = parseDataTableToXml(table_SCX);
 
             /*XmlSerializer xmlSerializer = Xml.newSerializer();
 
@@ -339,7 +319,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                     SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                     Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-
+                    is_success = parseToBoolean(resultsRequestSOAP);
 
 
                     //result.setText(String.valueOf(resultsRequestSOAP));
@@ -350,8 +330,8 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                         InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(Charset.forName("UTF-8")));
                         //LoadAndParseXML(stream);
                     }*/
-                    intent = new Intent(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_SUCCESS);
-                    sendBroadcast(intent);
+                    //intent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_SUCCESS);
+                    //sendBroadcast(intent);
                 }
 
                 //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);
@@ -372,7 +352,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                 // 抓到錯誤訊息
 
                 e.printStackTrace();
-                intent = new Intent(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_FAILED);
+                intent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_FAILED);
                 sendBroadcast(intent);
 
             }
@@ -387,9 +367,14 @@ public class ConfirmEnteringWarehouseService extends IntentService {
         Log.d(TAG, "onDestroy()");
         //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
         //sendBroadcast(intent);
-
+        Intent resultIntent;
+        if (!is_success) {
+            resultIntent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_FAILED);
+            sendBroadcast(resultIntent);
+        } else {
+            resultIntent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_SUCCESS);
+            sendBroadcast(resultIntent);
+        }
 
     }
-
-
 }

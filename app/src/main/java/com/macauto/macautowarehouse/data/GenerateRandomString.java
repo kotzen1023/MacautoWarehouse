@@ -3,8 +3,8 @@ package com.macauto.macautowarehouse.data;
 import java.util.Random;
 
 public class GenerateRandomString {
-    public static final String DATA = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public static Random RANDOM = new Random();
+    private static final String DATA = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static Random RANDOM = new Random();
 
     public static String randomString(int len) {
         StringBuilder sb = new StringBuilder(len);

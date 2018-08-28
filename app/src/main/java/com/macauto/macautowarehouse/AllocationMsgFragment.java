@@ -7,19 +7,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.renderscript.Allocation;
+
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,24 +26,20 @@ import android.widget.Toast;
 import com.macauto.macautowarehouse.data.AllocationMsgAdapter;
 import com.macauto.macautowarehouse.data.AllocationMsgItem;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater;
+
 import com.macauto.macautowarehouse.service.CheckDeleteMessageRightsService;
-import com.macauto.macautowarehouse.service.CheckEmpPasswordService;
+
 import com.macauto.macautowarehouse.service.DeleteMessageNoService;
-import com.macauto.macautowarehouse.service.ExecuteScriptTTService;
-import com.macauto.macautowarehouse.service.GetDocTypeIsRegOrSubService;
+
 import com.macauto.macautowarehouse.service.GetMyMessDetailService;
 import com.macauto.macautowarehouse.service.GetMyMessListService;
-import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataService;
+
 import com.macauto.macautowarehouse.table.DataTable;
 
 import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
-import static com.macauto.macautowarehouse.MainActivity.k_id;
-import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
+
 
 public class AllocationMsgFragment extends Fragment {
     private static final String TAG = AllocationMsgFragment.class.getName();
@@ -59,13 +54,13 @@ public class AllocationMsgFragment extends Fragment {
 
     private AllocationMsgAdapter allocationMsgAdapter;
     private ListView msgListView;
-    private static Button btnDelete;
+    private Button btnDelete;
 
     public static DataTable msgDataTable;
 
     private static String iss_no;
     private static String dateTime_0, dateTime_1, dateTime_2, dateTime_3;
-    private static boolean is_delete_right = false;
+    //private static boolean is_delete_right = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -319,7 +314,7 @@ public class AllocationMsgFragment extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_SUCCESS");
 
-                        is_delete_right = true;
+                        //is_delete_right = true;
                         btnDelete.setEnabled(true);
 
                         /*Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
@@ -330,7 +325,7 @@ public class AllocationMsgFragment extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED");
 
-                        is_delete_right = false;
+                        //is_delete_right = false;
                         btnDelete.setEnabled(false);
 
                         /*Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);

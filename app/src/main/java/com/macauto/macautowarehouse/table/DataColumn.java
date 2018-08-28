@@ -21,7 +21,7 @@ public class DataColumn {
 
     /**
      * 給DataColumnCollection加入DataColumn時設定所屬的DataTable的方法，同一個package才用到
-     * @param table
+     * @param table table
      */
     void setTable(DataTable table)
     {
@@ -39,7 +39,7 @@ public class DataColumn {
 
     /**
      * DataColumn物件的toString()，會回傳自己的欄名
-     * @return
+     * @return return value
      */
     @Override
     public String toString(){

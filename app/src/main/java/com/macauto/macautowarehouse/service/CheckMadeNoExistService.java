@@ -14,10 +14,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateList;
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateNoTable;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
+
 
 public class CheckMadeNoExistService extends IntentService {
     public static final String TAG = "CheckMadeNoExist";

@@ -1,10 +1,10 @@
 package com.macauto.macautowarehouse.data;
 
-import android.content.Intent;
+
 import android.util.Log;
 import android.util.Xml;
 
-import com.macauto.macautowarehouse.R;
+
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
@@ -13,12 +13,7 @@ import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 
 public class WebServiceParse {
     private static final String TAG = WebServiceParse.class.getName();

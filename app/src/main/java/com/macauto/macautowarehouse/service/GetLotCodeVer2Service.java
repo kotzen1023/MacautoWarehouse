@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.data.AllocationMsgItem;
+
 import com.macauto.macautowarehouse.data.Constants;
 
 import org.ksoap2.SoapEnvelope;
@@ -13,9 +13,9 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import static com.macauto.macautowarehouse.AllocationMsgFragment.msg_list;
+
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
 public class GetLotCodeVer2Service extends IntentService {
@@ -40,7 +40,7 @@ public class GetLotCodeVer2Service extends IntentService {
 
     //private String account;
     //private String device_id;
-    private boolean is_delete = false;
+    //private boolean is_delete = false;
 
 
     @Override
@@ -160,11 +160,11 @@ public class GetLotCodeVer2Service extends IntentService {
                     Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_EMPTY);
                     sendBroadcast(getFailedIntent);
                 } else {
-                    String batch_no = ret;
+                    //String batch_no = ret;
 
 
                     Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_SUCCESS);
-                    getSuccessIntent.putExtra("BATCH_NO", batch_no);
+                    getSuccessIntent.putExtra("BATCH_NO", ret);
                     sendBroadcast(getSuccessIntent);
                 }
 

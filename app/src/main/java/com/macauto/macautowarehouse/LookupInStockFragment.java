@@ -90,7 +90,7 @@ public class LookupInStockFragment extends Fragment {
 
         recyclerViewResult = view.findViewById(R.id.recyclerViewSearch);
         recyclerViewResult.setLayoutManager(new LinearLayoutManager(fragmentContext));
-        recyclerViewResult.addItemDecoration(new DividerItemDecoration(getContext(),
+        recyclerViewResult.addItemDecoration(new DividerItemDecoration(fragmentContext,
                 DividerItemDecoration.VERTICAL));
 
         if (searchItemAdapter != null) {
@@ -267,7 +267,7 @@ public class LookupInStockFragment extends Fragment {
                             String text = bundle.getString("text");
                             Log.e(TAG, "msg = "+text);
 
-                            if (text.length() > 0 ) {
+                            if (text != null && text.length() > 0 ) {
 
 
 
@@ -285,7 +285,7 @@ public class LookupInStockFragment extends Fragment {
 
 
 
-                                    String codeArray[] = text.toString().split("#");
+                                    String codeArray[] = text.split("#");
                                     partNo.setText(codeArray[0]);
                                     //batchNo.setText(codeArray[1]);
 

@@ -4,9 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.data.AllocationMsgStatusItem;
+
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.table.DataRow;
+
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -18,11 +18,10 @@ import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.hhh;
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.sfaMessTable;
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.statusList;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
+
 
 public class GetSfaDataMessMoveService extends IntentService {
     public static final String TAG = "GetSfaDataMessMove";
@@ -119,7 +118,7 @@ public class GetSfaDataMessMoveService extends IntentService {
         Log.e(TAG, "========================================================");
 
 
-        StringWriter writer = new StringWriter();
+        StringWriter writer;
 
         if (hhh != null) {
             writer = parseDataTableToXml(hhh);

@@ -16,7 +16,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.ShipmentFragment.dg3_table;
+
 import static com.macauto.macautowarehouse.ShipmentFragment.dg4_table;
 import static com.macauto.macautowarehouse.ShipmentFragment.preShippingDataTable;
 import static com.macauto.macautowarehouse.ShipmentFragment.shippingWaitForScanList;
@@ -199,8 +199,8 @@ public class ShippingGetWarehouseQtyService extends IntentService {
 
                             }
 
-                            if (item != null)
-                                shippingWaitForScanList.add(item);
+                            //if (item != null)
+                            shippingWaitForScanList.add(item);
 
                         }
 

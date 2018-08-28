@@ -8,11 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,12 +17,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 
@@ -39,19 +34,19 @@ import com.macauto.macautowarehouse.service.CheckMadeNoExistService;
 import com.macauto.macautowarehouse.service.CheckStockNoExistService;
 import com.macauto.macautowarehouse.service.GetLocateNoService;
 import com.macauto.macautowarehouse.service.GetMadeInfoService;
-import com.macauto.macautowarehouse.service.GetMyMessDetailService;
-import com.macauto.macautowarehouse.service.GetMyMessListService;
+
 import com.macauto.macautowarehouse.service.GetSfaDataMessMoveService;
 import com.macauto.macautowarehouse.service.GetSfaDataMessService;
 import com.macauto.macautowarehouse.service.GetVarValueService;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
-import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
 
@@ -103,7 +98,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
     public AllocationMsgStatusItemAdapter allocationMsgStatusItemAdapter;
     public static ArrayList<AllocationMsgStatusItem> statusList = new ArrayList<>();
-    public static ListView statusListView;
+    public ListView statusListView;
+    private Locale current;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,9 +118,11 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
         final  View view = inflater.inflate(R.layout.allocation_send_msg_to_reserve_warehouse_fragment, container, false);
 
-
-
         fragmentContext = getContext();
+
+        current = fragmentContext.getResources().getConfiguration().locale;
+
+
 
         /*editTextWorkOrder = view.findViewById(R.id.allocationSendMsgWorkOrder);
         editTextStagingArea = view.findViewById(R.id.allocationSendMsgStagingArea);
@@ -317,14 +315,14 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                 Log.e(TAG, "hours = "+hours+", minutes = "+minutes);
 
-                String fToday = new SimpleDateFormat("yyyy-MM-dd").format(today);
+                String fToday = new SimpleDateFormat("yyyy-MM-dd", current).format(today);
                 dateList.add(fToday);
 
                 for (int i=0; i<11; i++) {
                     calendar.add(Calendar.DAY_OF_YEAR, 1);
                     Date date = calendar.getTime();
 
-                    String fDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                    String fDate = new SimpleDateFormat("yyyy-MM-dd", current).format(date);
                     dateList.add(fDate);
                 }
 
@@ -369,8 +367,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                     if (myList.get(3).getEditText().getText().toString().matches("[0-9]+") && myList.get(3).getEditText().getText().toString().length() > 0) {
                         int szs = Integer.valueOf(myList.get(3).getEditText().getText().toString());
 
-                        int pdt_qty_int = Integer.valueOf(myList.get(6).getContent());
-                        int ptted_qty_int = Integer.valueOf(myList.get(7).getContent());
+                        //int pdt_qty_int = Integer.valueOf(myList.get(6).getContent());
+                        //int ptted_qty_int = Integer.valueOf(myList.get(7).getContent());
 
 
 
@@ -418,14 +416,14 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                             Log.e(TAG, "hours = "+hours+", minutes = "+minutes);
 
-                            String fToday = new SimpleDateFormat("yyyy-MM-dd").format(today);
+                            String fToday = new SimpleDateFormat("yyyy-MM-dd", current).format(today);
                             dateList.add(fToday);
 
                             for (int i=0; i<11; i++) {
                                 calendar.add(Calendar.DAY_OF_YEAR, 1);
                                 Date date = calendar.getTime();
 
-                                String fDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                                String fDate = new SimpleDateFormat("yyyy-MM-dd", current).format(date);
                                 dateList.add(fDate);
                             }
 
@@ -606,14 +604,14 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         int minutes = calendar.get(Calendar.MINUTE);
 
 
-        String fToday = new SimpleDateFormat("yyyy-MM-dd").format(today);
+        String fToday = new SimpleDateFormat("yyyy-MM-dd", current).format(today);
         dateList.add(fToday);
 
         for (int i=0; i<11; i++) {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             Date date = calendar.getTime();
 
-            String fDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            String fDate = new SimpleDateFormat("yyyy-MM-dd", current).format(date);
             dateList.add(fDate);
         }
         dateAdapter = new ArrayAdapter<>(fragmentContext, R.layout.myspinner, dateList);
@@ -968,10 +966,16 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             String mess_no = new_mess_no.substring(4);
                             String mess_no_array[] = mess_no.split("#");
                             String rr="";
-                            for(int i=0;i<mess_no_array.length;i++)
+
+                            for (String s:
+                                    mess_no_array) {
+                                rr = rr + s+"\n";
+                            }
+
+                            /*for(int i=0;i<mess_no_array.length;i++)
                             {
                                 rr=rr+mess_no_array[i]+"\n";
-                            }
+                            }*/
 
                             android.app.AlertDialog.Builder confirmdialog = new android.app.AlertDialog.Builder(fragmentContext);
                             confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);

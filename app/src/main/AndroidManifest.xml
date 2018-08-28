@@ -58,6 +58,8 @@
         <service android:name=".service.ShippingGetOgcFile2Service" />
         <service android:name=".service.ShippingGetWarehouseQtyService" />
         <service android:name=".service.ShippingGetPreShippingInfoConfirmSpService" />
+        <service android:name=".service.ShippingInsertOgcFileService" />
+        <service android:name=".service.GetLotCodeVer2Service" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

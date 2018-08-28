@@ -39,14 +39,33 @@
                     android:layout_weight="4"/>
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewShipment"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnScannedConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="@string/shipment_shipping_notification_scanned_confirm"
+                    android:enabled="false"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewShipment"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
 
-            </android.support.v7.widget.RecyclerView>
+                </android.support.v7.widget.RecyclerView>
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -73,10 +92,17 @@
             android:orientation="vertical"
             android:visibility="gone">
 
+            <Button
+                android:id="@+id/btnRescan"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/shipment_shipping_rescan"
+                android:enabled="false"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewWaitScan"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1">
 
 

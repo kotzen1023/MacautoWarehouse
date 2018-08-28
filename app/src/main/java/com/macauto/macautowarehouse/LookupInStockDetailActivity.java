@@ -24,7 +24,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
 
     public static ArrayList<SearchDetailItem> detailList = new ArrayList<>();
 
-    private SearchDetailItemAdapter searchDetailItemAdapter;
+    //private SearchDetailItemAdapter searchDetailItemAdapter;
     //InputMethodManager imm;
 
     @Override
@@ -165,7 +165,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item14.setContent(sortedSearchList.get(index).getItem_PMC03());
         detailList.add(item14);
 
-        searchDetailItemAdapter = new SearchDetailItemAdapter(LookupInStockDetailActivity.this, R.layout.look_up_in_stock_detail_item, detailList);
+        SearchDetailItemAdapter searchDetailItemAdapter = new SearchDetailItemAdapter(LookupInStockDetailActivity.this, R.layout.look_up_in_stock_detail_item, detailList);
         listView.setAdapter(searchDetailItemAdapter);
     }
 

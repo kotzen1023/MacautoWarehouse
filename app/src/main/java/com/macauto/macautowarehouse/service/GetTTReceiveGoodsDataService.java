@@ -2,14 +2,12 @@ package com.macauto.macautowarehouse.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Build;
+
 import android.util.Log;
 
-import com.macauto.macautowarehouse.R;
+
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.table.DataRow;
-import com.macauto.macautowarehouse.table.DataTable;
+
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -17,16 +15,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 
 public class GetTTReceiveGoodsDataService extends IntentService {
     public static final String TAG = "GetTTReceiveGoods";
@@ -43,7 +32,7 @@ public class GetTTReceiveGoodsDataService extends IntentService {
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    private String doc_type = "";
+    //private String doc_type = "";
 
     public GetTTReceiveGoodsDataService() {
         super("GetTTReceiveGoodsDataService");

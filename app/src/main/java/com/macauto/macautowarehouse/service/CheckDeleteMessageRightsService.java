@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.table.DataColumn;
-import com.macauto.macautowarehouse.table.DataRow;
-import com.macauto.macautowarehouse.table.DataTable;
+
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -15,10 +13,10 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
+
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
+
 
 public class CheckDeleteMessageRightsService extends IntentService {
     public static final String TAG = "CheckDeleteRight";

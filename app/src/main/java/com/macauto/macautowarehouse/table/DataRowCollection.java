@@ -10,7 +10,7 @@ public class DataRowCollection extends ArrayList<DataRow> {
 
     /**
      * DataRowCollection被建立時，一定要指定所屬的DataTable
-     * @param table
+     * @param table Table
      */
     public DataRowCollection(DataTable table)
     {

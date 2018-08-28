@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.data.AllocationMsgStatusItem;
+
 import com.macauto.macautowarehouse.data.Constants;
 
 import org.ksoap2.SoapEnvelope;
@@ -15,10 +15,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.sfaMessTable;
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.statusList;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
+
 
 public class GetVarValueService extends IntentService {
     public static final String TAG = "GetVarValueService";

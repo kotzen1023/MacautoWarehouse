@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,22 +17,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.data.DividedItem;
-import com.macauto.macautowarehouse.data.DividedItemAdapter;
+
 import com.macauto.macautowarehouse.data.GenerateRandomString;
 import com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater;
-import com.macauto.macautowarehouse.data.InspectedReceiveItem;
+
 import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
 import com.macauto.macautowarehouse.service.ExecuteScriptTTService;
 import com.macauto.macautowarehouse.service.GetDocTypeIsRegOrSubService;
@@ -42,7 +41,7 @@ import com.macauto.macautowarehouse.table.DataTable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.content.Context.MODE_PRIVATE;
+
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
@@ -52,12 +51,12 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
     private Context fragmentContext;
 
-    static SharedPreferences pref ;
-    static SharedPreferences.Editor editor;
-    private static final String FILE_NAME = "Preference";
+    //static SharedPreferences pref ;
+    //static SharedPreferences.Editor editor;
+    //private static final String FILE_NAME = "Preference";
 
     private ExpandableListView expandableListView;
-    public static InspectedReceiveExpanedAdater inspectedReceiveExpanedAdater;
+    public InspectedReceiveExpanedAdater inspectedReceiveExpanedAdater;
 
     public static ArrayList<String> no_list = new ArrayList<>();
     //public static HashMap<String, ArrayList<ContactItem>> staticContactList = new HashMap<> ();
@@ -69,7 +68,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
     private boolean is_barcode_receive = false;
     public static DataTable dataTable;
-    private static boolean is_getScan = false;
+    //private static boolean is_getScan = false;
     ProgressDialog loadDialog = null;
     InputMethodManager imm;
     public static int current_expanded_group = -1;
@@ -614,7 +613,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
 
 
-                                    String codeArray[] = text.toString().split("#");
+                                    String codeArray[] = text.split("#");
                                     Intent scanResultIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
                                     for (int i = 0; i < codeArray.length; i++) {
                                         Log.e(TAG, "codeArray[" + i + "] = " + codeArray[i]);
@@ -623,7 +622,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                     }
 
 
-                                    scanResultIntent.putExtra("BARCODE", text.toString());
+                                    scanResultIntent.putExtra("BARCODE", text);
                                     scanResultIntent.putExtra("K_ID", k_id);
                                     fragmentContext.sendBroadcast(scanResultIntent);
                                 } else {
@@ -832,67 +831,5 @@ public class EnteringWarehouseFragmnet extends Fragment {
         toast.show();
     }
 
-    protected void showInputDialog(int groupPosition, int childPosition) {
 
-
-
-        /*dividedList.clear();
-
-        DetailItem item = inspectedReceiveExpanedAdater.getChild(groupPosition, childPosition);
-        float quantity = Float.valueOf(item.getName());
-
-        Log.e(TAG, "quantity = "+item.getName()+"quantity(int) = "+(int)quantity);
-        int quantity_int = (int)quantity;
-        // get prompts.xml view
-
-        View promptView = View.inflate(fragmentContext, R.layout.entering_warehouse_divide_dialog, null);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(fragmentContext);
-        alertDialogBuilder.setView(promptView);
-
-        //final EditText editFileName = (EditText) promptView.findViewById(R.id.editFileName);
-        final Button btnAdd = promptView.findViewById(R.id.btnAdd);
-        final ListView listView = promptView.findViewById(R.id.listViewDivide);
-        final TextView textViewQuantity = promptView.findViewById(R.id.textViewQuantity);
-        final TextView textViewStatus = promptView.findViewById(R.id.textViewStatus);
-
-        //add self as first item
-        DividedItem dividedItem = new DividedItem();
-        dividedItem.setQuantity(quantity_int);
-        dividedList.add(dividedItem);
-
-        dividedItemAdapter = new DividedItemAdapter(fragmentContext, R.layout.entering_warehouse_divide_dialog_item, dividedList);
-        listView.setAdapter(dividedItemAdapter);
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DividedItem addItem = new DividedItem();
-                addItem.setQuantity(0);
-                dividedList.add(addItem);
-
-                if (dividedItemAdapter != null)
-                    dividedItemAdapter.notifyDataSetChanged();
-
-            }
-        });
-
-        textViewQuantity.setText(getString(R.string.entering_warehouse_dialog_total, String.valueOf((int)quantity)));
-
-        alertDialogBuilder.setCancelable(false);
-        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                //resultText.setText("Hello, " + editText.getText());
-                //Log.e(TAG, "input password = " + editText.getText());
-
-
-            }
-        });
-        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alertDialogBuilder.show();*/
-    }
 }

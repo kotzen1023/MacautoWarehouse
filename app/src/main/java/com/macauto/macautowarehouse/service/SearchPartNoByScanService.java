@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.data.AllocationMsgItem;
+
 import com.macauto.macautowarehouse.data.Constants;
 
 import org.ksoap2.SoapEnvelope;
@@ -13,7 +13,6 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import static com.macauto.macautowarehouse.AllocationMsgFragment.msg_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 

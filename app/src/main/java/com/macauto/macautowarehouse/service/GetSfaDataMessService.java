@@ -16,8 +16,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateList;
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateNoTable;
+
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.sfaMessTable;
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.statusList;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;

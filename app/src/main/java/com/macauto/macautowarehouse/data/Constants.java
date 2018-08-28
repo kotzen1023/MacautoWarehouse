@@ -12,6 +12,9 @@ public class Constants {
         //
         String ACTION_SHOW_VIRTUAL_KEYBOARD_ACTION = "com.macauto.MacautoWarehoouse.ShowVirtualKeyboardAction";
         String ACTION_HIDE_VIRTUAL_KEYBOARD_ACTION = "com.macauto.MacautoWarehoouse.HideVirtualKeyboardAction";
+        //Main
+        String ACTION_MAIN_RESET_TITLE = "com.macauto.MacautoWarehoouse.MainResetTitleAction";
+
         //setting
         String ACTION_SETTING_PDA_TYPE_ACTION = "com.macauto.MacautoWarehoouse.SettingPdaTypeAction";
         String ACTION_SETTING_WEB_SOAP_PORT_ACTION = "com.macauto.MacautoWarehoouse.SettingWebSoapPortAction";
@@ -135,7 +138,9 @@ public class Constants {
         String ACTION_SHIPMENT_GET_PRE_SHIPPING_INFO_CONFIRM_SP_FAILED = "com.macauto.MacautoWarehoouse.ShipmentGetPreShippingInfoConfirmSpFailed";
         String ACTION_SHIPMENT_GET_PRE_SHIPPING_INFO_CONFIRM_SP_SUCCESS = "com.macauto.MacautoWarehoouse.ShipmentGetPreShippingInfoConfirmSpSuccess";
 
-
+        String ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_ACTION = "com.macauto.MacautoWarehoouse.ShipmentShippingInsertOgcFileAction";
+        String ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_FAILED = "com.macauto.MacautoWarehoouse.ShipmentShippingInsertOgcFileFailed";
+        String ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_SUCCESS = "com.macauto.MacautoWarehoouse.ShipmentShippingInsertOgcFileSuccess";
 
         String ACTION_SCAN_RESET = "com.macauto.MacautoWarehoouse.ScanReset";
         String ACTION_CHECK_STOCK_LOCATE_NO_EXIST_ACTION = "com.macauto.MacautoWarehoouse.CheckStockLocateNoExist";

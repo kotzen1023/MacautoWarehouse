@@ -18,7 +18,7 @@ public class DataRow extends LinkedHashMap<String,Object> {
 
     /**
      * DataRow被建立時，必須指定所屬的DataTable
-     * @param //DataRow所屬的DataTable
+     * @param table //DataRow所屬的DataTable
      */
     public DataRow(DataTable table) {
         this.table = table;

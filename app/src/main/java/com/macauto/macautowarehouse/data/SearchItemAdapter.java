@@ -2,6 +2,7 @@ package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.look_up_in_stock_recyclerview_item, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
@@ -47,7 +48,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         //Log.e(TAG, "onBindViewHolder");
 
         SearchItem searchItem;
@@ -110,10 +111,10 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
     }
 
     class ViewHolder  extends RecyclerView.ViewHolder {
-        protected TextView textViewIndex;
-        protected TextView textViewTop;
-        protected TextView textViewCenter;
-        protected TextView textViewBottom;
+        private TextView textViewIndex;
+        private TextView textViewTop;
+        private TextView textViewCenter;
+        private TextView textViewBottom;
 
         public ViewHolder(View view) {
             super(view);

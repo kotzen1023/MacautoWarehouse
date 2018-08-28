@@ -1,12 +1,12 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +19,7 @@ import android.widget.TextView;
 import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
 
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.dateAdapter;
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.hourAdapter;
@@ -28,11 +27,11 @@ import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFr
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.minAdapter;
 
 public class AllocationSendMsgItemAdapter extends ArrayAdapter<AllocationSendMsgItem> {
-    private static final String TAG = "ASendMsgAdapter";
-    private LayoutInflater inflater = null;
+    //private static final String TAG = "ASendMsgAdapter";
+    private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<AllocationSendMsgItem> items = new ArrayList<>();
+    private ArrayList<AllocationSendMsgItem> items;
     private Context context;
 
     public AllocationSendMsgItemAdapter(Context context, int textViewResourceId,

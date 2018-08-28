@@ -13,18 +13,18 @@ import com.macauto.macautowarehouse.R;
 import java.util.ArrayList;
 
 public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDetailItem> {
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<AllocationMsgDetailItem> items = new ArrayList<>();
-    private Context context;
+    private ArrayList<AllocationMsgDetailItem> items;
+    //private Context context;
 
     public AllocationMsgDetailItemAdapter(Context context, int textViewResourceId,
                                           ArrayList<AllocationMsgDetailItem> objects) {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
-        this.context = context;
+        //this.context = context;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

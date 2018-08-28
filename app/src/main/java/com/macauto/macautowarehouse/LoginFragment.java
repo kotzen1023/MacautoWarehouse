@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
@@ -28,8 +28,8 @@ public class LoginFragment extends Fragment {
 
     private Context loginContext;
 
-    private String account;
-    private String password;
+    //private String account;
+    //private String password;
     private EditText editTextAccount;
     private EditText editTextPassword;
 

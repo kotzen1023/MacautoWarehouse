@@ -1,8 +1,8 @@
 package com.macauto.macautowarehouse.data;
 
-import android.widget.Button;
+
 import android.widget.CheckBox;
-import android.widget.EditText;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,19 +55,4 @@ public class DetailItem {
         this.checkBox = checkBox;
     }
 
-    /*public EditText getEdit() {
-        return edit;
-    }
-
-    public void setEdit(EditText edit) {
-        this.edit = edit;
-    }*/
-
-    /*public Button getButton() {
-        return button;
-    }
-
-    public void setButton(Button button) {
-        this.button = button;
-    }*/
 }

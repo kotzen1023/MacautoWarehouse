@@ -3,7 +3,7 @@ package com.macauto.macautowarehouse;
 import android.Manifest;
 import android.app.Activity;
 import android.app.SearchManager;
-import android.content.ActivityNotFoundException;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,27 +11,22 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
+
+//import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
+
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
+
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.util.SparseArray;
+
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -43,30 +38,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.TabHost;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
+//import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.data.SearchDetailItem;
 import com.macauto.macautowarehouse.data.SearchItem;
-import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.macauto.macautowarehouse.data.Constants.ACTION.ACTION_SCAN;
 import static com.macauto.macautowarehouse.data.FileOperation.init_folder_and_files;
 
 public class MainActivity extends AppCompatActivity
@@ -79,14 +63,14 @@ public class MainActivity extends AppCompatActivity
     static SharedPreferences.Editor editor;
     private static final String FILE_NAME = "Preference";
 
-    private static final String LOG_TAG = "Barcode Scanner API";
-    private static final int PHOTO_REQUEST = 10;
-    private TextView scanResults;
-    private BarcodeDetector detector;
-    private Uri imageUri;
-    private static final int REQUEST_WRITE_PERMISSION = 20;
-    private static final String SAVED_INSTANCE_URI = "uri";
-    private static final String SAVED_INSTANCE_RESULT = "result";
+    //private static final String LOG_TAG = "Barcode Scanner API";
+    //private static final int PHOTO_REQUEST = 10;
+    //private TextView scanResults;
+    //private BarcodeDetector detector;
+    //private Uri imageUri;
+    //private static final int REQUEST_WRITE_PERMISSION = 20;
+    //private static final String SAVED_INSTANCE_URI = "uri";
+    //private static final String SAVED_INSTANCE_RESULT = "result";
     private Context context;
 
     private static BroadcastReceiver mReceiver = null;
@@ -104,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 
     public static boolean isLogin = false;
 
-    private MenuItem setting;
+    //private MenuItem setting;
 
     private MenuItem shipment_main;
     private MenuItem shipment_find;
@@ -158,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 
         context = getApplicationContext();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //get virtual keyboard
@@ -173,13 +157,13 @@ public class MainActivity extends AppCompatActivity
             }
         });*/
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         menuItemLogin = navigationView.getMenu().findItem(R.id.nav_login);
@@ -336,7 +320,11 @@ public class MainActivity extends AppCompatActivity
                         setTitle(getResources().getString(R.string.action_allocation_find));
 
                         View view = getCurrentFocus();
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        try {
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGOUT_ACTION)) {
                         Log.d(TAG, "receive ACTION_LOGIN_SUCCESS!");
@@ -385,6 +373,11 @@ public class MainActivity extends AppCompatActivity
                         Log.d(TAG, "receive ACTION_RESET_TITLE_PART_IN_STOCK!");
 
                         setTitle(getResources().getString(R.string.action_allocation_find));
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_MAIN_RESET_TITLE)) {
+                        Log.d(TAG, "receive ACTION_MAIN_RESET_TITLE!");
+                        String new_title = intent.getStringExtra("NEW_TITLE");
+
+                        setTitle(new_title);
                     }
 
 
@@ -424,6 +417,7 @@ public class MainActivity extends AppCompatActivity
             filter.addAction(Constants.ACTION.ACTION_SEARCH_MENU_SHOW_ACTION);
             filter.addAction(Constants.ACTION.ACTION_SEARCH_MENU_HIDE_ACTION);
             filter.addAction(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK);
+            filter.addAction(Constants.ACTION.ACTION_MAIN_RESET_TITLE);
             filter.addAction("unitech.scanservice.data");
             filter.addAction("unitech.scanservice.datatype");
             context.registerReceiver(mReceiver, filter);
@@ -488,7 +482,7 @@ public class MainActivity extends AppCompatActivity
 
         getMenuInflater().inflate(R.menu.main, menu);
 
-        setting = menu.findItem(R.id.action_settings);
+        MenuItem setting = menu.findItem(R.id.action_settings);
 
         receiving_main = menu.findItem(R.id.action_receiving_main);
         receiving_record = menu.findItem(R.id.action_receiving_record);
@@ -736,7 +730,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        //int id = item.getItemId();
 
         selectDrawerItem(item);
 
@@ -1046,61 +1040,12 @@ public class MainActivity extends AppCompatActivity
         else
             setTitle(menuItem.getTitle());
         // Close the navigation drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
     }
 
-    private void InitView() {
-        /*FragmentTabHost mTabHost;
 
-        mTabHost =  findViewById(android.R.id.tabhost);
-        mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-
-        //mTabHost.addTab(setIndicator(MainMenu.this, mTabHost.newTabSpec(TAB_1_TAG),
-        //        R.drawable.tab_indicator_gen, getResources().getString(R.string.scm_history_tab), R.drawable.ic_history_white_48dp), HistoryFragment.class, null);
-        mTabHost.addTab(setIndicator(MainMenu.this, mTabHost.newTabSpec(TAB_1_TAG),
-                R.drawable.tab_indicator_gen, R.drawable.mail), HistoryFragment.class, null);
-
-
-
-
-        //mTabHost.addTab(setIndicator(MainMenu.this, mTabHost.newTabSpec(TAB_2_TAG),
-        //        R.drawable.tab_indicator_gen, getResources().getString(R.string.scm_setting), R.drawable.ic_settings_white_48dp), SettingsFragment.class, null);
-        mTabHost.addTab(setIndicator(MainMenu.this, mTabHost.newTabSpec(TAB_2_TAG),
-                R.drawable.tab_indicator_gen,  R.drawable.gear), SettingsFragment.class, null);
-
-
-
-
-
-
-        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-
-
-                switch (tabId) {
-                    case "tab_1":
-                        //if (item_clear != null)
-                        //    item_clear.setVisible(true);
-                        if (item_search != null)
-                            item_search.setVisible(true);
-                        break;
-                    case "tab_2":
-                        //if (item_clear != null)
-                        //    item_clear.setVisible(false);
-                        if (item_search != null)
-                            item_search.setVisible(false);
-                        break;
-
-                    default:
-                        break;
-
-                }
-            }
-        });*/
-    }
 
     private  boolean checkAndRequestPermissions() {
 

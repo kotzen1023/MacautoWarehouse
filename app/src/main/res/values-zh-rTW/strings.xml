@@ -174,6 +174,8 @@
     <string name="look_up_in_stock_no_match_batch">沒有符合的批號</string>
     <string name="look_up_in_stock_find_records">找到 %s 筆資料</string>
 
+    <string name="shipment_shipping_notification_scanned_confirm">掃描確認</string>
+
     <string name="shipment_shipping_notification">出貨通知單號</string>
     <string name="shipment_shipping_notification_empty">請輸入出貨通知單號</string>
     <string name="shipment_shipping_notification_not_confirm">本張出貨通知單未確認, 請確認後再叫出該單據</string>
@@ -191,8 +193,8 @@
     <string name="shipment_shipping_item_ware_qty">現有庫存數量</string>
     <string name="shipment_shipping_item_av_qty">可供掃描的庫存</string>
     <string name="shipment_shipping_item_ogb05">單位</string>
-
     <string name="shipment_shipping_shipping">出貨作業</string>
     <string name="shipment_shipping_scanned">已掃描</string>
-    <string name="shipment_shipping_wait_scan">待掃描</string>
+    <string name="shipment_shipping_wait_scan">可供掃描</string>
+    <string name="shipment_shipping_rescan">重新掃描</string>
 </resources>

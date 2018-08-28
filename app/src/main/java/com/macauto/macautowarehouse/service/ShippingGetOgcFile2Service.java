@@ -191,8 +191,8 @@ public class ShippingGetOgcFile2Service extends IntentService {
                                 }
                             }
 
-                            if (item != null)
-                                shippingScannedList.add(item);
+
+                            shippingScannedList.add(item);
 
                         }
 

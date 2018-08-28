@@ -1,33 +1,31 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.macauto.macautowarehouse.LookupInStockDetailActivity;
+
 import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.LookupInStockFragment.isSorted;
-import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
+
 
 public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgStatusItem> {
     public static final String TAG = "StatusItemAdapter";
-    private LayoutInflater inflater = null;
+    private LayoutInflater inflater;
 
     private Context mContext;
 
     private int layoutResourceId;
-    private ArrayList<AllocationMsgStatusItem> items = new ArrayList<>();
+    private ArrayList<AllocationMsgStatusItem> items;
 
     public AllocationMsgStatusItemAdapter(Context context, int textViewResourceId,
                                 ArrayList<AllocationMsgStatusItem> objects) {
@@ -96,7 +94,8 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
             }
 
             aw1 = aw1 > aw4 ? aw4 : aw1;
-            holder.textViewBottom.setText(mContext.getResources().getString(R.string.allocation_send_message_to_material_status_detail_IMG10)+ " " +String.valueOf(aw1));
+            String temp = mContext.getResources().getString(R.string.allocation_send_message_to_material_status_detail_IMG10)+ " " +String.valueOf(aw1);
+            holder.textViewBottom.setText(temp);
             //holder.itemTitle.setText(allocationMsgStatusItem.getItem_SFA03());
             //holder.itemDate.setText(allocationMsgItem.getDate());
 
