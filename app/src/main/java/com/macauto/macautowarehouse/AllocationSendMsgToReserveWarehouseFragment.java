@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.daimajia.swipe.SwipeLayout;
 import com.macauto.macautowarehouse.data.AllocationMsgStatusItem;
 import com.macauto.macautowarehouse.data.AllocationMsgStatusItemAdapter;
 import com.macauto.macautowarehouse.data.AllocationSendMsgItem;
@@ -37,6 +38,7 @@ import com.macauto.macautowarehouse.service.GetMadeInfoService;
 
 import com.macauto.macautowarehouse.service.GetSfaDataMessMoveService;
 import com.macauto.macautowarehouse.service.GetSfaDataMessService;
+import com.macauto.macautowarehouse.service.GetSfaDataMessWorkerService;
 import com.macauto.macautowarehouse.service.GetVarValueService;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
@@ -66,8 +68,9 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
     private Spinner hourSpinner;
     private Spinner minSpinner;*/
     private Button btnAllocTransfer;
+    private Button btnAllocTransferEmp;
     private Button btnReset;
-    private Button btnDelete;
+    //private Button btnDelete;
     private Button btnSend;
     /*private LinearLayout layoutProduceView;
     private LinearLayout layoutResultView;
@@ -100,6 +103,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
     public static ArrayList<AllocationMsgStatusItem> statusList = new ArrayList<>();
     public ListView statusListView;
     private Locale current;
+    //private SwipeLayout swipeLayout;
+    private static boolean allocate_with_emp = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,7 +118,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Log.d(TAG, "onCreateView");
-
+        current_btn_state = 0;
 
 
         final  View view = inflater.inflate(R.layout.allocation_send_msg_to_reserve_warehouse_fragment, container, false);
@@ -139,7 +144,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         ListView listView = view.findViewById(R.id.listViewAllocationMsg);
         statusListView = view.findViewById(R.id.statusListView);
 
-        statusListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        /*statusListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -156,6 +162,10 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                 allocationMsgStatusItemAdapter.notifyDataSetChanged();
             }
         });
+
+
+
+
 
         statusListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -176,13 +186,18 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                 return true;
             }
-        });
+        });*/
 
 
         btnAllocTransfer = view.findViewById(R.id.btnAllocateTransfer);
+        btnAllocTransferEmp = view.findViewById(R.id.btnAllocateTransferEmp);
         btnReset = view.findViewById(R.id.btnRest);
-        btnDelete = view.findViewById(R.id.btnDelete);
+        //btnDelete = view.findViewById(R.id.btnDelete);
         btnSend = view.findViewById(R.id.btnSend);
+        btnAllocTransferEmp.setVisibility(View.VISIBLE);
+        btnAllocTransfer.setVisibility(View.GONE);
+        btnReset.setVisibility(View.GONE);
+        btnSend.setVisibility(View.GONE);
 
         //layoutProduceView = view.findViewById(R.id.layoutAllocationSendMsgProduceView);
         //layoutResultView = view.findViewById(R.id.layoutAllocationSendMsgResultView);
@@ -199,7 +214,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                 switch (current_btn_state) {
                     case 0:
                         current_btn_state = 3;
-                        btnAllocTransfer.setVisibility(View.GONE);
+                        btnAllocTransferEmp.setVisibility(View.GONE);
                         btnSend.setVisibility(View.VISIBLE);
                         if (statusList.size() > 0) {
                             btnSend.setEnabled(true);
@@ -209,18 +224,18 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         break;
                     case 1:
                         current_btn_state = 0;
-                        btnReset.setVisibility(View.GONE);
-                        btnAllocTransfer.setVisibility(View.VISIBLE);
+                        btnAllocTransfer.setVisibility(View.GONE);
+                        btnAllocTransferEmp.setVisibility(View.VISIBLE);
                         break;
                     case 2:
                         current_btn_state = 1;
-                        btnDelete.setVisibility(View.GONE);
-                        btnReset.setVisibility(View.VISIBLE);
+                        btnReset.setVisibility(View.GONE);
+                        btnAllocTransfer.setVisibility(View.VISIBLE);
                         break;
                     case 3:
                         current_btn_state = 2;
                         btnSend.setVisibility(View.GONE);
-                        btnDelete.setVisibility(View.VISIBLE);
+                        btnReset.setVisibility(View.VISIBLE);
 
                 }
             }
@@ -232,17 +247,17 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                 switch (current_btn_state) {
                     case 0:
                         current_btn_state = 1;
-                        btnAllocTransfer.setVisibility(View.GONE);
-                        btnReset.setVisibility(View.VISIBLE);
+                        btnAllocTransferEmp.setVisibility(View.GONE);
+                        btnAllocTransfer.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         current_btn_state = 2;
-                        btnReset.setVisibility(View.GONE);
-                        btnDelete.setVisibility(View.VISIBLE);
+                        btnAllocTransfer.setVisibility(View.GONE);
+                        btnReset.setVisibility(View.VISIBLE);
                         break;
                     case 2:
                         current_btn_state = 3;
-                        btnDelete.setVisibility(View.GONE);
+                        btnReset.setVisibility(View.GONE);
                         btnSend.setVisibility(View.VISIBLE);
                         if (statusList.size() > 0) {
                             btnSend.setEnabled(true);
@@ -253,7 +268,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                     case 3:
                         current_btn_state = 0;
                         btnSend.setVisibility(View.GONE);
-                        btnAllocTransfer.setVisibility(View.VISIBLE);
+                        btnAllocTransferEmp.setVisibility(View.VISIBLE);
 
                 }
             }
@@ -268,6 +283,89 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                 layoutResultView.setVisibility(View.GONE);
             }
         });*/
+
+        btnAllocTransferEmp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set emp true
+                allocate_with_emp = true;
+
+                statusList.clear();
+                if (allocationMsgStatusItemAdapter != null)
+                    allocationMsgStatusItemAdapter.notifyDataSetChanged();
+
+                madeInfoTable.clear();
+                sfaMessTable.clear();
+
+
+                //check made no first
+
+                //AllocationSendMsgItem item = allocationSendMsgItemAdapter.getItem(0);
+                AllocationSendMsgItem item = myList.get(0);
+
+                Log.e(TAG, "item = "+item.getContent()+" editText = "+item.getEditText().getText());
+
+                if (item != null) {
+
+                    Intent getMadeNoIntent = new Intent(fragmentContext, CheckMadeNoExistService.class);
+                    getMadeNoIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_ACTION);
+                    getMadeNoIntent.putExtra("MADE_NO", item.getContent());
+                    fragmentContext.startService(getMadeNoIntent);
+                }
+
+                //set date
+                dateList.clear();
+                if (dateAdapter != null)
+                    dateAdapter.notifyDataSetChanged();
+                //set date spinner
+                Calendar calendar = Calendar.getInstance();
+                //add 30 minutes
+                calendar.add(Calendar.MINUTE, 30);
+                Date today = calendar.getTime();
+                calendar.setTime(today);
+                int hours = calendar.get(Calendar.HOUR_OF_DAY);
+                int minutes = calendar.get(Calendar.MINUTE);
+
+                Log.e(TAG, "hours = "+hours+", minutes = "+minutes);
+
+                String fToday = new SimpleDateFormat("yyyy-MM-dd", current).format(today);
+                dateList.add(fToday);
+
+                for (int i=0; i<11; i++) {
+                    calendar.add(Calendar.DAY_OF_YEAR, 1);
+                    Date date = calendar.getTime();
+
+                    String fDate = new SimpleDateFormat("yyyy-MM-dd", current).format(date);
+                    dateList.add(fDate);
+                }
+
+                if (dateAdapter != null)
+                    dateAdapter.notifyDataSetChanged();
+                else
+                    dateAdapter = new ArrayAdapter<>(fragmentContext, R.layout.myspinner, dateList);
+
+                AllocationSendMsgItem item_date = myList.get(8);
+                AllocationSendMsgItem item_hour = myList.get(9);
+                AllocationSendMsgItem item_min = myList.get(10);
+                if (item_date != null) {
+                    if (item_date.getSpinner() != null)
+                        item_date.getSpinner().setAdapter(dateAdapter);
+                }
+                if (item_hour != null) {
+                    if (item_hour.getSpinner() != null) {
+                        item_hour.setContent(String.valueOf(hours));
+                        item_hour.getSpinner().setSelection(hours);
+                    }
+
+                }
+                if (item_min != null) {
+                    if (item_min.getSpinner() != null) {
+                        item_min.setContent(String.valueOf(minutes));
+                        item_min.getSpinner().setSelection(minutes);
+                    }
+                }
+            }
+        });
 
         btnAllocTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -465,7 +563,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+        /*btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int selected = 0;
@@ -489,18 +587,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                 hhh.Rows.remove(selected);
 
-                /*Log.e(TAG, "========================================================");
-                for (int i=0; i<hhh.Rows.size(); i++) {
 
-                    for (int j=0; j<hhh.Columns.size(); j++) {
-                        System.out.print(hhh.Rows.get(i).getValue(j));
-                        if (j < hhh.Columns.size() - 1) {
-                            System.out.print(", ");
-                        }
-                    }
-                    System.out.print("\n");
-                }
-                Log.e(TAG, "========================================================");*/
 
                 if (statusList.size() > 0) {
                     btnDelete.setEnabled(true);
@@ -508,7 +595,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                     btnDelete.setEnabled(false);
                 }
             }
-        });
+        });*/
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -674,7 +761,10 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                 if (intent.getAction() != null) {
 
-                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
+                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
+                        Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
 
                         toast(getResources().getString(R.string.socket_timeout));
@@ -707,7 +797,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
 
                         btnAllocTransfer.setEnabled(true);
-
+                        btnAllocTransferEmp.setEnabled(true);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_EMPTY)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_EMPTY");
@@ -768,13 +858,26 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         layoutResultView.setVisibility(View.VISIBLE);*/
 
 
-                        Intent getSfaMessIntent = new Intent(fragmentContext, GetSfaDataMessService.class);
-                        getSfaMessIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_ACTION);
-                        getSfaMessIntent.putExtra("MADE_NO", myList.get(0).getContent());
-                        getSfaMessIntent.putExtra("REQ_QTY", myList.get(3).getContent());
-                        getSfaMessIntent.putExtra("STOCK_NO", myList.get(1).getContent());
-                        getSfaMessIntent.putExtra("LOCATE_NO", myList.get(2).getContent());
-                        fragmentContext.startService(getSfaMessIntent);
+
+                        if (allocate_with_emp) { //get mess by emp
+                            Intent getSfaMessIntent = new Intent(fragmentContext, GetSfaDataMessWorkerService.class);
+                            getSfaMessIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_ACTION);
+                            getSfaMessIntent.putExtra("MADE_NO", myList.get(0).getContent());
+                            getSfaMessIntent.putExtra("REQ_QTY", myList.get(3).getContent());
+                            getSfaMessIntent.putExtra("STOCK_NO", myList.get(1).getContent());
+                            getSfaMessIntent.putExtra("LOCATE_NO", myList.get(2).getContent());
+                            fragmentContext.startService(getSfaMessIntent);
+                            allocate_with_emp = false;
+                        } else { //get all
+                            Intent getSfaMessIntent = new Intent(fragmentContext, GetSfaDataMessService.class);
+                            getSfaMessIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_ACTION);
+                            getSfaMessIntent.putExtra("MADE_NO", myList.get(0).getContent());
+                            getSfaMessIntent.putExtra("REQ_QTY", myList.get(3).getContent());
+                            getSfaMessIntent.putExtra("STOCK_NO", myList.get(1).getContent());
+                            getSfaMessIntent.putExtra("LOCATE_NO", myList.get(2).getContent());
+                            fragmentContext.startService(getSfaMessIntent);
+                        }
+
 
 
 
@@ -845,25 +948,25 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_SUCCESS");
 
                         Intent get_X9115_sp_Intent = new Intent(fragmentContext, GetVarValueService.class);
-                        get_X9115_sp_Intent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_ACTION);
+                        get_X9115_sp_Intent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_ACTION);
                         get_X9115_sp_Intent.putExtra("TAG_ID", "SHOW_9115");
                         fragmentContext.startService(get_X9115_sp_Intent);
 
                         if (allocationMsgStatusItemAdapter != null) {
-                            statusList.get(0).setSelected(true);
+                            //statusList.get(0).setSelected(true);
                             allocationMsgStatusItemAdapter.notifyDataSetChanged();
                         } else {
-                            statusList.get(0).setSelected(true);
-                            allocationMsgStatusItemAdapter = new AllocationMsgStatusItemAdapter(fragmentContext, R.layout.allocation_msg_send_allocation_status_item, statusList);
+                            //statusList.get(0).setSelected(true);
+                            allocationMsgStatusItemAdapter = new AllocationMsgStatusItemAdapter(fragmentContext, R.layout.allocation_msg_send_allocation_status_swipe_item, statusList);
                             statusListView.setAdapter(allocationMsgStatusItemAdapter);
                         }
 
                         toast(getResources().getString(R.string.look_up_in_stock_find_records, String.valueOf(statusList.size())));
 
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_SUCCESS)){
-                        Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_SUCCESS");
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_SUCCESS)){
+                        Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_SUCCESS");
 
-                        String x9115_sp = intent.getStringExtra("X9115_SP");
+                        String x9115_sp = intent.getStringExtra("GET_VAR_VALUE_RETURN");
 
                         if (hhh.Rows.size() > 0) {
                             hhh.Rows.clear();
@@ -931,11 +1034,11 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                         hhh.TableName = "HHHA";
 
-                        if (statusList.size() > 0) {
+                        /*if (statusList.size() > 0) {
                             btnDelete.setEnabled(true);
                         } else {
                             btnDelete.setEnabled(false);
-                        }
+                        }*/
 
                         /*Log.e(TAG, "========================================================");
                         for (int i=0; i<hhh.Rows.size(); i++) {
@@ -950,8 +1053,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         }
                         Log.e(TAG, "========================================================");*/
 
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_FAILED)){
-                        Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_FAILED");
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED)){
+                        Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_FAILED");
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_SUCCESS)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_SUCCESS");
@@ -998,6 +1101,10 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED");
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE)){
+                        Log.d(TAG, "receive ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE");
+                        if (allocationMsgStatusItemAdapter != null)
+                            allocationMsgStatusItemAdapter.notifyDataSetChanged();
                     }
 
                 }
@@ -1006,6 +1113,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
         if (!isRegister) {
             filter = new IntentFilter();
+            filter.addAction(Constants.ACTION.SOAP_CONNECTION_FAIL);
             filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_EMPTY);
@@ -1027,12 +1135,14 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_FAILED);
 
-            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_SUCCESS);
-            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_FAILED);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED);
 
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED);
+
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
 
             //filter.addAction("unitech.scanservice.data");
             fragmentContext.registerReceiver(mReceiver, filter);
@@ -1073,4 +1183,6 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
     }
+
+
 }

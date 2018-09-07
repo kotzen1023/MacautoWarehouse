@@ -1,15 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
-
-    <TextView
-        android:id="@+id/textProductionStorage"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Production Storage" />
-</RelativeLayout>
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <EditText
+            android:id="@+id/exitTextInNo"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center"
+            android:hint="@string/production_storage_in_no"
+            />
+
+        <Button
+            android:id="@+id/btnUserInputConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/production_storage_user_input_confirm"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/production_storage_in_no"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:id="@+id/c_in_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/production_storage_in_date"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:id="@+id/c_in_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/production_storage_made_no"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:id="@+id/c_made_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/production_storage_dept"
+                            android:gravity="center_vertical"/>
+
+                        <TextView
+                            android:id="@+id/c_dept_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_weight="0"
+                android:background="#b7b7b7" />
+
+            <ListView
+                android:id="@+id/productListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+            </ListView>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnInStockConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/production_storage_in_storage_confirm"
+        android:enabled="false"/>
+
+
+
+
+</LinearLayout>

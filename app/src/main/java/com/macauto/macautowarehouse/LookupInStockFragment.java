@@ -281,7 +281,7 @@ public class LookupInStockFragment extends Fragment {
 
                                 Log.e(TAG, "counter = "+counter);
 
-                                if (counter >= 2) {
+                                if (counter >= 1) {
 
 
 

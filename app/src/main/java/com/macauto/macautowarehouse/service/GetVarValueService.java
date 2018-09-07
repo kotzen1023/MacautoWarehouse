@@ -89,8 +89,8 @@ public class GetVarValueService extends IntentService {
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_ACTION)) {
-                Log.i(TAG, "ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_ACTION)) {
+                Log.i(TAG, "ACTION_ALLOCATION_GET_TAG_ID_ACTION");
             }
         }
 
@@ -147,20 +147,20 @@ public class GetVarValueService extends IntentService {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
 
-                Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_FAILED);
+                Intent getSuccessIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
                 sendBroadcast(getSuccessIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                String x9115_sp = parseToString(resultsRequestSOAP);
+                String ret = parseToString(resultsRequestSOAP);
 
-                if (x9115_sp != null) {
-                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_SUCCESS);
-                    getSuccessIntent.putExtra("X9115_SP", x9115_sp);
+                if (ret != null) {
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_SUCCESS);
+                    getSuccessIntent.putExtra("GET_VAR_VALUE_RETURN", ret);
                     sendBroadcast(getSuccessIntent);
                 } else {
-                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_FAILED);
+                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED);
                     sendBroadcast(getFailedIntent);
                 }
 
@@ -191,7 +191,7 @@ public class GetVarValueService extends IntentService {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_FAILED);
+            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED);
             sendBroadcast(getFailedIntent);
         }
 

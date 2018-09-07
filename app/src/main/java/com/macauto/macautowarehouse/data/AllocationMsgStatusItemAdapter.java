@@ -1,21 +1,33 @@
 package com.macauto.macautowarehouse.data;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.daimajia.swipe.SwipeLayout;
+import com.macauto.macautowarehouse.AllocationSendMsgStatusDetailActivity;
 import com.macauto.macautowarehouse.R;
+import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
+import com.macauto.macautowarehouse.table.DataTable;
 
 import java.util.ArrayList;
 
+import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.hhh;
 
 
 public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgStatusItem> {
@@ -53,7 +65,7 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
     public @NonNull
     View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
-        //Log.e(TAG, "getView = "+ position);
+        Log.e(TAG, "getView = "+ position);
         View view;
         ViewHolder holder;
         if (convertView == null || convertView.getTag() == null) {
@@ -100,37 +112,175 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
             //holder.itemDate.setText(allocationMsgItem.getDate());
 
 
-            if (allocationMsgStatusItem.isSelected()) {
+            /*if (allocationMsgStatusItem.isSelected()) {
                 //Log.e(TAG, ""+position+" is selected.");
                 //view.setSelected(true);
                 view.setBackgroundColor(Color.rgb(0x4d, 0x90, 0xfe));
             } else {
                 //Log.e(TAG, ""+position+" clear.");
                 //view.setSelected(false);
-                view.setBackgroundColor(Color.rgb(0xF1, 0x8D, 0x0A));
-            }
+                view.setBackgroundColor(Color.TRANSPARENT);
+            }*/
 
 
+            holder.btnEdit.setOnClickListener(onEditListener(position, holder));
+            holder.btnDelete.setOnClickListener(onDeleteListener(position, holder));
 
 
+            holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
 
+            holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.bottom_wrapper);
+
+
+            holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                @Override
+                public void onClose(SwipeLayout layout) {
+                    Log.i(TAG, "onClose");
+                }
+
+                @Override
+                public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+                    Log.i(TAG, "on swiping");
+                }
+
+                @Override
+                public void onStartOpen(SwipeLayout layout) {
+                    Log.i(TAG, "on start open");
+
+                }
+
+                @Override
+                public void onOpen(SwipeLayout layout) {
+                    Log.i(TAG, "the BottomView totally show");
+                    /*Intent newNotifyIntent = new Intent();
+                    newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
+                    mContext.sendBroadcast(newNotifyIntent);*/
+                }
+
+                @Override
+                public void onStartClose(SwipeLayout layout) {
+                    Log.i(TAG, "the BottomView totally close");
+
+                }
+
+                @Override
+                public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+                    //when user's hand released.
+                    Log.i(TAG, "onHandRelease");
+                }
+            });
         }
         return view;
     }
 
+    private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "edit click "+position);
 
+                showEditDialog(position, holder);
+            }
+        };
+    }
+
+    private void showEditDialog(final int position, final ViewHolder holder) {
+
+        holder.swipeLayout.close();
+
+        Intent detailIntent = new Intent(mContext, AllocationSendMsgStatusDetailActivity.class);
+        detailIntent.putExtra("ITEM_SFA03", items.get(position).getItem_SFA03());
+        detailIntent.putExtra("ITEM_IMA021", items.get(position).getItem_IMA021());
+        detailIntent.putExtra("ITEM_IMG10", items.get(position).getItem_IMG10());
+        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
+        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
+        detailIntent.putExtra("ITEM_MESS_QTY", items.get(position).getItem_MESS_QTY());
+        detailIntent.putExtra("ITEM_SFA05", items.get(position).getItem_SFA05());
+        detailIntent.putExtra("ITEM_SFA12", items.get(position).getItem_SFA12());
+        detailIntent.putExtra("ITEM_SFA11_NAME", items.get(position).getItem_SFA11_NAME());
+        detailIntent.putExtra("ITEM_TC_OBF013", items.get(position).getItem_TC_OBF013());
+        mContext.startActivity(detailIntent);
+
+        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+
+        alertDialogBuilder.setTitle("EDIT ELEMENT");
+        final EditText input = new EditText(mContext);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setText(items.get(position));
+        input.setLayoutParams(lp);
+        alertDialogBuilder.setView(input);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // get user input and set it to result edit text
+                                friends.set(position, input.getText().toString().trim());
+
+                                //notify data set changed
+                                //activity.updateAdapter();
+                                holder.swipeLayout.close();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog and show it
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();*/
+    }
+
+    private View.OnClickListener onDeleteListener(final int position, final ViewHolder holder) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "delete click "+position);
+
+                //activity.updateAdapter();
+                items.remove(position);
+                holder.swipeLayout.close();
+                Intent newNotifyIntent = new Intent();
+                newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
+                mContext.sendBroadcast(newNotifyIntent);
+
+            }
+        };
+    }
 
     private class ViewHolder  {
-        TextView textViewIndex;
-        TextView textViewTop;
-        TextView textViewCenter;
-        TextView textViewBottom;
+        private TextView textViewIndex;
+        private TextView textViewTop;
+        private TextView textViewCenter;
+        private TextView textViewBottom;
+
+        private View btnDelete;
+        private View btnEdit;
+
+        private SwipeLayout swipeLayout;
+        private LinearLayout bottom_wrapper;
 
         private ViewHolder(View view) {
             this.textViewIndex = view.findViewById(R.id.statusItemId);
             this.textViewTop = view.findViewById(R.id.statusItemtitle);
             this.textViewCenter = view.findViewById(R.id.statusItemDecrypt);
             this.textViewBottom = view.findViewById(R.id.statusItemCount);
+            this.swipeLayout = view.findViewById(R.id.swipe_layout);
+            this.bottom_wrapper = view.findViewById(R.id.bottom_wrapper);
+
+            this.btnDelete = view.findViewById(R.id.delete);
+            this.btnEdit = view.findViewById(R.id.edit_query);
+
+            //set show mode.
+            //swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+
+
         }
     }
 }

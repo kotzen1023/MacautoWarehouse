@@ -8,6 +8,7 @@ import android.util.Log;
 
 
 import com.macauto.macautowarehouse.data.Constants;
+import com.macauto.macautowarehouse.table.DataRow;
 
 
 import org.ksoap2.SoapEnvelope;
@@ -17,8 +18,10 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
@@ -178,11 +181,78 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
                     //sendBroadcast(loginResultIntent);
                 }*/
 
-                Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS);
+                String s_p = "1"; //TEST = 2, MAT or other = 1
+
+
+
+                String script_string = "sh run_me " + s_p + " 1 " + doc_no5 + " '" + doc_type + "'";
+
+                boolean found_same_script = false;
+                for (DataRow dr : table_X_M.Rows) {
+                    if (dr.getValue("script").equals(script_string)) {
+                        found_same_script = true;
+                        break;
+                    }
+                }
+                if (found_same_script) {
+                    Log.d(TAG, "Found same script, will not add");
+                } else {
+                    DataRow kr = table_X_M.NewRow();
+                    kr.setValue("script", script_string);
+                    table_X_M.Rows.add(kr);
+                }
+
+
+
+                int found_index = -1;
+                int next_table;
+
+                next_table = Integer.valueOf(current_table) - 1;
+                Log.e(TAG, "=== [ExecuteScriptTTService] check stock in start ===");
+                for (int i=0; i < check_stock_in.size(); i++) {
+                    Log.e(TAG, "check_stock_in["+i+"] = "+check_stock_in.get(i));
+                }
+                Log.e(TAG, "=== [ExecuteScriptTTService] check stock in end ===");
+
+                for (int i=next_table; i>=0; i--) {
+                    if (check_stock_in.get(i)) {
+                        Log.e(TAG, "found_index =>>>>> "+i);
+                        found_index = i;
+                        break;
+                    }
+                }
+
+                Intent getSuccessIntent = new Intent();
+                if (found_index != -1) {
+
+
+                    if (next_table == -1) {
+                        Log.e(TAG, "send complete to stop!");
+                        getSuccessIntent.setAction(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_COMPLETE);
+                        //getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
+                        sendBroadcast(getSuccessIntent);
+                    } else {
+                        Log.e(TAG, "send current index back and go next");
+                        getSuccessIntent.setAction(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS);
+                        getSuccessIntent.putExtra("CURRENT_TABLE", String.valueOf(found_index));
+                        //getSuccessIntent.putExtra("NEXT_TABLE", String.valueOf(found_index));
+                        sendBroadcast(getSuccessIntent);
+                    }
+
+
+                } else {
+                    Log.e(TAG, "send complete to stop!");
+                    getSuccessIntent.setAction(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_COMPLETE);
+                    //getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
+                    sendBroadcast(getSuccessIntent);
+
+                }
+
+                /*Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS);
                 getSuccessIntent.putExtra("DOC_TYPE", doc_type);
                 getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
                 getSuccessIntent.putExtra("RVU01", doc_no5);
-                sendBroadcast(getSuccessIntent);
+                sendBroadcast(getSuccessIntent);*/
             }
 
             //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);

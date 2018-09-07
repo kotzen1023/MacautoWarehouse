@@ -146,7 +146,7 @@ public class GetLotCodeVer2Service extends IntentService {
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_FAILED);
+                Intent getFailedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
                 sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;

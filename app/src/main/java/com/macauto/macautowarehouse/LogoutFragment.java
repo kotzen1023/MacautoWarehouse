@@ -55,16 +55,16 @@ public class LogoutFragment extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder confirmdialog = new AlertDialog.Builder(logoutContext);
                 confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
-                confirmdialog.setTitle("Logout");
-                confirmdialog.setMessage("Logout from this account?");
-                confirmdialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                confirmdialog.setTitle(getResources().getString(R.string.logout_title));
+                confirmdialog.setMessage(getResources().getString(R.string.logout_title_msg));
+                confirmdialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent loginoutIntent = new Intent(Constants.ACTION.ACTION_LOGOUT_ACTION);
                         logoutContext.sendBroadcast(loginoutIntent);
 
                     }
                 });
-                confirmdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                confirmdialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
 

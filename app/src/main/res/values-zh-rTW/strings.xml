@@ -11,12 +11,19 @@
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>
     <string name="delete">刪除</string>
+    <string name="delete_msg">確定刪除?</string>
     <string name="add">新增</string>
     <string name="save">儲存</string>
+    <string name="exit_app_title">關閉App</string>
+    <string name="exit_app_msg">關閉這個App?</string>
+    <string name="logout_title">登出</string>
+    <string name="logout_title_msg">登出此帳號?</string>
     <string name="Processing">處理中...</string>
     <string name="rescan">重新掃描</string>
     <string name="search">搜尋</string>
     <string name="search_again">重新搜尋</string>
+    <string name="hide_keyboard">隱藏鍵盤</string>
+    <string name="show_keyboard">顯示鍵盤</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
@@ -31,7 +38,8 @@
 
     <string name="nav_receiving">收貨模組</string>
     <string name="nav_shipment">出貨模組</string>
-    <string name="nav_allocation">備料模組</string>
+    <string name="nav_allocation_send">發備料訊息至物料</string>
+    <string name="nav_allocation">待處理備料訊息</string>
     <string name="nav_entering_warehouse">收貨驗收入庫確認</string>
     <string name="nav_production_storage">生產入庫確認</string>
     <string name="nav_receiving_inspection">收貨檢驗</string>
@@ -55,7 +63,9 @@
     <string name="item_title_rvb33">數量</string>
     <string name="item_title_pmc03">廠商</string>
     <string name="item_title_gen02">倉管人員</string>
+    <string name="item_title_rvv33_scan">掃描</string>
     <string name="item_title_confirm_stock_in">確認入庫</string>
+    <string name="item_total">%d 筆資料, 總數 %s</string>
 
     <string name="action_shipment_main">出貨掃描確認作業</string>
     <string name="action_shipment_find">庫存查詢</string>
@@ -101,6 +111,7 @@
     <string name="entering_warehouse_dialog_head">儲位分拆</string>
     <string name="entering_warehouse_into_stock">入庫</string>
     <string name="entering_warehouse_no_record">沒有資料</string>
+    <string name="entering_warehouse_tt_split_rvv_failed">拆次入庫失敗 , 請通知資訊人員</string>
     
     <string name="receiving_rec_no">收貨單號</string>
     <string name="receiving_rec_date">收貨日期 (yyyyMMdd)</string>
@@ -121,6 +132,7 @@
     <string name="allocation_send_message_to_material_date_hour">時</string>
     <string name="allocation_send_message_to_material_date_minute">分</string>
     <string name="allocation_send_message_to_material_produce_transfer">產生調撥資料</string>
+    <string name="allocation_send_message_to_material_produce_transfer_emp">產生調撥資料(物料員)</string>
     <string name="allocation_send_message_to_material_re_produce_transfer">重新產生調撥資料</string>
     <string name="allocation_send_message_to_material_delete_detail">刪除細項</string>
     <string name="allocation_send_message_to_material_send_msg_to_material">發送調撥訊息給物料人員</string>
@@ -146,6 +158,10 @@
     <string name="allocation_send_message_to_material_send_error">發送訊息有誤,請洽資訊部</string>
     <string name="allocation_send_message_to_material_the_msg_order_below">產生的訊息單號如下: </string>
     <string name="allocation_handle_message_delete_select">刪除已選擇訊息單</string>
+    <string name="allocation_button_message_list">待處理訊息</string>
+    <string name="allocation_button_scan_list">掃描列表</string>
+    <string name="allocation_button_delete_detail">刪除細項</string>
+    <string name="allocation_button_transfer">產生調撥單</string>
 
     <string name="allocation_no_message">沒有訊息</string>
     <string name="allocation_get_msg_detail_error">無法取得詳細資料!</string>
@@ -156,6 +172,9 @@
     <string name="allocation_detail_request">需求時間</string>
     <string name="allocation_detail_model">機種</string>
     <string name="allocation_detail_barcode">條碼</string>
+    <string name="allocation_detail_scanned">已掃描</string>
+    <string name="allocation_detail_scanned_not_found">無對應的料批, 請重新掃描!</string>
+    <string name="allocation_detail_should_scan">料號 %s 應該要刷條碼, 但未刷, 無法扣帳!"</string>
 
     <string name="look_up_in_stock_part_no">料件編號</string>
     <string name="look_up_in_stock_part_name">料件名稱</string>
@@ -197,4 +216,28 @@
     <string name="shipment_shipping_scanned">已掃描</string>
     <string name="shipment_shipping_wait_scan">可供掃描</string>
     <string name="shipment_shipping_rescan">重新掃描</string>
+
+    <string name="production_storage_user_input_confirm">手動輸入確認</string>
+    <string name="production_storage_in_no">入庫單號</string>
+    <string name="production_storage_in_date">入庫日期</string>
+    <string name="production_storage_made_no">工單號碼</string>
+    <string name="production_storage_dept">生產部門</string>
+    <string name="production_storage_in_storage_confirm">入庫確認</string>
+    <string name="production_storage_index">項次</string>
+    <string name="production_storage_store_type">儲存方式</string>
+    <string name="production_storage_part_no">料號</string>
+    <string name="production_storage_stock_no">倉庫</string>
+    <string name="production_storage_locate_no_def">預設儲位</string>
+    <string name="production_storage_locate_no">儲位</string>
+    <string name="production_storage_batch_no">批號</string>
+    <string name="production_storage_qty">數量</string>
+    <string name="production_storage_unit">單位</string>
+    <string name="production_storage_count_no">流水號</string>
+
+    <string name="production_storage_inbound_order_has_confirmed">本張生產入庫單 %s 已經確認入庫,請勿再掃描.</string>
+    <string name="production_storage_not_inbound_order">非生產入庫單條碼</string>
+    <string name="production_storage_product_locate_not_scanned">仍有料件儲位未掃描</string>
+    <string name="production_storage_in_stock_process_complete">生產入庫作業完成</string>
+    <string name="production_storage_in_stock_process_abort">修改後的儲位, 不在基本檔內, 請先在基本檔設定倉庫及儲位代碼</string>
+    <string name="production_storage_update_process_error">入庫更新TT資料錯誤. 請聯絡IT人員.</string>
 </resources>

@@ -6,24 +6,64 @@
     android:orientation="vertical"
     >
 
-
-    <ListView
-        android:id="@+id/listViewAllocationMsg"
+    <LinearLayout
+        android:id="@+id/layoutMsgShow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:layout_weight="1">
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:visibility="visible">
+
+        <!--Button
+            android:id="@+id/btnDelete"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/allocation_handle_message_delete_select"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:enabled="false"/-->
+
+        <ListView
+            android:id="@+id/listViewAllocationMsg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:choiceMode="singleChoice"
+            android:layout_weight="1">
 
 
-    </ListView>
+        </ListView>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnDelete"
+
+
+    <!--View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_weight="0"
+        android:background="#b7b7b7" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="@string/allocation_handle_message_delete_select"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:enabled="false"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnMsgList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/allocation_button_message_list"
+            android:layout_weight="1"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/btnMsgScan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/allocation_button_scan_list"
+            android:layout_weight="1"/>
+    </LinearLayout-->
+
+
 
 
 

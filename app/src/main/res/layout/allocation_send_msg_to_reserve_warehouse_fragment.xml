@@ -77,11 +77,24 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:text="@string/allocation_send_message_to_material_produce_transfer_emp"
+                android:id="@+id/btnAllocateTransferEmp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_weight="1"
+                android:enabled="false"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:text="@string/allocation_send_message_to_material_produce_transfer"
                 android:id="@+id/btnAllocateTransfer"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_weight="1"
-                android:enabled="false"/>
+                android:visibility="gone"
+                android:enabled="false"
+                />
+
+
 
             <Button
                 android:layout_width="0dp"
@@ -92,15 +105,7 @@
                 android:layout_weight="1"
                 android:visibility="gone"/>
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/allocation_send_message_to_material_delete_detail"
-                android:id="@+id/btnDelete"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:enabled="false"/>
+
 
             <Button
                 android:layout_width="0dp"

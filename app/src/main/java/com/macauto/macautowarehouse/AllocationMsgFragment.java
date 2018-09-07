@@ -20,10 +20,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.AllocationMsgAdapter;
+import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
 import com.macauto.macautowarehouse.data.AllocationMsgItem;
 import com.macauto.macautowarehouse.data.Constants;
 
@@ -52,15 +55,32 @@ public class AllocationMsgFragment extends Fragment {
     ProgressDialog loadDialog = null;
     public static ArrayList<AllocationMsgItem> msg_list = new ArrayList<>();
 
+    private LinearLayout layoutMsgShow;
+    //private LinearLayout layoutScan;
+
+    //private Button btnMsgList;
+    //private Button btnMsgScan;
+
     private AllocationMsgAdapter allocationMsgAdapter;
     private ListView msgListView;
-    private Button btnDelete;
+    //private Button btnDelete;
+
+    /*private TextView x_scan_no;
+    private TextView s_iss_date;
+    private TextView sp_made_no;
+    private TextView s_tag_stock_no;
+    private TextView s_tag_locate_no;
+    private TextView s_pre_get_datetime;
+    private TextView s_ima03;*/
 
     public static DataTable msgDataTable;
 
     private static String iss_no;
     private static String dateTime_0, dateTime_1, dateTime_2, dateTime_3;
+    private static int current_check_delete = -1;
     //private static boolean is_delete_right = false;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,38 +98,70 @@ public class AllocationMsgFragment extends Fragment {
         fragmentContext = getContext();
 
         final  View view = inflater.inflate(R.layout.allocation_msg_fragment, container, false);
+
+        layoutMsgShow = view.findViewById(R.id.layoutMsgShow);
+        //layoutScan = view.findViewById(R.id.layoutScan);
+
+        //btnMsgList = view.findViewById(R.id.btnMsgList);
+        //btnMsgScan = view.findViewById(R.id.btnMsgScan);
+
+        /*x_scan_no = view.findViewById(R.id.x_scan_no);
+        s_iss_date = view.findViewById(R.id.s_iss_date);
+        sp_made_no = view.findViewById(R.id.sp_made_no);
+        s_tag_stock_no = view.findViewById(R.id.s_tag_stock_no);
+        s_tag_locate_no = view.findViewById(R.id.s_tag_locate_no);
+        s_pre_get_datetime = view.findViewById(R.id.s_pre_get_datetime);
+        s_ima03 = view.findViewById(R.id.s_ima03);*/
+
+        /*btnMsgList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnMsgList.setEnabled(false);
+                btnMsgScan.setEnabled(true);
+                layoutMsgShow.setVisibility(View.VISIBLE);
+                layoutScan.setVisibility(View.GONE);
+            }
+        });
+
+        btnMsgScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnMsgList.setEnabled(true);
+                btnMsgScan.setEnabled(false);
+                layoutMsgShow.setVisibility(View.GONE);
+                layoutScan.setVisibility(View.VISIBLE);
+            }
+        });*/
+
         msgListView = view.findViewById(R.id.listViewAllocationMsg);
-        btnDelete = view.findViewById(R.id.btnDelete);
+        //btnDelete = view.findViewById(R.id.btnDelete);
 
         msgListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "select "+position);
 
-
+                /*
 
                 //deselect other
                 for (int i=0; i<msg_list.size(); i++) {
 
                     if (i == position) {
 
-                        /*if (msg_list.get(i).isSelected()) {
-                            Log.e(TAG, "already selected.");
 
-                            String[] p_no = msg_list.get(position).getWork_order().split("#");
-
-                            Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
-                            getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
-                            getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
-                            fragmentContext.startService(getMessDetailIntent);
-                        } else {
-                            msg_list.get(i).setSelected(true);
-                        }*/
-                        msg_list.get(i).setSelected(true);
 
                         String[] p_no = msg_list.get(position).getWork_order().split("#");
 
-                        if (p_no.length > 0) {
+                        Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
+                        getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
+                        getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
+                        fragmentContext.startService(getMessDetailIntent);
+
+                        //msg_list.get(i).setSelected(true);
+
+                        //String[] p_no = msg_list.get(position).getWork_order().split("#");
+
+                        if (p_no.length > 1) {
 
                             iss_no = p_no[0];
 
@@ -135,12 +187,12 @@ public class AllocationMsgFragment extends Fragment {
                         //getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
                         //fragmentContext.startService(getMessDetailIntent);
                     } else {
-                        msg_list.get(i).setSelected(false);
+                        //msg_list.get(i).setSelected(false);
 
                     }
                 }
 
-                msgListView.invalidateViews();
+                msgListView.invalidateViews();*/
             }
         });
 
@@ -148,17 +200,13 @@ public class AllocationMsgFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String[] p_no = msg_list.get(position).getWork_order().split("#");
+                /*String[] p_no = msg_list.get(position).getWork_order().split("#");
 
                 if (p_no.length > 0) {
 
                     iss_no = p_no[0];
 
-                    /*Intent getDeleteRightIntent = new Intent(fragmentContext, CheckDeleteMessageRightsService.class);
-                    getDeleteRightIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION);
-                    getDeleteRightIntent.putExtra("ISS_NO", iss_no);
-                    getDeleteRightIntent.putExtra("USER_NO", emp_no);
-                    fragmentContext.startService(getDeleteRightIntent);*/
+
 
                     if (p_no[2].length() > 0) {
                         dateTime_0 = p_no[2].substring(0, 4);
@@ -180,13 +228,13 @@ public class AllocationMsgFragment extends Fragment {
                 loadDialog.setTitle(getResources().getString(R.string.Processing));
                 loadDialog.setIndeterminate(false);
                 loadDialog.setCancelable(false);
-                loadDialog.show();
+                loadDialog.show();*/
 
                 return true;
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+        /*btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -225,7 +273,7 @@ public class AllocationMsgFragment extends Fragment {
                 });
                 confirmdialog.show();
             }
-        });
+        });*/
 
         msg_list.clear();
 
@@ -239,7 +287,7 @@ public class AllocationMsgFragment extends Fragment {
         //item1.setDate("20180808");
         msg_list.add(item2);*/
 
-        allocationMsgAdapter = new AllocationMsgAdapter(fragmentContext, R.layout.allocation_msg_list_item, msg_list);
+        allocationMsgAdapter = new AllocationMsgAdapter(fragmentContext, R.layout.allocation_msg_list_swipe_item, msg_list);
         msgListView.setAdapter(allocationMsgAdapter);
 
         //get my mess list
@@ -265,7 +313,17 @@ public class AllocationMsgFragment extends Fragment {
 
                 if (intent.getAction() != null) {
 
-                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED)) {
+                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
+                        Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
+                        Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
+                        toast(getResources().getString(R.string.socket_timeout));
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED");
                         loadDialog.dismiss();
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS)) {
@@ -279,6 +337,24 @@ public class AllocationMsgFragment extends Fragment {
                             msgListView.setAdapter(allocationMsgAdapter);
                         }
 
+                        //then check delete right
+                        current_check_delete = msg_list.size() - 1; //start from the last
+
+                        if (current_check_delete >= 0) {
+                            String[] p_no = msg_list.get(current_check_delete).getWork_order().split("#");
+                            if (p_no.length > 1) {
+
+                                iss_no = p_no[0];
+
+                                Intent getDeleteRightIntent = new Intent(fragmentContext, CheckDeleteMessageRightsService.class);
+                                getDeleteRightIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION);
+                                getDeleteRightIntent.putExtra("ISS_NO", iss_no);
+                                getDeleteRightIntent.putExtra("USER_NO", emp_no);
+                                getDeleteRightIntent.putExtra("CURRENT_CHECK_DELETE", String.valueOf(current_check_delete));
+                                fragmentContext.startService(getDeleteRightIntent);
+                            }
+                        }
+
 
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY)) {
@@ -286,6 +362,24 @@ public class AllocationMsgFragment extends Fragment {
                         loadDialog.dismiss();
                         toast(getResources().getString(R.string.allocation_no_message));
 
+
+                        //then check delete right
+                        current_check_delete = msg_list.size() - 1; //start from the last
+
+                        if (current_check_delete >= 0) {
+                            String[] p_no = msg_list.get(current_check_delete).getWork_order().split("#");
+                            if (p_no.length > 1) {
+
+                                iss_no = p_no[0];
+
+                                Intent getDeleteRightIntent = new Intent(fragmentContext, CheckDeleteMessageRightsService.class);
+                                getDeleteRightIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION);
+                                getDeleteRightIntent.putExtra("ISS_NO", iss_no);
+                                getDeleteRightIntent.putExtra("USER_NO", emp_no);
+                                getDeleteRightIntent.putExtra("CURRENT_CHECK_DELETE", String.valueOf(current_check_delete));
+                                fragmentContext.startService(getDeleteRightIntent);
+                            }
+                        }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED");
@@ -300,7 +394,18 @@ public class AllocationMsgFragment extends Fragment {
                         String tag_locate_no = intent.getStringExtra("TAG_LOCATE_NO");
                         String tag_stock_no = intent.getStringExtra("TAG_STOCK_NO");
                         String ima03 = intent.getStringExtra("IMA03");
+                        dateTime_0 = intent.getStringExtra("DATETIME_0");
+                        dateTime_1 = intent.getStringExtra("DATETIME_1");
+                        dateTime_2 = intent.getStringExtra("DATETIME_2");
+                        dateTime_3 = intent.getStringExtra("DATETIME_3");
 
+                        /*s_iss_date.setText(iss_date);
+                        sp_made_no.setText(made_no);
+                        s_tag_locate_no.setText(tag_locate_no);
+                        s_tag_stock_no.setText(tag_stock_no);
+                        s_ima03.setText(ima03);
+                        String date_string = dateTime_0+"-"+dateTime_1+"-"+dateTime_2+"  "+dateTime_3;
+                        s_pre_get_datetime.setText(date_string);*/
 
                         Intent successIntent = new Intent(fragmentContext, AllocationMsgDetailActivity.class);
                         successIntent.putExtra("ISS_DATE", iss_date);
@@ -311,32 +416,107 @@ public class AllocationMsgFragment extends Fragment {
                         successIntent.putExtra("PRE_GET_DATETIME", dateTime_0+"-"+dateTime_1+"-"+dateTime_2+"  "+dateTime_3);
                         startActivity(successIntent);
 
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_SUCCESS)) {
-                        Log.d(TAG, "receive ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_SUCCESS");
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES");
+
+                        String current_check_string = intent.getStringExtra("CURRENT_CHECK_DELETE");
+                        current_check_delete = Integer.valueOf(current_check_string);
+                        msg_list.get(current_check_delete).setDelete(true);
+                        //renew listView
+                        if (allocationMsgAdapter != null)
+                            allocationMsgAdapter.notifyDataSetChanged();
+                        //find next
+                        current_check_delete = current_check_delete - 1;
+                        if (current_check_delete >= 0) {
+                            String[] p_no = msg_list.get(current_check_delete).getWork_order().split("#");
+                            if (p_no.length > 1) {
+
+                                iss_no = p_no[0];
+
+                                Intent getDeleteRightIntent = new Intent(fragmentContext, CheckDeleteMessageRightsService.class);
+                                getDeleteRightIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION);
+                                getDeleteRightIntent.putExtra("ISS_NO", iss_no);
+                                getDeleteRightIntent.putExtra("USER_NO", emp_no);
+                                getDeleteRightIntent.putExtra("CURRENT_CHECK_DELETE", String.valueOf(current_check_delete));
+                                fragmentContext.startService(getDeleteRightIntent);
+                            }
+                        }
 
                         //is_delete_right = true;
-                        btnDelete.setEnabled(true);
+                        //btnDelete.setEnabled(true);
 
                         /*Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
                         getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
                         getMessDetailIntent.putExtra("ISS_NO", iss_no);
                         fragmentContext.startService(getMessDetailIntent);*/
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_NO)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_NO");
+
+                        String current_check_string = intent.getStringExtra("CURRENT_CHECK_DELETE");
+                        current_check_delete = Integer.valueOf(current_check_string);
+                        msg_list.get(current_check_delete).setDelete(false);
+                        //renew listView
+                        if (allocationMsgAdapter != null)
+                            allocationMsgAdapter.notifyDataSetChanged();
+                        //find next
+                        current_check_delete = current_check_delete - 1;
+                        if (current_check_delete >= 0) {
+                            String[] p_no = msg_list.get(current_check_delete).getWork_order().split("#");
+                            if (p_no.length > 1) {
+
+                                iss_no = p_no[0];
+
+                                Intent getDeleteRightIntent = new Intent(fragmentContext, CheckDeleteMessageRightsService.class);
+                                getDeleteRightIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION);
+                                getDeleteRightIntent.putExtra("ISS_NO", iss_no);
+                                getDeleteRightIntent.putExtra("USER_NO", emp_no);
+                                getDeleteRightIntent.putExtra("CURRENT_CHECK_DELETE", String.valueOf(current_check_delete));
+                                fragmentContext.startService(getDeleteRightIntent);
+                            }
+                        }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED");
 
-                        //is_delete_right = false;
-                        btnDelete.setEnabled(false);
+                        String current_check_string = intent.getStringExtra("CURRENT_CHECK_DELETE");
+                        current_check_delete = Integer.valueOf(current_check_string);
+                        msg_list.get(current_check_delete).setDelete(false);
+                        //renew listView
+                        if (allocationMsgAdapter != null)
+                            allocationMsgAdapter.notifyDataSetChanged();
+                        //find next
+                        current_check_delete = current_check_delete - 1;
+                        if (current_check_delete >= 0) {
+                            String[] p_no = msg_list.get(current_check_delete).getWork_order().split("#");
+                            if (p_no.length > 1) {
 
-                        /*Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
-                        getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
-                        getMessDetailIntent.putExtra("ISS_NO", iss_no);
-                        fragmentContext.startService(getMessDetailIntent);*/
+                                iss_no = p_no[0];
 
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS)) {
+                                Intent getDeleteRightIntent = new Intent(fragmentContext, CheckDeleteMessageRightsService.class);
+                                getDeleteRightIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION);
+                                getDeleteRightIntent.putExtra("ISS_NO", iss_no);
+                                getDeleteRightIntent.putExtra("USER_NO", emp_no);
+                                getDeleteRightIntent.putExtra("CURRENT_CHECK_DELETE", current_check_delete);
+                                fragmentContext.startService(getDeleteRightIntent);
+                            }
+                        }
+
+                    }else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS");
 
-                        msg_list.clear();
+                        String delete_index = intent.getStringExtra("DELETE_INDEX");
+                        int delete_index_int = Integer.valueOf(delete_index);
+
+
+                        msg_list.remove(delete_index_int);
+
+                        if (allocationMsgAdapter != null) {
+                            allocationMsgAdapter.notifyDataSetChanged();
+                        }
+
+
+                        /*msg_list.clear();
 
                         if (allocationMsgAdapter != null) {
                             allocationMsgAdapter.notifyDataSetChanged();
@@ -348,20 +528,18 @@ public class AllocationMsgFragment extends Fragment {
                         Intent getMessIntent = new Intent(fragmentContext, GetMyMessListService.class);
                         getMessIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_ACTION);
                         getMessIntent.putExtra("USER_NO", emp_no);
-                        fragmentContext.startService(getMessIntent);
+                        fragmentContext.startService(getMessIntent);*/
 
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED");
 
 
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
-                        Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
-                        toast(getResources().getString(R.string.socket_timeout));
-
-                    } else if("unitech.scanservice.data" .equals(intent.getAction())) {
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE)){
+                        Log.d(TAG, "receive ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE");
+                        if (allocationMsgAdapter != null)
+                            allocationMsgAdapter.notifyDataSetChanged();
+                    } /*else if("unitech.scanservice.data" .equals(intent.getAction())) {
                         Log.d(TAG, "unitech.scanservice.data");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
@@ -372,7 +550,7 @@ public class AllocationMsgFragment extends Fragment {
 
 
                         }
-                    }/*else if("unitech.scanservice.datatype" .equals(intent.getAction())) {
+                    }else if("unitech.scanservice.datatype" .equals(intent.getAction())) {
                         Log.d(TAG, "unitech.scanservice.datatype");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
@@ -396,17 +574,23 @@ public class AllocationMsgFragment extends Fragment {
 
         if (!isRegister) {
             filter = new IntentFilter();
+            filter.addAction(Constants.ACTION.SOAP_CONNECTION_FAIL);
             filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS);
-            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_NO);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED);
-            filter.addAction("unitech.scanservice.data");
+
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
+
+
+            //filter.addAction("unitech.scanservice.data");
             fragmentContext.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
@@ -414,6 +598,8 @@ public class AllocationMsgFragment extends Fragment {
 
         return view;
     }
+
+
 
     @Override
     public void onDestroyView() {
@@ -441,7 +627,7 @@ public class AllocationMsgFragment extends Fragment {
     }
 
     public void toast(String message) {
-        Toast toast = Toast.makeText(fragmentContext, message, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(fragmentContext, message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
     }

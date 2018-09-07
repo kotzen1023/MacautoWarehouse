@@ -37,16 +37,27 @@ public class Constants {
         String ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_ACTION = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSub";
         String ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSubSuccess";
         String ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_FAILED = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSubFailed";
+        String ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_COMPLETE = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSubComplete";
         String ACTION_EXECUTE_TT_ACTION = "com.macauto.MacautoWarehoouse.ExcuteTtAction";
         String ACTION_EXECUTE_TT_SUCCESS = "com.macauto.MacautoWarehoouse.ExcuteTtSuccess";
         String ACTION_EXECUTE_TT_FAILED = "com.macauto.MacautoWarehoouse.ExcuteTtFailed";
         String ACTION_ENTERING_WAREHOUSE_COMPLETE = "com.macauto.MacautoWarehoouse.EnteringWarehouseComplete";
+        String ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_ACTION = "com.macauto.MacautoWarehoouse.DeleteTTReceiveGoodsInTempAction";
+        String ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS = "com.macauto.MacautoWarehoouse.DeleteTTReceiveGoodsInTempSuccess";
+        String ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_FAILED = "com.macauto.MacautoWarehoouse.DeleteTTReceiveGoodsInTempFailed";
+
+        String ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_ACTION = "com.macauto.MacautoWarehoouse.DeleteTTReceiveGoodsInTemp2Action";
+        String ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_SUCCESS = "com.macauto.MacautoWarehoouse.DeleteTTReceiveGoodsInTemp2Success";
+        String ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_FAILED = "com.macauto.MacautoWarehoouse.DeleteTTReceiveGoodsInTemp2Failed";
 
         String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_TEXT_CHANGE = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogTextChange";
         String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogAdd";
-        //String ACTION_ENTERING_WAREHOUSE_SHOW_CONFIRM_BUTTON = "com.macauto.MacautoWarehoouse.EnteringWarehouseShowConfirmButton";
-        //String ACTION_ENTERING_WAREHOUSE_HIDE_CONFIRM_BUTTON = "com.macauto.MacautoWarehoouse.EnteringWarehouseHideConfirmButton";
         String ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE = "com.macauto.MacautoWarehoouse.EnteringWarehouseCheckboxChange";
+
+        //locate split
+        String ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSub";
+        String ACTION_GET_TT_SPLIT_RVV_ITEM_SUCCESS = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSubSuccess";
+        String ACTION_GET_TT_SPLIT_RVV_ITEM_FAILED = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSubFailed";
 
         //receiving goods
         String ACTION_RECEIVING_GOODS_DATA_ACTION = "com.macauto.MacautoWarehoouse.ReceivingGoodsData";
@@ -75,9 +86,9 @@ public class Constants {
         String ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetSfaMessSuccess";
         String ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_EMPTY = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetSfaMessEmpty";
         String ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_FAILED = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetSfaMessFailed";
-        String ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_ACTION = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetTagIdAction";
-        String ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetTagIdSuccess";
-        String ACTION_ALLOCATION_SEND_MSG_GET_TAG_ID_FAILED = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetTagIdFailed";
+        String ACTION_ALLOCATION_GET_TAG_ID_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetTagIdAction";
+        String ACTION_ALLOCATION_GET_TAG_ID_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetTagIdSuccess";
+        String ACTION_ALLOCATION_GET_TAG_ID_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetTagIdFailed";
         String ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_ACTION = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetSfaMessMoveAction";
         String ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetSfaMessMoveSuccess";
         String ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_EMPTY = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetSfaMessMoveEmpty";
@@ -94,13 +105,25 @@ public class Constants {
         String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailSuccess";
         String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailFailed";
         String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightAction";
-        String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightSuccess";
+        String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightYes";
+        String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_NO = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightNo";
         String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightFailed";
+
+
+
+        String ACTION_GET_PART_NO_NEED_SCAN_STATUS_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetPartNoNeedScanStatusAction";
+        String ACTION_GET_PART_NO_NEED_SCAN_STATUS_YES = "com.macauto.MacautoWarehoouse.AllocationGetPartNoNeedScanStatusYes";
+        String ACTION_GET_PART_NO_NEED_SCAN_STATUS_NO = "com.macauto.MacautoWarehoouse.AllocationGetPartNoNeedScanStatusNo";
+        String ACTION_GET_PART_NO_NEED_SCAN_STATUS_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetPartNoNeedScanStatusFailed";
+
         //barcode
         String ACTION_ALLOCATION_GET_LOT_CODE_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetLotCodeAction";
         String ACTION_ALLOCATION_GET_LOT_CODE_EMPTY = "com.macauto.MacautoWarehoouse.AllocationGetLotCodeEmpty";
         String ACTION_ALLOCATION_GET_LOT_CODE_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetLotCodeSuccess";
         String ACTION_ALLOCATION_GET_LOT_CODE_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetLotCodeFailed";
+        //swipe layout
+        String ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE = "com.macauto.MacautoWarehoouse.AllocationSwipeLayoutUpdate";
+        String ACTION_ALLOCATION_SWIPE_LAYOUT_DELETE_ROW = "com.macauto.MacautoWarehoouse.AllocationSwipeLayoutDeleteRow";
 
 
         //batch_no
@@ -152,5 +175,27 @@ public class Constants {
         String ACTION_SEARCH_MENU_SHOW_ACTION = "com.macauto.MacautoWarehoouse.SearchMenuShowAction";
         String ACTION_SEARCH_MENU_HIDE_ACTION = "com.macauto.MacautoWarehoouse.SearchMenuHideAction";
         String ACTION_RESET_TITLE_PART_IN_STOCK = "com.macauto.MacautoWarehoouse.ResetTitlePartInStock";
+
+        //Production Storage
+        String ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_ACTION = "com.macauto.MacautoWarehoouse.CheckTTProductEntryAlreadyConfirmAction";
+        String ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_FAILED = "com.macauto.MacautoWarehoouse.CheckTTProductEntryAlreadyConfirmFailed";
+        String ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_YES = "com.macauto.MacautoWarehoouse.CheckTTProductEntryAlreadyConfirmYes";
+        String ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_NO = "com.macauto.MacautoWarehoouse.CheckTTProductEntryAlreadyConfirmNo";
+
+        String ACTION_GET_TT_PRODUCT_ENTRY_ACTION = "com.macauto.MacautoWarehoouse.GetTTProductEntryAction";
+        String ACTION_GET_TT_PRODUCT_ENTRY_FAILED = "com.macauto.MacautoWarehoouse.GetTTProductEntryFailed";
+        String ACTION_GET_TT_PRODUCT_ENTRY_SUCCESS = "com.macauto.MacautoWarehoouse.GetTTProductEntrySuccess";
+        String ACTION_GET_TT_PRODUCT_ENTRY_EMPTY = "com.macauto.MacautoWarehoouse.GetTTProductEntryEmpty";
+
+        String ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_ACTION = "com.macauto.MacautoWarehoouse.ProductCheckStockLocateNoExistAction";
+        String ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_FAILED = "com.macauto.MacautoWarehoouse.ProductCheckStockLocateNoExistFailed";
+        String ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_YES = "com.macauto.MacautoWarehoouse.ProductCheckStockLocateNoExistYes";
+        String ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_NO = "com.macauto.MacautoWarehoouse.ProductCheckStockLocateNoExistNo";
+
+        String ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_ACTION = "com.macauto.MacautoWarehoouse.ProductUpdateTTProductEntryLocateNoAction";
+        String ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_FAILED = "com.macauto.MacautoWarehoouse.ProductUpdateTTProductEntryLocateNoFailed";
+        String ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_SUCCESS = "com.macauto.MacautoWarehoouse.ProductUpdateTTProductEntryLocateNoSuccess";
+
+        String ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE = "com.macauto.MacautoWarehoouse.ProductInStockWorkComplete";
     }
 }

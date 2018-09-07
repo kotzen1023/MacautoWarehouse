@@ -29,5 +29,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:15.0.2'
     implementation files('libs/ksoap2-android-assembly-3.6.1-jar-with-dependencies.jar')
     implementation 'com.google.code.gson:gson:2.8.0'
+    //implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation 'com.github.daimajia:AndroidSwipeLayout:f66ac6942b'
 
 }

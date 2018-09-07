@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/swipe_layout_inspected">
+
+    <!--LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"-->
+
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:id="@+id/bottom_wrapper_inspected"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#66ddff00">
+
+            <ImageView
+                android:id="@+id/edit_query_inspected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/baseline_find_in_page_black_48" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#66FF3300">
+
+            <ImageView
+                android:id="@+id/divide_inspected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/click" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+    <!-- Bottom View End-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/checkConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView android:text="test"
+                android:id="@+id/InspectedItemtitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:layout_weight="1">
+            </TextView>
+
+            <TextView
+                android:id="@+id/InspectedItemDecrypt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="decrypt"
+                android:paddingLeft="10dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/InspectedItemCount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="decrypt"
+                android:paddingLeft="10dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+        <!--TextView android:text="test"
+            android:id="@+id/itemTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:layout_weight="2">
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/layoutShow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/itemName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:gravity="center_vertical"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/itemImage"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/click"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkConfirm"
+            android:text="@string/entering_warehouse_into_stock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"/-->
+
+
+
+    <!--/LinearLayout-->
+
+
+
+</com.daimajia.swipe.SwipeLayout>

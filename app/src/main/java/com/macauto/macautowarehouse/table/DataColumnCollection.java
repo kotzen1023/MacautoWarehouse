@@ -68,4 +68,20 @@ public class DataColumnCollection extends ArrayList<DataColumn> {
         }
         return column;
     }
+
+
+    public void Remove(String columnName) {
+        int found = -1;
+        for (int i=this.Table.Columns.size()-1; i>=0; i--) {
+            if (columnName.equals(this.Table.Columns.get(i).ColumnName)) {
+                found = i;
+            }
+        }
+
+        if (found != -1) {
+            this.Table.Columns.remove(found);
+        }
+    }
+
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 
+import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
@@ -19,6 +20,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.SocketTimeoutException;
 
 
+import static com.macauto.macautowarehouse.AllocationMsgDetailActivity.showList;
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
@@ -78,6 +80,10 @@ public class GetMyMessDetailService extends IntentService{
         //String device_id;
 
         String iss_no = intent.getStringExtra("ISS_NO");
+        String dateTime_0 = intent.getStringExtra("DATETIME_0");
+        String dateTime_1 = intent.getStringExtra("DATETIME_1");
+        String dateTime_2 = intent.getStringExtra("DATETIME_2");
+        String dateTime_3 = intent.getStringExtra("DATETIME_3");
 
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
@@ -144,7 +150,7 @@ public class GetMyMessDetailService extends IntentService{
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
+                Intent getFailedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
                 sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
@@ -166,6 +172,7 @@ public class GetMyMessDetailService extends IntentService{
 
 
                 if (msgDataTable.Rows.size() > 0) {
+                    msgDataTable.TableName = "TYYC";
                     //add for scan
                     DataColumn scan_sp = new DataColumn("scan_sp");
                     DataColumn scan_desc = new DataColumn("scan_desc");
@@ -173,10 +180,11 @@ public class GetMyMessDetailService extends IntentService{
                     msgDataTable.Columns.add(scan_sp);
                     msgDataTable.Columns.add(scan_desc);
 
-                    for (DataRow rx : msgDataTable.Rows) {
-                        rx.setValue("scan_sp", "N");
-                        rx.setValue("scan_desc", "");
-                    }
+
+
+
+
+
 
 
 
@@ -186,6 +194,10 @@ public class GetMyMessDetailService extends IntentService{
                     getSuccessIntent.putExtra("TAG_LOCATE_NO", msgDataTable.Rows.get(0).getValue("tag_locate_no").toString());
                     getSuccessIntent.putExtra("TAG_STOCK_NO", msgDataTable.Rows.get(0).getValue("tag_stock_no").toString());
                     getSuccessIntent.putExtra("IMA03", msgDataTable.Rows.get(0).getValue("ima03").toString());
+                    getSuccessIntent.putExtra("DATETIME_0", dateTime_0);
+                    getSuccessIntent.putExtra("DATETIME_1", dateTime_1);
+                    getSuccessIntent.putExtra("DATETIME_2", dateTime_2);
+                    getSuccessIntent.putExtra("DATETIME_3", dateTime_3);
                     sendBroadcast(getSuccessIntent);
                 } else {
                     Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);

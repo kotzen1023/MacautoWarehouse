@@ -3,7 +3,7 @@ package com.macauto.macautowarehouse.data;
 public class AllocationMsgItem {
     private String work_order;
     //private String date;
-    private boolean selected;
+    private boolean delete;
 
     public String getWork_order() {
         return work_order;
@@ -21,11 +21,11 @@ public class AllocationMsgItem {
         this.date = date;
     }*/
 
-    public boolean isSelected() {
-        return selected;
+    public boolean isDelete() {
+        return delete;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

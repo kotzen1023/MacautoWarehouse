@@ -11,6 +11,9 @@ import com.macauto.macautowarehouse.R;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.DetailItem;
 
+import com.macauto.macautowarehouse.data.InspectedReceiveItem;
+import com.macauto.macautowarehouse.table.DataColumn;
+import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
 import org.ksoap2.SoapEnvelope;
@@ -19,15 +22,17 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
@@ -119,6 +124,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
             // 輸出值，帳號(account)、密碼(password)
             Log.e(TAG, "k_id = "+k_id);
 
+
+
             request.addProperty("SID", "MAT");
             request.addProperty("part_no", part_no);
             request.addProperty("barcode_no", barcode_no);
@@ -185,60 +192,75 @@ public class GetReceiveGoodsInDataService extends IntentService {
                         Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
                         sendBroadcast(getSuccessIntent);
                     } else {
+                        DataColumn rvv33_scan = new DataColumn("rvv33_scan");
+                        dataTable.Columns.Add(rvv33_scan);
+
+                        for (DataRow rx : dataTable.Rows) {
+                            rx.setValue("rvv33_scan", "");
+                        }
+
                         for (int i=0; i < dataTable.Rows.size(); i++) {
-                            String header = String.valueOf(i+1)+"#"+dataTable.getValue(i, 3).toString();
-                            no_list.add(header);
+                            //String header = String.valueOf(i+1)+"#"+dataTable.getValue(i, 3).toString();
+                            //no_list.add(header);
                             check_stock_in.add(false);
-                            detailList.put(header, new ArrayList<DetailItem>());
+                            //detailList.put(header, new ArrayList<DetailItem>());
 
                             //add into stock check first
-                            DetailItem checkItem = new DetailItem();
-                            checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
-                            detailList.get(header).add(checkItem);
+                            //DetailItem checkItem = new DetailItem();
+                            //checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
+                            //detailList.get(header).add(checkItem);
 
                             Log.e(TAG, "dataTable.Columns.size() = "+dataTable.Columns.size());
 
-                            for (int j=0; j < dataTable.Columns.size(); j++) {
-                                DetailItem item = new DetailItem();
+                            InspectedReceiveItem item = new InspectedReceiveItem();
 
-                                if (j==0) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_check_sp));
+                            item.setCheck_sp(Boolean.valueOf(dataTable.Rows.get(i).getValue("check_sp").toString()));
+                            item.setCol_rvu01(dataTable.Rows.get(i).getValue("rvu01").toString());
+                            item.setCol_rvv02(dataTable.Rows.get(i).getValue("rvv02").toString());
+                            item.setCol_rvb05(dataTable.Rows.get(i).getValue("rvb05").toString());
+                            item.setCol_pmn041(dataTable.Rows.get(i).getValue("pmn041").toString());
+                            item.setCol_ima021(dataTable.Rows.get(i).getValue("ima021").toString());
+                            item.setCol_rvv32(dataTable.Rows.get(i).getValue("rvv32").toString());
+                            item.setCol_rvv33(dataTable.Rows.get(i).getValue("rvv33").toString());
+                            item.setCol_rvv34(dataTable.Rows.get(i).getValue("rvv34").toString());
+                            item.setCol_rvb33(dataTable.Rows.get(i).getValue("rvb33").toString());
+                            item.setCol_pmc03(dataTable.Rows.get(i).getValue("pmc03").toString());
+                            item.setCol_gen02(dataTable.Rows.get(i).getValue("gen02").toString());
 
-                                } else if (j==1) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_rvu01));
-                                } else if (j==2) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv02));
-                                } else if (j==3) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_rvb05));
-                                } else if (j==4) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_pmn041));
-                                } else if (j==5) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_ima021));
-                                } else if (j==6) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv32));
-                                } else if (j==7) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv33));
-                                } else if (j==8) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_rvv34));
-                                } else if (j==9) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_rvb33));
-                                } else if (j==10) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_pmc03));
-                                } else if (j==11) {
-                                    item.setTitle(this.getResources().getString(R.string.item_title_gen02));
-                                }
-                                item.setName(dataTable.getValue(i,j).toString());
+                            /*for (int j=0; j < dataTable.Columns.size(); j++) {
+                                //DetailItem item = new DetailItem();
+                                InspectedReceiveItem item = new InspectedReceiveItem();
 
+                                item.setCheck_sp(Boolean.valueOf(dataTable.Columns.get(0).toString()));
+                                item.setCol_rvu01(dataTable.Columns.get(1).toString());
+                                item.setCol_rvv02(dataTable.Columns.get(2).toString());
+                                item.setCol_rvb05(dataTable.Columns.get(3).toString());
+                                item.setCol_pmn041(dataTable.Columns.get(4).toString());
+                                item.setCol_ima021(dataTable.Columns.get(5).toString());
+                                item.setCol_rvv32(dataTable.Columns.get(6).toString());
+                                item.setCol_rvv33(dataTable.Columns.get(7).toString());
+                                item.setCol_rvv34(dataTable.Columns.get(8).toString());
+                                item.setCol_rvb33(dataTable.Columns.get(9).toString());
+                                item.setCol_pmc03(dataTable.Columns.get(10).toString());
+                                item.setCol_gen02(dataTable.Columns.get(11).toString());
 
-                                //if (item != null)
-                                detailList.get(header).add(item);
-                            }
+                            }*/
+                            swipe_list.add(item);
+                        }
+                        //add total count
+                        //String temp_rvb05 = swipe_list.get(no_list.get(0)).get(3).getName();
+                        double count_double = 0;
+                        int count_num = 0;
+                        for (int i=0; i < dataTable.Rows.size(); i++) {
+                            //if part no is equal
 
-
-
+                            count_double = count_double + Double.valueOf(dataTable.Rows.get(i).getValue("rvb33").toString());
                         }
 
+                        count_num = (int) count_double;
+
                         Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
+                        getSuccessIntent.putExtra("TOTAL_COUNT", count_num);
                         sendBroadcast(getSuccessIntent);
                     }
 
@@ -420,6 +442,10 @@ public class GetReceiveGoodsInDataService extends IntentService {
             //DataTable dt = soapToDataTable(bodyIn);
 
 
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            sendBroadcast(timeoutIntent);
         } catch (Exception e) {
             // 抓到錯誤訊息
 

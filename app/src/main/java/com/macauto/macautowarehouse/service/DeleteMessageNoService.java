@@ -71,6 +71,7 @@ public class DeleteMessageNoService extends IntentService {
 
         String message_no = intent.getStringExtra("MESSAGE_NO");
         String user_no = intent.getStringExtra("USER_NO");
+        String delete_index = intent.getStringExtra("DELETE_INDEX");
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
@@ -143,7 +144,7 @@ public class DeleteMessageNoService extends IntentService {
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED);
+                Intent getFailedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
                 sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
@@ -151,7 +152,16 @@ public class DeleteMessageNoService extends IntentService {
 
                 is_delete = parseToBoolean(resultsRequestSOAP);
 
-
+                Intent resultIntent;
+                if (!is_delete) {
+                    resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED);
+                    resultIntent.putExtra("DELETE_INDEX", delete_index);
+                    sendBroadcast(resultIntent);
+                } else {
+                    resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS);
+                    resultIntent.putExtra("DELETE_INDEX", delete_index);
+                    sendBroadcast(resultIntent);
+                }
 
 
 
@@ -188,13 +198,6 @@ public class DeleteMessageNoService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        Intent resultIntent;
-        if (!is_delete) {
-            resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED);
-            sendBroadcast(resultIntent);
-        } else {
-            resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS);
-            sendBroadcast(resultIntent);
-        }
+
     }
 }

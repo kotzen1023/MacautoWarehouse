@@ -13,8 +13,12 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
-public class CheckStockLocateNoExist extends IntentService {
-    public static final String TAG = "CheckStockLocateNoExist";
+import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+
+
+public class DeleteTTReceiveGoodsInTempService extends IntentService {
+    public static final String TAG = "DeleteGoodsInTemp";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -22,14 +26,17 @@ public class CheckStockLocateNoExist extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "Check_stock_locate_no_exist"; // 方法名稱
+    private static final String METHOD_NAME = "Delete_TT_ReceiveGoods_IN_Temp"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/Check_stock_locate_no_exist"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/Delete_TT_ReceiveGoods_IN_Temp"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    public CheckStockLocateNoExist() {
-        super("CheckStockLocateNoExist");
+    //private StringWriter writer;
+    //private String rvu01="";
+
+    public DeleteTTReceiveGoodsInTempService() {
+        super("DeleteTTReceiveGoodsInTempService");
     }
 
 
@@ -37,10 +44,6 @@ public class CheckStockLocateNoExist extends IntentService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
-
-
-
-
     }
 
     @Override
@@ -48,15 +51,16 @@ public class CheckStockLocateNoExist extends IntentService {
 
         Log.i(TAG, "Handle");
 
-        String stock_no = intent.getStringExtra("STOCK_NO");
-        String locate_no = intent.getStringExtra("LOCATE_NO");
-
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_CHECK_STOCK_LOCATE_NO_EXIST_ACTION)) {
-                Log.i(TAG, "ACTION_CHECK_STOCK_LOCATE_NO_EXIST_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_ACTION)) {
+                Log.i(TAG, "ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_ACTION");
             }
         }
 
+        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        Log.e(TAG, "URL = "+URL);
+
+        //Log.e(TAG, "rvu01 = "+rvu01);
 
         try {
             // 建立一個 WebService 請求
@@ -66,9 +70,8 @@ public class CheckStockLocateNoExist extends IntentService {
 
             // 輸出值，帳號(account)、密碼(password)
 
-            request.addProperty("SID", "MAT");
-            request.addProperty("stock_no", stock_no);
-            request.addProperty("locate_no", locate_no);
+            request.addProperty("k_id", k_id);
+            //request.addProperty("HAA", writer.toString());
 
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
@@ -102,34 +105,27 @@ public class CheckStockLocateNoExist extends IntentService {
 
             // 將 WebService 資訊轉為 DataTable
             if (envelope.bodyIn instanceof SoapFault) {
-                String str = ((SoapFault) envelope.bodyIn).faultstring;
+                String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent decryptDoneIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-                sendBroadcast(decryptDoneIntent);
+                intent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+                sendBroadcast(intent);
             } else {
-                //Intent loginResultIntent;
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
-                Log.d(TAG, String.valueOf(resultsRequestSOAP));
+                Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                /*if (String.valueOf(resultsRequestSOAP).indexOf("true") > 0) {
-                    Log.e(TAG, "ret = true");
-                    //is_exist = true;
-                    //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
-                    //sendBroadcast(loginResultIntent);
-                } else {
-                    Log.e(TAG, "ret = false");
-                    //is_exist = false;
-                    //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
-                    //sendBroadcast(loginResultIntent);
-                }*/
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(StandardCharsets.UTF_8));
-                    LoadAndParseXML(stream);
-                } else {
-                    InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(Charset.forName("UTF-8")));
-                    LoadAndParseXML(stream);
-                }*/
 
+
+
+                //result.setText(String.valueOf(resultsRequestSOAP));
+                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(StandardCharsets.UTF_8));
+                        //LoadAndParseXML(stream);
+                    } else {
+                        InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(Charset.forName("UTF-8")));
+                        //LoadAndParseXML(stream);
+                    }*/
+                intent = new Intent(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS);
+                sendBroadcast(intent);
             }
 
             //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);
@@ -144,17 +140,16 @@ public class CheckStockLocateNoExist extends IntentService {
 
             //DataTable dt = soapToDataTable(bodyIn);
 
+
+
         } catch (Exception e) {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            //Intent decryptDoneIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-            //sendBroadcast(decryptDoneIntent);
-        }
+            intent = new Intent(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_FAILED);
+            sendBroadcast(intent);
 
-        //MeetingAlarm.last_sync_setting = sync_option;
-        //Intent decryptDoneIntent = new Intent(Constants.ACTION.GET_PERSONAL_MEETING_LIST_COMPLETE);
-        //sendBroadcast(decryptDoneIntent);
+        }
     }
 
     @Override
@@ -163,5 +158,7 @@ public class CheckStockLocateNoExist extends IntentService {
         Log.d(TAG, "onDestroy()");
         //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
         //sendBroadcast(intent);
+
+
     }
 }

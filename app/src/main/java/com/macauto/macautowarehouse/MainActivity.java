@@ -46,7 +46,11 @@ import android.widget.Toast;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.SearchItem;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,8 +84,9 @@ public class MainActivity extends AppCompatActivity
     //private MenuItem menuItemShipment;
     private MenuItem menuItemSearch;
     private MenuItem menuItemAllocation;
+    private MenuItem menuItemAllocationSendMsg;
     private MenuItem menuItemEnteringWareHouse;
-    //private MenuItem menuItemProductionStorage;
+    private MenuItem menuItemProductionStorage;
     //private MenuItem menuItemReceivingInspection;
     private MenuItem menuItemLogin;
     private MenuItem menuItemLogout;
@@ -111,6 +116,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem production_storage_main;
     private MenuItem production_storage_find;
     private MenuItem production_storage_scan;
+    private MenuItem keyboard;
     private MenuItem searchFilter;
 
     public static int pda_type;
@@ -121,6 +127,8 @@ public class MainActivity extends AppCompatActivity
 
     public static ArrayList<SearchItem> searchList = new ArrayList<>();
     public static ArrayList<SearchItem> sortedSearchList = new ArrayList<>();
+    public static Process process;
+    public static String log_filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +136,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate");
+
+
+
         //create a new kid
         //GenerateRandomString rString = new GenerateRandomString();
         //k_id = rString.randomString(32);
@@ -141,6 +152,19 @@ public class MainActivity extends AppCompatActivity
         web_soap_port = pref.getString("WEB_SOAP_PORT", "8484");
 
         context = getApplicationContext();
+
+        Log.e(TAG, "=== start log ===");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String currentDateandTime = sdf.format(new Date());
+        log_filename = "logcat_"+currentDateandTime+".txt";
+        File outputFile = new File(context.getExternalCacheDir(),log_filename);
+        try {
+            //process = Runtime.getRuntime().exec("logcat -d -f " + outputFile.getAbsolutePath());
+            process = Runtime.getRuntime().exec("logcat -c");
+            process = Runtime.getRuntime().exec("logcat -f " + outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -172,9 +196,10 @@ public class MainActivity extends AppCompatActivity
         //menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
         menuItemSearch = navigationView.getMenu().findItem(R.id.nav_search);
         menuItemAllocation = navigationView.getMenu().findItem(R.id.nav_allocation);
+        menuItemAllocationSendMsg = navigationView.getMenu().findItem(R.id.nav_allocation_send_msg);
         menuItemEnteringWareHouse = navigationView.getMenu().findItem(R.id.nav_entering_warehouse);
         //menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
-        //menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
+        menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
 
 
 
@@ -304,7 +329,9 @@ public class MainActivity extends AppCompatActivity
                             //menuItemShipment.setVisible(true);
                             menuItemSearch.setVisible(true);
                             menuItemAllocation.setVisible(true);
+                            menuItemAllocationSendMsg.setVisible(true);
                             menuItemEnteringWareHouse.setVisible(true);
+                            menuItemProductionStorage.setVisible(true);
                             //menuItemProductionStorage.setVisible(true);
                             //menuItemReceivingInspection.setVisible(true);
 
@@ -335,8 +362,11 @@ public class MainActivity extends AppCompatActivity
                         if (menuItemLogin != null && menuItemLogout != null) {
                             //menuItemReceiveGoods.setVisible(false);
                             //menuItemShipment.setVisible(false);
+                            menuItemSearch.setVisible(false);
                             menuItemAllocation.setVisible(false);
+                            menuItemAllocationSendMsg.setVisible(false);
                             menuItemEnteringWareHouse.setVisible(false);
+                            menuItemProductionStorage.setVisible(false);
                             //menuItemProductionStorage.setVisible(false);
                             //menuItemReceivingInspection.setVisible(false);
 
@@ -441,6 +471,8 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        process.destroy();
+
         super.onDestroy();
     }
 
@@ -449,9 +481,9 @@ public class MainActivity extends AppCompatActivity
 
         android.app.AlertDialog.Builder confirmdialog = new android.app.AlertDialog.Builder(MainActivity.this);
         confirmdialog.setIcon(R.drawable.baseline_exit_to_app_black_48);
-        confirmdialog.setTitle("Exit App");
-        confirmdialog.setMessage("Exit this App?");
-        confirmdialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        confirmdialog.setTitle(getResources().getString(R.string.exit_app_title));
+        confirmdialog.setMessage(getResources().getString(R.string.exit_app_msg));
+        confirmdialog.setPositiveButton(getResources().getString(R.string.confirm), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -459,10 +491,12 @@ public class MainActivity extends AppCompatActivity
                     drawer.closeDrawer(GravityCompat.START);
                 }
 
+                isLogin = false;
+
                 finish();
             }
         });
-        confirmdialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        confirmdialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // btnScan.setVisibility(View.VISIBLE);
                 // btnConfirm.setVisibility(View.GONE);
@@ -506,6 +540,7 @@ public class MainActivity extends AppCompatActivity
         production_storage_find = menu.findItem(R.id.action_production_storage_find);
         production_storage_scan = menu.findItem(R.id.action_production_storage_scan);
 
+        keyboard = menu.findItem(R.id.main_hide_or_show_keyboard);
 
         if (isLogin) {
             setting.setVisible(false);
@@ -514,6 +549,7 @@ public class MainActivity extends AppCompatActivity
             receiving_record.setVisible(false);
             receiving_board.setVisible(false);
             receiving_multi.setVisible(false);
+
 
             /*shipment_main.setVisible(false);
             shipment_find.setVisible(false);
@@ -532,13 +568,19 @@ public class MainActivity extends AppCompatActivity
             production_storage_find.setVisible(true);
             production_storage_scan.setVisible(true);*/
 
+            allocation_send_msg.setVisible(true);
+            production_storage_main.setVisible(true);
+
             menuItemLogin.setVisible(false);
             menuItemLogout.setVisible(true);
             //menuItemReceiveGoods.setVisible(true);
             //menuItemShipment.setVisible(true);
             menuItemSearch.setVisible(true);
             menuItemAllocation.setVisible(true);
+            menuItemAllocationSendMsg.setVisible(true);
             menuItemEnteringWareHouse.setVisible(true);
+            menuItemProductionStorage.setVisible(true);
+
             //menuItemReceivingInspection.setVisible(true);
             //menuItemProductionStorage.setVisible(true);
         } else {
@@ -573,7 +615,9 @@ public class MainActivity extends AppCompatActivity
             //menuItemShipment.setVisible(false);
             menuItemSearch.setVisible(false);
             menuItemAllocation.setVisible(false);
+            menuItemAllocationSendMsg.setVisible(false);
             menuItemEnteringWareHouse.setVisible(false);
+            menuItemProductionStorage.setVisible(false);
             //menuItemReceivingInspection.setVisible(false);
             //menuItemProductionStorage.setVisible(false);
         }
@@ -645,10 +689,16 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        setTitle(item.getTitle());
+        if (!item.getTitle().equals(getResources().getString(R.string.hide_keyboard))) {
+            setTitle(item.getTitle());
+        }
+
+
         //noinspection SimplifiableIfStatement
         Fragment fragment = null;
         Class fragmentClass=null;
+
+
 
         switch (id) {
             case R.id.action_settings:
@@ -701,6 +751,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_production_storage_scan:
                 fragmentClass = ProductionFeedingScanFragment.class;
                 break;
+            case R.id.main_hide_or_show_keyboard:
+                View view = getCurrentFocus();
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                break;
         }
 
         if (fragmentClass != null) {
@@ -748,8 +802,12 @@ public class MainActivity extends AppCompatActivity
         Class fragmentClass=null;
 
         String title="";
-        if (imm.isAcceptingText())
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        //if (imm.isAcceptingText())
+        //    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
+
+        View view = getCurrentFocus();
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         //initializing the fragment object which is selected
         switch (menuItem.getItemId()) {
 
@@ -774,7 +832,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
 
-                break;*/
+                break;
             case R.id.nav_shipment:
                 fragmentClass = ShipmentFragment.class;
                 title = getResources().getString(R.string.action_shipment_main);
@@ -795,8 +853,8 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
-                break;
+                keyboard.setVisible(true);
+                break;*/
             case R.id.nav_search:
                 fragmentClass = LookupInStockFragment.class;
                 title = getResources().getString(R.string.action_allocation_find);
@@ -818,6 +876,31 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
+                keyboard.setVisible(true);
+                break;
+
+            case R.id.nav_allocation_send_msg:
+                fragmentClass = AllocationSendMsgToReserveWarehouseFragment.class;
+                title = getResources().getString(R.string.nav_allocation_send);
+                searchFilter.setVisible(false);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+                keyboard.setVisible(true);
                 break;
 
             case R.id.nav_allocation:
@@ -832,8 +915,8 @@ public class MainActivity extends AppCompatActivity
                 shipment_find.setVisible(false);
                 allocation_find.setVisible(false);
                 allocation_replenishment.setVisible(false);
-                allocation_send_msg.setVisible(true);
-                allocation_msg.setVisible(true);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
                 allocation_area_confirm.setVisible(false);
                 allocation_direct.setVisible(false);
                 entering_warehouse_main.setVisible(false);
@@ -841,7 +924,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
+                keyboard.setVisible(false);
                 break;
             case R.id.nav_entering_warehouse:
                 fragmentClass = EnteringWarehouseFragmnet.class;
@@ -864,9 +947,9 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
+                keyboard.setVisible(false);
                 break;
-            /*case R.id.nav_production_storage:
+            case R.id.nav_production_storage:
                 fragmentClass = ProductionStorageFragment.class;
                 title = getResources().getString(R.string.action_production_storage_main);
                 receiving_main.setVisible(false);
@@ -883,12 +966,12 @@ public class MainActivity extends AppCompatActivity
                 allocation_direct.setVisible(false);
                 entering_warehouse_main.setVisible(false);
                 entering_warehouse_find.setVisible(false);
-                production_storage_main.setVisible(true);
-                production_storage_find.setVisible(true);
-                production_storage_scan.setVisible(true);
-
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+                keyboard.setVisible(true);
                 break;
-            case R.id.nav_receiving_inspection:
+            /*case R.id.nav_receiving_inspection:
                 fragmentClass = ReceivingInspectionFragment.class;
                 title = getResources().getString(R.string.action_receiving_inspection_main);
                 receiving_main.setVisible(false);
@@ -930,7 +1013,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
+                keyboard.setVisible(false);
 
                 break;
             case R.id.nav_login:
@@ -953,7 +1036,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
+                keyboard.setVisible(true);
                 break;
             case R.id.nav_logout:
                 fragmentClass = LogoutFragment.class;
@@ -975,7 +1058,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
+                keyboard.setVisible(false);
                 /*if (menuItemLogin != null && menuItemLogout != null) {
                     menuItemReceiveGoods.setVisible(false);
                     menuItemShipment.setVisible(false);
@@ -1015,7 +1098,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
+                keyboard.setVisible(true);
                 break;
 
 

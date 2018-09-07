@@ -104,6 +104,14 @@ public class WebServiceParse {
 
                 }
 
+                Log.e(TAG, "================= Column name ==========================");
+                for (int i=0; i<dataTable.Columns.size(); i++) {
+                    System.out.print(dataTable.Columns.get(i).ColumnName);
+                    if (i < dataTable.Columns.size() - 1) {
+                        System.out.print(", ");
+                    }
+                }
+                System.out.print("\n");
                 Log.e(TAG, "========================================================");
                 for (int i=0; i<dataTable.Rows.size(); i++) {
 
@@ -162,7 +170,12 @@ public class WebServiceParse {
             xmlSerializer.attribute("", "maxOccurs", "unbounded");
             //xs:element
             xmlSerializer.startTag("", "xs:element");
-            xmlSerializer.attribute("", "name", "Table");
+            if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                xmlSerializer.attribute("", "name", dataTable.TableName);
+            } else {
+                xmlSerializer.attribute("", "name", "Table");
+            }
+
             //xs:complexType
             xmlSerializer.startTag("", "xs:complexType");
             //xs:sequence

@@ -11,6 +11,8 @@ import android.widget.ListView;
 
 import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
 import com.macauto.macautowarehouse.data.AllocationMsgDetailItemAdapter;
+import com.macauto.macautowarehouse.data.AllocationSendMsgDetailItem;
+import com.macauto.macautowarehouse.data.AllocationSendMsgDetailItemAdapter;
 import com.macauto.macautowarehouse.data.SearchDetailItem;
 import com.macauto.macautowarehouse.data.SearchDetailItemAdapter;
 
@@ -23,17 +25,17 @@ import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
 public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
     private static final String TAG = "SendMsgStatusDetail";
 
-    public static ArrayList<AllocationMsgDetailItem> detailList = new ArrayList<>();
+    public static ArrayList<AllocationSendMsgDetailItem> detailList = new ArrayList<>();
 
-    private AllocationMsgDetailItemAdapter allocationMsgDetailItemAdapter;
+    private AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter;
     //InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.allocation_msg_detail_activity);
+        setContentView(R.layout.allocation_send_msg_status_detail_activity);
 
-        ListView listView = findViewById(R.id.allocationDetailListView);
+        ListView listView = findViewById(R.id.allocationSendMsgDetailListView);
 
         Intent intent = getIntent();
         String item_SFA03 = intent.getStringExtra("ITEM_SFA03");
@@ -79,53 +81,53 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
         detailList.clear();
 
         //item_SFA03
-        AllocationMsgDetailItem item1 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item1 = new AllocationSendMsgDetailItem();
         item1.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA03));
         item1.setContent(item_SFA03);
         detailList.add(item1);
         //item_IMA021
-        AllocationMsgDetailItem item2 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item2 = new AllocationSendMsgDetailItem();
         item2.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_IMA021));
         item2.setContent(item_IMA021);
         detailList.add(item2);
         //item_IMG10
-        AllocationMsgDetailItem item3 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item3 = new AllocationSendMsgDetailItem();
         item3.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_IMG10));
         item3.setContent(String.valueOf(aw1));
         detailList.add(item3);
         //item_MOVED_QTY
-        AllocationMsgDetailItem item4 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item4 = new AllocationSendMsgDetailItem();
         item4.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_MOVED_QTY));
         item4.setContent(item_MOVED_QTY);
         detailList.add(item4);
         //item_MESS_QTY
-        AllocationMsgDetailItem item5 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item5 = new AllocationSendMsgDetailItem();
         item5.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_MESS_QTY));
         item5.setContent(item_MESS_QTY);
         detailList.add(item5);
         //item_SFA05
-        AllocationMsgDetailItem item6 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item6 = new AllocationSendMsgDetailItem();
         item6.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA05));
         item6.setContent(item_SFA05);
         detailList.add(item6);
         //item_SFA12
-        AllocationMsgDetailItem item7 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item7 = new AllocationSendMsgDetailItem();
         item7.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA12));
         item7.setContent(item_SFA12);
         detailList.add(item7);
         //item_SFA11_NAME
-        AllocationMsgDetailItem item8 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item8 = new AllocationSendMsgDetailItem();
         item8.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA11_NAME));
         item8.setContent(item_SFA11_NAME);
         detailList.add(item8);
         //item_TC_OBF013
-        AllocationMsgDetailItem item9 = new AllocationMsgDetailItem();
+        AllocationSendMsgDetailItem item9 = new AllocationSendMsgDetailItem();
         item9.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_TC_OBF013));
         item9.setContent(item_TC_OBF013);
         detailList.add(item9);
 
-        allocationMsgDetailItemAdapter = new AllocationMsgDetailItemAdapter(AllocationSendMsgStatusDetailActivity.this, R.layout.allocation_msg_send_allocation_status_detail_item, detailList);
-        listView.setAdapter(allocationMsgDetailItemAdapter);
+        allocationSendMsgDetailItemAdapter = new AllocationSendMsgDetailItemAdapter(AllocationSendMsgStatusDetailActivity.this, R.layout.allocation_msg_send_allocation_status_detail_item, detailList);
+        listView.setAdapter(allocationSendMsgDetailItemAdapter);
     }
 
     @Override

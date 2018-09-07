@@ -16,10 +16,14 @@ import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.ProductionStorageFragment.product_table_X_M;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class ExecuteScriptTTService extends IntentService {
@@ -38,6 +42,8 @@ public class ExecuteScriptTTService extends IntentService {
     //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private String doc_type = "";
+    private static boolean is_success = false;
+    private static int process_type = 0;
 
     public ExecuteScriptTTService() {
         super("ExecuteScriptTTService");
@@ -79,12 +85,12 @@ public class ExecuteScriptTTService extends IntentService {
         //String device_id;
 
 
-        String current_table = intent.getStringExtra("CURRENT_TABLE");
-        String doc_type = intent.getStringExtra("DOC_TYPE");
-        String rvu01 = intent.getStringExtra("RVU01");
+        String type = intent.getStringExtra("PROCESS_TYPE");
+        process_type = Integer.valueOf(type);
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
+        Log.e(TAG, "type = "+type);
 
         if (intent.getAction() != null) {
             if (intent.getAction().equals(Constants.ACTION.ACTION_EXECUTE_TT_ACTION)) {
@@ -93,241 +99,188 @@ public class ExecuteScriptTTService extends IntentService {
         }
 
 
-        StringWriter writer = new StringWriter();
-        XmlSerializer xmlSerializer = Xml.newSerializer();
+        //StringWriter writer = new StringWriter();
+        //XmlSerializer xmlSerializer = Xml.newSerializer();
 
-        try {
+        StringWriter writer;
 
-            xmlSerializer.setOutput(writer);
+        if (process_type == 0) {
 
-            xmlSerializer.startDocument("UTF-8", true);
+            if (table_X_M != null) {
+                writer = parseDataTableToXml(table_X_M);
 
-            xmlSerializer.startTag("", "printx");
-            //declare
-            //xs:schema
-            xmlSerializer.startTag("", "xs:schema");
-            xmlSerializer.attribute("", "id", "printx");
-            xmlSerializer.attribute("", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
-            xmlSerializer.attribute("", "xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
-            //xs:element
-            xmlSerializer.startTag("", "xs:element");
-            xmlSerializer.attribute("", "name", "printx");
-            xmlSerializer.attribute("", "msdata:IsDataSet", "true");
-            xmlSerializer.attribute("", "msdata:UseCurrentLocale", "true");
-            //xs:complexType
-            xmlSerializer.startTag("", "xs:complexType");
-            //xs:choice
-            xmlSerializer.startTag("", "xs:choice");
-            xmlSerializer.attribute("", "minOccurs", "0");
-            xmlSerializer.attribute("", "maxOccurs", "unbounded");
-            //xs:element
-            xmlSerializer.startTag("", "xs:element");
-            xmlSerializer.attribute("", "name", "Table");
-            //xs:complexType
-            xmlSerializer.startTag("", "xs:complexType");
-            //xs:sequence
-            xmlSerializer.startTag("", "xs:sequence");
-            //xs:element
-            //script
-            xmlSerializer.startTag("", "xs:element");
-            xmlSerializer.attribute("", "name", "script");
-            xmlSerializer.attribute("", "type", "xs:string");
-            xmlSerializer.endTag("", "xs:element");
+                try {
+                    // 建立一個 WebService 請求
+                    //Log.d(TAG, "==>1");
+                    SoapObject request = new SoapObject(NAMESPACE,
+                            METHOD_NAME);
 
-            xmlSerializer.endTag("", "xs:sequence");
-            xmlSerializer.endTag("", "xs:complexType");
-            xmlSerializer.endTag("", "xs:element");
-            xmlSerializer.endTag("", "xs:choice");
-            xmlSerializer.endTag("", "xs:complexType");
-            xmlSerializer.endTag("", "xs:element");
-            xmlSerializer.endTag("", "xs:schema");
-            //end tag <schema>
-            //table start
-            xmlSerializer.startTag("", "Table");
-            xmlSerializer.startTag("", "script");
-            xmlSerializer.text("sh run_me 1 1 " + rvu01 + " '" + doc_type + "'");
-            xmlSerializer.endTag("", "script");
-            xmlSerializer.endTag("", "Table");
-            //table end
-            xmlSerializer.endTag("", "printx");
-            xmlSerializer.endDocument();
+                    // 輸出值，帳號(account)、密碼(password)
 
-            Log.e(TAG, "xml = "+writer.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    request.addProperty("SID", "MAT");
+                    request.addProperty("script_list", writer.toString());
+                    //request.addProperty("barcode_no", barcode_no);
+                    //request.addProperty("k_id", "123456");
+                    //request.addProperty("start_date", "");
+                    //request.addProperty("end_date", "");
+                    //request.addProperty("emp_no", account);
+                    //request.addProperty("room_no", "");
+                    //request.addProperty("user_no", account);
+                    //request.addProperty("ime_code", device_id);
+                    //request.addProperty("ime_code", account);
+                    //request.addProperty("meeting_room_name", "");
+                    //request.addProperty("subject_or_content", "");
+                    //request.addProperty("meeting_type_id", "");
+                    //request.addProperty("passWord", "sunnyhitest");
 
+                    // 擴充 SOAP 序列化功能為第11版
+                    //Log.d(TAG, "==>2");
+                    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                            SoapEnvelope.VER11);
+                    envelope.dotNet = true; // 設定為 .net 預設編碼
+                    //Log.d(TAG, "==>3");
+                    envelope.setOutputSoapObject(request); // 設定輸出的 SOAP 物件
 
+                    //Log.d(TAG, "==>4");
+                    // 建立一個 HTTP 傳輸層
 
+                    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+                    httpTransport.debug = true; // 測試模式使用
+                    //Log.d(TAG, "==>5");
 
+                    httpTransport.call(SOAP_ACTION1, envelope); // 設定 SoapAction 所需的標題欄位
+                    //Log.d(TAG, "==>6");
 
-        try {
-            // 建立一個 WebService 請求
-            //Log.d(TAG, "==>1");
-            SoapObject request = new SoapObject(NAMESPACE,
-                    METHOD_NAME);
-
-            // 輸出值，帳號(account)、密碼(password)
-
-            request.addProperty("SID", "MAT");
-            request.addProperty("script_list", writer.toString());
-            //request.addProperty("barcode_no", barcode_no);
-            //request.addProperty("k_id", "123456");
-            //request.addProperty("start_date", "");
-            //request.addProperty("end_date", "");
-            //request.addProperty("emp_no", account);
-            //request.addProperty("room_no", "");
-            //request.addProperty("user_no", account);
-            //request.addProperty("ime_code", device_id);
-            //request.addProperty("ime_code", account);
-            //request.addProperty("meeting_room_name", "");
-            //request.addProperty("subject_or_content", "");
-            //request.addProperty("meeting_type_id", "");
-            //request.addProperty("passWord", "sunnyhitest");
-
-            // 擴充 SOAP 序列化功能為第11版
-            //Log.d(TAG, "==>2");
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
-                    SoapEnvelope.VER11);
-            envelope.dotNet = true; // 設定為 .net 預設編碼
-            //Log.d(TAG, "==>3");
-            envelope.setOutputSoapObject(request); // 設定輸出的 SOAP 物件
-
-            //Log.d(TAG, "==>4");
-            // 建立一個 HTTP 傳輸層
-
-            HttpTransportSE httpTransport = new HttpTransportSE(URL);
-            httpTransport.debug = true; // 測試模式使用
-            //Log.d(TAG, "==>5");
-
-            httpTransport.call(SOAP_ACTION1, envelope); // 設定 SoapAction 所需的標題欄位
-            //Log.d(TAG, "==>6");
-
-            // 將 WebService 資訊轉為 DataTable
-            if (envelope.bodyIn instanceof SoapFault) {
-                String str= ((SoapFault) envelope.bodyIn).faultstring;
-                //Log.d(TAG, "==>7");
-                Log.e(TAG, str);
-                //Log.d(TAG, "==>8");
-                //Intent errorIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-                //sendBroadcast(errorIntent);
-            } else {
-                SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
-                //Log.d(TAG, "==>9");
-                Log.e(TAG, String.valueOf(resultsRequestSOAP));
-                //Log.d(TAG, "==>10");
-
-                //SoapObject ret = (SoapObject) resultsRequestSOAP.getProperty("Get_TT_doc_type_is_REG_or_SUBResult");
-
-                //SoapObject ret  = (SoapObject )resultsRequestSOAP.getAttribute("Get_TT_doc_type_is_REG_or_SUBResult");
-
-                //doc_type = ret.toString();
-                //String ret  = resultsRequestSOAP.getPrimitiveProperty("Execute_Script_TTResult").toString();
-                //Log.d(TAG, "ret = "+ret);
-
-                /*if (String.valueOf(resultsRequestSOAP).indexOf("REG") > 0) {
-                    Log.e(TAG, "ret = true");
-                    is_exist = true;
-                    //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
-                    //sendBroadcast(loginResultIntent);
-                } else {
-                    Log.e(TAG, "ret = false");
-                    is_exist = false;
-                    //loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
-                    //sendBroadcast(loginResultIntent);
-                }*/
-
-                //boolean success = Boolean.valueOf(ret);
-                boolean success = parseToBoolean(resultsRequestSOAP);
-                if (success) {
-                    int found_index = -1;
-                    int next_table;
-                /*if (Integer.valueOf(current_table) > 0) {
-                    next_table = Integer.valueOf(current_table) - 1;
-                } else {
-                    next_table = -1;
-                }*/
-                    next_table = Integer.valueOf(current_table) - 1;
-                    Log.e(TAG, "=== [ExecuteScriptTTService] check stock in start ===");
-                    for (int i=0; i < check_stock_in.size(); i++) {
-                        Log.e(TAG, "check_stock_in["+i+"] = "+check_stock_in.get(i));
-                    }
-                    Log.e(TAG, "=== [ExecuteScriptTTService] check stock in end ===");
-
-                    for (int i=next_table; i>=0; i--) {
-                        if (check_stock_in.get(i)) {
-                            Log.e(TAG, "found_index =>>>>> "+i);
-                            found_index = i;
-                            break;
-                        }
-                    }
-
-                    Intent getSuccessIntent = new Intent();
-                    if (found_index != -1) {
-
-
-                        if (next_table == -1) {
-                            getSuccessIntent.setAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
-                            getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
-                            sendBroadcast(getSuccessIntent);
-                        } else {
-                            Log.e(TAG, "send current index back and go next");
-                            getSuccessIntent.setAction(Constants.ACTION.ACTION_EXECUTE_TT_SUCCESS);
-                            getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
-                            getSuccessIntent.putExtra("NEXT_TABLE", String.valueOf(found_index));
-                            sendBroadcast(getSuccessIntent);
-                        }
-
-
+                    // 將 WebService 資訊轉為 DataTable
+                    if (envelope.bodyIn instanceof SoapFault) {
+                        String str= ((SoapFault) envelope.bodyIn).faultstring;
+                        //Log.d(TAG, "==>7");
+                        Log.e(TAG, str);
+                        //Log.d(TAG, "==>8");
+                        //Intent errorIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+                        //sendBroadcast(errorIntent);
                     } else {
-                        Log.e(TAG, "send complete to stop!");
-                        getSuccessIntent.setAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
-                        getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
-                        sendBroadcast(getSuccessIntent);
+                        SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
+                        //Log.d(TAG, "==>9");
+                        Log.e(TAG, String.valueOf(resultsRequestSOAP));
+
+
+                        //boolean success = Boolean.valueOf(ret);
+                        is_success = parseToBoolean(resultsRequestSOAP);
+
+
 
                     }
-                } else {
+
+                } catch (SocketTimeoutException e) {
+                    e.printStackTrace();
+                    Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+                    sendBroadcast(timeoutIntent);
+                } catch (Exception e) {
+                    // 抓到錯誤訊息
+
+                    e.printStackTrace();
                     Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
+                    //getFailedIntent.putExtra("DOC_TYPE", doc_type);
                     sendBroadcast(getFailedIntent);
                 }
-
-
-
-                /*if (Integer.valueOf(current_table) == dataTable.Rows.size() -1 ) { //the last one
-                    Log.e(TAG, "send complete to stop!");
-                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
-                    sendBroadcast(getSuccessIntent);
-                } else {
-                    Log.e(TAG, "send current index back and go next");
-                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_SUCCESS);
-                    getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
-                    sendBroadcast(getSuccessIntent);
-                }*/
-
-
+            } else {
+                Log.e(TAG, "table_X_M = null");
             }
+        } else if (process_type == 1) {
+            if (product_table_X_M != null) {
+                writer = parseDataTableToXml(product_table_X_M);
 
-            //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);
-            //listView.setAdapter(meetingArrayAdapter);
+                try {
+                    // 建立一個 WebService 請求
+                    //Log.d(TAG, "==>1");
+                    SoapObject request = new SoapObject(NAMESPACE,
+                            METHOD_NAME);
+
+                    // 輸出值，帳號(account)、密碼(password)
+
+                    request.addProperty("SID", "MAT");
+                    request.addProperty("script_list", writer.toString());
+                    //request.addProperty("barcode_no", barcode_no);
+                    //request.addProperty("k_id", "123456");
+                    //request.addProperty("start_date", "");
+                    //request.addProperty("end_date", "");
+                    //request.addProperty("emp_no", account);
+                    //request.addProperty("room_no", "");
+                    //request.addProperty("user_no", account);
+                    //request.addProperty("ime_code", device_id);
+                    //request.addProperty("ime_code", account);
+                    //request.addProperty("meeting_room_name", "");
+                    //request.addProperty("subject_or_content", "");
+                    //request.addProperty("meeting_type_id", "");
+                    //request.addProperty("passWord", "sunnyhitest");
+
+                    // 擴充 SOAP 序列化功能為第11版
+                    //Log.d(TAG, "==>2");
+                    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+                            SoapEnvelope.VER11);
+                    envelope.dotNet = true; // 設定為 .net 預設編碼
+                    //Log.d(TAG, "==>3");
+                    envelope.setOutputSoapObject(request); // 設定輸出的 SOAP 物件
+
+                    //Log.d(TAG, "==>4");
+                    // 建立一個 HTTP 傳輸層
+
+                    HttpTransportSE httpTransport = new HttpTransportSE(URL);
+                    httpTransport.debug = true; // 測試模式使用
+                    //Log.d(TAG, "==>5");
+
+                    httpTransport.call(SOAP_ACTION1, envelope); // 設定 SoapAction 所需的標題欄位
+                    //Log.d(TAG, "==>6");
+
+                    // 將 WebService 資訊轉為 DataTable
+                    if (envelope.bodyIn instanceof SoapFault) {
+                        String str= ((SoapFault) envelope.bodyIn).faultstring;
+                        //Log.d(TAG, "==>7");
+                        Log.e(TAG, str);
+                        //Log.d(TAG, "==>8");
+                        //Intent errorIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+                        //sendBroadcast(errorIntent);
+                    } else {
+                        SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
+                        //Log.d(TAG, "==>9");
+                        Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
 
-            //Intent meetingAddintent = new Intent(Constants.ACTION.MEETING_NEW_BROCAST);
-            //context.sendBroadcast(meetingAddintent);
-            //SoapObject bodyIn = (SoapObject) envelope.bodyIn; // KDOM 節點文字編碼
-
-            //Log.e(TAG, bodyIn.toString());
-
-            //DataTable dt = soapToDataTable(bodyIn);
+                        //boolean success = Boolean.valueOf(ret);
+                        is_success = parseToBoolean(resultsRequestSOAP);
 
 
-        } catch (Exception e) {
-            // 抓到錯誤訊息
 
-            e.printStackTrace();
-            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
-            //getFailedIntent.putExtra("DOC_TYPE", doc_type);
-            sendBroadcast(getFailedIntent);
+                    }
+
+                } catch (SocketTimeoutException e) {
+                    e.printStackTrace();
+                    Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+                    sendBroadcast(timeoutIntent);
+                } catch (Exception e) {
+                    // 抓到錯誤訊息
+
+                    e.printStackTrace();
+                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
+                    //getFailedIntent.putExtra("DOC_TYPE", doc_type);
+                    sendBroadcast(getFailedIntent);
+                }
+            } else {
+                Log.e(TAG, "product_table_X_M = null");
+            }
         }
+
+
+
+
+
+
+
+
+
+
+
 
         //MeetingAlarm.last_sync_setting = sync_option;
 
@@ -339,6 +292,22 @@ public class ExecuteScriptTTService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
+
+        Intent checkResultIntent;
+        if (!is_success) {
+            checkResultIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
+            sendBroadcast(checkResultIntent);
+        } else {
+
+            if (process_type == 0) { //receiving in stock
+                checkResultIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
+                sendBroadcast(checkResultIntent);
+            } else if (process_type == 1) { //production in stock
+                checkResultIntent = new Intent(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE);
+                sendBroadcast(checkResultIntent);
+            }
+
+        }
 
     }
 }

@@ -1,5 +1,7 @@
 package com.macauto.macautowarehouse.data;
 
+import android.widget.CheckBox;
+
 public class InspectedReceiveItem {
     private boolean check_sp;
     private String col_rvu01;
@@ -13,6 +15,7 @@ public class InspectedReceiveItem {
     private String col_rvb33;
     private String col_pmc03;
     private String col_gen02;
+    private CheckBox checkBox;
 
     public boolean isCheck_sp() {
         return check_sp;
@@ -108,5 +111,13 @@ public class InspectedReceiveItem {
 
     public void setCol_gen02(String col_gen02) {
         this.col_gen02 = col_gen02;
+    }
+
+    public CheckBox getCheckBox() {
+        return checkBox;
+    }
+
+    public void setCheckBox(CheckBox checkBox) {
+        this.checkBox = checkBox;
     }
 }

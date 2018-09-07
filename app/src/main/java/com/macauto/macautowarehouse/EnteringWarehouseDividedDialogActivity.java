@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,19 +18,24 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.DetailItem;
 import com.macauto.macautowarehouse.data.DividedItem;
 import com.macauto.macautowarehouse.data.DividedItemAdapter;
+import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
+import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService2;
+import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataAXService;
 import com.macauto.macautowarehouse.table.DataRow;
 
 import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
 
 public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
@@ -65,9 +71,16 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        final String group_index = intent.getStringExtra("GROUP_INDEX");
-        final String child_index = intent.getStringExtra("CHILD_INDEX");
+        //final String group_index = intent.getStringExtra("GROUP_INDEX");
+        //final String child_index = intent.getStringExtra("CHILD_INDEX");
+        final String in_no_string = intent.getStringExtra("IN_NO");
+        final String item_no_string = intent.getStringExtra("ITEM_NO");
+        final String part_no_string = intent.getStringExtra("PART_NO");
         final String quantity_string = intent.getStringExtra("QUANTITY");
+        final String batch_no_string = intent.getStringExtra("BATCH_NO");
+        final String locate_no_string = intent.getStringExtra("LOCATE_NO");
+        final String stock_no_string = intent.getStringExtra("STOCK_NO");
+        final String check_sp_string = intent.getStringExtra("CHECK_SP");
 
         float quantity = Float.valueOf(quantity_string);
 
@@ -117,13 +130,32 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //DetailItem item = inspectedReceiveExpanedAdater.getChild(Integer.valueOf(group_index), Integer.valueOf(child_index));
-                int base_index = Integer.valueOf(group_index);
+                //reset dataTable_Batch_area
+
+                for (int i=0; i<dividedList.size(); i++) {
+                    if (i==0) {
+                        dataTable_Batch_area.Rows.get(0).setValue("rvb33", String.valueOf(dividedList.get(i).getQuantity()));
+                    } else { //i > 0
+                        DataRow dr = dataTable_Batch_area.NewRow();
+                        dr.setValue("rvv33", dataTable_Batch_area.getValue(0, "rvv33"));
+                        dr.setValue("rvb33", String.valueOf(dividedList.get(i).getQuantity()));
+                        dr.setValue("rvv32", dataTable_Batch_area.getValue(0, "rvv32"));
+                        dr.setValue("rvv34", dataTable_Batch_area.getValue(0, "rvv34"));
+                        dataTable_Batch_area.Rows.add(dr);
+                    }
+                }
+
+                Intent splitIntent = new Intent(EnteringWarehouseDividedDialogActivity.this, ConfirmEnteringWarehouseService.class);
+                splitIntent.setAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION);
+                splitIntent.putExtra("IN_NO", in_no_string);
+                splitIntent.putExtra("ITEM_NO", item_no_string);
+                splitIntent.putExtra("PART_NO", part_no_string);
+                startService(splitIntent);
+
+
+                /*int base_index = Integer.valueOf(group_index);
 
                 String base_head = no_list.get(base_index);
-                //ArrayList<DetailItem> base_list = new ArrayList<>(detailList.get(no_list.get(base_index)));
-
-
 
                 //the original must be delete
                 for (int i=0; i<dividedList.size(); i++) {
@@ -144,31 +176,7 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
                         copy_dataRow.setValue(dataTable.Columns.get(k).ColumnName, dataTable.Rows.get(base_index).getValue(k));
 
-                        /*if (k==0) {
-                            copy_dataRow.setValue("check_sp", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==1) {
-                            copy_dataRow.setValue("rvu01", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==2) {
-                            copy_dataRow.setValue("rvu02", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==3) {
-                            copy_dataRow.setValue("rvb05", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==4) {
-                            copy_dataRow.setValue("pmn041", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==5) {
-                            copy_dataRow.setValue("ima021", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==6) {
-                            copy_dataRow.setValue("rvv32", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==7) {
-                            copy_dataRow.setValue("rvv33", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==8) {
-                            copy_dataRow.setValue("rvv34", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==9) {
-                            copy_dataRow.setValue("rvb33", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==10) {
-                            copy_dataRow.setValue("pmc03", dataTable.Rows.get(base_index).getValue(k));
-                        } else if (k==11) {
-                            copy_dataRow.setValue("gen02", dataTable.Rows.get(base_index).getValue(k));
-                        }*/
+
                     }
                     //DataRow copy_dataRow = dataTable.Rows.get(base_index);
                     //fix quantity
@@ -201,24 +209,13 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                     check_stock_in.set(j, false);
                     mSparseBooleanArray.put(j, false);
                 }
-                //no_list.remove(base_index);
-                //detailList.get(no_list.get(base_index)).get(9).setName(String.valueOf(temp_count_list.get(0)));
+
 
                 Intent addIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD);
                 sendBroadcast(addIntent);
 
-                finish();
-                /*int count = 0;
-                for (int i=0; i<dividedList.size(); i++) {
-                    if (dividedList.get(i).getEdit().getText().length() > 0)
-                    {
-                        count += Integer.valueOf(dividedList.get(i).getEdit().getText().toString());
+                finish();*/
 
-                    }
-                }
-
-                String total = count+" / "+quantity_string;
-                textViewQuantity.setText(total);*/
 
 
             }
@@ -254,7 +251,14 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
                 if (intent.getAction() != null) {
 
-                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_TEXT_CHANGE)) {
+
+                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
+                        Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+
+                        toast(getResources().getString(R.string.socket_timeout));
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_TEXT_CHANGE)) {
                         //Log.d(TAG, "receive ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_TEXT_CHANGE");
 
                         int count = 0;
@@ -303,6 +307,49 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                         //    dividedItemAdapter.notifyDataSetChanged();
                         //}
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_SUCCESS)) {
+                        Log.d(TAG, "receive ACTION_GET_TT_SPLIT_RVV_ITEM_SUCCESS");
+
+                        Intent splitIntent = new Intent(EnteringWarehouseDividedDialogActivity.this, DeleteTTReceiveGoodsInTempService2.class);
+                        splitIntent.setAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION);
+                        splitIntent.putExtra("IN_NO", in_no_string);
+                        splitIntent.putExtra("ITEM_NO", item_no_string);
+                        startService(splitIntent);
+
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_FAILED)) {
+                        Log.d(TAG, "receive ACTION_GET_TT_SPLIT_RVV_ITEM_FAILED");
+                        toast(getResources().getString(R.string.entering_warehouse_tt_split_rvv_failed));
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_SUCCESS)) {
+                        Log.d(TAG, "receive ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_SUCCESS");
+
+                        //reset item string
+                        String xx = "";
+                        int start_index = Integer.valueOf(item_no_string);
+                        for (int i=0; i<dataTable_Batch_area.Rows.size(); i++) {
+                            xx = xx + "rvv02="+start_index;
+
+                            if (i != dataTable_Batch_area.Rows.size() -1) {
+                                xx = xx + " or ";
+                            }
+                        }
+
+                        xx = " ( "+xx+" ) ";
+                        Log.e(TAG, "xx = "+xx);
+
+                        Intent splitIntent = new Intent(EnteringWarehouseDividedDialogActivity.this, GetReceiveGoodsInDataAXService.class);
+                        splitIntent.setAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION);
+                        splitIntent.putExtra("IN_NO", in_no_string);
+                        splitIntent.putExtra("ITEM_NO_LIST", xx);
+                        splitIntent.putExtra("CHECK_SP", check_sp_string);
+                        splitIntent.putExtra("ITEM_NO", item_no_string);
+                        startService(splitIntent);
+
+                        finish();
+
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_FAILED)) {
+                        Log.d(TAG, "receive ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_FAILED");
                     }
 
                 }
@@ -311,7 +358,14 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
         if (!isRegister) {
             filter = new IntentFilter();
+            filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             filter.addAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_TEXT_CHANGE);
+
+            filter.addAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_FAILED);
+
+            filter.addAction(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_FAILED);
 
             registerReceiver(mReceiver, filter);
             isRegister = true;
@@ -378,5 +432,11 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public void toast(String message) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+        toast.show();
     }
 }

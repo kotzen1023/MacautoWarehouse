@@ -74,6 +74,7 @@ public class CheckDeleteMessageRightsService extends IntentService {
 
         String iss_no = intent.getStringExtra("ISS_NO");
         String user_no = intent.getStringExtra("USER_NO");
+        String current_check_delete = intent.getStringExtra("CURRENT_CHECK_DELETE");
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
@@ -145,7 +146,7 @@ public class CheckDeleteMessageRightsService extends IntentService {
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED);
+                Intent getFailedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
                 sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
@@ -153,7 +154,16 @@ public class CheckDeleteMessageRightsService extends IntentService {
 
                 is_delete = parseToBoolean(resultsRequestSOAP);
 
-
+                Intent resultIntent;
+                if (!is_delete) {
+                    resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_NO);
+                    resultIntent.putExtra("CURRENT_CHECK_DELETE", current_check_delete);
+                    sendBroadcast(resultIntent);
+                } else {
+                    resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES);
+                    resultIntent.putExtra("CURRENT_CHECK_DELETE", current_check_delete);
+                    sendBroadcast(resultIntent);
+                }
 
 
 
@@ -177,6 +187,7 @@ public class CheckDeleteMessageRightsService extends IntentService {
 
             e.printStackTrace();
             Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED);
+            getFailedIntent.putExtra("CURRENT_CHECK_DELETE", current_check_delete);
             sendBroadcast(getFailedIntent);
         }
 
@@ -190,13 +201,6 @@ public class CheckDeleteMessageRightsService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        Intent resultIntent;
-        if (!is_delete) {
-            resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED);
-            sendBroadcast(resultIntent);
-        } else {
-            resultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_SUCCESS);
-            sendBroadcast(resultIntent);
-        }
+
     }
 }

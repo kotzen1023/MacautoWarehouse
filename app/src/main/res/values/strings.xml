@@ -11,12 +11,19 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
+    <string name="delete_msg">Delete this?</string>
     <string name="add">Add</string>
     <string name="save">Save</string>
+    <string name="exit_app_title">Exit</string>
+    <string name="exit_app_msg">Exit from this App?</string>
+    <string name="logout_title">Log out</string>
+    <string name="logout_title_msg">Log out from this account?</string>
     <string name="Processing">Processing...</string>
     <string name="rescan">Re-scan</string>
     <string name="search">Search</string>
     <string name="search_again">Re-search</string>
+    <string name="hide_keyboard">Hide keyboard</string>
+    <string name="show_keyboard">Show keyboard</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
@@ -31,7 +38,8 @@
 
     <string name="nav_receiving">Receiving</string>
     <string name="nav_shipment">Shipment</string>
-    <string name="nav_allocation">Allocation</string>
+    <string name="nav_allocation_send">Send message to allocate</string>
+    <string name="nav_allocation">Allocation Message</string>
     <string name="nav_entering_warehouse">Entering Warehouse</string>
     <string name="nav_production_storage">Production Storage</string>
     <string name="nav_receiving_inspection">Receiving Inpsection</string>
@@ -55,7 +63,9 @@
     <string name="item_title_rvb33">Quantity</string>
     <string name="item_title_pmc03">Vendor</string>
     <string name="item_title_gen02">Warehouse staff</string>
+    <string name="item_title_rvv33_scan">Scan</string>
     <string name="item_title_confirm_stock_in">Confirm Into Stock</string>
+    <string name="item_total">%d records, total %s</string>
 
     <string name="action_shipment_main">Shipping Main</string>
     <string name="action_shipment_find">Find in warehouse</string>
@@ -101,6 +111,7 @@
     <string name="entering_warehouse_dialog_head">Storing place split</string>
     <string name="entering_warehouse_into_stock">Into Stock</string>
     <string name="entering_warehouse_no_record">No Record</string>
+    <string name="entering_warehouse_tt_split_rvv_failed">Locate separated fail. Please contact IT.</string>
 
     <string name="receiving_rec_no">Receiving No.</string>
     <string name="receiving_rec_date">Receiving Date (yyyyMMdd)</string>
@@ -121,6 +132,7 @@
     <string name="allocation_send_message_to_material_date_hour">Hour</string>
     <string name="allocation_send_message_to_material_date_minute">Minute</string>
     <string name="allocation_send_message_to_material_produce_transfer">Allocate and Transfer</string>
+    <string name="allocation_send_message_to_material_produce_transfer_emp">Allocate and Transfer(Emp)</string>
     <string name="allocation_send_message_to_material_re_produce_transfer">Re-Allocate and Transfer</string>
     <string name="allocation_send_message_to_material_delete_detail">Delete Item</string>
     <string name="allocation_send_message_to_material_send_msg_to_material">Send Message</string>
@@ -146,6 +158,10 @@
     <string name="allocation_send_message_to_material_send_error">Send message error. Please Contact IT department.</string>
     <string name="allocation_send_message_to_material_the_msg_order_below">The message order below: </string>
     <string name="allocation_handle_message_delete_select">Delete elected message</string>
+    <string name="allocation_button_message_list">Message List</string>
+    <string name="allocation_button_scan_list">Scan List</string>
+    <string name="allocation_button_delete_detail">Delete Selected</string>
+    <string name="allocation_button_transfer">Transfer</string>
     
     <string name="allocation_no_message">No Message</string>
     <string name="allocation_get_msg_detail_error">Get detail error!</string>
@@ -156,6 +172,9 @@
     <string name="allocation_detail_request">Request Time</string>
     <string name="allocation_detail_model">Model</string>
     <string name="allocation_detail_barcode">Barcode</string>
+    <string name="allocation_detail_scanned">Scanned</string>
+    <string name="allocation_detail_scanned_not_found">No matched batch No. Please re-scan!</string>
+    <string name="allocation_detail_should_scan">Part No. %s should be scanned. But it did not!"</string>
 
     <string name="look_up_in_stock_part_no">Part No.</string>
     <string name="look_up_in_stock_part_name">Part Name</string>
@@ -197,4 +216,28 @@
     <string name="shipment_shipping_scanned">Scanned</string>
     <string name="shipment_shipping_wait_scan">Available</string>
     <string name="shipment_shipping_rescan">Re-Scan</string>
+
+    <string name="production_storage_user_input_confirm">User Input Confirm</string>
+    <string name="production_storage_in_no">Inbound Order</string>
+    <string name="production_storage_in_date">Inbound Date</string>
+    <string name="production_storage_made_no">Made No</string>
+    <string name="production_storage_dept">Department</string>
+    <string name="production_storage_in_storage_confirm">In Storage Confirm</string>
+    <string name="production_storage_index">Index</string>
+    <string name="production_storage_store_type">Storage Type</string>
+    <string name="production_storage_part_no">Part No.</string>
+    <string name="production_storage_stock_no">Warehouse</string>
+    <string name="production_storage_locate_no_def">Default Locate No.</string>
+    <string name="production_storage_locate_no">Locate No.</string>
+    <string name="production_storage_batch_no">Batch No.</string>
+    <string name="production_storage_qty">Quantity</string>
+    <string name="production_storage_unit">Unit</string>
+    <string name="production_storage_count_no">Count No.</string>
+
+    <string name="production_storage_inbound_order_has_confirmed">This inbound order %s was been confirmed.</string>
+    <string name="production_storage_not_inbound_order">This barcode is not for inbound work.</string>
+    <string name="production_storage_product_locate_not_scanned">Some item were not scanned.</string>
+    <string name="production_storage_in_stock_process_complete">Production In-stock process complete</string>
+    <string name="production_storage_in_stock_process_abort">Cannot find locate No. Please set stock and locate code.</string>
+    <string name="production_storage_update_process_error">Update TT data error. Please contact IT.</string>
 </resources>
