@@ -38,6 +38,8 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
 
     private int layoutResourceId;
     private ArrayList<AllocationMsgStatusItem> items;
+    private SwipeLayout preswipes=null;
+    private int pre_open_swipe = -1;
 
     public AllocationMsgStatusItemAdapter(Context context, int textViewResourceId,
                                 ArrayList<AllocationMsgStatusItem> objects) {
@@ -63,11 +65,11 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
 
     @Override
     public @NonNull
-    View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
         Log.e(TAG, "getView = "+ position);
         View view;
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null || convertView.getTag() == null) {
 
             view = inflater.inflate(layoutResourceId, null);
@@ -136,6 +138,15 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
                 @Override
                 public void onClose(SwipeLayout layout) {
                     Log.i(TAG, "onClose");
+
+                    if (preswipes == layout) {
+                        pre_open_swipe = -1;
+
+                        Log.e(TAG, "pre_open_swipe => "+pre_open_swipe);
+
+                    }
+
+                    layout.setBackgroundColor(Color.TRANSPARENT);
                 }
 
                 @Override
@@ -146,12 +157,26 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
                 @Override
                 public void onStartOpen(SwipeLayout layout) {
                     Log.i(TAG, "on start open");
+                    if(preswipes==null) {
+                        preswipes=layout;
 
+                    } else {
+                        preswipes.close(true);
+                        preswipes=layout;
+                    }
+
+                    layout.setBackgroundColor(Color.rgb(0x4d, 0x90, 0xfe));
+
+                    pre_open_swipe = position;
+
+                    Log.e(TAG, "pre_open_swipe => "+pre_open_swipe);
                 }
 
                 @Override
                 public void onOpen(SwipeLayout layout) {
                     Log.i(TAG, "the BottomView totally show");
+
+
                     /*Intent newNotifyIntent = new Intent();
                     newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
                     mContext.sendBroadcast(newNotifyIntent);*/
@@ -186,13 +211,12 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
 
     private void showEditDialog(final int position, final ViewHolder holder) {
 
-        holder.swipeLayout.close();
+        //holder.swipeLayout.close();
 
         Intent detailIntent = new Intent(mContext, AllocationSendMsgStatusDetailActivity.class);
         detailIntent.putExtra("ITEM_SFA03", items.get(position).getItem_SFA03());
         detailIntent.putExtra("ITEM_IMA021", items.get(position).getItem_IMA021());
         detailIntent.putExtra("ITEM_IMG10", items.get(position).getItem_IMG10());
-        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
         detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
         detailIntent.putExtra("ITEM_MESS_QTY", items.get(position).getItem_MESS_QTY());
         detailIntent.putExtra("ITEM_SFA05", items.get(position).getItem_SFA05());

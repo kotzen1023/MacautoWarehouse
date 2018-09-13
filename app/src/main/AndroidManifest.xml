@@ -35,6 +35,7 @@
         <activity android:name=".LookupInStockDetailActivity" />
         <activity android:name=".AllocationMsgDetailActivity" />
         <activity android:name=".AllocationSendMsgStatusDetailActivity" />
+        <activity android:name=".EnteringWarehouseDetailActivity" />
 
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />
@@ -71,6 +72,9 @@
         <service android:name=".service.DeleteTTReceiveGoodsInTempService2" />
         <service android:name=".service.GetReceiveGoodsInDataAXService" />
         <service android:name=".service.GetPartNoNeedScanStatusService" />
+        <service android:name=".service.GetTTReceiveGoodsReportDataQCService" />
+        <service android:name=".service.CheckTTRecNoAlreadyInQCItemService" />
+        <service android:name=".service.ExecuteTTcqcp001SetService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

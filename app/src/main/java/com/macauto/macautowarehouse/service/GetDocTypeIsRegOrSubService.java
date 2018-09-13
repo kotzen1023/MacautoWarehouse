@@ -21,6 +21,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.pp_list;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
@@ -83,6 +84,7 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
 
 
         String current_table = intent.getStringExtra("CURRENT_TABLE");
+        String doc_no = intent.getStringExtra("DOC_NO");
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
@@ -95,10 +97,10 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
             }
         }
 
-        String doc_no5 = dataTable.Rows.get(Integer.valueOf(current_table)).getValue(1).toString();
-        Log.d(TAG, "current_table = "+current_table+", doc_no5 = "+doc_no5);
+        //String doc_no5 = dataTable.Rows.get(Integer.valueOf(current_table)).getValue(1).toString();
+        //Log.d(TAG, "current_table = "+current_table+", doc_no5 = "+doc_no5);
 
-
+        String doc_no5 = doc_no.split("-")[0];
 
 
 
@@ -111,7 +113,7 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
             // 輸出值，帳號(account)、密碼(password)
 
             request.addProperty("SID", "MAT");
-            request.addProperty("doc_no5", doc_no5.split("-")[0]);
+            request.addProperty("doc_no5", doc_no5);
             //request.addProperty("barcode_no", barcode_no);
             //request.addProperty("k_id", "123456");
             //request.addProperty("start_date", "");
@@ -182,12 +184,18 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
                 }*/
 
                 String s_p = "1"; //TEST = 2, MAT or other = 1
-
+                if (web_soap_port.equals("8484")) {
+                    s_p = "2";
+                }
 
 
                 String script_string = "sh run_me " + s_p + " 1 " + doc_no5 + " '" + doc_type + "'";
 
-                boolean found_same_script = false;
+                DataRow kr = table_X_M.NewRow();
+                kr.setValue("script", script_string);
+                table_X_M.Rows.add(kr);
+
+                /*boolean found_same_script = false;
                 for (DataRow dr : table_X_M.Rows) {
                     if (dr.getValue("script").equals(script_string)) {
                         found_same_script = true;
@@ -200,30 +208,45 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
                     DataRow kr = table_X_M.NewRow();
                     kr.setValue("script", script_string);
                     table_X_M.Rows.add(kr);
-                }
+                }*/
 
 
 
-                int found_index = -1;
+                //int found_index = -1;
                 int next_table;
 
                 next_table = Integer.valueOf(current_table) - 1;
-                Log.e(TAG, "=== [ExecuteScriptTTService] check stock in start ===");
-                for (int i=0; i < check_stock_in.size(); i++) {
-                    Log.e(TAG, "check_stock_in["+i+"] = "+check_stock_in.get(i));
+                Log.e(TAG, "=== [ExecuteScriptTTService] check pp_list in start ===");
+                for (int i=0; i < pp_list.size(); i++) {
+                    Log.e(TAG, "pp_list["+i+"] = "+pp_list.get(i));
                 }
-                Log.e(TAG, "=== [ExecuteScriptTTService] check stock in end ===");
+                Log.e(TAG, "=== [ExecuteScriptTTService] check pp_list in end ===");
 
-                for (int i=next_table; i>=0; i--) {
+
+
+                /*for (int i=next_table; i>=0; i--) {
                     if (check_stock_in.get(i)) {
                         Log.e(TAG, "found_index =>>>>> "+i);
                         found_index = i;
                         break;
                     }
-                }
+                }*/
 
                 Intent getSuccessIntent = new Intent();
-                if (found_index != -1) {
+
+                if (next_table >= 0) {
+                    Log.e(TAG, "send current index back and go next");
+                    getSuccessIntent.setAction(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS);
+                    getSuccessIntent.putExtra("CURRENT_TABLE", String.valueOf(next_table));
+                    //getSuccessIntent.putExtra("NEXT_TABLE", String.valueOf(found_index));
+                    sendBroadcast(getSuccessIntent);
+                } else { //next_table == -1
+                    getSuccessIntent.setAction(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_COMPLETE);
+                    //getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
+                    sendBroadcast(getSuccessIntent);
+                }
+
+                /*if (next_table != -1) {
 
 
                     if (next_table == -1) {
@@ -246,7 +269,7 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
                     //getSuccessIntent.putExtra("CURRENT_TABLE", current_table);
                     sendBroadcast(getSuccessIntent);
 
-                }
+                }*/
 
                 /*Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS);
                 getSuccessIntent.putExtra("DOC_TYPE", doc_type);

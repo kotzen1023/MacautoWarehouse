@@ -7,6 +7,7 @@ import android.util.Log;
 import com.macauto.macautowarehouse.R;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.DetailItem;
+import com.macauto.macautowarehouse.data.InspectedReceiveItem;
 import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
@@ -24,6 +25,8 @@ import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 //import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 //import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.total_count_list;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
@@ -196,19 +199,35 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
                         }
 
                         for (int i=0; i < dataTable.Rows.size(); i++) {
-                            String header = String.valueOf(i+1)+"#"+dataTable.getValue(i, 3).toString();
+                            //String header = String.valueOf(i+1)+"#"+dataTable.getValue(i, 3).toString();
                             //no_list.add(header);
                             check_stock_in.add(false);
                             //detailList.put(header, new ArrayList<DetailItem>());
 
                             //add into stock check first
-                            DetailItem checkItem = new DetailItem();
-                            checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
+                            //DetailItem checkItem = new DetailItem();
+                            //checkItem.setTitle(this.getResources().getString(R.string.item_title_confirm_stock_in));
                             //detailList.get(header).add(checkItem);
 
                             Log.e(TAG, "dataTable.Columns.size() = "+dataTable.Columns.size());
 
-                            for (int j=0; j < dataTable.Columns.size(); j++) {
+                            InspectedReceiveItem item = new InspectedReceiveItem();
+
+                            item.setCheck_sp(Boolean.valueOf(dataTable.Rows.get(i).getValue("check_sp").toString()));
+                            item.setCol_rvu01(dataTable.Rows.get(i).getValue("rvu01").toString());
+                            item.setCol_rvv02(dataTable.Rows.get(i).getValue("rvv02").toString());
+                            item.setCol_rvb05(dataTable.Rows.get(i).getValue("rvb05").toString());
+                            item.setCol_pmn041(dataTable.Rows.get(i).getValue("pmn041").toString());
+                            item.setCol_ima021(dataTable.Rows.get(i).getValue("ima021").toString());
+                            item.setCol_rvv32(dataTable.Rows.get(i).getValue("rvv32").toString());
+                            item.setCol_rvv33(dataTable.Rows.get(i).getValue("rvv33").toString());
+                            item.setCol_rvv34(dataTable.Rows.get(i).getValue("rvv34").toString());
+                            item.setCol_rvb33(dataTable.Rows.get(i).getValue("rvb33").toString());
+                            item.setCol_pmc03(dataTable.Rows.get(i).getValue("pmc03").toString());
+                            item.setCol_gen02(dataTable.Rows.get(i).getValue("gen02").toString());
+
+                            swipe_list.add(item);
+                            /*for (int j=0; j < dataTable.Columns.size(); j++) {
                                 DetailItem item = new DetailItem();
 
                                 if (j==0) {
@@ -244,29 +263,43 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
 
                                 //if (item != null)
                                 //detailList.get(header).add(item);
-                            }
+                            }*/
 
                         }
                         //add total count
-                        /*String temp_rvb05 = detailList.get(no_list.get(0)).get(3).getName();
+                        //String temp_rvb05 = swipe_list.get(no_list.get(0)).get(3).getName();
                         double count_double = 0;
                         int count_num = 0;
-                        for (int i=0; i<no_list.size(); i++) {
-                            //if part no is equal
+                        String item_name = "";
+                        for (int i=0; i < dataTable.Rows.size(); i++) {
+                            item_name = dataTable.Rows.get(i).getValue("pmn041").toString();
+                            count_double = Double.valueOf(dataTable.Rows.get(i).getValue("rvb33").toString());
+                            count_num = (int) count_double;
+                            if (total_count_list.size() == 0) {
 
-                            if (temp_rvb05.equals(detailList.get(no_list.get(i)).get(3).getName())) {
-                                count_double = count_double + Double.valueOf(detailList.get(no_list.get(0)).get(9).getName());
-                                count_num = count_num + 1;
-                                if (i == no_list.size()-1) { //the last one
-                                    int count = (int)count_double;
-                                    String show_count = getResources().getString(R.string.item_total, count_num, count);
-                                    no_list.add(show_count);
+
+                                total_count_list.put(item_name, count_num);
+                            } else {
+                                if (total_count_list.containsKey(item_name)) {
+                                    int prev_count = total_count_list.get(item_name);
+                                    count_num = count_num + prev_count;
+                                    total_count_list.remove(item_name);
+                                    total_count_list.put(item_name, count_num);
+                                } else {
+                                    total_count_list.put(item_name, count_num);
                                 }
-
                             }
-                        }*/
-
-
+                        }
+                        Log.e(TAG, "================= total_count_list ==========================");
+                        for (Object key : total_count_list.keySet()) {
+                            System.out.println(key + " : " + total_count_list.get(key));
+                            InspectedReceiveItem item = new InspectedReceiveItem();
+                            item.setCol_pmn041(key.toString());
+                            item.setCol_rvb33(String.valueOf(total_count_list.get(key)));
+                            swipe_list.add(item);
+                        }
+                        Log.e(TAG, "================= total_count_list ==========================");
+                        //count_num = (int) count_double;
 
                         Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
                         sendBroadcast(getSuccessIntent);

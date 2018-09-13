@@ -65,7 +65,8 @@
     <string name="item_title_gen02">倉管人員</string>
     <string name="item_title_rvv33_scan">掃描</string>
     <string name="item_title_confirm_stock_in">確認入庫</string>
-    <string name="item_total">%d 筆資料, 總數 %s</string>
+    <string name="item_title_rva01">收貨單號</string>
+    <string name="item_total">數量 %s</string>
 
     <string name="action_shipment_main">出貨掃描確認作業</string>
     <string name="action_shipment_find">庫存查詢</string>
@@ -112,6 +113,9 @@
     <string name="entering_warehouse_into_stock">入庫</string>
     <string name="entering_warehouse_no_record">沒有資料</string>
     <string name="entering_warehouse_tt_split_rvv_failed">拆次入庫失敗 , 請通知資訊人員</string>
+    <string name="entering_warehouse_locate_no_not_scan">無法進行入庫作業. 仍有入庫儲位尚未掃描</string>
+    <string name="entering_warehouse_same_in_no_not_check">無法進行入庫作業. 仍有相同入庫單料件未勾選</string>
+    <string name="entering_warehouse_set_check_before_in_stock">請先勾選料件才能入庫</string>
     
     <string name="receiving_rec_no">收貨單號</string>
     <string name="receiving_rec_date">收貨日期 (yyyyMMdd)</string>
@@ -240,4 +244,16 @@
     <string name="production_storage_in_stock_process_complete">生產入庫作業完成</string>
     <string name="production_storage_in_stock_process_abort">修改後的儲位, 不在基本檔內, 請先在基本檔設定倉庫及儲位代碼</string>
     <string name="production_storage_update_process_error">入庫更新TT資料錯誤. 請聯絡IT人員.</string>
+    
+    <string name="receiving_inspection_part_no">料號</string>
+    <string name="receiving_inspection_search">查詢</string>
+    <string name="receiving_inspection_qc_generate">產生QC單</string>
+    <string name="receiving_inspection_vendor_name">供應商</string>
+    <string name="receiving_inspection_get_receive_report_data_qc_empty">查無對應的資料</string>
+    <string name="receiving_inspection_generate_not_select">您沒有選擇其中一張收貨單的項目, 因此無法產生 QC 單</string>
+    <string name="receiving_inspection_has_been_generate_to_qc">該收貨單 %s , 項次 %s 已經轉成QC單</string>
+    <string name="receiving_inspection_check_tt_rec_no_already_in_qc">請重新選擇收貨單</string>
+    <string name="receiving_inspection_execute_tt_oqcp_failed">已轉成QC單失敗 或 已經產生QC單時發生錯誤, 請洽資訊部 (ERROR-K1)</string>
+    <string name="receiving_inspection_qc_was_been_confirmed">QC單已確認</string>
+    <string name="receiving_inspection_qc_was_been_confirmed_failed">QC單已確認--失敗, 請洽資訊部 (ERROR-K2)</string>
 </resources>

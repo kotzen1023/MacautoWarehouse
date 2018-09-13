@@ -59,13 +59,13 @@
                 android:layout_weight="1">
 
             </ListView>
-            <TextView
+            <!--TextView
                 android:id="@+id/textViewTotal"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="total count"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:gravity="center"/>
+                android:gravity="center"/-->
         </LinearLayout>
 
 

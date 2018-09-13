@@ -323,6 +323,10 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_SUCCESS");
 
+                        //clear swipe_list only
+                        Intent clearIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY);
+                        sendBroadcast(clearIntent);
+
                         //reset item string
                         String xx = "";
                         int start_index = Integer.valueOf(item_no_string);

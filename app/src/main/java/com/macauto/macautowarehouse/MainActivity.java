@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity
     private static boolean isRegister = false;
 
     //private MenuItem menuItemReceiveGoods;
-    //private MenuItem menuItemShipment;
+    private MenuItem menuItemShipment;
     private MenuItem menuItemSearch;
     private MenuItem menuItemAllocation;
     private MenuItem menuItemAllocationSendMsg;
     private MenuItem menuItemEnteringWareHouse;
     private MenuItem menuItemProductionStorage;
-    //private MenuItem menuItemReceivingInspection;
+    private MenuItem menuItemReceivingInspection;
     private MenuItem menuItemLogin;
     private MenuItem menuItemLogout;
 
@@ -193,12 +193,12 @@ public class MainActivity extends AppCompatActivity
         menuItemLogin = navigationView.getMenu().findItem(R.id.nav_login);
         menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
         //menuItemReceiveGoods = navigationView.getMenu().findItem(R.id.nav_receiving);
-        //menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
+        menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
         menuItemSearch = navigationView.getMenu().findItem(R.id.nav_search);
         menuItemAllocation = navigationView.getMenu().findItem(R.id.nav_allocation);
         menuItemAllocationSendMsg = navigationView.getMenu().findItem(R.id.nav_allocation_send_msg);
         menuItemEnteringWareHouse = navigationView.getMenu().findItem(R.id.nav_entering_warehouse);
-        //menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
+        menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
         menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
 
 
@@ -332,8 +332,7 @@ public class MainActivity extends AppCompatActivity
                             menuItemAllocationSendMsg.setVisible(true);
                             menuItemEnteringWareHouse.setVisible(true);
                             menuItemProductionStorage.setVisible(true);
-                            //menuItemProductionStorage.setVisible(true);
-                            //menuItemReceivingInspection.setVisible(true);
+                            menuItemReceivingInspection.setVisible(true);
 
                             menuItemLogin.setVisible(false);
                             menuItemLogout.setVisible(true);
@@ -367,8 +366,7 @@ public class MainActivity extends AppCompatActivity
                             menuItemAllocationSendMsg.setVisible(false);
                             menuItemEnteringWareHouse.setVisible(false);
                             menuItemProductionStorage.setVisible(false);
-                            //menuItemProductionStorage.setVisible(false);
-                            //menuItemReceivingInspection.setVisible(false);
+                            menuItemReceivingInspection.setVisible(false);
 
                             menuItemLogin.setVisible(true);
                             menuItemLogout.setVisible(false);
@@ -580,9 +578,8 @@ public class MainActivity extends AppCompatActivity
             menuItemAllocationSendMsg.setVisible(true);
             menuItemEnteringWareHouse.setVisible(true);
             menuItemProductionStorage.setVisible(true);
+            menuItemReceivingInspection.setVisible(true);
 
-            //menuItemReceivingInspection.setVisible(true);
-            //menuItemProductionStorage.setVisible(true);
         } else {
             setting.setVisible(false);
 
@@ -618,8 +615,7 @@ public class MainActivity extends AppCompatActivity
             menuItemAllocationSendMsg.setVisible(false);
             menuItemEnteringWareHouse.setVisible(false);
             menuItemProductionStorage.setVisible(false);
-            //menuItemReceivingInspection.setVisible(false);
-            //menuItemProductionStorage.setVisible(false);
+            menuItemReceivingInspection.setVisible(false);
         }
         /*setting.setVisible(false);
 
@@ -832,29 +828,8 @@ public class MainActivity extends AppCompatActivity
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
 
-                break;
-            case R.id.nav_shipment:
-                fragmentClass = ShipmentFragment.class;
-                title = getResources().getString(R.string.action_shipment_main);
-                receiving_main.setVisible(false);
-                receiving_record.setVisible(false);
-                receiving_board.setVisible(false);
-                receiving_multi.setVisible(false);
-                shipment_main.setVisible(false);
-                shipment_find.setVisible(false);
-                allocation_find.setVisible(false);
-                allocation_replenishment.setVisible(false);
-                allocation_send_msg.setVisible(false);
-                allocation_msg.setVisible(false);
-                allocation_area_confirm.setVisible(false);
-                allocation_direct.setVisible(false);
-                entering_warehouse_main.setVisible(false);
-                entering_warehouse_find.setVisible(false);
-                production_storage_main.setVisible(false);
-                production_storage_find.setVisible(false);
-                production_storage_scan.setVisible(false);
-                keyboard.setVisible(true);
                 break;*/
+
             case R.id.nav_search:
                 fragmentClass = LookupInStockFragment.class;
                 title = getResources().getString(R.string.action_allocation_find);
@@ -971,7 +946,29 @@ public class MainActivity extends AppCompatActivity
                 production_storage_scan.setVisible(false);
                 keyboard.setVisible(true);
                 break;
-            /*case R.id.nav_receiving_inspection:
+            case R.id.nav_shipment:
+                fragmentClass = ShipmentFragment.class;
+                title = getResources().getString(R.string.action_shipment_main);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+                keyboard.setVisible(true);
+                break;
+            case R.id.nav_receiving_inspection:
                 fragmentClass = ReceivingInspectionFragment.class;
                 title = getResources().getString(R.string.action_receiving_inspection_main);
                 receiving_main.setVisible(false);
@@ -991,8 +988,8 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-
-                break;*/
+                keyboard.setVisible(true);
+                break;
             case R.id.nav_setting:
                 fragmentClass = SettingFragment.class;
 

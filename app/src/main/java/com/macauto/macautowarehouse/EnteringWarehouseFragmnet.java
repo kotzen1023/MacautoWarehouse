@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import android.widget.ExpandableListView;
@@ -63,7 +64,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
     //private ExpandableListView expandableListView;
     private ListView listView;
-    private TextView textViewTotalCount;
+    //private TextView textViewTotalCount;
     //public InspectedReceiveExpanedAdater inspectedReceiveExpanedAdater;
     public InspectedReceiveItemAdapter inspectedReceiveItemAdapter;
 
@@ -85,10 +86,11 @@ public class EnteringWarehouseFragmnet extends Fragment {
     InputMethodManager imm;
     //public static int current_expanded_group = -1;
     public static int total_count_int = 0;
-    //public static ArrayList<String> pp_list = new ArrayList<>();
-
+    public static ArrayList<String> pp_list = new ArrayList<>();
+    public static HashMap<String, Integer> total_count_list = new HashMap<>();
     //public static DividedItemAdapter dividedItemAdapter;
     //public static ArrayList<DividedItem> dividedList = new ArrayList<>();
+    public static int item_select = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -111,12 +113,40 @@ public class EnteringWarehouseFragmnet extends Fragment {
         //imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         listView = view.findViewById(R.id.listViewExpand);
-        textViewTotalCount = view.findViewById(R.id.textViewTotal);
+        //textViewTotalCount = view.findViewById(R.id.textViewTotal);
 
         swipe_list.clear();
 
         inspectedReceiveItemAdapter = new InspectedReceiveItemAdapter(fragmentContext, R.layout.inspected_receive_list_swipe_item, swipe_list);
         listView.setAdapter(inspectedReceiveItemAdapter);
+
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "select "+position);
+
+                item_select = position;
+
+                //deselect other
+                for (int i=0; i<swipe_list.size(); i++) {
+
+                    if (i == position) {
+                        if (swipe_list.get(i).isSelected()) {
+                            swipe_list.get(i).setSelected(false);
+                            item_select = -1;
+                        }
+                        else
+                            swipe_list.get(i).setSelected(true);
+
+                    } else {
+                        swipe_list.get(i).setSelected(false);
+
+                    }
+
+                    listView.invalidateViews();
+                }
+            }
+        });*/
 
         /*expandableListView = view.findViewById(R.id.listViewExpand);
         //TextView textView = view.findViewById(R.id.textEnteringWarehouse);
@@ -338,16 +368,131 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                 String head = fragmentContext.getResources().getString(R.string.entering_warehouse_dialog_content);
                 String msg = "";
+                boolean found = false;
                 for (int i=0; i< check_stock_in.size(); i++) {
                     if (check_stock_in.get(i)) {
                         /*msg += detailList.get(no_list.get(i)).get(4).getName()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
                                 detailList.get(no_list.get(i)).get(8).getName()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
                                 detailList.get(no_list.get(i)).get(10).getName()+"]\n\n";*/
-
+                        found = true;
                         msg += swipe_list.get(i).getCol_pmn041()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
                                 swipe_list.get(i).getCol_rvv33()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
                                 swipe_list.get(i).getCol_rvb33();
                     }
+                }
+
+                if (found) {
+                    AlertDialog.Builder confirmdialog = new AlertDialog.Builder(fragmentContext);
+                    confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
+                    confirmdialog.setTitle(fragmentContext.getResources().getString(R.string.entering_warehouse_dialog_title));
+                    confirmdialog.setMessage(head+"\n"+msg);
+                    confirmdialog.setPositiveButton(fragmentContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            boolean found = false;
+                            boolean same_in_no_but_not_check = false;
+
+                            //check if set in-stock check, but not scan
+                            for (int i=0; i<check_stock_in.size(); i++) {
+
+                                if (swipe_list.get(i).getCheckBox().isChecked()) {
+
+                                    if (dataTable.Rows.get(i).getValue("rvv33_scan").toString().equals("")) {
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            //check same in_no but not set check
+
+                            ArrayList<String> rvu01_list = new ArrayList<>();
+                            String temp_rvu01 = "";
+                            for (int i=0; i<check_stock_in.size(); i++) {
+                                if (!temp_rvu01.equals(swipe_list.get(i).getCol_rvu01())) {
+                                    temp_rvu01 = swipe_list.get(i).getCol_rvu01();
+                                    rvu01_list.add(temp_rvu01);
+                                }
+                            }
+
+                            Log.e(TAG, "rvu01_list.size = "+rvu01_list.size());
+
+                            for (int i=0; i<rvu01_list.size(); i++) {
+                                int check_count = 0;
+                                int tatal_count = 0;
+                                for (int j=0; j<swipe_list.size(); j++) {
+                                    if (rvu01_list.get(i).equals(swipe_list.get(i).getCol_rvu01())) {
+                                        tatal_count = tatal_count + 1;
+
+                                        if (swipe_list.get(j).getCheckBox().isChecked()) {
+                                            check_count = check_count + 1;
+                                        }
+                                    }
+                                }
+
+                                if (check_count > 0 && check_count != tatal_count) { //in same in_no, some item are checked, but some are not.
+                                    same_in_no_but_not_check = true;
+                                    break;
+                                }
+
+
+                            }
+
+
+                            if (found) { //found empty locate no in list. Must scan locate no before in stock.
+                                toast(getResources().getString(R.string.entering_warehouse_locate_no_not_scan));
+
+                            } else if (same_in_no_but_not_check) {
+                                toast(getResources().getString(R.string.entering_warehouse_same_in_no_not_check));
+                            } else { //all locate no were scanned, then go in stock procedure.
+                                pp_list.clear();
+                                String ss = "";
+                                //original code line 295
+                                if (table_X_M != null) {
+                                    table_X_M.clear();
+                                } else {
+                                    table_X_M = new DataTable();
+                                }
+                                table_X_M.TableName = "X_M";
+                                //DataColumn v1 = new DataColumn("script");
+                                table_X_M.Columns.Add("script");
+
+                                int index = 0;
+                                for (DataRow rx : dataTable.Rows) {
+                                    if (!ss.equals(dataTable.Rows.get(index).getValue("rvu01").toString())) {
+                                        ss = rx.getValue("rvu01").toString();
+                                        if (check_stock_in.get(index)) //if check, then set
+                                            pp_list.add(rx.getValue("rvu01").toString());
+                                    }
+                                    index++;
+                                }
+
+                                Intent getintent = new Intent(fragmentContext, ConfirmEnteringWarehouseService.class);
+                                getintent.setAction(Constants.ACTION.ACTION_CONFIRM_ENTERING_WAREHOUSE_ACTION);
+                                fragmentContext.startService(getintent);
+
+
+                                loadDialog = new ProgressDialog(fragmentContext);
+                                loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                loadDialog.setTitle(getResources().getString(R.string.Processing));
+                                loadDialog.setIndeterminate(false);
+                                loadDialog.setCancelable(false);
+                                loadDialog.show();
+                            }
+
+
+                        }
+                    });
+                    confirmdialog.setNegativeButton(fragmentContext.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // btnScan.setVisibility(View.VISIBLE);
+                            // btnConfirm.setVisibility(View.GONE);
+
+                        }
+                    });
+                    confirmdialog.show();
+                } else {
+                    toast(getResources().getString(R.string.entering_warehouse_set_check_before_in_stock));
                 }
                 //original line 272
                 /*for (DataRow hx : dataTable.Rows) {
@@ -356,46 +501,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     }
                 }*/
 
-                AlertDialog.Builder confirmdialog = new AlertDialog.Builder(fragmentContext);
-                confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
-                confirmdialog.setTitle(fragmentContext.getResources().getString(R.string.entering_warehouse_dialog_title));
-                confirmdialog.setMessage(head+"\n"+msg);
-                confirmdialog.setPositiveButton(fragmentContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        //original code line 295
-                        if (table_X_M != null) {
-                            table_X_M.clear();
-                        } else {
-                            table_X_M = new DataTable();
-                        }
-                        table_X_M.TableName = "X_M";
-                        //DataColumn v1 = new DataColumn("script");
-                        table_X_M.Columns.Add("script");
-
-
-
-                        Intent getintent = new Intent(fragmentContext, ConfirmEnteringWarehouseService.class);
-                        getintent.setAction(Constants.ACTION.ACTION_CONFIRM_ENTERING_WAREHOUSE_ACTION);
-                        fragmentContext.startService(getintent);
-
-
-                        loadDialog = new ProgressDialog(fragmentContext);
-                        loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        loadDialog.setTitle(getResources().getString(R.string.Processing));
-                        loadDialog.setIndeterminate(false);
-                        loadDialog.setCancelable(false);
-                        loadDialog.show();
-                    }
-                });
-                confirmdialog.setNegativeButton(fragmentContext.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                       // btnScan.setVisibility(View.VISIBLE);
-                       // btnConfirm.setVisibility(View.GONE);
-
-                    }
-                });
-                confirmdialog.show();
             }
         });
 
@@ -449,6 +555,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         Log.d(TAG, "get ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN");
 
                         swipe_list.clear();
+                        total_count_list.clear();
                         if (inspectedReceiveItemAdapter != null)
                             inspectedReceiveItemAdapter.notifyDataSetChanged();
 
@@ -481,10 +588,20 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         loadDialog.setCancelable(false);
                         loadDialog.show();
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY)) {
+                        Log.d(TAG, "get ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY");
+
+                        swipe_list.clear();
+                        total_count_list.clear();
+                        if (inspectedReceiveItemAdapter != null)
+                            inspectedReceiveItemAdapter.notifyDataSetChanged();
+
+
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS)) {
                         //toast(context.getResources().getString(R.string.get_receive_goods_success));
 
-                        String total_count = intent.getStringExtra("TOTAL_COUNT");
+                        //String total_count = intent.getStringExtra("TOTAL_COUNT");
 
                         Log.d(TAG, "receive ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS");
 
@@ -494,8 +611,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         if (inspectedReceiveItemAdapter != null)
                             inspectedReceiveItemAdapter.notifyDataSetChanged();
 
-                        String total_count_string = getResources().getString(R.string.item_total, dataTable.Rows.size(), total_count);
-                        textViewTotalCount.setText(total_count_string);
+                        //String total_count_string = getResources().getString(R.string.item_total, dataTable.Rows.size(), total_count);
+                        //textViewTotalCount.setText(total_count_string);
 
 
                         /*inspectedReceiveExpanedAdater = new InspectedReceiveExpanedAdater(context, R.layout.list_group, R.layout.inspected_receive_list_item, no_list, detailList);
@@ -586,7 +703,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_MODIFIED_ITEM_COMPLETE)) {
-                        Log.d(TAG, "get ACTINO_MODIFIED_ITEM_COMPLETE");
+                        Log.d(TAG, "get ACTION_MODIFIED_ITEM_COMPLETE");
 
                         //if (inspectedReceiveExpanedAdater != null)
                         //    inspectedReceiveExpanedAdater.notifyDataSetChanged();
@@ -628,13 +745,15 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                         //pp_list.clear();
 
-                        int found_index = -1;
-                        for (int i=check_stock_in.size()-1; i>=0; i--) {
+                        //int found_index = -1;
+                        //start from the last
+                        int found_index = pp_list.size() - 1;
+                        /*for (int i=check_stock_in.size()-1; i>=0; i--) {
                             if (check_stock_in.get(i)) {
                                 found_index = i;
                                 break;
                             }
-                        }
+                        }*/
 
                         Log.e(TAG, "found_index = "+found_index);
 
@@ -642,6 +761,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             Intent getintent = new Intent(context, GetDocTypeIsRegOrSubService.class);
                             getintent.setAction(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_ACTION);
                             getintent.putExtra("CURRENT_TABLE", String.valueOf(found_index));
+                            getintent.putExtra("DOC_NO", pp_list.get(found_index));
                             context.startService(getintent);
                         }
 
@@ -665,7 +785,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         getintent.putExtra("RVU01", rvu01);
                         context.startService(getintent);*/
 
-                        if (cur_index < dataTable.Rows.size()) {
+                        //if (cur_index < dataTable.Rows.size()) {
+                        if (cur_index >= 0) {
                             Log.e(TAG, "[update table["+current_table+"], rvu02 = "+dataTable.Rows.get(cur_index).getValue("rvu02")+"]");
 
 
@@ -688,6 +809,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             Intent getintent = new Intent(context, GetDocTypeIsRegOrSubService.class);
                             getintent.setAction(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_ACTION);
                             getintent.putExtra("CURRENT_TABLE", current_table);
+                            getintent.putExtra("DOC_NO", pp_list.get(cur_index));
                             context.startService(getintent);
                         }
 
@@ -772,15 +894,15 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
 
                         //reset
-                        check_stock_in.clear();
-                        for (int i=0 ;i<dataTable.Rows.size(); i++) {
-                            check_stock_in.add(i, false);
-                        }
+                        //check_stock_in.clear();
+                        //for (int i=0 ;i<dataTable.Rows.size(); i++) {
+                        //    check_stock_in.add(i, false);
+                        //}
 
                         //check_stock_in.remove(cur_index);
 
 
-                        mSparseBooleanArray.clear();
+                        //mSparseBooleanArray.clear();
                         //if (inspectedReceiveExpanedAdater != null)
                         //    inspectedReceiveExpanedAdater.notifyDataSetChanged();
 
@@ -795,18 +917,28 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         layoutBottom.setVisibility(View.GONE);
 
                         //if dataTable Rows = 0, delete temp
-                        if (dataTable.Rows.size() == 0) {
+                        /*if (dataTable.Rows.size() == 0) {
                             Intent deleteIntent = new Intent(context, DeleteTTReceiveGoodsInTempService.class);
                             deleteIntent.setAction(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_ACTION);
                             context.startService(deleteIntent);
-                        }
+                        }*/
+                        Intent deleteIntent = new Intent(context, DeleteTTReceiveGoodsInTempService.class);
+                        deleteIntent.setAction(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_ACTION);
+                        context.startService(deleteIntent);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS)) {
                         Log.d(TAG, "get ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS");
+
+                        swipe_list.clear();
+
+                        if (inspectedReceiveItemAdapter != null)
+                            inspectedReceiveItemAdapter.notifyDataSetChanged();
+
+
                         //toast(getResources().getString(R.string.entering_warehouse_failed));
                         //loadDialog.dismiss();
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS)) {
-                        Log.d(TAG, "get ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS");
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_FAILED)) {
+                        Log.d(TAG, "get ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_FAILED");
                         //toast(getResources().getString(R.string.entering_warehouse_failed));
                         //loadDialog.dismiss();
                     }
@@ -864,6 +996,15 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                     toast(text);
                                     //if (no_list.size() > 0 && detailList.size() > 0) {
                                     if (swipe_list.size() > 0) {
+
+                                        if (item_select != -1) { //scan locate
+                                            dataTable.Rows.get(item_select).setValue("rvv33", text);
+                                            dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
+                                            swipe_list.get(item_select).setCol_rvv33(text);
+
+                                            if (inspectedReceiveItemAdapter != null)
+                                                inspectedReceiveItemAdapter.notifyDataSetChanged();
+                                        }
 
                                         /*if (current_expanded_group > -1) {
 
@@ -933,6 +1074,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_SHOW_VIRTUAL_KEYBOARD_ACTION);
             filter.addAction(Constants.ACTION.ACTION_GET_BARCODE_MESSGAGE_COMPLETE);
             filter.addAction(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
+            filter.addAction(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY);
             filter.addAction(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED);

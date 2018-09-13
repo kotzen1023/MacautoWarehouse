@@ -24,6 +24,7 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
     private int layoutResourceId;
     private ArrayList<AllocationMsgDetailItem> items;
     private Context mContext;
+    private SwipeLayout preswipes=null;
 
     public AllocationMsgDetailItemAdapter(Context context, int textViewResourceId,
                                           ArrayList<AllocationMsgDetailItem> objects) {
@@ -105,6 +106,13 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
                 public void onStartOpen(SwipeLayout layout) {
                     Log.i(TAG, "on start open");
 
+                    if(preswipes==null) {
+                        preswipes=layout;
+                    }else
+                    {
+                        preswipes.close(true);
+                        preswipes=layout;
+                    }
                 }
 
                 @Override

@@ -16,7 +16,7 @@ import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
-public class CheckStockNoExistService extends IntentService {
+public class CheckTTRecNoAlreadyInQCItemService extends IntentService {
     public static final String TAG = "CheckStockNoExist";
 
     public static final String SERVICE_IP = "172.17.17.244";
@@ -25,16 +25,16 @@ public class CheckStockNoExistService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "Check_stock_no_exist"; // 方法名稱
+    private static final String METHOD_NAME = "Check_TT_rec_no_already_in_QC_item"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/Check_stock_no_exist"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/Check_TT_rec_no_already_in_QC_item"; // SOAP_ACTION
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     private boolean is_exist = false;
 
-    public CheckStockNoExistService() {
-        super("CheckStockNoExistService");
+    public CheckTTRecNoAlreadyInQCItemService() {
+        super("CheckTTRecNoAlreadyInQCItemService");
     }
 
     @Override
@@ -66,7 +66,9 @@ public class CheckStockNoExistService extends IntentService {
 
         //String device_id;
 
-        String stock_no = intent.getStringExtra("STOCK_NO");
+        String current_row = intent.getStringExtra("CURRENT_ROW");
+        String rec_no = intent.getStringExtra("REC_NO");
+        String item_no = intent.getStringExtra("ITEM_NO");
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");
         //String batch_no = intent.getStringExtra("BATCH_NO");
@@ -74,7 +76,7 @@ public class CheckStockNoExistService extends IntentService {
         //String ima021 = intent.getStringExtra("SPEC");
         //String query_all = intent.getStringExtra("QUERY_ALL");
 
-        Log.e(TAG, "stock_no = "+stock_no);
+        Log.e(TAG, "rec_no = "+rec_no);
         //Log.e(TAG, "batch_no = "+batch_no);
         //Log.e(TAG, "ima02 = "+ima02);
         //Log.e(TAG, "ima021 = "+ima021);
@@ -86,8 +88,8 @@ public class CheckStockNoExistService extends IntentService {
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_ACTION)) {
-                Log.i(TAG, "ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_ACTION)) {
+                Log.i(TAG, "ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_ACTION");
             }
         }
 
@@ -103,7 +105,8 @@ public class CheckStockNoExistService extends IntentService {
 
             request.addProperty("SID", "MAT");
 
-            request.addProperty("stock_no", stock_no);
+            request.addProperty("rec_no", rec_no);
+            request.addProperty("item_no", item_no);
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -151,12 +154,17 @@ public class CheckStockNoExistService extends IntentService {
 
                 Intent checkResultIntent;
                 if (!is_exist) {
-                    checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_NOT_EXIST);
-                    sendBroadcast(checkResultIntent);
+                    checkResultIntent = new Intent(Constants.ACTION.ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_NO);
+
                 } else {
-                    checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_SUCCESS);
-                    sendBroadcast(checkResultIntent);
+                    if (Integer.valueOf(current_row) == 0) { //dataTable_YIC first row
+                        checkResultIntent = new Intent(Constants.ACTION.ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_COMPLETE);
+                    } else {
+                        checkResultIntent = new Intent(Constants.ACTION.ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_YES);
+                    }
+
                 }
+                sendBroadcast(checkResultIntent);
 
 
 
@@ -183,7 +191,7 @@ public class CheckStockNoExistService extends IntentService {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_FAILED);
+            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_FAILED);
             sendBroadcast(getFailedIntent);
         }
 

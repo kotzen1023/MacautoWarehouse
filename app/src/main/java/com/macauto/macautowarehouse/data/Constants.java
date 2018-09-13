@@ -27,6 +27,7 @@ public class Constants {
         String ACTION_CHECK_EMP_PASSWORD_SUCCESS = "com.macauto.MacautoWarehoouse.CheckEmpPasswordSuccess";
         String ACTION_CHECK_EMP_PASSWORD_FAILED = "com.macauto.MacautoWarehoouse.CheckEmpPasswordFailed";
         String ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN = "com.macauto.MacautoWarehoouse.SetInspectedReceiveItemClean";
+        String ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY = "com.macauto.MacautoWarehoouse.SetInspectedReceiveItemCleanOnly";
         String ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemSuccess";
         String ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemEmpty";
         String ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemFailed";
@@ -197,5 +198,29 @@ public class Constants {
         String ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_SUCCESS = "com.macauto.MacautoWarehoouse.ProductUpdateTTProductEntryLocateNoSuccess";
 
         String ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE = "com.macauto.MacautoWarehoouse.ProductInStockWorkComplete";
+
+        //Receiving Inspection
+        String ACTION_RECEIVING_INSPECTION_GET_TT_RECEIVE_GOODS_REPORT_DATA_QC_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTReceiveGoodsReportDataQCAction";
+        String ACTION_RECEIVING_INSPECTION_GET_TT_RECEIVE_GOODS_REPORT_DATA_QC_SUCCESS = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTReceiveGoodsReportDataQCSuccess";
+        String ACTION_RECEIVING_INSPECTION_GET_TT_RECEIVE_GOODS_REPORT_DATA_QC_EMPTY = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTReceiveGoodsReportDataQCEmpty";
+        String ACTION_RECEIVING_INSPECTION_GET_TT_RECEIVE_GOODS_REPORT_DATA_QC_FAILED = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTReceiveGoodsReportDataQCFailed";
+
+        String ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTRecNoInQCAction";
+        String ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_YES = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTRecNoInQCYes";
+        String ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_NO = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTRecNoInQCNo";
+        String ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_COMPLETE = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTRecNoInQCComplete";
+        String ACTION_RECEIVING_INSPECTION_GET_TT_REC_NO_IN_QC_FAILED = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTRecNoInQCFailed";
+
+        String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_OQCP_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTOQCPAction";
+        String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_OQCP_SUCCESS = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTOQCPSuccess";
+        String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_OQCP_FAILED = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTOQCPFailed";
+
+        String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTPrgAAction";
+        String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_SUCCESS = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTPrgASuccess";
+        String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_FAILED = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTPrgAFailed";
+
+        String ACTION_RECEIVING_INSPECTION_ITEM_SELECT_CHANGE = "com.macauto.MacautoWarehoouse.ReceivingInspectionItemSelectChange";
+
+
     }
 }

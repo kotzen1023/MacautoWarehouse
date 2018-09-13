@@ -24,6 +24,8 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
@@ -33,6 +35,7 @@ import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 //import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.total_count_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
@@ -227,6 +230,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                             item.setCol_pmc03(dataTable.Rows.get(i).getValue("pmc03").toString());
                             item.setCol_gen02(dataTable.Rows.get(i).getValue("gen02").toString());
 
+                            swipe_list.add(item);
                             /*for (int j=0; j < dataTable.Columns.size(); j++) {
                                 //DetailItem item = new DetailItem();
                                 InspectedReceiveItem item = new InspectedReceiveItem();
@@ -245,22 +249,48 @@ public class GetReceiveGoodsInDataService extends IntentService {
                                 item.setCol_gen02(dataTable.Columns.get(11).toString());
 
                             }*/
-                            swipe_list.add(item);
+
                         }
                         //add total count
                         //String temp_rvb05 = swipe_list.get(no_list.get(0)).get(3).getName();
                         double count_double = 0;
                         int count_num = 0;
+                        String item_name = "";
                         for (int i=0; i < dataTable.Rows.size(); i++) {
-                            //if part no is equal
+                            item_name = dataTable.Rows.get(i).getValue("pmn041").toString();
+                            count_double = Double.valueOf(dataTable.Rows.get(i).getValue("rvb33").toString());
+                            count_num = (int) count_double;
+                            if (total_count_list.size() == 0) {
 
-                            count_double = count_double + Double.valueOf(dataTable.Rows.get(i).getValue("rvb33").toString());
+
+                                total_count_list.put(item_name, count_num);
+                            } else {
+                                if (total_count_list.containsKey(item_name)) {
+                                    int prev_count = total_count_list.get(item_name);
+                                    count_num = count_num + prev_count;
+                                    total_count_list.remove(item_name);
+                                    total_count_list.put(item_name, count_num);
+                                } else {
+                                    total_count_list.put(item_name, count_num);
+                                }
+                            }
                         }
+                        Log.e(TAG, "================= total_count_list ==========================");
+                        for (Object key : total_count_list.keySet()) {
+                            System.out.println(key + " : " + total_count_list.get(key));
+                            InspectedReceiveItem item = new InspectedReceiveItem();
+                            item.setCol_rvu01("");
+                            item.setCheck_sp(true);
+                            item.setCol_pmn041(key.toString());
+                            item.setCol_rvb33(String.valueOf(total_count_list.get(key)));
+                            swipe_list.add(item);
+                        }
+                        Log.e(TAG, "================= total_count_list ==========================");
+                        //count_num = (int) count_double;
 
-                        count_num = (int) count_double;
 
                         Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
-                        getSuccessIntent.putExtra("TOTAL_COUNT", count_num);
+                        //getSuccessIntent.putExtra("TOTAL_COUNT", count_num);
                         sendBroadcast(getSuccessIntent);
                     }
 

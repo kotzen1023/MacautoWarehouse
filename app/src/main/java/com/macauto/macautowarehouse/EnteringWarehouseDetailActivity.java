@@ -1,4 +1,4 @@
-package com.macauto.macautowarehouse.table;
+package com.macauto.macautowarehouse;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,20 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.macauto.macautowarehouse.LookupInStockDetailActivity;
-import com.macauto.macautowarehouse.R;
 import com.macauto.macautowarehouse.data.InspectedDetailItem;
 import com.macauto.macautowarehouse.data.InspectedDetailItemAdapter;
-import com.macauto.macautowarehouse.data.SearchDetailItem;
-import com.macauto.macautowarehouse.data.SearchDetailItemAdapter;
 
 import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
 
-//import static com.macauto.macautowarehouse.LookupInStockFragment.isSorted;
-//import static com.macauto.macautowarehouse.MainActivity.searchList;
-//import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
+
 
 public class EnteringWarehouseDetailActivity extends AppCompatActivity {
     private static final String TAG = "WarehouseDetailActivity";

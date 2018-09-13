@@ -43,6 +43,7 @@ import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
 
 public class ProductionStorageFragment extends Fragment {
@@ -323,7 +324,13 @@ public class ProductionStorageFragment extends Fragment {
 
                             DataRow kr;
                             kr = product_table_X_M.NewRow();
-                            String script_string = "sh run_me 1 2 "+c_in_no.getText().toString()+" "+emp_no;
+
+                            String s_p = "1";
+                            if (web_soap_port.equals("8484")) {
+                                s_p = "2";
+                            }
+
+                            String script_string = "sh run_me "+s_p+" 2 "+c_in_no.getText().toString()+" "+emp_no;
                             kr.setValue("script", script_string);
                             product_table_X_M.Rows.add(kr);
 

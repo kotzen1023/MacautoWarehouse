@@ -168,7 +168,16 @@ public class ExecuteScriptTTService extends IntentService {
                         //boolean success = Boolean.valueOf(ret);
                         is_success = parseToBoolean(resultsRequestSOAP);
 
+                        Intent checkResultIntent;
+                        if (!is_success) {
+                            checkResultIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
+                            sendBroadcast(checkResultIntent);
+                        } else {
 
+                            checkResultIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
+                            sendBroadcast(checkResultIntent);
+
+                        }
 
                     }
 
@@ -250,7 +259,16 @@ public class ExecuteScriptTTService extends IntentService {
                         //boolean success = Boolean.valueOf(ret);
                         is_success = parseToBoolean(resultsRequestSOAP);
 
+                        Intent checkResultIntent;
+                        if (!is_success) {
+                            checkResultIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
+                            sendBroadcast(checkResultIntent);
+                        } else {
 
+                            checkResultIntent = new Intent(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE);
+                            sendBroadcast(checkResultIntent);
+
+                        }
 
                     }
 
@@ -293,21 +311,7 @@ public class ExecuteScriptTTService extends IntentService {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
 
-        Intent checkResultIntent;
-        if (!is_success) {
-            checkResultIntent = new Intent(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
-            sendBroadcast(checkResultIntent);
-        } else {
 
-            if (process_type == 0) { //receiving in stock
-                checkResultIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_COMPLETE);
-                sendBroadcast(checkResultIntent);
-            } else if (process_type == 1) { //production in stock
-                checkResultIntent = new Intent(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE);
-                sendBroadcast(checkResultIntent);
-            }
-
-        }
 
     }
 }

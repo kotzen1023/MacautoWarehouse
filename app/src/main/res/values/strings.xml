@@ -65,7 +65,8 @@
     <string name="item_title_gen02">Warehouse staff</string>
     <string name="item_title_rvv33_scan">Scan</string>
     <string name="item_title_confirm_stock_in">Confirm Into Stock</string>
-    <string name="item_total">%d records, total %s</string>
+    <string name="item_title_rva01">Receive Order</string>
+    <string name="item_total">total %s</string>
 
     <string name="action_shipment_main">Shipping Main</string>
     <string name="action_shipment_find">Find in warehouse</string>
@@ -112,6 +113,9 @@
     <string name="entering_warehouse_into_stock">Into Stock</string>
     <string name="entering_warehouse_no_record">No Record</string>
     <string name="entering_warehouse_tt_split_rvv_failed">Locate separated fail. Please contact IT.</string>
+    <string name="entering_warehouse_locate_no_not_scan">Cannot run in stock procedure. Some locate no was not scanned</string>
+    <string name="entering_warehouse_same_in_no_not_check">Cannot run in stock procedure. Some items with same In-No. were not checked.</string>
+    <string name="entering_warehouse_set_check_before_in_stock">Check item before press in stock button.</string>
 
     <string name="receiving_rec_no">Receiving No.</string>
     <string name="receiving_rec_date">Receiving Date (yyyyMMdd)</string>
@@ -240,4 +244,16 @@
     <string name="production_storage_in_stock_process_complete">Production In-stock process complete</string>
     <string name="production_storage_in_stock_process_abort">Cannot find locate No. Please set stock and locate code.</string>
     <string name="production_storage_update_process_error">Update TT data error. Please contact IT.</string>
+
+    <string name="receiving_inspection_part_no">Part No.</string>
+    <string name="receiving_inspection_search">Search</string>
+    <string name="receiving_inspection_qc_generate">Generate QC Order</string>
+    <string name="receiving_inspection_vendor_name">Vendor</string>
+    <string name="receiving_inspection_get_receive_report_data_qc_empty">No matched record.</string>
+    <string name="receiving_inspection_generate_not_select">You cannot generate a QC order without select items</string>
+    <string name="receiving_inspection_has_been_generate_to_qc">Receive Order %s , index %s has been generated to QC order.</string>
+    <string name="receiving_inspection_check_tt_rec_no_already_in_qc">Please select receive order again.</string>
+    <string name="receiving_inspection_execute_tt_oqcp_failed">Generate QC failed. Or error occurred in generating QC. Please contact IT. (ERROR-K1)</string>
+    <string name="receiving_inspection_qc_was_been_confirmed">QC order was been confirmed</string>
+    <string name="receiving_inspection_qc_was_been_confirmed_failed">Check if QC order was been confirmed failed. Please contact IT.</string>
 </resources>

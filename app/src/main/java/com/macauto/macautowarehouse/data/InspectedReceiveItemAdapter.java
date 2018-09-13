@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
+import com.macauto.macautowarehouse.EnteringWarehouseDetailActivity;
 import com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity;
 import com.macauto.macautowarehouse.R;
 
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.item_select;
 
 public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveItem> {
     public static final String TAG = "InspectedItemAdapter";
@@ -37,7 +39,8 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
     private ArrayList<InspectedReceiveItem> items;
 
     public SparseBooleanArray mSparseBooleanArray;
-    //private int count = 0;
+    private SwipeLayout preswipes=null;
+    private int pre_open_swipe = -1;
 
     public InspectedReceiveItemAdapter(Context context, int textViewResourceId,
                             ArrayList<InspectedReceiveItem> objects) {
@@ -62,7 +65,7 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
     }
     @Override
     public @NonNull
-    View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
         //Log.e(TAG, "getView = "+ position);
         View view;
@@ -84,87 +87,140 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
             holder = (ViewHolder) view.getTag();
         }
 
+
         //holder.fileicon = (ImageView) view.findViewById(R.id.fd_Icon1);
         //holder.filename = (TextView) view.findViewById(R.id.fileChooseFileName);
         //holder.checkbox = (CheckBox) view.findViewById(R.id.checkBoxInRow);
 
-        InspectedReceiveItem inspectedReceiveItem = items.get(position);
+        final InspectedReceiveItem inspectedReceiveItem = items.get(position);
         if (inspectedReceiveItem != null) {
 
             inspectedReceiveItem.setCheckBox(holder.checkBox);
 
-            String top = inspectedReceiveItem.getCol_rvb05();
-            String center = mContext.getResources().getString(R.string.item_title_pmn041)+" "+inspectedReceiveItem.getCol_pmn041()+" "+
-                    mContext.getResources().getString(R.string.item_title_rvb33)+" "+inspectedReceiveItem.getCol_rvb33();
-            String bottom = mContext.getResources().getString(R.string.item_title_rvv32)+" "+inspectedReceiveItem.getCol_rvv32()+" "+
-                    mContext.getResources().getString(R.string.item_title_rvv33)+" "+inspectedReceiveItem.getCol_rvv33();
+            if (inspectedReceiveItem.getCol_rvu01().equals("")) {
 
-            holder.textViewTop.setText(top);
-            holder.textViewCenter.setText(center);
-            holder.textViewBottom.setText(bottom);
+                String top = inspectedReceiveItem.getCol_pmn041() +" "+
+                        mContext.getResources().getString(R.string.item_total, inspectedReceiveItem.getCol_rvb33().toString());
 
-            if (!inspectedReceiveItem.isCheck_sp()) //check sp = false
-                view.setBackgroundColor(Color.rgb(0xff, 0xd6, 0x00));
+                holder.checkBox.setVisibility(View.INVISIBLE);
+                holder.textViewCenter.setVisibility(View.GONE);
+                holder.textViewBottom.setVisibility(View.GONE);
 
-            if (mSparseBooleanArray.get(position))
-            {
-                check_stock_in.set(position, true);
-                holder.checkBox.setChecked(true);
+                holder.textViewTop.setText(top);
+
+                holder.btnDivide.setVisibility(View.GONE);
+                holder.btnEdit.setVisibility(View.GONE);
+
+                view.setBackgroundColor(Color.TRANSPARENT);
             } else {
-                check_stock_in.set(position, false);
-                holder.checkBox.setChecked(false);
-            }
 
-            holder.checkBox.setTag(position);
-            holder.checkBox.setOnCheckedChangeListener(mCheckedChangeListener);
+                String top = inspectedReceiveItem.getCol_rvb05();
+                String center = mContext.getResources().getString(R.string.item_title_pmn041) + " " + inspectedReceiveItem.getCol_pmn041() + " " +
+                        mContext.getResources().getString(R.string.item_title_rvb33) + " " + inspectedReceiveItem.getCol_rvb33();
+                String bottom = mContext.getResources().getString(R.string.item_title_rvv32) + " " + inspectedReceiveItem.getCol_rvv32() + " " +
+                        mContext.getResources().getString(R.string.item_title_rvv33) + " " + inspectedReceiveItem.getCol_rvv33();
 
-
-            holder.btnEdit.setOnClickListener(onEditListener(position, holder));
-            holder.btnDivide.setOnClickListener(onDivideListener(position, holder));
-
-
-            holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
-
-            holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.bottom_wrapper);
+                holder.checkBox.setVisibility(View.VISIBLE);
+                holder.textViewCenter.setVisibility(View.VISIBLE);
+                holder.textViewBottom.setVisibility(View.VISIBLE);
+                holder.textViewTop.setText(top);
+                holder.textViewCenter.setText(center);
+                holder.textViewBottom.setText(bottom);
 
 
-            holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
-                @Override
-                public void onClose(SwipeLayout layout) {
-                    Log.i(TAG, "onClose");
+                if (mSparseBooleanArray.get(position)) {
+                    check_stock_in.set(position, true);
+                    holder.checkBox.setChecked(true);
+                } else {
+                    check_stock_in.set(position, false);
+                    holder.checkBox.setChecked(false);
                 }
 
-                @Override
-                public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
-                    Log.i(TAG, "on swiping");
+                if (!inspectedReceiveItem.isCheck_sp()) {//check sp = false
+                    view.setBackgroundColor(Color.rgb(0xff, 0xd6, 0x00));
+                } else {
+                    view.setBackgroundColor(Color.TRANSPARENT);
                 }
 
-                @Override
-                public void onStartOpen(SwipeLayout layout) {
-                    Log.i(TAG, "on start open");
+                holder.checkBox.setTag(position);
+                holder.checkBox.setOnCheckedChangeListener(mCheckedChangeListener);
 
-                }
 
-                @Override
-                public void onOpen(SwipeLayout layout) {
-                    Log.i(TAG, "the BottomView totally show");
+                holder.btnEdit.setOnClickListener(onEditListener(position, holder));
+                holder.btnDivide.setOnClickListener(onDivideListener(position, holder));
+
+
+                holder.swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+
+                holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.bottom_wrapper);
+
+
+                holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                    @Override
+                    public void onClose(SwipeLayout layout) {
+                        Log.i(TAG, "onClose");
+
+                        if (preswipes == layout) {
+                            item_select = -1;
+
+                            Log.e(TAG, "item_select => "+item_select);
+
+                        }
+
+                        if (!inspectedReceiveItem.isCheck_sp()) {
+                            layout.setBackgroundColor(Color.rgb(0xff, 0xd6, 0x00));
+                        } else {
+                            layout.setBackgroundColor(Color.TRANSPARENT);
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+                        Log.i(TAG, "on swiping");
+                    }
+
+                    @Override
+                    public void onStartOpen(SwipeLayout layout) {
+                        Log.i(TAG, "on start open");
+
+                        if(preswipes==null) {
+                            preswipes=layout;
+
+                        } else {
+                            preswipes.close(true);
+                            preswipes=layout;
+                        }
+
+                        layout.setBackgroundColor(Color.rgb(0x4d, 0x90, 0xfe));
+
+                        item_select = position;
+
+                        Log.e(TAG, "pre_open_swipe => "+pre_open_swipe);
+                    }
+
+                    @Override
+                    public void onOpen(SwipeLayout layout) {
+                        Log.i(TAG, "the BottomView totally show");
                     /*Intent newNotifyIntent = new Intent();
                     newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
                     mContext.sendBroadcast(newNotifyIntent);*/
-                }
+                    }
 
-                @Override
-                public void onStartClose(SwipeLayout layout) {
-                    Log.i(TAG, "the BottomView totally close");
+                    @Override
+                    public void onStartClose(SwipeLayout layout) {
+                        Log.i(TAG, "the BottomView totally close");
 
-                }
+                    }
 
-                @Override
-                public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-                    //when user's hand released.
-                    Log.i(TAG, "onHandRelease");
-                }
-            });
+                    @Override
+                    public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+                        //when user's hand released.
+                        Log.i(TAG, "onHandRelease");
+                    }
+                });
+            }
         }
         return view;
     }
@@ -184,20 +240,11 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
 
     private void showEditDialog(final int position, final ViewHolder holder) {
 
-        /*holder.swipeLayout.close();
+        //holder.swipeLayout.close();
 
-        Intent detailIntent = new Intent(mContext, AllocationSendMsgStatusDetailActivity.class);
-        detailIntent.putExtra("ITEM_SFA03", items.get(position).getItem_SFA03());
-        detailIntent.putExtra("ITEM_IMA021", items.get(position).getItem_IMA021());
-        detailIntent.putExtra("ITEM_IMG10", items.get(position).getItem_IMG10());
-        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
-        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
-        detailIntent.putExtra("ITEM_MESS_QTY", items.get(position).getItem_MESS_QTY());
-        detailIntent.putExtra("ITEM_SFA05", items.get(position).getItem_SFA05());
-        detailIntent.putExtra("ITEM_SFA12", items.get(position).getItem_SFA12());
-        detailIntent.putExtra("ITEM_SFA11_NAME", items.get(position).getItem_SFA11_NAME());
-        detailIntent.putExtra("ITEM_TC_OBF013", items.get(position).getItem_TC_OBF013());
-        mContext.startActivity(detailIntent);*/
+        Intent detailIntent = new Intent(mContext, EnteringWarehouseDetailActivity.class);
+        detailIntent.putExtra("INDEX", String.valueOf(position));
+        mContext.startActivity(detailIntent);
 
         /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
 

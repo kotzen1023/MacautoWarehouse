@@ -4,16 +4,11 @@
     android:orientation="horizontal"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/swipe_layout_inspected">
-
-    <!--LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"-->
+    android:id="@+id/swipe_layout_receiving_inspection">
 
     <!-- Bottom View Start-->
     <LinearLayout
-        android:id="@+id/bottom_wrapper_inspected"
+        android:id="@+id/bottom_wrapper_receiving_inspection"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -25,7 +20,7 @@
             android:background="#66ddff00">
 
             <ImageView
-                android:id="@+id/edit_query_inspected"
+                android:id="@+id/edit_query_receiving_inspection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -39,7 +34,7 @@
             android:background="#66FF3300">
 
             <ImageView
-                android:id="@+id/divide_inspected"
+                android:id="@+id/divide_receiving_inspection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -51,15 +46,23 @@
     <!-- Bottom View End-->
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:paddingLeft="10dp">
 
-        <CheckBox
-            android:id="@+id/checkConfirm"
-            android:layout_width="wrap_content"
+        <!--TextView
+            android:id="@+id/productItemId"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
-            />
+            android:text="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:gravity="center"/-->
+        <CheckBox
+            android:id="@+id/checkBoxReceivingInspection"
+            android:layout_width="36dp"
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +71,7 @@
             android:layout_weight="1">
 
             <TextView android:text="test"
-                android:id="@+id/InspectedItemtitle"
+                android:id="@+id/receivingInspectionItemtitle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textStyle="bold"
@@ -79,7 +82,7 @@
             </TextView>
 
             <TextView
-                android:id="@+id/InspectedItemDecrypt"
+                android:id="@+id/receivingInspectionItemDecrypt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textStyle="bold"
@@ -93,7 +96,7 @@
                 />
 
             <TextView
-                android:id="@+id/InspectedItemCount"
+                android:id="@+id/receivingInspectionItemCount"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="decrypt"
@@ -107,54 +110,12 @@
 
 
 
+
+
+
+
+
     </LinearLayout>
-
-        <!--TextView android:text="test"
-            android:id="@+id/itemTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textStyle="bold"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:layout_weight="2">
-        </TextView>
-
-        <LinearLayout
-            android:id="@+id/layoutShow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/itemName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:gravity="center_vertical"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/itemImage"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/click"
-                android:visibility="gone"/>
-
-        </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/checkConfirm"
-            android:text="@string/entering_warehouse_into_stock"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="gone"/-->
-
-
-
-    <!--/LinearLayout-->
 
 
 
