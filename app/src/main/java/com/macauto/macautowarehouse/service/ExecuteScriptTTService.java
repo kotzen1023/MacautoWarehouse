@@ -7,6 +7,9 @@ import android.util.Xml;
 
 import com.macauto.macautowarehouse.data.Constants;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
@@ -18,12 +21,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
+
+import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.product_table_X_M;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml2;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class ExecuteScriptTTService extends IntentService {
@@ -109,6 +115,17 @@ public class ExecuteScriptTTService extends IntentService {
             if (table_X_M != null) {
                 writer = parseDataTableToXml(table_X_M);
 
+                JSONObject jsonObj = null;
+                try {
+                    jsonObj = XML.toJSONObject(writer.toString());
+                } catch (JSONException e) {
+                    Log.e("JSON exception", e.getMessage());
+                    e.printStackTrace();
+
+                }
+
+                //String temp = "NewDataSet=anyType{schema=anyType{element=anyType{complexType=anyType{choice=anyType{element=anyType{complexType=anyType{sequence=anyType{element=anyType{}; }; }; }; }; }; }; }; diffgram=anyType{DocumentElement=anyType{INCP=anyType{script=sh run_me 1 1 12701-1809140051; }; }; }; }\"";
+
                 try {
                     // 建立一個 WebService 請求
                     //Log.d(TAG, "==>1");
@@ -118,6 +135,7 @@ public class ExecuteScriptTTService extends IntentService {
                     // 輸出值，帳號(account)、密碼(password)
 
                     request.addProperty("SID", "MAT");
+                    //request.addProperty("script_list", writer.toString());
                     request.addProperty("script_list", writer.toString());
                     //request.addProperty("barcode_no", barcode_no);
                     //request.addProperty("k_id", "123456");
@@ -137,6 +155,9 @@ public class ExecuteScriptTTService extends IntentService {
                     //Log.d(TAG, "==>2");
                     SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                             SoapEnvelope.VER11);
+
+                    Log.e(TAG, "request = "+request.toString());
+
                     envelope.dotNet = true; // 設定為 .net 預設編碼
                     //Log.d(TAG, "==>3");
                     envelope.setOutputSoapObject(request); // 設定輸出的 SOAP 物件

@@ -12,6 +12,7 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="delete_msg">Delete this?</string>
+    <string name="delete_this_item">Delete this item?</string>
     <string name="add">Add</string>
     <string name="save">Save</string>
     <string name="exit_app_title">Exit</string>
@@ -51,6 +52,7 @@
     <string name="login_account">Account</string>
     <string name="login_password">Password</string>
     <string name="login_confirm">Confirm</string>
+    <string name="not_locate_no_msg">Not locate barcode</string>
     <string name="item_title_check_sp">V</string>
     <string name="item_title_rvu01">Stock In No.</string>
     <string name="item_title_rvv02">No.</string>
@@ -226,13 +228,18 @@
     <string name="production_storage_in_date">Inbound Date</string>
     <string name="production_storage_made_no">Made No</string>
     <string name="production_storage_dept">Department</string>
+    <string name="production_storage_dept_no">Department No.</string>
     <string name="production_storage_in_storage_confirm">In Storage Confirm</string>
     <string name="production_storage_index">Index</string>
     <string name="production_storage_store_type">Storage Type</string>
     <string name="production_storage_part_no">Part No.</string>
+    <string name="production_storage_part_desc">Part Desc</string>
     <string name="production_storage_stock_no">Warehouse</string>
+    <string name="production_storage_stock_no_name">Stock Name</string>
+    <string name="production_storage_stock_unit">Unit</string>
     <string name="production_storage_locate_no_def">Default Locate No.</string>
     <string name="production_storage_locate_no">Locate No.</string>
+    <string name="production_storage_locate_no_scan">Locate Scan</string>
     <string name="production_storage_batch_no">Batch No.</string>
     <string name="production_storage_qty">Quantity</string>
     <string name="production_storage_unit">Unit</string>

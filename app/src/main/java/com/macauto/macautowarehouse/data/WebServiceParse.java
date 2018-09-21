@@ -135,6 +135,68 @@ public class WebServiceParse {
         return dataTable;
     }
 
+    public static StringWriter parseDataTableToXml2(DataTable dataTable) {
+        Log.e(TAG, "=== parseDataTableToXml start === ");
+
+        StringWriter writer = new StringWriter();
+
+        XmlSerializer xmlSerializer = Xml.newSerializer();
+
+        try {
+
+
+            xmlSerializer.setOutput(writer);
+
+            xmlSerializer.startDocument("UTF-8", true);
+
+            xmlSerializer.startTag("", "NewDataSet");
+
+            //table start
+            for (int i = 0; i < dataTable.Rows.size(); i++) {
+
+                if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                    xmlSerializer.startTag("", dataTable.TableName);
+                } else {
+                    xmlSerializer.startTag("", "TABLE");
+                }
+
+
+                for (int j = 0; j < dataTable.Columns.size(); j++) {
+
+                    xmlSerializer.startTag("", dataTable.Columns.get(j).ColumnName);
+                    if (dataTable.getValue(i, j) != null) {
+                        xmlSerializer.text(dataTable.getValue(i,j).toString());
+                    } else {
+                        xmlSerializer.text("null");
+                    }
+
+                    xmlSerializer.endTag("", dataTable.Columns.get(j).ColumnName);
+
+                }
+                //System.out.print("\n");
+
+                if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                    xmlSerializer.endTag("", dataTable.TableName);
+                } else {
+                    xmlSerializer.endTag("", "TABLE");
+                }
+
+
+            }
+            //table end
+            xmlSerializer.endTag("", "NewDataSet");
+            xmlSerializer.endDocument();
+
+            Log.e(TAG, "xml = "+writer.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.e(TAG, "=== parseDataTableToXml end === ");
+
+        return writer;
+    }
+
     public static StringWriter parseDataTableToXml(DataTable dataTable) {
         Log.e(TAG, "=== parseDataTableToXml start === ");
 
@@ -145,7 +207,7 @@ public class WebServiceParse {
 
 
         try {
-
+            /*
             xmlSerializer.setOutput(writer);
 
             xmlSerializer.startDocument("UTF-8", true);
@@ -189,7 +251,22 @@ public class WebServiceParse {
                 if (dataTable.getValue(0, i) != null) {
                     if (dataTable.getValue(0, i).toString().equals("true") || dataTable.getValue(0, i).toString().equals("false")) {
                         xmlSerializer.attribute("", "type", "xs:boolean");
-                    } else {
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("tc_obf013")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("inv_qty")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa06")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa063")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa161")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvb33")) { //數量
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvv02")) { //項次
+                        xmlSerializer.attribute("", "type", "xs:integer");
+                    }
+                    else {
                         xmlSerializer.attribute("", "type", "xs:string");
                         xmlSerializer.attribute("", "minOccurs", "0");
                     }
@@ -224,67 +301,144 @@ public class WebServiceParse {
                     }
 
                     xmlSerializer.endTag("", dataTable.Columns.get(j).ColumnName);
-                    /*if (j==0) {
-                        xmlSerializer.startTag("", "check_sp");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "check_sp");
-                    } else if (j == 1) {
-                        xmlSerializer.startTag("", "rvu01");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "rvu01");
-                    } else if (j == 2) {
-                        xmlSerializer.startTag("", "rvu02");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "rvu02");
-                    } else if (j == 3) {
-                        xmlSerializer.startTag("", "rvb05");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "rvb05");
-                    } else if (j == 4) {
-                        xmlSerializer.startTag("", "pmn041");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "pmn041");
-                    } else if (j == 5) {
-                        xmlSerializer.startTag("", "ima021");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "ima021");
-                    } else if (j == 6) {
-                        xmlSerializer.startTag("", "rvv32");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "rvv32");
-                    } else if (j == 7) {
-                        xmlSerializer.startTag("", "rvv33");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "rvv33");
-                    } else if (j == 8) {
-                        xmlSerializer.startTag("", "rvv34");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "rvv34");
-                    } else if (j == 9) {
-                        xmlSerializer.startTag("", "rvb33");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "rvb33");
-                    } else if (j == 10) {
-                        xmlSerializer.startTag("", "pmc03");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "pmc03");
-                    } else if (j == 11) {
-                        xmlSerializer.startTag("", "gen02");
-                        xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                        xmlSerializer.endTag("", "gen02");
-                    }*/
 
-
-                        /*System.out.print(dataTable.Rows.get(i).getValue(j));
-                        if (j < dataTable.Columns.size() - 1) {
-                            System.out.print(", ");
-                        }*/
                 }
                 //System.out.print("\n");
                 xmlSerializer.endTag("", "Table");
             }
             //table end
             xmlSerializer.endTag("", "printx");
+            xmlSerializer.endDocument();*/
+
+            xmlSerializer.setOutput(writer);
+
+            xmlSerializer.startDocument("UTF-8", true);
+
+            xmlSerializer.startTag("", "NewDataSet");
+            //declare
+            //xs:schema
+            xmlSerializer.startTag("", "xs:schema");
+            xmlSerializer.attribute("", "id", "NewDataSet");
+            xmlSerializer.attribute("", "xmlns", "");
+            xmlSerializer.attribute("", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
+            xmlSerializer.attribute("", "xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
+            //xs:element
+            xmlSerializer.startTag("", "xs:element");
+            xmlSerializer.attribute("", "name", "NewDataSet");
+            xmlSerializer.attribute("", "msdata:IsDataSet", "true");
+
+            if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                xmlSerializer.attribute("", "msdata:MainDataTable", dataTable.TableName);
+            } else {
+                xmlSerializer.attribute("", "msdata:MainDataTable", "YFDA");
+            }
+
+            xmlSerializer.attribute("", "msdata:UseCurrentLocale", "true");
+            //xs:complexType
+            xmlSerializer.startTag("", "xs:complexType");
+            //xs:choice
+            xmlSerializer.startTag("", "xs:choice");
+            xmlSerializer.attribute("", "minOccurs", "0");
+            xmlSerializer.attribute("", "maxOccurs", "unbounded");
+            //xs:element
+            xmlSerializer.startTag("", "xs:element");
+            if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                xmlSerializer.attribute("", "name", dataTable.TableName);
+            } else {
+                xmlSerializer.attribute("", "name", "YFDA");
+            }
+
+            //xs:complexType
+            xmlSerializer.startTag("", "xs:complexType");
+            //xs:sequence
+            xmlSerializer.startTag("", "xs:sequence");
+            //xs:element
+
+            for (int i=0; i<dataTable.Columns.size(); i++) {
+                xmlSerializer.startTag("", "xs:element");
+                xmlSerializer.attribute("", "name", dataTable.Columns.get(i).ColumnName);
+
+                if (dataTable.getValue(0, i) != null) {
+                    if (dataTable.getValue(0, i).toString().equals("true") || dataTable.getValue(0, i).toString().equals("false")) {
+                        xmlSerializer.attribute("", "type", "xs:boolean");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("tc_obf013")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("inv_qty")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa06")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa063")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa161")) {
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvb33")) { //數量
+                        xmlSerializer.attribute("", "type", "xs:decimal");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvv02")) { //項次
+                        xmlSerializer.attribute("", "type", "xs:int");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    }
+                    else {
+                        xmlSerializer.attribute("", "type", "xs:string");
+                        xmlSerializer.attribute("", "minOccurs", "0");
+                    }
+                } else {
+                    xmlSerializer.attribute("", "type", "xs:string");
+                    xmlSerializer.attribute("", "minOccurs", "0");
+                }
+
+
+
+                xmlSerializer.endTag("", "xs:element");
+            }
+
+            xmlSerializer.endTag("", "xs:sequence");
+            xmlSerializer.endTag("", "xs:complexType");
+            xmlSerializer.endTag("", "xs:element");
+            xmlSerializer.endTag("", "xs:choice");
+            xmlSerializer.endTag("", "xs:complexType");
+            xmlSerializer.endTag("", "xs:element");
+            xmlSerializer.endTag("", "xs:schema");
+            //end tag <schema>
+            //table start
+            for (int i = 0; i < dataTable.Rows.size(); i++) {
+
+                if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                    xmlSerializer.startTag("", dataTable.TableName);
+                } else {
+                    xmlSerializer.startTag("", "YFDA");
+                }
+
+
+                for (int j = 0; j < dataTable.Columns.size(); j++) {
+
+                    xmlSerializer.startTag("", dataTable.Columns.get(j).ColumnName);
+                    if (dataTable.getValue(i, j) != null) {
+                        xmlSerializer.text(dataTable.getValue(i,j).toString());
+                    } else {
+                        xmlSerializer.text("null");
+                    }
+
+                    xmlSerializer.endTag("", dataTable.Columns.get(j).ColumnName);
+
+                }
+                //System.out.print("\n");
+
+                if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                    xmlSerializer.endTag("", dataTable.TableName);
+                } else {
+                    xmlSerializer.endTag("", "YFDA");
+                }
+
+
+            }
+            //table end
+            xmlSerializer.endTag("", "NewDataSet");
             xmlSerializer.endDocument();
 
             Log.e(TAG, "xml = "+writer.toString());

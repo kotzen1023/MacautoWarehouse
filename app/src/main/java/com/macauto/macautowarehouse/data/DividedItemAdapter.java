@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 //import android.util.Log;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,11 @@ import java.util.ArrayList;
 import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity.dividedItemAdapter;
 import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity.dividedList;
 import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity.temp_count_list;
+import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
 
 
 public class DividedItemAdapter extends ArrayAdapter<DividedItem> {
-    //private static final String TAG = DividedItemAdapter.class.getName();
+    private static final String TAG = DividedItemAdapter.class.getName();
     private LayoutInflater inflater;
     private Context context;
     private int layoutResourceId;
@@ -100,6 +102,13 @@ public class DividedItemAdapter extends ArrayAdapter<DividedItem> {
             holder.itemDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    if (dataTable_Batch_area != null && dataTable_Batch_area.Rows.size() > 0) {
+                        if (dataTable_Batch_area.Rows.get(position) != null) {
+                            dataTable_Batch_area.Rows.remove(position);
+                        }
+                    }
+
                     dividedList.remove(position);
 
                     temp_count_list.remove(position);
@@ -110,6 +119,19 @@ public class DividedItemAdapter extends ArrayAdapter<DividedItem> {
 
                     if (dividedItemAdapter != null)
                         dividedItemAdapter.notifyDataSetChanged();
+
+                    Log.e(TAG, "========================================================");
+                    for (int i=0; i<dataTable_Batch_area.Rows.size(); i++) {
+
+                        for (int j=0; j<dataTable_Batch_area.Columns.size(); j++) {
+                            System.out.print(dataTable_Batch_area.Rows.get(i).getValue(j));
+                            if (j < dataTable_Batch_area.Columns.size() - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.print("\n");
+                    }
+                    Log.e(TAG, "========================================================");
                 }
             });
 

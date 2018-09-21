@@ -69,7 +69,7 @@ public class ProductionStorageFragment extends Fragment {
     public static DataTable product_table_X_M;
     private ProductionStorageItemAdapter productionStorageItemAdapter;
     public static ArrayList<ProductionStorageItem> productList = new ArrayList<>();
-    private static int item_select = -1;
+    public static int item_select = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,27 @@ public class ProductionStorageFragment extends Fragment {
         c_dept_name = view.findViewById(R.id.c_dept_name);
         productListView = view.findViewById(R.id.productListView);
         btnInStockConfirm = view.findViewById(R.id.btnInStockConfirm);
+
+        productList.clear();
+
+        ProductionStorageItem item1 = new ProductionStorageItem();
+        item1.setPart_no("test1");
+        item1.setQty("qty1");
+        item1.setStock_unit("unit1");
+        item1.setLocate_no("Locate1");
+        item1.setLocate_no_scan("scan1");
+        productList.add(item1);
+
+        ProductionStorageItem item2 = new ProductionStorageItem();
+        item2.setPart_no("test2");
+        item2.setQty("qty2");
+        item2.setStock_unit("unit2");
+        item2.setLocate_no("Locate2");
+        item2.setLocate_no_scan("scan2");
+        productList.add(item2);
+
+        productionStorageItemAdapter = new ProductionStorageItemAdapter(fragmentContext, R.layout.production_storage_fragment_swipe_item, productList);
+        productListView.setAdapter(productionStorageItemAdapter);
 
         btnUserInputConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +160,18 @@ public class ProductionStorageFragment extends Fragment {
 
                     productListView.invalidateViews();
                 }
+            }
+        });
+
+        productListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent detailIntent = new Intent(fragmentContext, ProductionStorageDetailActivity.class);
+                detailIntent.putExtra("INDEX", String.valueOf(position));
+                fragmentContext.startActivity(detailIntent);
+
+                return true;
             }
         });
 
@@ -240,22 +273,19 @@ public class ProductionStorageFragment extends Fragment {
                         Log.d(TAG, "receive ACTION_GET_TT_PRODUCT_ENTRY_SUCCESS");
                         loadDialog.dismiss();
 
-                        if (dataTable_RR.Rows.size() > 0) {
-
-                            if (productionStorageItemAdapter != null) {
-                                productionStorageItemAdapter.notifyDataSetChanged();
-                            } else {
-                                productionStorageItemAdapter = new ProductionStorageItemAdapter(fragmentContext, R.layout.production_storage_fragment_list_item, productList);
-                                productListView.setAdapter(productionStorageItemAdapter);
-                            }
-
-                            c_in_no.setText(productList.get(0).getIn_no());
-                            c_in_date.setText(productList.get(0).getIn_date());
-                            c_made_no.setText(productList.get(0).getMade_no());
-                            c_dept_name.setText(productList.get(0).getDept_name());
-
-                            btnInStockConfirm.setEnabled(true);
+                        if (productionStorageItemAdapter != null) {
+                            productionStorageItemAdapter.notifyDataSetChanged();
+                        } else {
+                            productionStorageItemAdapter = new ProductionStorageItemAdapter(fragmentContext, R.layout.production_storage_fragment_swipe_item, productList);
+                            productListView.setAdapter(productionStorageItemAdapter);
                         }
+
+                        c_in_no.setText(productList.get(0).getIn_no());
+                        c_in_date.setText(productList.get(0).getIn_date());
+                        c_made_no.setText(productList.get(0).getMade_no());
+                        c_dept_name.setText(productList.get(0).getDept_name());
+
+                        btnInStockConfirm.setEnabled(true);
 
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_PRODUCT_ENTRY_EMPTY)) {
@@ -353,6 +383,36 @@ public class ProductionStorageFragment extends Fragment {
                         Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
                         loadDialog.dismiss();
                         toast(getResources().getString(R.string.production_storage_in_stock_process_complete));
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
+                        Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
+                        loadDialog.dismiss();
+                        toast(getResources().getString(R.string.production_storage_in_stock_process_complete));
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_SWIPE_LAYOUT_UPDATE)) {
+                        Log.d(TAG, "receive ACTION_PRODUCT_SWIPE_LAYOUT_UPDATE");
+                        if (productionStorageItemAdapter != null)
+                            productionStorageItemAdapter.notifyDataSetChanged();
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_DELETE_ITEM_CONFIRM)) {
+                        Log.d(TAG, "receive ACTION_PRODUCT_DELETE_ITEM_CONFIRM");
+
+                        String index_string = intent.getStringExtra("INDEX");
+                        int index = Integer.valueOf(index_string);
+
+                        if (dataTable_RR != null && dataTable_RR.Rows.get(index) != null) {
+                            dataTable_RR.Rows.remove(index);
+                        }
+
+                        productList.remove(index);
+
+                        item_select = -1;
+
+                        for (int i=0; i<productList.size(); i++) {
+                            productList.get(i).setSelected(false);
+                        }
+
+                        if (productionStorageItemAdapter != null)
+                            productionStorageItemAdapter.notifyDataSetChanged();
+
+
                     }
 
 
@@ -388,13 +448,18 @@ public class ProductionStorageFragment extends Fragment {
 
                                         if (text.length() != 16) {
                                             toast(text);
-                                            dataTable_RR.Rows.get(item_select).setValue("locate_no", text);
+                                            if (dataTable_RR != null && dataTable_RR.Rows.size() > 0) {
+                                                if (dataTable_RR.Rows.get(item_select) != null)
+                                                    dataTable_RR.Rows.get(item_select).setValue("locate_no", text);
+                                            }
 
                                             productList.get(item_select).setLocate_no_scan(text);
                                             //productListView.invalidateViews();
                                             if (productionStorageItemAdapter != null) {
                                                 productionStorageItemAdapter.notifyDataSetChanged();
                                             }
+
+                                            productListView.invalidateViews();
                                         }
 
 
@@ -457,6 +522,9 @@ public class ProductionStorageFragment extends Fragment {
 
             filter.addAction(Constants.ACTION.ACTION_EXECUTE_TT_FAILED);
             filter.addAction(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE);
+            filter.addAction(Constants.ACTION.ACTION_PRODUCT_SWIPE_LAYOUT_UPDATE);
+
+            filter.addAction(Constants.ACTION.ACTION_PRODUCT_DELETE_ITEM_CONFIRM);
 
             filter.addAction("unitech.scanservice.data");
 

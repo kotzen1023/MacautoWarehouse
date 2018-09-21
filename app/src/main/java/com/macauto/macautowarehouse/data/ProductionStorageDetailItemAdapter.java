@@ -13,15 +13,15 @@ import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
 
-public class InspectedDetailItemAdapter extends ArrayAdapter<InspectedDetailItem> {
+public class ProductionStorageDetailItemAdapter extends ArrayAdapter<ProductionStorageDetailItem> {
     private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<InspectedDetailItem> items;
+    private ArrayList<ProductionStorageDetailItem> items;
     //private Context context;
 
-    public InspectedDetailItemAdapter(Context context, int textViewResourceId,
-                                   ArrayList<InspectedDetailItem> objects) {
+    public ProductionStorageDetailItemAdapter(Context context, int textViewResourceId,
+                                      ArrayList<ProductionStorageDetailItem> objects) {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
@@ -37,7 +37,7 @@ public class InspectedDetailItemAdapter extends ArrayAdapter<InspectedDetailItem
 
     }
 
-    public InspectedDetailItem getItem(int position)
+    public ProductionStorageDetailItem getItem(int position)
     {
         return items.get(position);
     }
@@ -69,13 +69,13 @@ public class InspectedDetailItemAdapter extends ArrayAdapter<InspectedDetailItem
         //holder.filename = (TextView) view.findViewById(R.id.fileChooseFileName);
         //holder.checkbox = (CheckBox) view.findViewById(R.id.checkBoxInRow);
 
-        InspectedDetailItem inspectedDetailItem = items.get(position);
-        if (inspectedDetailItem != null) {
-            holder.itemHeader.setText(inspectedDetailItem.getHeader());
-            holder.itemContent.setText(inspectedDetailItem.getContent());
+        ProductionStorageDetailItem productionStorageDetailItem = items.get(position);
+        if (productionStorageDetailItem != null) {
+            holder.itemHeader.setText(productionStorageDetailItem.getHeader());
+            holder.itemContent.setText(productionStorageDetailItem.getContent());
 
 
-            if (position == 7) {
+            if (position == 11) {
                 holder.itemContent.setTextColor(Color.RED);
             } else {
                 holder.itemContent.setTextColor(Color.BLACK);
@@ -94,8 +94,8 @@ public class InspectedDetailItemAdapter extends ArrayAdapter<InspectedDetailItem
 
 
         private ViewHolder(View view) {
-            this.itemHeader = view.findViewById(R.id.inspectedItemDetailHeader);
-            this.itemContent = view.findViewById(R.id.inspectedItemDetailContent);
+            this.itemHeader = view.findViewById(R.id.productionStorageItemDetailHeader);
+            this.itemContent = view.findViewById(R.id.productionStorageItemDetailContent);
         }
     }
 }

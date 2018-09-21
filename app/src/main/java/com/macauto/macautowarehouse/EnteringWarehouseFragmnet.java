@@ -71,7 +71,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
     //public static ArrayList<String> no_list = new ArrayList<>();
     //public static HashMap<String, ArrayList<ContactItem>> staticContactList = new HashMap<> ();
     //public static HashMap<String, ArrayList<DetailItem>> detailList = new HashMap<> ();
-    public static ArrayList<Boolean> check_stock_in = new ArrayList<>();
+    //public static ArrayList<Boolean> check_stock_in = new ArrayList<>();
     public static ArrayList<InspectedReceiveItem> swipe_list = new ArrayList<>();
 
     private static BroadcastReceiver mReceiver = null;
@@ -117,10 +117,28 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
         swipe_list.clear();
 
+        /*InspectedReceiveItem item1 = new InspectedReceiveItem();
+        item1.setCol_rvb05("item1");
+        item1.setCol_pmn041("item1");
+        item1.setCol_rvb33("item1");
+        item1.setCol_rvv32("item1");
+        item1.setCol_rvv33("item1");
+        item1.setCol_rvb33("8000.000");
+        swipe_list.add(item1);
+
+        InspectedReceiveItem item2 = new InspectedReceiveItem();
+        item2.setCol_rvb05("item2");
+        item2.setCol_pmn041("item2");
+        item2.setCol_rvb33("item2");
+        item2.setCol_rvv32("item2");
+        item2.setCol_rvv33("item2");
+        item2.setCol_rvb33("4000.000");
+        swipe_list.add(item2);*/
+
         inspectedReceiveItemAdapter = new InspectedReceiveItemAdapter(fragmentContext, R.layout.inspected_receive_list_swipe_item, swipe_list);
         listView.setAdapter(inspectedReceiveItemAdapter);
 
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "select "+position);
@@ -146,7 +164,19 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     listView.invalidateViews();
                 }
             }
-        });*/
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent detailIntent = new Intent(fragmentContext, EnteringWarehouseDetailActivity.class);
+                detailIntent.putExtra("INDEX", String.valueOf(position));
+                fragmentContext.startActivity(detailIntent);
+
+                return true;
+            }
+        });
 
         /*expandableListView = view.findViewById(R.id.listViewExpand);
         //TextView textView = view.findViewById(R.id.textEnteringWarehouse);
@@ -246,7 +276,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
         final TextView textView = view.findViewById(R.id.barCode);
         final Button btnScan = view.findViewById(R.id.btnEnteringWarehouseScan);
         final Button btnConfirm = view.findViewById(R.id.btnEnteringWarehouseConfirm);
-        final LinearLayout layoutBottom = view.findViewById(R.id.layoutBottom);
+        //final LinearLayout layoutBottom = view.findViewById(R.id.layoutBottom);
         LinearLayout barCodeLayout = view.findViewById(R.id.barCodeLayout);
 
         if (pda_type == 0) { //PA720
@@ -369,8 +399,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
                 String head = fragmentContext.getResources().getString(R.string.entering_warehouse_dialog_content);
                 String msg = "";
                 boolean found = false;
-                for (int i=0; i< check_stock_in.size(); i++) {
-                    if (check_stock_in.get(i)) {
+                //for (int i=0; i< check_stock_in.size(); i++) {
+                for (int i=0; i< dataTable.Rows.size(); i++) {
+                    if (swipe_list.get(i).isChecked()) {
                         /*msg += detailList.get(no_list.get(i)).get(4).getName()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
                                 detailList.get(no_list.get(i)).get(8).getName()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
                                 detailList.get(no_list.get(i)).get(10).getName()+"]\n\n";*/
@@ -393,9 +424,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             boolean same_in_no_but_not_check = false;
 
                             //check if set in-stock check, but not scan
-                            for (int i=0; i<check_stock_in.size(); i++) {
+                            for (int i=0; i<dataTable.Rows.size(); i++) {
 
-                                if (swipe_list.get(i).getCheckBox().isChecked()) {
+                                if (swipe_list.get(i).isSelected()) {
 
                                     if (dataTable.Rows.get(i).getValue("rvv33_scan").toString().equals("")) {
                                         found = true;
@@ -408,7 +439,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                             ArrayList<String> rvu01_list = new ArrayList<>();
                             String temp_rvu01 = "";
-                            for (int i=0; i<check_stock_in.size(); i++) {
+                            for (int i=0; i<dataTable.Rows.size(); i++) {
                                 if (!temp_rvu01.equals(swipe_list.get(i).getCol_rvu01())) {
                                     temp_rvu01 = swipe_list.get(i).getCol_rvu01();
                                     rvu01_list.add(temp_rvu01);
@@ -420,11 +451,11 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             for (int i=0; i<rvu01_list.size(); i++) {
                                 int check_count = 0;
                                 int tatal_count = 0;
-                                for (int j=0; j<swipe_list.size(); j++) {
+                                for (int j=0; j<dataTable.Rows.size(); j++) {
                                     if (rvu01_list.get(i).equals(swipe_list.get(i).getCol_rvu01())) {
                                         tatal_count = tatal_count + 1;
 
-                                        if (swipe_list.get(j).getCheckBox().isChecked()) {
+                                        if (swipe_list.get(j).isChecked()) {
                                             check_count = check_count + 1;
                                         }
                                     }
@@ -435,8 +466,10 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                     break;
                                 }
 
-
+                                Log.d(TAG, "tatal_count = "+tatal_count+",check_count = "+check_count);
                             }
+
+
 
 
                             if (found) { //found empty locate no in list. Must scan locate no before in stock.
@@ -461,7 +494,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                 for (DataRow rx : dataTable.Rows) {
                                     if (!ss.equals(dataTable.Rows.get(index).getValue("rvu01").toString())) {
                                         ss = rx.getValue("rvu01").toString();
-                                        if (check_stock_in.get(index)) //if check, then set
+                                        //if (check_stock_in.get(index)) //if check, then set
+                                        if (swipe_list.get(index).isChecked()) //if check, then set
                                             pp_list.add(rx.getValue("rvu01").toString());
                                     }
                                     index++;
@@ -623,7 +657,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         is_scan_receive = false;
 
                         //btnScan.setVisibility(View.GONE);
-                        btnConfirm.setVisibility(View.VISIBLE);
+                        //btnConfirm.setVisibility(View.VISIBLE);
+                        btnConfirm.setEnabled(true);
                         Log.e(TAG, "========================================================");
                         for (int i=0; i<dataTable.Rows.size(); i++) {
 
@@ -652,6 +687,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                         is_scan_receive = false;
 
+                        btnConfirm.setEnabled(true);
+
                         toast(context.getResources().getString(R.string.entering_warehouse_no_record));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED)) {
@@ -659,6 +696,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             loadDialog.dismiss();
 
                         is_scan_receive = false;
+
+                        btnConfirm.setEnabled(true);
 
                         toast(context.getResources().getString(R.string.get_receive_goods_fail));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD)) {
@@ -670,34 +709,56 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         if (inspectedReceiveItemAdapter != null)
                             inspectedReceiveItemAdapter.notifyDataSetChanged();
 
-                        layoutBottom.setVisibility(View.GONE);
+                        //layoutBottom.setVisibility(View.GONE);
 
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE)) {
-                        //Log.d(TAG, "get ACTION_ENTERING_WAREHOUSE_SHOW_CONFIRM_BUTTON");
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW)) {
+                        Log.d(TAG, "get ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW");
 
-                        //String check_index = intent.getStringExtra("CHECK_INDEX");
-                        //String check_box = intent.getStringExtra("CHECK_BOX");
+                        String index_string = intent.getStringExtra("INDEX");
+                        int index = Integer.valueOf(index_string);
 
-                        //Log.e(TAG, "get ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE, check_index = " + check_index + ", check_box = " + check_box);
+                        if (dataTable != null && dataTable.Rows.size() > 0) {
 
-                        //check_stock_in.set(Integer.valueOf(check_index), Boolean.valueOf(check_box));
-
-                        int count = 0;
-                        for (int i = 0; i < check_stock_in.size(); i++)
-                        {
-                            if (check_stock_in.get(i))
-                            {
-                                count++;
+                            //set dataTable_Batch_area
+                            if (dataTable_Batch_area != null) {
+                                dataTable_Batch_area.clear();
+                            } else {
+                                dataTable_Batch_area = new DataTable();
                             }
-                        }
+                            dataTable_Batch_area.TableName = "batch_area";
+                            DataColumn c_locate_no = new DataColumn("rvv33");
+                            DataColumn c_qty = new DataColumn("rvb33");
+                            DataColumn c_stock_no = new DataColumn("rvv32");
+                            DataColumn c_batch_no = new DataColumn("rvv34");
+                            dataTable_Batch_area.Columns.Add(c_locate_no);
+                            dataTable_Batch_area.Columns.Add(c_qty);
+                            dataTable_Batch_area.Columns.Add(c_stock_no);
+                            dataTable_Batch_area.Columns.Add(c_batch_no);
 
-                        if (count > 0)
-                        {
-                            layoutBottom.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {
-                            layoutBottom.setVisibility(View.GONE);
+                            DataRow ur = dataTable_Batch_area.NewRow();
+                            ur.setValue("rvv33", dataTable.getValue(index, "rvv33"));
+                            ur.setValue("rvb33", dataTable.getValue(index, "rvb33"));
+                            ur.setValue("rvv32", dataTable.getValue(index, "rvv32"));
+                            ur.setValue("rvv34", dataTable.getValue(index, "rvv34"));
+
+                            dataTable_Batch_area.Rows.add(ur);
+
+
+                            float quantity = Float.valueOf(dataTable.getValue(index, "rvb33").toString());
+                            int quantity_int = (int)quantity;
+
+                            Intent divideIntent = new Intent(fragmentContext, EnteringWarehouseDividedDialogActivity.class);
+                            divideIntent.putExtra("IN_NO", dataTable.getValue(index, "rvu01").toString());
+                            divideIntent.putExtra("ITEM_NO", dataTable.getValue(index, "rvv02").toString());
+                            divideIntent.putExtra("PART_NO", dataTable.getValue(index, "rvb05").toString());
+                            divideIntent.putExtra("QUANTITY", String.valueOf(quantity_int));
+                            divideIntent.putExtra("BATCH_NO", dataTable.getValue(index, "rvv34").toString());
+                            divideIntent.putExtra("LOCATE_NO", dataTable.getValue(index, "rvv33").toString());
+                            divideIntent.putExtra("STOCK_NO", dataTable.getValue(index, "rvv32").toString());
+                            divideIntent.putExtra("CHECK_SP", dataTable.getValue(index, 0).toString());
+
+                            fragmentContext.startActivity(divideIntent);
+
                         }
 
 
@@ -884,8 +945,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         //Log.e(TAG, "[update table rvu02 = "+dataTable.Rows.get(cur_index).getValue("rvu02")+"]");
 
                         //remove
-                        for (int i=check_stock_in.size()-1; i>=0; i--) {
-                            if (check_stock_in.get(i)) {
+                        //for (int i=check_stock_in.size()-1; i>=0; i--) {
+                        for (int i=dataTable.Rows.size()-1; i>=0; i--) {
+                            if (swipe_list.get(i).isChecked()) {
                                 //detailList.get(no_list.get(i)).clear();
                                 //no_list.remove(i);
                                 dataTable.Rows.remove(i);
@@ -906,15 +968,16 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         //if (inspectedReceiveExpanedAdater != null)
                         //    inspectedReceiveExpanedAdater.notifyDataSetChanged();
 
-                        Log.e(TAG, "=== [ACTION_ENTERING_WAREHOUSE_COMPLETE] check stock in start ===");
+
+                        /*Log.e(TAG, "=== [ACTION_ENTERING_WAREHOUSE_COMPLETE] check stock in start ===");
                         for (int i=0; i < check_stock_in.size(); i++) {
                             Log.e(TAG, "check_stock_in["+i+"] = "+check_stock_in.get(i));
                         }
-                        Log.e(TAG, "=== [ACTION_ENTERING_WAREHOUSE_COMPLETE] check stock in end ===");
+                        Log.e(TAG, "=== [ACTION_ENTERING_WAREHOUSE_COMPLETE] check stock in end ===");*/
 
                         toast(getResources().getString(R.string.entering_warehouse_complete));
                         loadDialog.dismiss();
-                        layoutBottom.setVisibility(View.GONE);
+                        //layoutBottom.setVisibility(View.GONE);
 
                         //if dataTable Rows = 0, delete temp
                         /*if (dataTable.Rows.size() == 0) {
@@ -931,10 +994,12 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                         swipe_list.clear();
 
-                        if (inspectedReceiveItemAdapter != null)
+                        if (inspectedReceiveItemAdapter != null) {
+                            inspectedReceiveItemAdapter.mSparseBooleanArray.clear();
                             inspectedReceiveItemAdapter.notifyDataSetChanged();
+                        }
 
-
+                        btnConfirm.setEnabled(false);
                         //toast(getResources().getString(R.string.entering_warehouse_failed));
                         //loadDialog.dismiss();
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_FAILED)) {
@@ -998,9 +1063,13 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                     if (swipe_list.size() > 0) {
 
                                         if (item_select != -1) { //scan locate
-                                            dataTable.Rows.get(item_select).setValue("rvv33", text);
-                                            dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
+                                            if (dataTable != null && dataTable.Rows.size() > 0) {
+                                                dataTable.Rows.get(item_select).setValue("rvv33", text);
+                                                dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
+                                            }
                                             swipe_list.get(item_select).setCol_rvv33(text);
+                                            swipe_list.get(item_select).setChecked(true);
+                                            //check_stock_in.set(item_select, true);
 
                                             if (inspectedReceiveItemAdapter != null)
                                                 inspectedReceiveItemAdapter.notifyDataSetChanged();
@@ -1091,7 +1160,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_FAILED);
             filter.addAction(Constants.ACTION.ACTION_MODIFIED_ITEM_COMPLETE);
             filter.addAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD);
-            filter.addAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE);
+            filter.addAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW);
             //filter.addAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_HIDE_CONFIRM_BUTTON);
             filter.addAction(Constants.ACTION.ACTION_SCAN_RESET);
             filter.addAction("unitech.scanservice.data");

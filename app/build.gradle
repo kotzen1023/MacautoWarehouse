@@ -31,5 +31,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
     //implementation "com.daimajia.swipelayout:library:1.2.0@aar"
     implementation 'com.github.daimajia:AndroidSwipeLayout:f66ac6942b'
-
+    implementation 'com.github.smart-fun:XmlToJson:1.4.4'
+    implementation files('libs/java-json.jar')
 }

@@ -34,7 +34,6 @@ import com.macauto.macautowarehouse.service.CheckDeleteMessageRightsService;
 
 import com.macauto.macautowarehouse.service.DeleteMessageNoService;
 
-import com.macauto.macautowarehouse.service.GetMyMessDetailService;
 import com.macauto.macautowarehouse.service.GetMyMessListService;
 
 import com.macauto.macautowarehouse.table.DataTable;

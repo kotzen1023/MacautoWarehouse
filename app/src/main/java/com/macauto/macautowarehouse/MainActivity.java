@@ -326,12 +326,13 @@ public class MainActivity extends AppCompatActivity
                         if (menuItemLogin != null && menuItemLogout != null) {
 
                             //menuItemReceiveGoods.setVisible(true);
-                            //menuItemShipment.setVisible(true);
+
                             menuItemSearch.setVisible(true);
                             menuItemAllocation.setVisible(true);
                             menuItemAllocationSendMsg.setVisible(true);
                             menuItemEnteringWareHouse.setVisible(true);
                             menuItemProductionStorage.setVisible(true);
+                            menuItemShipment.setVisible(true);
                             menuItemReceivingInspection.setVisible(true);
 
                             menuItemLogin.setVisible(false);
@@ -360,12 +361,13 @@ public class MainActivity extends AppCompatActivity
 
                         if (menuItemLogin != null && menuItemLogout != null) {
                             //menuItemReceiveGoods.setVisible(false);
-                            //menuItemShipment.setVisible(false);
+
                             menuItemSearch.setVisible(false);
                             menuItemAllocation.setVisible(false);
                             menuItemAllocationSendMsg.setVisible(false);
                             menuItemEnteringWareHouse.setVisible(false);
                             menuItemProductionStorage.setVisible(false);
+                            menuItemShipment.setVisible(false);
                             menuItemReceivingInspection.setVisible(false);
 
                             menuItemLogin.setVisible(true);
@@ -572,12 +574,13 @@ public class MainActivity extends AppCompatActivity
             menuItemLogin.setVisible(false);
             menuItemLogout.setVisible(true);
             //menuItemReceiveGoods.setVisible(true);
-            //menuItemShipment.setVisible(true);
+
             menuItemSearch.setVisible(true);
             menuItemAllocation.setVisible(true);
             menuItemAllocationSendMsg.setVisible(true);
             menuItemEnteringWareHouse.setVisible(true);
             menuItemProductionStorage.setVisible(true);
+            menuItemShipment.setVisible(true);
             menuItemReceivingInspection.setVisible(true);
 
         } else {
@@ -609,12 +612,13 @@ public class MainActivity extends AppCompatActivity
             menuItemLogin.setVisible(true);
             menuItemLogout.setVisible(false);
             //menuItemReceiveGoods.setVisible(false);
-            //menuItemShipment.setVisible(false);
+
             menuItemSearch.setVisible(false);
             menuItemAllocation.setVisible(false);
             menuItemAllocationSendMsg.setVisible(false);
             menuItemEnteringWareHouse.setVisible(false);
             menuItemProductionStorage.setVisible(false);
+            menuItemShipment.setVisible(false);
             menuItemReceivingInspection.setVisible(false);
         }
         /*setting.setVisible(false);

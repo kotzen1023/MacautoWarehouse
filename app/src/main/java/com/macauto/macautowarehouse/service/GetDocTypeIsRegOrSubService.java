@@ -18,7 +18,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.pp_list;
@@ -188,8 +188,12 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
                     s_p = "2";
                 }
 
+                if (doc_type.equals("REG")) {
+                    doc_type = "";
+                }
 
-                String script_string = "sh run_me " + s_p + " 1 " + doc_no5 + " '" + doc_type + "'";
+
+                String script_string = "sh run_me " + s_p + " 1 " + doc_no + " " + doc_type + "";
 
                 DataRow kr = table_X_M.NewRow();
                 kr.setValue("script", script_string);

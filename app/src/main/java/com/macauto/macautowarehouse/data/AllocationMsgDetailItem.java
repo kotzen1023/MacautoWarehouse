@@ -10,6 +10,7 @@ public class AllocationMsgDetailItem {
     private String item_sfa12;
     private String item_scan_desc;
 
+
     public String getItem_part_no() {
         return item_part_no;
     }
@@ -73,4 +74,5 @@ public class AllocationMsgDetailItem {
     public void setItem_scan_desc(String item_scan_desc) {
         this.item_scan_desc = item_scan_desc;
     }
+
 }

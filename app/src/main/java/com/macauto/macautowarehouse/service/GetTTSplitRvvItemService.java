@@ -295,7 +295,7 @@ public class GetTTSplitRvvItemService extends IntentService {
 
                 request.addProperty("SID", "MAT");
                 request.addProperty("in_no", in_no);
-                request.addProperty("item_no", item_no);
+                request.addProperty("item_no", Integer.valueOf(item_no));
                 request.addProperty("split_data", writer.toString());
                 request.addProperty("part_no", part_no);
                 request.addProperty("k_id", k_id);

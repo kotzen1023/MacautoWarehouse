@@ -53,7 +53,7 @@ public class Constants {
 
         String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_TEXT_CHANGE = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogTextChange";
         String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogAdd";
-        String ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE = "com.macauto.MacautoWarehoouse.EnteringWarehouseCheckboxChange";
+        String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogShow";
 
         //locate split
         String ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSub";
@@ -198,6 +198,8 @@ public class Constants {
         String ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_SUCCESS = "com.macauto.MacautoWarehoouse.ProductUpdateTTProductEntryLocateNoSuccess";
 
         String ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE = "com.macauto.MacautoWarehoouse.ProductInStockWorkComplete";
+        String ACTION_PRODUCT_SWIPE_LAYOUT_UPDATE = "com.macauto.MacautoWarehoouse.ProductSwipeLayoutUpdate";
+        String ACTION_PRODUCT_DELETE_ITEM_CONFIRM = "com.macauto.MacautoWarehoouse.ProductDeleteItemConfirm";
 
         //Receiving Inspection
         String ACTION_RECEIVING_INSPECTION_GET_TT_RECEIVE_GOODS_REPORT_DATA_QC_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTReceiveGoodsReportDataQCAction";
@@ -218,6 +220,10 @@ public class Constants {
         String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTPrgAAction";
         String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_SUCCESS = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTPrgASuccess";
         String ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_FAILED = "com.macauto.MacautoWarehoouse.ReceivingInspectionExecuteTTPrgAFailed";
+
+        String ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionDeleteQCTempAction";
+        String ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_SUCCESS = "com.macauto.MacautoWarehoouse.ReceivingInspectionDeleteQCTempSuccess";
+        String ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_FAILED = "com.macauto.MacautoWarehoouse.ReceivingInspectionDeleteQCTempFailed";
 
         String ACTION_RECEIVING_INSPECTION_ITEM_SELECT_CHANGE = "com.macauto.MacautoWarehoouse.ReceivingInspectionItemSelectChange";
 

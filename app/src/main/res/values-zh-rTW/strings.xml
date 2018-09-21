@@ -12,6 +12,7 @@
     <string name="cancel">取消</string>
     <string name="delete">刪除</string>
     <string name="delete_msg">確定刪除?</string>
+    <string name="delete_this_item">刪除此項目?</string>
     <string name="add">新增</string>
     <string name="save">儲存</string>
     <string name="exit_app_title">關閉App</string>
@@ -51,6 +52,7 @@
     <string name="login_account">帳號</string>
     <string name="login_password">密碼</string>
     <string name="login_confirm">確定</string>
+    <string name="not_locate_no_msg">非儲位條碼</string>
     <string name="item_title_check_sp">V</string>
     <string name="item_title_rvu01">收貨入庫單號</string>
     <string name="item_title_rvv02">項次</string>
@@ -226,13 +228,18 @@
     <string name="production_storage_in_date">入庫日期</string>
     <string name="production_storage_made_no">工單號碼</string>
     <string name="production_storage_dept">生產部門</string>
+    <string name="production_storage_dept_no">部門編號</string>
     <string name="production_storage_in_storage_confirm">入庫確認</string>
     <string name="production_storage_index">項次</string>
     <string name="production_storage_store_type">儲存方式</string>
     <string name="production_storage_part_no">料號</string>
+    <string name="production_storage_part_desc">料件描述</string>
     <string name="production_storage_stock_no">倉庫</string>
+    <string name="production_storage_stock_no_name">倉庫名稱</string>
+    <string name="production_storage_stock_unit">單位</string>
     <string name="production_storage_locate_no_def">預設儲位</string>
     <string name="production_storage_locate_no">儲位</string>
+    <string name="production_storage_locate_no_scan">儲位掃描</string>
     <string name="production_storage_batch_no">批號</string>
     <string name="production_storage_qty">數量</string>
     <string name="production_storage_unit">單位</string>

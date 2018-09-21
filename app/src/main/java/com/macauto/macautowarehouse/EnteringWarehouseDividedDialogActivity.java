@@ -27,11 +27,12 @@ import com.macauto.macautowarehouse.data.DividedItemAdapter;
 import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
 import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService2;
 import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataAXService;
+import com.macauto.macautowarehouse.service.GetTTSplitRvvItemService;
 import com.macauto.macautowarehouse.table.DataRow;
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
 //import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
@@ -69,6 +70,10 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
         setTitle(getResources().getString(R.string.entering_warehouse_dialog_head));
 
+
+
+
+
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
         //final String group_index = intent.getStringExtra("GROUP_INDEX");
@@ -87,6 +92,28 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
         quantity_int = (int)quantity;
 
+        Log.e(TAG, "================= Column name ==========================");
+        for (int i=0; i<dataTable_Batch_area.Columns.size(); i++) {
+            System.out.print(dataTable_Batch_area.Columns.get(i).ColumnName);
+            if (i < dataTable_Batch_area.Columns.size() - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.print("\n");
+        Log.e(TAG, "========================================================");
+        for (int i=0; i<dataTable_Batch_area.Rows.size(); i++) {
+
+            for (int j=0; j<dataTable_Batch_area.Columns.size(); j++) {
+                System.out.print(dataTable_Batch_area.Rows.get(i).getValue(j));
+                if (j < dataTable_Batch_area.Columns.size() - 1) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.print("\n");
+        }
+        Log.e(TAG, "========================================================");
+
+
         Button btnAdd = findViewById(R.id.btnAdd);
         //textViewStatus = findViewById(R.id.textViewStatus);
         textViewQuantity = findViewById(R.id.textViewQuantity);
@@ -99,6 +126,15 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //dataTable_Batch_area
+                DataRow ur = dataTable_Batch_area.NewRow();
+                ur.setValue("rvv33", locate_no_string);
+                ur.setValue("rvb33", "0");
+                ur.setValue("rvv32", stock_no_string);
+                ur.setValue("rvv34", batch_no_string);
+                dataTable_Batch_area.Rows.add(ur);
+
+
                 DividedItem addItem = new DividedItem();
                 addItem.setQuantity(0);
                 dividedList.add(addItem);
@@ -116,6 +152,19 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                 if (dividedItemAdapter != null)
                     dividedItemAdapter.notifyDataSetChanged();
 
+                Log.e(TAG, "========================================================");
+                for (int i=0; i<dataTable_Batch_area.Rows.size(); i++) {
+
+                    for (int j=0; j<dataTable_Batch_area.Columns.size(); j++) {
+                        System.out.print(dataTable_Batch_area.Rows.get(i).getValue(j));
+                        if (j < dataTable_Batch_area.Columns.size() - 1) {
+                            System.out.print(", ");
+                        }
+                    }
+                    System.out.print("\n");
+                }
+                Log.e(TAG, "========================================================");
+
             }
         });
 
@@ -132,7 +181,7 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
                 //reset dataTable_Batch_area
 
-                for (int i=0; i<dividedList.size(); i++) {
+                /*for (int i=0; i<dividedList.size(); i++) {
                     if (i==0) {
                         dataTable_Batch_area.Rows.get(0).setValue("rvb33", String.valueOf(dividedList.get(i).getQuantity()));
                     } else { //i > 0
@@ -143,9 +192,9 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                         dr.setValue("rvv34", dataTable_Batch_area.getValue(0, "rvv34"));
                         dataTable_Batch_area.Rows.add(dr);
                     }
-                }
+                }*/
 
-                Intent splitIntent = new Intent(EnteringWarehouseDividedDialogActivity.this, ConfirmEnteringWarehouseService.class);
+                Intent splitIntent = new Intent(EnteringWarehouseDividedDialogActivity.this, GetTTSplitRvvItemService.class);
                 splitIntent.setAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION);
                 splitIntent.putExtra("IN_NO", in_no_string);
                 splitIntent.putExtra("ITEM_NO", item_no_string);
@@ -282,8 +331,27 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                                     bigger_than_zero++;
                             }
 
-                            if (bigger_than_zero > 1 && temp_count_list.get(0) > 0 && bigger_than_zero == temp_count_list.size())
+                            if (bigger_than_zero > 1 && temp_count_list.get(0) > 0 && bigger_than_zero == temp_count_list.size()) {
+
+                                for (int i=0;i<dataTable_Batch_area.Rows.size(); i++) {
+                                    dataTable_Batch_area.Rows.get(i).setValue("rvb33", String.valueOf(temp_count_list.get(i)));
+                                }
+
+                                Log.e(TAG, "========================================================");
+                                for (int i=0; i<dataTable_Batch_area.Rows.size(); i++) {
+
+                                    for (int j=0; j<dataTable_Batch_area.Columns.size(); j++) {
+                                        System.out.print(dataTable_Batch_area.Rows.get(i).getValue(j));
+                                        if (j < dataTable_Batch_area.Columns.size() - 1) {
+                                            System.out.print(", ");
+                                        }
+                                    }
+                                    System.out.print("\n");
+                                }
+                                Log.e(TAG, "========================================================");
+
                                 btnOk.setEnabled(true);
+                            }
                             else
                                 btnOk.setEnabled(false);
 

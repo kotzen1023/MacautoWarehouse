@@ -20,7 +20,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 //import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 //import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;

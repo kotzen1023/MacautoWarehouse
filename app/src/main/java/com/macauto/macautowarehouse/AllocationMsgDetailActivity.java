@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -106,8 +108,8 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
                 AllocationMsgDetailItem item = new AllocationMsgDetailItem();
 
-                rx.setValue("scan_sp", "N");
-                rx.setValue("scan_desc", "");
+                //rx.setValue("scan_sp", "N");
+                //rx.setValue("scan_desc", "");
 
                 item.setItem_part_no(rx.getValue("part_no").toString());
                 item.setItem_ima021(rx.getValue("ima021").toString());
@@ -366,6 +368,40 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         finish();
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        Log.e(TAG, "onCreateOptionsMenu");
+
+        //getMenuInflater().inflate(R.menu.divided_activity_menu, menu);
+
+
+
+
+
+
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
     }
 
     public void toast(String message) {

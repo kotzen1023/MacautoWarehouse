@@ -31,6 +31,7 @@ import com.macauto.macautowarehouse.service.CheckTTProductEntryAlreadyConfirm;
 import com.macauto.macautowarehouse.service.CheckTTRecNoAlreadyInQCItemService;
 import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
 import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService;
+import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsReportDataQCTempService;
 import com.macauto.macautowarehouse.service.ExecuteScriptTTService;
 import com.macauto.macautowarehouse.service.ExecuteTTPrgAService;
 import com.macauto.macautowarehouse.service.ExecuteTTcqcp001SetService;
@@ -361,6 +362,12 @@ public class ReceivingInspectionFragment extends Fragment {
 
                         toast(getResources().getString(R.string.receiving_inspection_qc_was_been_confirmed_failed));
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_SUCCESS)) {
+                        Log.d(TAG, "receive ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_SUCCESS");
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_FAILED)) {
+                        Log.d(TAG, "receive ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_FAILED");
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_RECEIVING_INSPECTION_ITEM_SELECT_CHANGE)) {
                         Log.d(TAG, "receive ACTION_RECEIVING_INSPECTION_ITEM_SELECT_CHANGE");
 
@@ -412,6 +419,12 @@ public class ReceivingInspectionFragment extends Fragment {
                                 Log.e(TAG, "counter = "+counter);
 
                                 if (counter >= 1) {
+
+                                    //clear previous k_id data
+                                    Intent deleteIntent = new Intent(context, DeleteTTReceiveGoodsReportDataQCTempService.class);
+                                    deleteIntent.setAction(Constants.ACTION.ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_ACTION);
+                                    context.startService(deleteIntent);
+
                                     receivingList.clear();
                                     if (receivingInspectionItemAdapter != null) {
                                         receivingInspectionItemAdapter.notifyDataSetChanged();
@@ -464,6 +477,8 @@ public class ReceivingInspectionFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_RECEIVING_INSPECTION_EXECUTE_TT_OQCP_FAILED);
             filter.addAction(Constants.ACTION.ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_RECEIVING_INSPECTION_EXECUTE_TT_PRG_A_FAILED);
+            filter.addAction(Constants.ACTION.ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_RECEIVING_INSPECTION_DELETE_QC_TEMP_FAILED);
             filter.addAction(Constants.ACTION.ACTION_RECEIVING_INSPECTION_ITEM_SELECT_CHANGE);
 
             filter.addAction("unitech.scanservice.data");

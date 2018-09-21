@@ -3,12 +3,15 @@ package com.macauto.macautowarehouse.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import android.service.autofill.Dataset;
 import android.util.Log;
 
 import com.macauto.macautowarehouse.data.Constants;
 
 
-
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -20,10 +23,13 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.io.StringWriter;
 
 
+import fr.arnaudguyon.xmltojsonlib.XmlToJson;
+
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml2;
 
 public class ConfirmEnteringWarehouseService extends IntentService {
     public static final String TAG = "ConfirmEnteringService";
@@ -60,12 +66,22 @@ public class ConfirmEnteringWarehouseService extends IntentService {
             Log.e(TAG, "========================================================");
             for (int i = 0; i < dataTable.Rows.size(); i++) {
 
+                String rvb33_string = dataTable.Rows.get(i).getValue("rvb33").toString();
+
+                if (rvb33_string.contains(".")) {
+                    String split_rvb33[] = rvb33_string.split("\\.");
+                    if (Integer.valueOf(split_rvb33[1]) == 0) { // .0 .00 .000
+                        dataTable.Rows.get(i).setValue("rvb33", split_rvb33[0]);
+                    }
+                }
+
                 for (int j = 0; j < dataTable.Columns.size(); j++) {
                     System.out.print(dataTable.Rows.get(i).getValue(j));
 
-                    if (j == 1) {
-                        rvu01 = dataTable.Rows.get(i).getValue(j).toString();
-                    }
+
+                    //if (j == 1) {
+                    //    rvu01 = dataTable.Rows.get(i).getValue(j).toString();
+                    //}
 
                     if (j < dataTable.Columns.size() - 1) {
                         System.out.print(", ");
@@ -101,191 +117,30 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
         if (dataTable != null) {
 
+            dataTable.TableName = "GOODS_IN";
+
             writer = parseDataTableToXml(dataTable);
 
-            /*XmlSerializer xmlSerializer = Xml.newSerializer();
+            //XmlToJson xmlToJson = new XmlToJson.Builder(writer.toString()).build();
 
+
+            JSONObject jsonObj = null;
             try {
-
-                xmlSerializer.setOutput(writer);
-
-                xmlSerializer.startDocument("UTF-8", true);
-
-                xmlSerializer.startTag("", "printx");
-                //declare
-                //xs:schema
-                xmlSerializer.startTag("", "xs:schema");
-                xmlSerializer.attribute("", "id", "printx");
-                xmlSerializer.attribute("", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
-                xmlSerializer.attribute("", "xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
-                //xs:element
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "printx");
-                xmlSerializer.attribute("", "msdata:IsDataSet", "true");
-                xmlSerializer.attribute("", "msdata:UseCurrentLocale", "true");
-                //xs:complexType
-                xmlSerializer.startTag("", "xs:complexType");
-                //xs:choice
-                xmlSerializer.startTag("", "xs:choice");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.attribute("", "maxOccurs", "unbounded");
-                //xs:element
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "Table");
-                //xs:complexType
-                xmlSerializer.startTag("", "xs:complexType");
-                //xs:sequence
-                xmlSerializer.startTag("", "xs:sequence");
-                //xs:element
-                //check_sp
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "check_sp");
-                xmlSerializer.attribute("", "type", "xs:boolean");
-                xmlSerializer.endTag("", "xs:element");
-                //rvu01
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "rvu01");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //rvu02
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "rvu02");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //rvb05
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "rvb05");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //pmn041
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "pmn041");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //ima021
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "ima021");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //rvv32
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "rvv32");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //rvv33
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "rvv33");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //rvv34
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "rvv34");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //rvb33
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "rvb33");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //pmc03
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "pmc03");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-                //gen02
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", "gen02");
-                xmlSerializer.attribute("", "type", "xs:string");
-                xmlSerializer.attribute("", "minOccurs", "0");
-                xmlSerializer.endTag("", "xs:element");
-
-                xmlSerializer.endTag("", "xs:sequence");
-                xmlSerializer.endTag("", "xs:complexType");
-                xmlSerializer.endTag("", "xs:element");
-                xmlSerializer.endTag("", "xs:choice");
-                xmlSerializer.endTag("", "xs:complexType");
-                xmlSerializer.endTag("", "xs:element");
-                xmlSerializer.endTag("", "xs:schema");
-                //end tag <schema>
-                //table start
-                for (int i = 0; i < dataTable.Rows.size(); i++) {
-                    xmlSerializer.startTag("", "Table");
-                    for (int j = 0; j < dataTable.Columns.size(); j++) {
-                        if (j==0) {
-                            xmlSerializer.startTag("", "check_sp");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "check_sp");
-                        } else if (j == 1) {
-                            xmlSerializer.startTag("", "rvu01");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "rvu01");
-                        } else if (j == 2) {
-                            xmlSerializer.startTag("", "rvu02");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "rvu02");
-                        } else if (j == 3) {
-                            xmlSerializer.startTag("", "rvb05");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "rvb05");
-                        } else if (j == 4) {
-                            xmlSerializer.startTag("", "pmn041");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "pmn041");
-                        } else if (j == 5) {
-                            xmlSerializer.startTag("", "ima021");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "ima021");
-                        } else if (j == 6) {
-                            xmlSerializer.startTag("", "rvv32");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "rvv32");
-                        } else if (j == 7) {
-                            xmlSerializer.startTag("", "rvv33");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "rvv33");
-                        } else if (j == 8) {
-                            xmlSerializer.startTag("", "rvv34");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "rvv34");
-                        } else if (j == 9) {
-                            xmlSerializer.startTag("", "rvb33");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "rvb33");
-                        } else if (j == 10) {
-                            xmlSerializer.startTag("", "pmc03");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "pmc03");
-                        } else if (j == 11) {
-                            xmlSerializer.startTag("", "gen02");
-                            xmlSerializer.text(dataTable.Rows.get(i).getValue(j).toString());
-                            xmlSerializer.endTag("", "gen02");
-                        }
-
-
-
-                    }
-                    //System.out.print("\n");
-                    xmlSerializer.endTag("", "Table");
-                }
-                //table end
-                xmlSerializer.endTag("", "printx");
-                xmlSerializer.endDocument();
-
-                Log.e(TAG, "xml = "+writer.toString());
-            } catch (IOException e) {
+                jsonObj = XML.toJSONObject(writer.toString());
+            } catch (JSONException e) {
+                Log.e("JSON exception", e.getMessage());
                 e.printStackTrace();
-            }*/
 
+            }
+
+
+
+
+            Log.d(TAG, "writer = "+writer.toString());
+            //Log.d(TAG, "xmlToJson = "+xmlToJson.toString());
+
+
+            //String temp = "NewDataSet=anyType{schema=anyType{element=anyType{complexType=anyType{choice=anyType{element=anyType{complexType=anyType{sequence=anyType{element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; element=anyType{}; }; }; }; }; }; }; }; diffgram=anyType{DocumentElement=anyType{INCP=anyType{check_sp=true; rvu01=12701-1809140051; rvv02=1; rvb05=48165A00195-0101; pmn041=導引器; ima021=滑塊 POM (F20-03 LOF)黑色 28.3*18*14.7mm D2SB天窗; rvv32=9110; rvv33=1G1211; rvv34=20180601*20180601*20180913; rvb33=2000.000; pmc03=寶泰模具; gen02=沈俊宏; rvv33_scan=1G1211; }; }; }; }";
 
 
             try {
@@ -297,7 +152,9 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
+                //request.addProperty("HAA", writer.toString());
                 request.addProperty("HAA", writer.toString());
+
 
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");
@@ -315,6 +172,9 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                         SoapEnvelope.VER11);
+
+                Log.e(TAG, "request = "+request.toString());
+
                 envelope.dotNet = true; // 設定為 .net 預設編碼
 
                 envelope.setOutputSoapObject(request); // 設定輸出的 SOAP 物件

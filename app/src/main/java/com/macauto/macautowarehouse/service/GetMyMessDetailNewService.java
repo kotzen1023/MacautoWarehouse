@@ -4,8 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-
-import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
@@ -19,13 +17,11 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-
-import static com.macauto.macautowarehouse.AllocationMsgDetailActivity.showList;
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
-import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
-public class GetMyMessDetailService extends IntentService{
+public class GetMyMessDetailNewService extends IntentService {
     public static final String TAG = "GetMyMessDetail";
 
     public static final String SERVICE_IP = "172.17.17.244";
@@ -37,18 +33,14 @@ public class GetMyMessDetailService extends IntentService{
     private static final String METHOD_NAME = "get_my_mess_detail"; // 方法名稱
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/get_my_mess_detail"; // SOAP_ACTION
-    //normal port 8000, test port 8484
-    //private static final String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
-    public GetMyMessDetailService() {
-        super("GetMyMessDetailService");
+    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+
+    //private boolean is_exist = false;
+
+    public GetMyMessDetailNewService() {
+        super("GetMyMessDetailNewService");
     }
-
-
-    //private String account;
-    //private String device_id;
-
-
 
     @Override
     public void onCreate() {
@@ -84,13 +76,21 @@ public class GetMyMessDetailService extends IntentService{
         String dateTime_1 = intent.getStringExtra("DATETIME_1");
         String dateTime_2 = intent.getStringExtra("DATETIME_2");
         String dateTime_3 = intent.getStringExtra("DATETIME_3");
-
-
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+        //String stock_no = intent.getStringExtra("STOCK_NO");
+        //String locate_no = intent.getStringExtra("LOCATE_NO");
+        //String batch_no = intent.getStringExtra("BATCH_NO");
+        //String ima02 = intent.getStringExtra("NAME");
+        //String ima021 = intent.getStringExtra("SPEC");
+        //String query_all = intent.getStringExtra("QUERY_ALL");
 
         Log.e(TAG, "iss_no = "+iss_no);
-
-        Log.e(TAG, "URL = "+URL);
+        Log.e(TAG, "dateTime_0 = "+dateTime_0);
+        Log.e(TAG, "dateTime_1 = "+dateTime_1);
+        Log.e(TAG, "dateTime_2 = "+dateTime_2);
+        Log.e(TAG, "dateTime_3 = "+dateTime_3);
+        //Log.e(TAG, "batch_no = "+batch_no);
+        //Log.e(TAG, "ima02 = "+ima02);
+        //Log.e(TAG, "ima021 = "+ima021);
 
         //device_id = intent.getStringExtra("DEVICE_ID");
         //String service_ip = intent.getStringExtra(SERVICE_IP);
@@ -109,13 +109,15 @@ public class GetMyMessDetailService extends IntentService{
         try {
             // 建立一個 WebService 請求
 
-
-
             SoapObject request = new SoapObject(NAMESPACE,
                     METHOD_NAME);
 
+            // 輸出值，帳號(account)、密碼(password)
+
             request.addProperty("SID", "MAT");
+
             request.addProperty("iss_no", iss_no);
+            //request.addProperty("item_no", item_no);
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -129,6 +131,9 @@ public class GetMyMessDetailService extends IntentService{
             //request.addProperty("passWord", "sunnyhitest");
 
             // 擴充 SOAP 序列化功能為第11版
+
+
+
             SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
                     SoapEnvelope.VER11);
             envelope.dotNet = true; // 設定為 .net 預設編碼
@@ -142,22 +147,21 @@ public class GetMyMessDetailService extends IntentService{
 
 
 
-
             httpTransport.call(SOAP_ACTION1, envelope); // 設定 SoapAction 所需的標題欄位
 
 
             // 將 WebService 資訊轉為 DataTable
             if (envelope.bodyIn instanceof SoapFault) {
-                String str= ((SoapFault) envelope.bodyIn).faultstring;
+                String str = ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-                sendBroadcast(getFailedIntent);
+
+                Intent getSuccessIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+                sendBroadcast(getSuccessIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
                 SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("get_my_mess_detailResult");
-                Log.d(TAG, "s_deals = "+s_deals.toString());
 
                 if (msgDataTable != null) {
                     msgDataTable.clear();
@@ -165,20 +169,24 @@ public class GetMyMessDetailService extends IntentService{
                     msgDataTable = new DataTable();
                 }
 
-
                 msgDataTable = parseXmlToDataTable(s_deals);
 
-
+                msgDataTable.TableName = "TYYC";
 
 
                 if (msgDataTable.Rows.size() > 0) {
-                    msgDataTable.TableName = "TYYC";
+
                     //add for scan
                     DataColumn scan_sp = new DataColumn("scan_sp");
                     DataColumn scan_desc = new DataColumn("scan_desc");
 
                     msgDataTable.Columns.add(scan_sp);
                     msgDataTable.Columns.add(scan_desc);
+
+                    for (DataRow rx : msgDataTable.Rows) {
+                        rx.setValue("scan_sp", "N");
+                        rx.setValue("scan_desc", "");
+                    }
 
 
 
@@ -205,9 +213,6 @@ public class GetMyMessDetailService extends IntentService{
                 }
 
 
-
-
-
             }
 
             //meetingArrayAdapter = new MeetingArrayAdapter(MainActivity.this, R.layout.list_item, meetingList);
@@ -224,11 +229,9 @@ public class GetMyMessDetailService extends IntentService{
 
 
         } catch (SocketTimeoutException e) {
-            // 抓到錯誤訊息
-
             e.printStackTrace();
-            Intent getTimeOutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
-            sendBroadcast(getTimeOutIntent);
+            Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            sendBroadcast(timeoutIntent);
         } catch (Exception e) {
             // 抓到錯誤訊息
 
@@ -247,7 +250,8 @@ public class GetMyMessDetailService extends IntentService{
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
-        //sendBroadcast(intent);
+
+
+
     }
 }

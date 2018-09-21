@@ -25,7 +25,7 @@ import com.macauto.macautowarehouse.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 
 
 public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
@@ -176,8 +176,8 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
 
                 holder.title.setText(item.getTitle());
                 holder.name.setText(item.getName());
-                holder.checkBox.setTag(listPosition);
-                item.setCheckBox(holder.checkBox);
+                //holder.checkBox.setTag(listPosition);
+                //item.setCheckBox(holder.checkBox);
                 //holder.edit.setText(item.getName());
 
                 //int text_color = holder.name.getCurrentTextColor();
@@ -200,13 +200,13 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
                     holder.imageView.setVisibility(View.GONE);
                 }
 
-                if (item.getTitle().equals(context.getResources().getString(R.string.item_title_confirm_stock_in))) {
+                /*if (item.getTitle().equals(context.getResources().getString(R.string.item_title_confirm_stock_in))) {
                     holder.checkBox.setVisibility(View.VISIBLE);
                     holder.linearLayout.setVisibility(View.GONE);
                 } else {
                     holder.checkBox.setVisibility(View.GONE);
                     holder.linearLayout.setVisibility(View.VISIBLE);
-                }
+                }*/
 
                 /*if (check_stock_in.get(listPosition)) {
                     holder.checkBox.setChecked(true);
@@ -214,14 +214,14 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
                     holder.checkBox.setChecked(false);
                 }*/
 
-                if (mSparseBooleanArray.get(listPosition))
+                /*if (mSparseBooleanArray.get(listPosition))
                 {
                     check_stock_in.set(listPosition, true);
                     holder.checkBox.setChecked(true);
                 } else {
                     check_stock_in.set(listPosition, false);
                     holder.checkBox.setChecked(false);
-                }
+                }*/
 
                 /*holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -272,7 +272,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
 
                 view.setBackgroundColor(Color.rgb(0xea, 0xea, 0xea));
 
-                holder.checkBox.setOnCheckedChangeListener(mCheckedChangeListener);
+                //holder.checkBox.setOnCheckedChangeListener(mCheckedChangeListener);
                 /*if (holder.linearLayout.getVisibility() == View.VISIBLE) {
                     holder.edit.requestFocus();
                     holder.edit.setSelection(item.getName().length());
@@ -322,7 +322,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
         return true;
     }
 
-    private CompoundButton.OnCheckedChangeListener mCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+    /*private CompoundButton.OnCheckedChangeListener mCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -341,59 +341,24 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
 
             //Log.e(TAG, "switch " + buttonView.getTag() + " checked = " + isChecked +", count = "+count);
 
-            /*Intent newNotifyIntent = new Intent();
-            if (count > 0) {
-                newNotifyIntent.setAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_SHOW_CONFIRM_BUTTON);
-            } else  {
-                newNotifyIntent.setAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_HIDE_CONFIRM_BUTTON);
-            }*/
+
             Intent newNotifyIntent = new Intent();
             newNotifyIntent.setAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_CHECKBOX_CHANGE);
             //newNotifyIntent.putExtra("CHECK_INDEX", String.valueOf((Integer) buttonView.getTag()));
             //newNotifyIntent.putExtra("CHECK_BOX", String.valueOf(isChecked));
             context.sendBroadcast(newNotifyIntent);
 
-            /*Log.e(TAG, "=== check box list start ===");
-            for (int i=0; i<expandableListTitle.size(); i++) {
-                Log.d(TAG, "check_stock_in["+i+"] = "+check_stock_in.get(i)+", mSparseBooleanArray["+i+"] = "+mSparseBooleanArray.get(i));
-            }
-            Log.e(TAG, "=== check box list end ===");*/
 
-
-
-            //if(isChecked == true) {
-            /*FileChooseItem fileChooseItem = items.get((Integer) buttonView.getTag());
-
-
-            for
-
-
-            if (fileChooseItem.getCheckBox() != null) {
-
-                if (!fileChooseItem.getName().equals("..")) {
-                    mSparseBooleanArray.put((Integer) buttonView.getTag(), isChecked);
-                    if (isChecked)
-                        count++;
-                    else
-                        count--;
-                }
-                else {
-                    fileChooseItem.getCheckBox().setChecked(false);
-                    fileChooseItem.getCheckBox().setVisibility(View.INVISIBLE);
-                    mSparseBooleanArray.put((Integer) buttonView.getTag(), false);
-                    count--;
-                }
-            }*/
 
         }
-    };
+    };*/
 
     private class ViewHolder {
         TextView title;
         TextView name;
         ImageView imageView;
         LinearLayout linearLayout;
-        CheckBox checkBox;
+        //CheckBox checkBox;
         //EditText edit;
         //Button button;
 
@@ -402,7 +367,7 @@ public class InspectedReceiveExpanedAdater extends BaseExpandableListAdapter {
             this.name = view.findViewById(R.id.itemName);
             this.imageView = view.findViewById(R.id.itemImage);
             this.linearLayout = view.findViewById(R.id.layoutShow);
-            this.checkBox = view.findViewById(R.id.checkConfirm);
+            //this.checkBox = view.findViewById(R.id.checkConfirm);
             //this.edit = view.findViewById(R.id.itemEdit);
             //this.button = view.findViewById(R.id.itemConfirm);
         }

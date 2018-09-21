@@ -16,7 +16,8 @@ public class InspectedReceiveItem {
     private String col_pmc03;
     private String col_gen02;
     private boolean selected;
-    private CheckBox checkBox;
+    private boolean checked;
+    //private CheckBox checkBox;
 
     public boolean isCheck_sp() {
         return check_sp;
@@ -122,11 +123,19 @@ public class InspectedReceiveItem {
         this.selected = selected;
     }
 
-    public CheckBox getCheckBox() {
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    /*public CheckBox getCheckBox() {
         return checkBox;
     }
 
     public void setCheckBox(CheckBox checkBox) {
         this.checkBox = checkBox;
-    }
+    }*/
 }

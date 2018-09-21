@@ -17,7 +17,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.macauto.macautowarehouse.AllocationSendMsgStatusDetailActivity;
 import com.macauto.macautowarehouse.R;
 import com.macauto.macautowarehouse.service.DeleteMessageNoService;
-import com.macauto.macautowarehouse.service.GetMyMessDetailService;
+import com.macauto.macautowarehouse.service.GetMyMessDetailNewService;
 
 import java.util.ArrayList;
 
@@ -177,6 +177,8 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
 
         String[] p_no = items.get(position).getWork_order().split("#");
 
+        String iss_no = p_no[0];
+
         String dateTime_0="", dateTime_1="", dateTime_2="", dateTime_3="";
 
         if (p_no[2].length() > 0) {
@@ -186,9 +188,9 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
             dateTime_3 = p_no[2].substring(9);
         }
 
-        Intent getMessDetailIntent = new Intent(mContext, GetMyMessDetailService.class);
+        Intent getMessDetailIntent = new Intent(mContext, GetMyMessDetailNewService.class);
         getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
-        getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
+        getMessDetailIntent.putExtra("ISS_NO", iss_no);
         getMessDetailIntent.putExtra("DATETIME_0", dateTime_0);
         getMessDetailIntent.putExtra("DATETIME_1", dateTime_1);
         getMessDetailIntent.putExtra("DATETIME_2", dateTime_2);

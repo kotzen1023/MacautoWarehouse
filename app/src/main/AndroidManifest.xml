@@ -36,6 +36,7 @@
         <activity android:name=".AllocationMsgDetailActivity" />
         <activity android:name=".AllocationSendMsgStatusDetailActivity" />
         <activity android:name=".EnteringWarehouseDetailActivity" />
+        <activity android:name=".ProductionStorageDetailActivity" />
 
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />
@@ -46,7 +47,7 @@
         <service android:name=".service.GetPartWarehouseListService" />
         <service android:name=".service.GetTTReceiveGoodsDataService" />
         <service android:name=".service.GetMyMessListService" />
-        <service android:name=".service.GetMyMessDetailService" />
+        <service android:name=".service.GetMyMessDetailNewService" />
         <service android:name=".service.SearchPartNoByScanService" />
         <service android:name=".service.CheckDeleteMessageRightsService" />
         <service android:name=".service.GetLocateNoService" />
@@ -75,6 +76,8 @@
         <service android:name=".service.GetTTReceiveGoodsReportDataQCService" />
         <service android:name=".service.CheckTTRecNoAlreadyInQCItemService" />
         <service android:name=".service.ExecuteTTcqcp001SetService" />
+        <service android:name=".service.DeleteTTReceiveGoodsReportDataQCTempService" />
+        <service android:name=".service.GetTTSplitRvvItemService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

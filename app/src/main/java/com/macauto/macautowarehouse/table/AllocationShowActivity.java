@@ -1,4 +1,4 @@
-package com.macauto.macautowarehouse;
+package com.macauto.macautowarehouse.table;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,12 +11,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.macauto.macautowarehouse.data.Constants;
+import com.macauto.macautowarehouse.EnteringWarehouseDetailActivity;
+import com.macauto.macautowarehouse.R;
+import com.macauto.macautowarehouse.data.AllocationMsgShowItem;
+import com.macauto.macautowarehouse.data.AllocationMsgShowItemAdapter;
 import com.macauto.macautowarehouse.data.InspectedDetailItem;
 import com.macauto.macautowarehouse.data.InspectedDetailItemAdapter;
 
@@ -25,46 +26,27 @@ import java.util.ArrayList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
-import static com.macauto.macautowarehouse.ProductionStorageFragment.productList;
 
+public class AllocationShowActivity extends AppCompatActivity {
+    private static final String TAG = "AllocationShowActivity";
 
-public class EnteringWarehouseDetailActivity extends AppCompatActivity {
-    private static final String TAG = "WarehouseDetailActivity";
-
-    public static ArrayList<InspectedDetailItem> detailList = new ArrayList<>();
+    public static ArrayList<AllocationMsgShowItem> detailList = new ArrayList<>();
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
     //private SearchDetailItemAdapter searchDetailItemAdapter;
     //InputMethodManager imm;
-    private InspectedDetailItemAdapter inspectedDetailItemAdapter;
+    private AllocationMsgShowItemAdapter allocationMsgShowItemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entering_warehouse_detail_activity);
+        setContentView(R.layout.allocation_msg_show_activity);
+
+        ListView listView = findViewById(R.id.allocatonShowListView);
 
         Intent intent = getIntent();
-
-        final int index = Integer.valueOf(intent.getStringExtra("INDEX"));
-
-        ListView listView = findViewById(R.id.inspectedDetailListView);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (detailList.size() > 0) {
-                    if (position == 9) { //quantity
-                        Intent clearIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW);
-                        clearIntent.putExtra("INDEX", String.valueOf(index));
-                        sendBroadcast(clearIntent);
-
-                        finish();
-                    }
-                }
-            }
-        });
         //setTitle(getResources().getString(R.string.entering_warehouse_dialog_head));
 
         //imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -79,11 +61,11 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
             actionBar.setTitle("");
         }
 
-
+        int index = Integer.valueOf(intent.getStringExtra("INDEX"));
         detailList.clear();
 
         // V
-        InspectedDetailItem item1 = new InspectedDetailItem();
+        /*InspectedDetailItem item1 = new InspectedDetailItem();
         item1.setHeader(getResources().getString(R.string.item_title_check_sp));
         item1.setContent(String.valueOf(swipe_list.get(index).isCheck_sp()));
         detailList.add(item1);
@@ -145,101 +127,15 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
 
 
         inspectedDetailItemAdapter = new InspectedDetailItemAdapter(EnteringWarehouseDetailActivity.this, R.layout.inspected_receive_list_detail_item, detailList);
-        listView.setAdapter(inspectedDetailItemAdapter);
-
-        final IntentFilter filter;
-
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                //Log.e(TAG, "intent.getAction() =>>>> "+intent.getAction().toString());
-
-                if (intent.getAction() != null) {
-
-                    if("unitech.scanservice.data".equals(intent.getAction())) {
-                        Log.d(TAG, "unitech.scanservice.data");
-                        Bundle bundle = intent.getExtras();
-                        if(bundle != null )
-                        {
-                            String text = bundle.getString("text");
-                            Log.e(TAG, "msg = "+text);
-
-                            if (text != null && text.length() > 0 ) {
-
-                                int counter = 0;
-                                for( int i=0; i<text.length(); i++ ) {
-                                    if( text.charAt(i) == '#' ) {
-                                        counter++;
-                                    }
-                                }
-
-                                Log.e(TAG, "counter = "+counter);
-
-                                if (counter >= 1) {
-
-                                    toast(getResources().getString(R.string.not_locate_no_msg));
+        listView.setAdapter(inspectedDetailItemAdapter);*/
 
 
-                                } else {
-                                    text = text.replaceAll("\\n","");
-                                    toast(text);
-
-                                    //if (text.length() == 6) {
-
-                                        if (item_select != -1) { //scan locate
-                                            if (dataTable != null && dataTable.Rows.size() > 0) {
-                                                dataTable.Rows.get(item_select).setValue("rvv33", text);
-                                                dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
-                                            }
-                                            swipe_list.get(item_select).setCol_rvv33(text);
-                                            swipe_list.get(item_select).setChecked(true);
-                                            //check_stock_in.set(item_select, true);
-
-                                            detailList.get(7).setContent(text);
-
-                                            if (inspectedDetailItemAdapter != null)
-                                                inspectedDetailItemAdapter.notifyDataSetChanged();
-                                        }
-                                    //}
-
-
-                                }
-
-                            }
-                        }
-                    }
-
-                }
-            }
-        };
-
-        if (!isRegister) {
-            filter = new IntentFilter();
-
-
-            filter.addAction("unitech.scanservice.data");
-
-            registerReceiver(mReceiver, filter);
-            isRegister = true;
-            Log.d(TAG, "registerReceiver mReceiver");
-        }
     }
 
     @Override
     protected void onDestroy() {
         Log.i(TAG, "onDestroy");
 
-        if (isRegister && mReceiver != null) {
-            try {
-                unregisterReceiver(mReceiver);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
-            isRegister = false;
-            mReceiver = null;
-            Log.d(TAG, "unregisterReceiver mReceiver");
-        }
 
         super.onDestroy();
     }

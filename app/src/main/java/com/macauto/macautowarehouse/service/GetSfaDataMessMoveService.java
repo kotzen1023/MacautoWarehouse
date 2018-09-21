@@ -132,8 +132,6 @@ public class GetSfaDataMessMoveService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
-
-                request.addProperty("made_no", made_no);
                 request.addProperty("HHH", writer.toString());
                 request.addProperty("user_no", user_no);
                 request.addProperty("made_no", made_no);

@@ -44,6 +44,7 @@ import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -971,30 +972,32 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         if (hhh.Rows.size() > 0) {
                             hhh.Rows.clear();
                         } else {
-                            hhh.Columns.Add("sfa03");
-                            hhh.Columns.Add("ima021");
-                            hhh.Columns.Add("img10");
-                            hhh.Columns.Add("moved_qty");
-                            hhh.Columns.Add("mess_qty");
-                            hhh.Columns.Add("sfa05");
-                            hhh.Columns.Add("sfa12");
-                            hhh.Columns.Add("sfa11_name");
-                            hhh.Columns.Add("tc_obf013");
-                            hhh.Columns.Add("inv_qty");
-                            hhh.Columns.Add("sfa06");
-                            hhh.Columns.Add("sfa063");
-                            hhh.Columns.Add("sfa161");
-                            hhh.Columns.Add("img02");
-                            hhh.Columns.Add("img03");
-                            hhh.Columns.Add("img04");
-                            hhh.Columns.Add("in_stock_no");
-                            hhh.Columns.Add("in_locate_no");
-                            hhh.Columns.Add("scan_sp");
-                            hhh.Columns.Add("sfa11");
-                            hhh.Columns.Add("sfa30");
+
+                            hhh = new DataTable();
                         }
+                        hhh.TableName = "HHHA";
 
-
+                        hhh.Columns.Add("sfa03");
+                        hhh.Columns.Add("ima021");
+                        hhh.Columns.Add("img10");
+                        hhh.Columns.Add("moved_qty");
+                        hhh.Columns.Add("mess_qty");
+                        hhh.Columns.Add("sfa05");
+                        hhh.Columns.Add("sfa12");
+                        hhh.Columns.Add("sfa11_name");
+                        hhh.Columns.Add("tc_obf013");
+                        hhh.Columns.Add("inv_qty");
+                        hhh.Columns.Add("sfa06");
+                        hhh.Columns.Add("sfa063");
+                        hhh.Columns.Add("sfa161");
+                        hhh.Columns.Add("img02");
+                        hhh.Columns.Add("img03");
+                        hhh.Columns.Add("img04");
+                        hhh.Columns.Add("in_stock_no");
+                        hhh.Columns.Add("in_locate_no");
+                        hhh.Columns.Add("scan_sp");
+                        hhh.Columns.Add("sfa11");
+                        hhh.Columns.Add("sfa30");
 
                         for (DataRow rx : sfaMessTable.Rows) {
                             if (x9115_sp.equals("NO")) {
@@ -1004,6 +1007,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                                     continue;
                                 }
                             }
+
+
 
                             DataRow newRow = hhh.NewRow();
 
@@ -1015,11 +1020,37 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             newRow.setValue("sfa05", rx.getValue("sfa05"));
                             newRow.setValue("sfa12", rx.getValue("sfa12"));
                             newRow.setValue("sfa11_name", rx.getValue("sfa11_name"));
-                            newRow.setValue("tc_obf013", rx.getValue("tc_obf013"));
-                            newRow.setValue("inv_qty", rx.getValue("inv_qty"));
-                            newRow.setValue("sfa06", rx.getValue("sfa06"));
-                            newRow.setValue("sfa063", rx.getValue("sfa063"));
-                            newRow.setValue("sfa161", rx.getValue("sfa161"));
+
+                            if (rx.getValue("tc_obf013").toString().contains(".")) {
+                                newRow.setValue("tc_obf013", Double.valueOf(rx.getValue("tc_obf013").toString()));
+                            } else {
+                                newRow.setValue("tc_obf013", Integer.valueOf(rx.getValue("tc_obf013").toString()));
+                            }
+
+                            if (rx.getValue("inv_qty").toString().contains(".")) {
+                                newRow.setValue("inv_qty", Double.valueOf(rx.getValue("inv_qty").toString()));
+                            } else {
+                                newRow.setValue("inv_qty", Integer.valueOf(rx.getValue("inv_qty").toString()));
+                            }
+
+                            if (rx.getValue("sfa06").toString().contains(".")) {
+                                newRow.setValue("sfa06", Double.valueOf(rx.getValue("sfa06").toString()));
+                            } else {
+                                newRow.setValue("sfa06", Integer.valueOf(rx.getValue("sfa06").toString()));
+                            }
+
+                            if (rx.getValue("sfa063").toString().contains(".")) {
+                                newRow.setValue("sfa063", Double.valueOf(rx.getValue("sfa063").toString()));
+                            } else {
+                                newRow.setValue("sfa063", Integer.valueOf(rx.getValue("sfa063").toString()));
+                            }
+
+                            if (rx.getValue("sfa161").toString().contains(".")) {
+                                newRow.setValue("sfa161", Double.valueOf(rx.getValue("sfa161").toString()));
+                            } else {
+                                newRow.setValue("sfa161", Integer.valueOf(rx.getValue("sfa161").toString()));
+                            }
+
                             newRow.setValue("img02", rx.getValue("img02"));
                             newRow.setValue("img03", rx.getValue("img03"));
                             newRow.setValue("img04", rx.getValue("img04"));
@@ -1032,7 +1063,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             hhh.Rows.add(newRow);
                         }
 
-                        hhh.TableName = "HHHA";
+
 
                         /*if (statusList.size() > 0) {
                             btnDelete.setEnabled(true);

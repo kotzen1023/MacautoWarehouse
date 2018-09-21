@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
+//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 //import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
 
@@ -173,6 +173,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                 sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
+                Log.e(TAG, envelope.bodyIn.toString());
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
                 //append_record(String.valueOf(resultsRequestSOAP)+"\n\n\n\n", "test");
@@ -184,6 +185,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
                 } else {
                     dataTable = new DataTable();
                 }
+
+                dataTable.TableName = "GOODS_IN";
 
                 dataTable = parseXmlToDataTable(s_deals);
 
@@ -205,7 +208,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                         for (int i=0; i < dataTable.Rows.size(); i++) {
                             //String header = String.valueOf(i+1)+"#"+dataTable.getValue(i, 3).toString();
                             //no_list.add(header);
-                            check_stock_in.add(false);
+                            //check_stock_in.add(false);
                             //detailList.put(header, new ArrayList<DetailItem>());
 
                             //add into stock check first

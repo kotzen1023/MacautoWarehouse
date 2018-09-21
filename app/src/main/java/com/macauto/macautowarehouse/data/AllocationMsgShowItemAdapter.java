@@ -13,15 +13,15 @@ import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
 
-public class InspectedDetailItemAdapter extends ArrayAdapter<InspectedDetailItem> {
+public class AllocationMsgShowItemAdapter extends ArrayAdapter<AllocationMsgShowItem> {
     private LayoutInflater inflater;
 
     private int layoutResourceId;
-    private ArrayList<InspectedDetailItem> items;
+    private ArrayList<AllocationMsgShowItem> items;
     //private Context context;
 
-    public InspectedDetailItemAdapter(Context context, int textViewResourceId,
-                                   ArrayList<InspectedDetailItem> objects) {
+    public AllocationMsgShowItemAdapter(Context context, int textViewResourceId,
+                                      ArrayList<AllocationMsgShowItem> objects) {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
@@ -37,7 +37,7 @@ public class InspectedDetailItemAdapter extends ArrayAdapter<InspectedDetailItem
 
     }
 
-    public InspectedDetailItem getItem(int position)
+    public AllocationMsgShowItem getItem(int position)
     {
         return items.get(position);
     }
@@ -69,10 +69,10 @@ public class InspectedDetailItemAdapter extends ArrayAdapter<InspectedDetailItem
         //holder.filename = (TextView) view.findViewById(R.id.fileChooseFileName);
         //holder.checkbox = (CheckBox) view.findViewById(R.id.checkBoxInRow);
 
-        InspectedDetailItem inspectedDetailItem = items.get(position);
-        if (inspectedDetailItem != null) {
-            holder.itemHeader.setText(inspectedDetailItem.getHeader());
-            holder.itemContent.setText(inspectedDetailItem.getContent());
+        AllocationMsgShowItem allocationMsgShowItem = items.get(position);
+        if (allocationMsgShowItem != null) {
+            holder.itemHeader.setText(allocationMsgShowItem.getHeader());
+            holder.itemContent.setText(allocationMsgShowItem.getContent());
 
 
             if (position == 7) {

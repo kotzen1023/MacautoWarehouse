@@ -17,7 +17,6 @@ import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class CheckTTProductEntryAlreadyConfirm extends IntentService {
