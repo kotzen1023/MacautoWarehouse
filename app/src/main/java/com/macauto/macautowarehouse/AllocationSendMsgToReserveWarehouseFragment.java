@@ -106,7 +106,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
     private Locale current;
     //private SwipeLayout swipeLayout;
     private static boolean allocate_with_emp = false;
-
+    public static int item_select = -1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,15 +146,23 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         statusListView = view.findViewById(R.id.statusListView);
 
 
-        /*statusListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        statusListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Log.e(TAG, "Click "+position);
 
+                item_select = position;
+
                 for (int i=0; i<statusList.size(); i++) {
                     if (position == i) {
-                        statusList.get(i).setSelected(true);
+
+                        if (statusList.get(i).isSelected()) {
+                            statusList.get(i).setSelected(false);
+                            item_select = -1;
+                        } else
+                            statusList.get(i).setSelected(true);
+
                     } else {
                         statusList.get(i).setSelected(false);
                     }
@@ -173,6 +181,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent detailIntent = new Intent(fragmentContext, AllocationSendMsgStatusDetailActivity.class);
+                detailIntent.putExtra("INDEX", String.valueOf(position));
                 detailIntent.putExtra("ITEM_SFA03", statusList.get(position).getItem_SFA03());
                 detailIntent.putExtra("ITEM_IMA021", statusList.get(position).getItem_IMA021());
                 detailIntent.putExtra("ITEM_IMG10", statusList.get(position).getItem_IMG10());
@@ -185,9 +194,11 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                 detailIntent.putExtra("ITEM_TC_OBF013", statusList.get(position).getItem_TC_OBF013());
                 fragmentContext.startActivity(detailIntent);
 
+
+
                 return true;
             }
-        });*/
+        });
 
 
         btnAllocTransfer = view.findViewById(R.id.btnAllocateTransfer);
@@ -1136,6 +1147,26 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         Log.d(TAG, "receive ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE");
                         if (allocationMsgStatusItemAdapter != null)
                             allocationMsgStatusItemAdapter.notifyDataSetChanged();
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_DELETE_ITEM_CONFIRM)){
+                        Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_DELETE_ITEM_CONFIRM");
+
+                        String index_string = intent.getStringExtra("INDEX");
+                        int index = Integer.valueOf(index_string);
+
+                        if (sfaMessTable != null && sfaMessTable.Rows.get(index) != null) {
+                            sfaMessTable.Rows.remove(index);
+                        }
+
+                        statusList.remove(index);
+
+                        item_select = -1;
+
+                        for (int i=0; i<statusList.size(); i++) {
+                            statusList.get(i).setSelected(false);
+                        }
+
+                        if (allocationMsgStatusItemAdapter != null)
+                            allocationMsgStatusItemAdapter.notifyDataSetChanged();
                     }
 
                 }
@@ -1174,6 +1205,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED);
 
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_DELETE_ITEM_CONFIRM);
 
             //filter.addAction("unitech.scanservice.data");
             fragmentContext.registerReceiver(mReceiver, filter);

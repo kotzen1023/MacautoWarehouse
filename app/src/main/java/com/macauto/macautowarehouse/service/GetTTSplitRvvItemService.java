@@ -94,7 +94,7 @@ public class GetTTSplitRvvItemService extends IntentService {
         Log.e(TAG, "item_no = "+item_no);
         Log.e(TAG, "part_no = "+part_no);
 
-        StringWriter writer;
+        String writer;
 
         if (dataTable_Batch_area != null) {
 
@@ -296,7 +296,7 @@ public class GetTTSplitRvvItemService extends IntentService {
                 request.addProperty("SID", "MAT");
                 request.addProperty("in_no", in_no);
                 request.addProperty("item_no", Integer.valueOf(item_no));
-                request.addProperty("split_data", writer.toString());
+                request.addProperty("split_data", writer);
                 request.addProperty("part_no", part_no);
                 request.addProperty("k_id", k_id);
 

@@ -1,5 +1,7 @@
 package com.macauto.macautowarehouse;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -13,6 +15,7 @@ import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
 import com.macauto.macautowarehouse.data.AllocationMsgDetailItemAdapter;
 import com.macauto.macautowarehouse.data.AllocationSendMsgDetailItem;
 import com.macauto.macautowarehouse.data.AllocationSendMsgDetailItemAdapter;
+import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.SearchDetailItem;
 import com.macauto.macautowarehouse.data.SearchDetailItemAdapter;
 
@@ -29,6 +32,7 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
 
     private AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter;
     //InputMethodManager imm;
+    private static int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,17 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.allocationSendMsgDetailListView);
 
         Intent intent = getIntent();
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_24dp);
+            actionBar.setTitle("");
+        }
+
+        index = Integer.valueOf(intent.getStringExtra("INDEX"));
+
+
         String item_SFA03 = intent.getStringExtra("ITEM_SFA03");
         String item_IMA021 = intent.getStringExtra("ITEM_IMA021");
         String item_IMG10 = intent.getStringExtra("ITEM_IMG10");
@@ -68,15 +83,6 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
         }
 
         aw1 = aw1 > aw4 ? aw4 : aw1;
-
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_chevron_left_white_24dp);
-            actionBar.setTitle("");
-        }
-
 
         detailList.clear();
 
@@ -151,7 +157,7 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
 
         Log.e(TAG, "onCreateOptionsMenu");
 
-        //getMenuInflater().inflate(R.menu.divided_activity_menu, menu);
+        getMenuInflater().inflate(R.menu.allocation_send_detail_menu, menu);
 
 
 
@@ -168,6 +174,32 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
 
 
         switch (item.getItemId()) {
+            case R.id.delete_this_item:
+                Log.e(TAG, "delete_this_item");
+
+                AlertDialog.Builder confirmdialog = new AlertDialog.Builder(this);
+                confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
+                confirmdialog.setTitle(getResources().getString(R.string.delete));
+                confirmdialog.setMessage(getResources().getString(R.string.delete_this_item));
+                confirmdialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent clearIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_DELETE_ITEM_CONFIRM);
+                        clearIntent.putExtra("INDEX", String.valueOf(index));
+                        sendBroadcast(clearIntent);
+
+                        finish();
+                    }
+                });
+                confirmdialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                    }
+                });
+                confirmdialog.show();
+
+                break;
             case android.R.id.home:
                 finish();
                 break;

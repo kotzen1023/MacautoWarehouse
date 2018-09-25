@@ -108,21 +108,15 @@ public class ExecuteScriptTTService extends IntentService {
         //StringWriter writer = new StringWriter();
         //XmlSerializer xmlSerializer = Xml.newSerializer();
 
-        StringWriter writer;
+        String writer;
 
         if (process_type == 0) {
 
             if (table_X_M != null) {
                 writer = parseDataTableToXml(table_X_M);
 
-                JSONObject jsonObj = null;
-                try {
-                    jsonObj = XML.toJSONObject(writer.toString());
-                } catch (JSONException e) {
-                    Log.e("JSON exception", e.getMessage());
-                    e.printStackTrace();
-
-                }
+                //XmlToJson xmlToJson = new XmlToJson.Builder(writer).build();
+                //Log.d(TAG, "xmlToJson = "+xmlToJson.toString());
 
                 //String temp = "NewDataSet=anyType{schema=anyType{element=anyType{complexType=anyType{choice=anyType{element=anyType{complexType=anyType{sequence=anyType{element=anyType{}; }; }; }; }; }; }; }; diffgram=anyType{DocumentElement=anyType{INCP=anyType{script=sh run_me 1 1 12701-1809140051; }; }; }; }\"";
 
@@ -135,8 +129,8 @@ public class ExecuteScriptTTService extends IntentService {
                     // 輸出值，帳號(account)、密碼(password)
 
                     request.addProperty("SID", "MAT");
-                    //request.addProperty("script_list", writer.toString());
-                    request.addProperty("script_list", writer.toString());
+                    request.addProperty("script_list", writer);
+                    //request.addProperty("script_list", xmlToJson.toString());
                     //request.addProperty("barcode_no", barcode_no);
                     //request.addProperty("k_id", "123456");
                     //request.addProperty("start_date", "");
@@ -230,7 +224,7 @@ public class ExecuteScriptTTService extends IntentService {
                     // 輸出值，帳號(account)、密碼(password)
 
                     request.addProperty("SID", "MAT");
-                    request.addProperty("script_list", writer.toString());
+                    request.addProperty("script_list", writer);
                     //request.addProperty("barcode_no", barcode_no);
                     //request.addProperty("k_id", "123456");
                     //request.addProperty("start_date", "");

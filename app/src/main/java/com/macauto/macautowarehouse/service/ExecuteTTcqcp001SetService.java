@@ -87,7 +87,7 @@ public class ExecuteTTcqcp001SetService extends IntentService {
             }
         }
 
-        StringWriter writer;
+        String writer;
 
         if (dataTable_YIC != null && dataTable_YIC.Rows.size() > 0) {
             writer = parseDataTableToXml(dataTable_YIC);
@@ -103,7 +103,7 @@ public class ExecuteTTcqcp001SetService extends IntentService {
                 request.addProperty("SID", "MAT");
 
                 //request.addProperty("rec_no", rec_no);
-                request.addProperty("exec_list", writer.toString());
+                request.addProperty("exec_list", writer);
                 request.addProperty("user_no", emp_no);
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");

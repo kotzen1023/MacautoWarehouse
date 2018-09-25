@@ -125,6 +125,8 @@ public class Constants {
         //swipe layout
         String ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE = "com.macauto.MacautoWarehoouse.AllocationSwipeLayoutUpdate";
         String ACTION_ALLOCATION_SWIPE_LAYOUT_DELETE_ROW = "com.macauto.MacautoWarehoouse.AllocationSwipeLayoutDeleteRow";
+        //delete
+        String ACTION_ALLOCATION_SEND_MSG_DELETE_ITEM_CONFIRM = "com.macauto.MacautoWarehoouse.AllocationSendMsgDeleteItemConfirm";
 
 
         //batch_no

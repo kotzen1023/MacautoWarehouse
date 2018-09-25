@@ -160,9 +160,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         swipe_list.get(i).setSelected(false);
 
                     }
-
-                    listView.invalidateViews();
                 }
+
+                listView.invalidateViews();
             }
         });
 

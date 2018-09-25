@@ -86,7 +86,7 @@ public class ExecuteTTPrgAService extends IntentService {
             }
         }
 
-        StringWriter writer;
+        String writer;
 
         if (dataTable_PG_M != null && dataTable_PG_M.Rows.size() > 0) {
             writer = parseDataTableToXml(dataTable_PG_M);
@@ -102,7 +102,7 @@ public class ExecuteTTPrgAService extends IntentService {
                 request.addProperty("SID", "MAT");
 
                 //request.addProperty("rec_no", rec_no);
-                request.addProperty("rec_no_list", writer.toString());
+                request.addProperty("rec_no_list", writer);
                 //request.addProperty("user_no", emp_no);
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");

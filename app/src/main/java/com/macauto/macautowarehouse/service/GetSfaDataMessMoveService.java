@@ -118,7 +118,7 @@ public class GetSfaDataMessMoveService extends IntentService {
         Log.e(TAG, "========================================================");
 
 
-        StringWriter writer;
+        String writer;
 
         if (hhh != null) {
             writer = parseDataTableToXml(hhh);
@@ -132,7 +132,7 @@ public class GetSfaDataMessMoveService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
-                request.addProperty("HHH", writer.toString());
+                request.addProperty("HHH", writer);
                 request.addProperty("user_no", user_no);
                 request.addProperty("made_no", made_no);
                 request.addProperty("request_time", request_time);

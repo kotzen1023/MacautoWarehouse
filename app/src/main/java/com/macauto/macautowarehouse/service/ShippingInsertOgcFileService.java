@@ -77,7 +77,7 @@ public class ShippingInsertOgcFileService extends IntentService {
 
         //Log.e(TAG, "rvu01 = "+rvu01);
 
-        StringWriter writer;
+        String writer;
 
         if (table_SCX != null) {
 
@@ -277,7 +277,7 @@ public class ShippingInsertOgcFileService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
-                request.addProperty("HAA", writer.toString());
+                request.addProperty("HAA", writer);
 
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");

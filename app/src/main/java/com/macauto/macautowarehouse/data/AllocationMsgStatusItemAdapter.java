@@ -67,7 +67,7 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
     public @NonNull
     View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
-        Log.e(TAG, "getView = "+ position);
+        //Log.e(TAG, "getView = "+ position);
         View view;
         final ViewHolder holder;
         if (convertView == null || convertView.getTag() == null) {
@@ -114,7 +114,7 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
             //holder.itemDate.setText(allocationMsgItem.getDate());
 
 
-            /*if (allocationMsgStatusItem.isSelected()) {
+            if (allocationMsgStatusItem.isSelected()) {
                 //Log.e(TAG, ""+position+" is selected.");
                 //view.setSelected(true);
                 view.setBackgroundColor(Color.rgb(0x4d, 0x90, 0xfe));
@@ -122,10 +122,10 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
                 //Log.e(TAG, ""+position+" clear.");
                 //view.setSelected(false);
                 view.setBackgroundColor(Color.TRANSPARENT);
-            }*/
+            }
 
 
-            holder.btnEdit.setOnClickListener(onEditListener(position, holder));
+            /*holder.btnEdit.setOnClickListener(onEditListener(position, holder));
             holder.btnDelete.setOnClickListener(onDeleteListener(position, holder));
 
 
@@ -177,9 +177,7 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
                     Log.i(TAG, "the BottomView totally show");
 
 
-                    /*Intent newNotifyIntent = new Intent();
-                    newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
-                    mContext.sendBroadcast(newNotifyIntent);*/
+
                 }
 
                 @Override
@@ -193,12 +191,12 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
                     //when user's hand released.
                     Log.i(TAG, "onHandRelease");
                 }
-            });
+            });*/
         }
         return view;
     }
 
-    private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
+    /*private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,40 +223,7 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
         detailIntent.putExtra("ITEM_TC_OBF013", items.get(position).getItem_TC_OBF013());
         mContext.startActivity(detailIntent);
 
-        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
 
-        alertDialogBuilder.setTitle("EDIT ELEMENT");
-        final EditText input = new EditText(mContext);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setText(items.get(position));
-        input.setLayoutParams(lp);
-        alertDialogBuilder.setView(input);
-
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // get user input and set it to result edit text
-                                friends.set(position, input.getText().toString().trim());
-
-                                //notify data set changed
-                                //activity.updateAdapter();
-                                holder.swipeLayout.close();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        // create alert dialog and show it
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();*/
     }
 
     private View.OnClickListener onDeleteListener(final int position, final ViewHolder holder) {
@@ -276,7 +241,7 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
 
             }
         };
-    }
+    }*/
 
     private class ViewHolder  {
         private TextView textViewIndex;
@@ -284,22 +249,22 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
         private TextView textViewCenter;
         private TextView textViewBottom;
 
-        private View btnDelete;
-        private View btnEdit;
+        //private View btnDelete;
+        //private View btnEdit;
 
-        private SwipeLayout swipeLayout;
-        private LinearLayout bottom_wrapper;
+        //private SwipeLayout swipeLayout;
+        //private LinearLayout bottom_wrapper;
 
         private ViewHolder(View view) {
             this.textViewIndex = view.findViewById(R.id.statusItemId);
             this.textViewTop = view.findViewById(R.id.statusItemtitle);
             this.textViewCenter = view.findViewById(R.id.statusItemDecrypt);
             this.textViewBottom = view.findViewById(R.id.statusItemCount);
-            this.swipeLayout = view.findViewById(R.id.swipe_layout);
-            this.bottom_wrapper = view.findViewById(R.id.bottom_wrapper);
+            //this.swipeLayout = view.findViewById(R.id.swipe_layout);
+            //this.bottom_wrapper = view.findViewById(R.id.bottom_wrapper);
 
-            this.btnDelete = view.findViewById(R.id.delete);
-            this.btnEdit = view.findViewById(R.id.edit_query);
+            //this.btnDelete = view.findViewById(R.id.delete);
+            //this.btnEdit = view.findViewById(R.id.edit_query);
 
             //set show mode.
             //swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);

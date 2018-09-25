@@ -113,7 +113,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
         Log.e(TAG, "rvu01 = "+rvu01);
 
-        StringWriter writer;
+        String writer;
 
         if (dataTable != null) {
 
@@ -124,19 +124,12 @@ public class ConfirmEnteringWarehouseService extends IntentService {
             //XmlToJson xmlToJson = new XmlToJson.Builder(writer.toString()).build();
 
 
-            JSONObject jsonObj = null;
-            try {
-                jsonObj = XML.toJSONObject(writer.toString());
-            } catch (JSONException e) {
-                Log.e("JSON exception", e.getMessage());
-                e.printStackTrace();
-
-            }
 
 
 
 
-            Log.d(TAG, "writer = "+writer.toString());
+
+            Log.d(TAG, "writer = "+writer);
             //Log.d(TAG, "xmlToJson = "+xmlToJson.toString());
 
 
@@ -153,7 +146,9 @@ public class ConfirmEnteringWarehouseService extends IntentService {
 
                 request.addProperty("SID", "MAT");
                 //request.addProperty("HAA", writer.toString());
-                request.addProperty("HAA", writer.toString());
+                //request.setInnerText("<HAA>"+writer+"</HAA>");
+                request.addProperty("HAA", writer);
+
 
 
                 //request.addProperty("start_date", "");
