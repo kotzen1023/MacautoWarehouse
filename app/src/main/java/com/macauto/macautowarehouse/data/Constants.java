@@ -109,7 +109,16 @@ public class Constants {
         String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightYes";
         String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_NO = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightNo";
         String ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_FAILED = "com.macauto.MacautoWarehoouse.AllocationCheckIsDeleteRightFailed";
-
+        String ACTION_ALLOCATION_GET_DEPT_NO_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetDeptNoAction";
+        String ACTION_ALLOCATION_GET_DEPT_NO_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetDeptNoSuccess";
+        String ACTION_ALLOCATION_GET_DEPT_NO_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetDeptNoFailed";
+        String ACTION_ALLOCATION_GET_NEW_DOC_NO_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetNewDocNoAction";
+        String ACTION_ALLOCATION_GET_NEW_DOC_NO_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetNewDocNoSuccess";
+        String ACTION_ALLOCATION_GET_NEW_DOC_NO_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetNewDocNoFailed";
+        String ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_ACTION = "com.macauto.MacautoWarehoouse.AllocationInsertTTImnFileNoTlfNoImgAction";
+        String ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES = "com.macauto.MacautoWarehoouse.AllocationInsertTTImnFileNoTlfNoImgYes";
+        String ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO = "com.macauto.MacautoWarehoouse.AllocationInsertTTImnFileNoTlfNoImgNo";
+        String ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED = "com.macauto.MacautoWarehoouse.AllocationInsertTTImnFileNoTlfNoImgFailed";
 
 
         String ACTION_GET_PART_NO_NEED_SCAN_STATUS_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetPartNoNeedScanStatusAction";
@@ -127,6 +136,7 @@ public class Constants {
         String ACTION_ALLOCATION_SWIPE_LAYOUT_DELETE_ROW = "com.macauto.MacautoWarehoouse.AllocationSwipeLayoutDeleteRow";
         //delete
         String ACTION_ALLOCATION_SEND_MSG_DELETE_ITEM_CONFIRM = "com.macauto.MacautoWarehoouse.AllocationSendMsgDeleteItemConfirm";
+        String ACTION_ALLOCATION_MSG_DETAIL_DELETE_ITEM_CONFIRM = "com.macauto.MacautoWarehoouse.AllocationMsgDetailDeleteItemConfirm";
 
 
         //batch_no

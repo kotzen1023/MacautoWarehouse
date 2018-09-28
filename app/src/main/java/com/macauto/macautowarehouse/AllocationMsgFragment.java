@@ -34,6 +34,7 @@ import com.macauto.macautowarehouse.service.CheckDeleteMessageRightsService;
 
 import com.macauto.macautowarehouse.service.DeleteMessageNoService;
 
+import com.macauto.macautowarehouse.service.GetMyMessDetailNewService;
 import com.macauto.macautowarehouse.service.GetMyMessListService;
 
 import com.macauto.macautowarehouse.table.DataTable;
@@ -62,7 +63,7 @@ public class AllocationMsgFragment extends Fragment {
 
     private AllocationMsgAdapter allocationMsgAdapter;
     private ListView msgListView;
-    //private Button btnDelete;
+    private Button btnDelete;
 
     /*private TextView x_scan_no;
     private TextView s_iss_date;
@@ -79,7 +80,7 @@ public class AllocationMsgFragment extends Fragment {
     private static int current_check_delete = -1;
     //private static boolean is_delete_right = false;
 
-
+    private static int item_select = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class AllocationMsgFragment extends Fragment {
         final  View view = inflater.inflate(R.layout.allocation_msg_fragment, container, false);
 
         layoutMsgShow = view.findViewById(R.id.layoutMsgShow);
+        btnDelete = view.findViewById(R.id.btnMsgDelete);
         //layoutScan = view.findViewById(R.id.layoutScan);
 
         //btnMsgList = view.findViewById(R.id.btnMsgList);
@@ -140,58 +142,35 @@ public class AllocationMsgFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "select "+position);
 
-                /*
+
 
                 //deselect other
                 for (int i=0; i<msg_list.size(); i++) {
 
                     if (i == position) {
 
-
-
-                        String[] p_no = msg_list.get(position).getWork_order().split("#");
-
-                        Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
-                        getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
-                        getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
-                        fragmentContext.startService(getMessDetailIntent);
-
-                        //msg_list.get(i).setSelected(true);
-
-                        //String[] p_no = msg_list.get(position).getWork_order().split("#");
-
-                        if (p_no.length > 1) {
-
-                            iss_no = p_no[0];
-
-                            Intent getDeleteRightIntent = new Intent(fragmentContext, CheckDeleteMessageRightsService.class);
-                            getDeleteRightIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_ACTION);
-                            getDeleteRightIntent.putExtra("ISS_NO", iss_no);
-                            getDeleteRightIntent.putExtra("USER_NO", emp_no);
-                            fragmentContext.startService(getDeleteRightIntent);
-
-                            if (p_no[2].length() > 0) {
-                                dateTime_0 = p_no[2].substring(0, 4);
-                                dateTime_1 = p_no[2].substring(4, 6);
-                                dateTime_2 = p_no[2].substring(6, 8);
-                                dateTime_3 = p_no[2].substring(9);
+                        if (msg_list.get(i).isSelected()) {
+                            msg_list.get(i).setSelected(false);
+                            item_select = -1;
+                            btnDelete.setEnabled(false);
+                        } else {
+                            msg_list.get(i).setSelected(true);
+                            item_select = position;
+                            //btnDelete.setEnabled(true);
+                            if (msg_list.get(i).isDelete()) {
+                                btnDelete.setEnabled(true);
+                            } else {
+                                btnDelete.setEnabled(false);
                             }
-
-                            Log.e(TAG, "dateTime_0 = " + dateTime_0 + ", dateTime_1 = " + dateTime_1 + ", dateTime_2 = " + dateTime_2 + ", dateTime_3 = " + dateTime_3);
                         }
 
-
-                        //Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
-                        //getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
-                        //getMessDetailIntent.putExtra("ISS_NO", p_no[0]);
-                        //fragmentContext.startService(getMessDetailIntent);
                     } else {
-                        //msg_list.get(i).setSelected(false);
+                        msg_list.get(i).setSelected(false);
 
                     }
                 }
 
-                msgListView.invalidateViews();*/
+                msgListView.invalidateViews();
             }
         });
 
@@ -199,41 +178,40 @@ public class AllocationMsgFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                /*String[] p_no = msg_list.get(position).getWork_order().split("#");
-
-                if (p_no.length > 0) {
-
-                    iss_no = p_no[0];
-
-
-
-                    if (p_no[2].length() > 0) {
-                        dateTime_0 = p_no[2].substring(0, 4);
-                        dateTime_1 = p_no[2].substring(4, 6);
-                        dateTime_2 = p_no[2].substring(6, 8);
-                        dateTime_3 = p_no[2].substring(9);
-                    }
-
-                    Log.e(TAG, "dateTime_0 = " + dateTime_0 + ", dateTime_1 = " + dateTime_1 + ", dateTime_2 = " + dateTime_2 + ", dateTime_3 = " + dateTime_3);
-                }
-
-                Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailService.class);
-                getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
-                getMessDetailIntent.putExtra("ISS_NO", iss_no);
-                fragmentContext.startService(getMessDetailIntent);
-
                 loadDialog = new ProgressDialog(fragmentContext);
                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loadDialog.setTitle(getResources().getString(R.string.Processing));
                 loadDialog.setIndeterminate(false);
                 loadDialog.setCancelable(false);
-                loadDialog.show();*/
+                loadDialog.show();
+
+                String[] p_no = msg_list.get(position).getWork_order().split("#");
+
+                String iss_no = p_no[0];
+
+                String dateTime_0="", dateTime_1="", dateTime_2="", dateTime_3="";
+
+                if (p_no[2].length() > 0) {
+                    dateTime_0 = p_no[2].substring(0, 4);
+                    dateTime_1 = p_no[2].substring(4, 6);
+                    dateTime_2 = p_no[2].substring(6, 8);
+                    dateTime_3 = p_no[2].substring(9);
+                }
+
+                Intent getMessDetailIntent = new Intent(fragmentContext, GetMyMessDetailNewService.class);
+                getMessDetailIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION);
+                getMessDetailIntent.putExtra("ISS_NO", iss_no);
+                getMessDetailIntent.putExtra("DATETIME_0", dateTime_0);
+                getMessDetailIntent.putExtra("DATETIME_1", dateTime_1);
+                getMessDetailIntent.putExtra("DATETIME_2", dateTime_2);
+                getMessDetailIntent.putExtra("DATETIME_3", dateTime_3);
+                fragmentContext.startService(getMessDetailIntent);
 
                 return true;
             }
         });
 
-        /*btnDelete.setOnClickListener(new View.OnClickListener() {
+        btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -254,6 +232,13 @@ public class AllocationMsgFragment extends Fragment {
                 confirmdialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
+                        loadDialog = new ProgressDialog(fragmentContext);
+                        loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        loadDialog.setTitle(getResources().getString(R.string.Processing));
+                        loadDialog.setIndeterminate(false);
+                        loadDialog.setCancelable(false);
+                        loadDialog.show();
+
                         Intent deleteIntent = new Intent(fragmentContext, DeleteMessageNoService.class);
                         deleteIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_ACTION);
                         deleteIntent.putExtra("MESSAGE_NO", iss_no);
@@ -272,7 +257,7 @@ public class AllocationMsgFragment extends Fragment {
                 });
                 confirmdialog.show();
             }
-        });*/
+        });
 
         msg_list.clear();
 
@@ -286,7 +271,7 @@ public class AllocationMsgFragment extends Fragment {
         //item1.setDate("20180808");
         msg_list.add(item2);*/
 
-        allocationMsgAdapter = new AllocationMsgAdapter(fragmentContext, R.layout.allocation_msg_list_swipe_item, msg_list);
+        allocationMsgAdapter = new AllocationMsgAdapter(fragmentContext, R.layout.allocation_msg_list_item, msg_list);
         msgListView.setAdapter(allocationMsgAdapter);
 
         //get my mess list
@@ -407,12 +392,17 @@ public class AllocationMsgFragment extends Fragment {
                         s_pre_get_datetime.setText(date_string);*/
 
                         Intent successIntent = new Intent(fragmentContext, AllocationMsgDetailActivity.class);
+                        successIntent.putExtra("ISS_NO", iss_no);
+                        successIntent.putExtra("INDEX", String.valueOf(item_select));
                         successIntent.putExtra("ISS_DATE", iss_date);
                         successIntent.putExtra("MADE_NO", made_no);
                         successIntent.putExtra("TAG_LOCATE_NO", tag_locate_no);
                         successIntent.putExtra("TAG_STOCK_NO", tag_stock_no);
                         successIntent.putExtra("IMA03", ima03);
                         successIntent.putExtra("PRE_GET_DATETIME", dateTime_0+"-"+dateTime_1+"-"+dateTime_2+"  "+dateTime_3);
+                        successIntent.putExtra("DATETIME_0", dateTime_0);
+                        successIntent.putExtra("DATETIME_1", dateTime_1);
+                        successIntent.putExtra("DATETIME_2", dateTime_2);
                         startActivity(successIntent);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES)) {
@@ -504,15 +494,25 @@ public class AllocationMsgFragment extends Fragment {
                     }else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS");
 
-                        String delete_index = intent.getStringExtra("DELETE_INDEX");
-                        int delete_index_int = Integer.valueOf(delete_index);
-
-
-                        msg_list.remove(delete_index_int);
-
-                        if (allocationMsgAdapter != null) {
+                        msg_list.clear();
+                        if (allocationMsgAdapter != null)
                             allocationMsgAdapter.notifyDataSetChanged();
-                        }
+
+
+                        Intent getMessIntent = new Intent(fragmentContext, GetMyMessListService.class);
+                        getMessIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_ACTION);
+                        getMessIntent.putExtra("USER_NO", emp_no);
+                        fragmentContext.startService(getMessIntent);
+
+                        //String delete_index = intent.getStringExtra("DELETE_INDEX");
+                        //int delete_index_int = Integer.valueOf(delete_index);
+
+
+                        //msg_list.remove(delete_index_int);
+
+                        //if (allocationMsgAdapter != null) {
+                        //    allocationMsgAdapter.notifyDataSetChanged();
+                        //}
 
 
                         /*msg_list.clear();
@@ -532,13 +532,17 @@ public class AllocationMsgFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED");
-
+                        loadDialog.dismiss();
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE");
                         if (allocationMsgAdapter != null)
                             allocationMsgAdapter.notifyDataSetChanged();
-                    } /*else if("unitech.scanservice.data" .equals(intent.getAction())) {
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_DELETE_ITEM_CONFIRM)){
+                        Log.d(TAG, "receive ACTION_PRODUCT_DELETE_ITEM_CONFIRM");
+                        if (allocationMsgAdapter != null)
+                            allocationMsgAdapter.notifyDataSetChanged();
+                    }/*else if("unitech.scanservice.data" .equals(intent.getAction())) {
                         Log.d(TAG, "unitech.scanservice.data");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
@@ -587,6 +591,7 @@ public class AllocationMsgFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED);
 
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
+            filter.addAction(Constants.ACTION.ACTION_PRODUCT_DELETE_ITEM_CONFIRM);
 
 
             //filter.addAction("unitech.scanservice.data");

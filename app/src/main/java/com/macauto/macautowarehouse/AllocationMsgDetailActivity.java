@@ -1,7 +1,9 @@
 package com.macauto.macautowarehouse;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,11 +30,18 @@ import com.macauto.macautowarehouse.data.DetailItem;
 import com.macauto.macautowarehouse.data.GenerateRandomString;
 import com.macauto.macautowarehouse.service.GetLotCodeVer2Service;
 import com.macauto.macautowarehouse.service.GetMyMessListService;
+import com.macauto.macautowarehouse.service.GetNewDocNoService;
 import com.macauto.macautowarehouse.service.GetPartNoNeedScanStatusService;
 import com.macauto.macautowarehouse.service.GetVarValueService;
+import com.macauto.macautowarehouse.service.InsertTTImnFileNoTlfNoImgService;
+import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
+import com.macauto.macautowarehouse.table.DataTable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
@@ -47,12 +57,25 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
+    private ListView detailListView;
+
     private TextView s_iss_date;
     private TextView sp_made_no;
     private TextView s_tag_stock_no;
     private TextView s_tag_locate_no;
     private TextView s_pre_get_datetime;
     private TextView s_ima03;
+    private String datetime_0;
+    private String datetime_1;
+    private String datetime_2;
+    private static String dept_no;
+    private static String made_no;
+    private static String isi;
+    private static String iss_no;
+    private static String new_no;
+    private static int y;
+
+    public static DataTable dataTable_SSS;
 
     private static String part_no;
     private static String batch_no;
@@ -61,6 +84,9 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
     public static ArrayList<AllocationMsgDetailItem> showList = new ArrayList<>();
 
     private static int current_detail_row = -1;
+    private static int current_index;
+
+    private static int item_select = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +94,8 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         setContentView(R.layout.allocation_msg_detail_activity);
 
         Intent intent = getIntent();
+
+        current_index = Integer.valueOf(intent.getStringExtra("INDEX"));
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -83,16 +111,47 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         s_pre_get_datetime = findViewById(R.id.s_pre_get_datetime);
         s_ima03 = findViewById(R.id.s_ima03);
 
-        ListView detailListView = findViewById(R.id.allocationDetailListView);
+        detailListView = findViewById(R.id.allocationDetailListView);
+
+        detailListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //deselect other
+                for (int i=0; i<showList.size(); i++) {
+
+                    if (i == position) {
+
+                        if (showList.get(i).isSelected()) {
+                            showList.get(i).setSelected(false);
+                            item_select = -1;
+                        } else {
+                            showList.get(i).setSelected(true);
+                            item_select = position;
+
+                        }
+
+                    } else {
+                        showList.get(i).setSelected(false);
+
+                    }
+                }
+
+                detailListView.invalidateViews();
+            }
+        });
 
         btnTransfer = findViewById(R.id.btnTransfer);
 
         String iss_date = intent.getStringExtra("ISS_DATE");
-        String made_no = intent.getStringExtra("MADE_NO");
+        made_no = intent.getStringExtra("MADE_NO");
         String tag_locate_no = intent.getStringExtra("TAG_LOCATE_NO");
         String tag_stock_no = intent.getStringExtra("TAG_STOCK_NO");
         String ima03 = intent.getStringExtra("IMA03");
         String pre_get_datetime = intent.getStringExtra("PRE_GET_DATETIME");
+        datetime_0 = intent.getStringExtra("dateTime_0");
+        datetime_1 = intent.getStringExtra("dateTime_1");
+        datetime_2 = intent.getStringExtra("dateTime_2");
+        iss_no = intent.getStringExtra("ISS_NO");
 
         s_iss_date.setText(iss_date);
         sp_made_no.setText(made_no);
@@ -168,7 +227,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         item7.setHeader(getResources().getString(R.string.allocation_detail_barcode));
         showList.add(item7);*/
 
-        allocationMsgDetailItemAdapter = new AllocationMsgDetailItemAdapter(this, R.layout.allocation_msg_detail_swipe_item, showList);
+        allocationMsgDetailItemAdapter = new AllocationMsgDetailItemAdapter(this, R.layout.allocation_msg_detail_item, showList);
         detailListView.setAdapter(allocationMsgDetailItemAdapter);
 
         IntentFilter filter;
@@ -242,6 +301,19 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                             allocationMsgDetailItemAdapter.notifyDataSetChanged();
                         }
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_MSG_DETAIL_DELETE_ITEM_CONFIRM)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_MSG_DETAIL_DELETE_ITEM_CONFIRM");
+
+                        String delete_row_string = intent.getStringExtra("DELETE_ROW");
+                        int delete_row = Integer.valueOf(delete_row_string);
+
+                        msgDataTable.Rows.remove(delete_row);
+                        showList.remove(delete_row);
+
+                        if (allocationMsgDetailItemAdapter != null) {
+                            allocationMsgDetailItemAdapter.notifyDataSetChanged();
+                        }
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_SUCCESS");
 
@@ -288,8 +360,253 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                             msgDataTable.Columns.Remove("scan_desc");
                         }
 
+                        //original code line 1897, get dept_no
+
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_FAILED)) {
                         Log.d(TAG, "receive ACTION_GET_PART_NO_NEED_SCAN_STATUS_FAILED");
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_SUCCESS)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_GET_DEPT_NO_SUCCESS");
+
+                        dept_no = intent.getStringExtra("DEPT_NO");
+                        //line 1900
+                        String plant = "MAT";
+                        String req_time = datetime_0 + "/" + datetime_1 + "/" + datetime_2 + ":00";
+
+                        y = 0;
+
+                        Date cDate = new Date();
+                        String fDate = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cDate);
+
+                        new_no = "";
+
+                        //generate new k_id
+                        //regenerate new session id
+                        GenerateRandomString rString = new GenerateRandomString();
+                        k_id = rString.randomString(32);
+                        Log.e(TAG, "session_id = "+k_id);
+                        /*
+
+                        isi = "insert into imm_file (imm01,imm02,imm03,imm04,imm09,imm10,immacti,immuser,immgrup,immmodu,immdate,immconf,
+                        imm14,immspc,immud06,immplant,immlegal,immoriu,immorig,imm15,imm16,immmksg,ta_imm_direct_to_cust,immud05,immud04,immud03) " +
+                        "VALUES('BBBBB',TO_DATE('" + DateTime.Now.ToString("yyyyMMdd") + "','YYYYMMDD'),'N','N','工單:" + sp_made_no.Text +
+                        ",補料:庫存->備料區','1','Y','" + user_id + "','" + dept_no + "','" + user_id + "',TO_DATE('" +
+                        DateTime.Now.ToString("yyyyMMdd") + "','YYYYMMDD'),'N','" +dept_no + "','0','" +
+                        sp_made_no.Text + "','" + plant + "','" + plant + "','" + user_id + "','" + dept_no + "','1','" +
+                        user_id + "','N','N','PAD','" + p_no[0] + "','" + req_time + "')";
+
+                         */
+
+                        isi = "insert into imm_file (imm01,imm02,imm03,imm04,imm09,imm10,immacti,immuser,immgrup,immmodu,immdate,"+
+                                "immconf,imm14,immspc,immud06,immplant,immlegal,immoriu,immorig,imm15,imm16,immmksg,"+"" +
+                                "ta_imm_direct_to_cust,immud05,immud04,immud03) " +
+                                "VALUES('BBBBB',TO_DATE('" + fDate + "','YYYYMMDD'),'N','N','工單:" +
+                                sp_made_no.getText().toString() + ",補料:庫存->備料區','1','Y','" + emp_no + "','" + dept_no + "','" +
+                                emp_no + "',TO_DATE('" + fDate + "','YYYYMMDD'),'N','" +
+                                dept_no + "','0','" + sp_made_no.getText().toString() + "','" + plant + "','" + plant + "','" +
+                                emp_no + "','" + dept_no + "','1','" + emp_no + "','N','N','PAD','" + iss_no + "','" + req_time + "')";
+
+                        y=y+1; //line 1906
+
+                        Intent getPartNoCheckIntent = new Intent(AllocationMsgDetailActivity.this, GetNewDocNoService.class);
+                        getPartNoCheckIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_NEW_DOC_NO_ACTION);
+                        getPartNoCheckIntent.putExtra("PUR_CSO_TYPE", "11402"); //for pad
+                        getPartNoCheckIntent.putExtra("SESSION_DATE", fDate);
+                        getPartNoCheckIntent.putExtra("INSERT_SQL", isi);
+                        getPartNoCheckIntent.putExtra("DOC_TYPE", "imm");
+                        startService(getPartNoCheckIntent);
+
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_FAILED)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_GET_DEPT_NO_FAILED");
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_NEW_DOC_NO_SUCCESS)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_GET_NEW_DOC_NO_SUCCESS");
+
+                        new_no = intent.getStringExtra("NEW_NO");
+
+                        String plant = "MAT";
+                        String req_time = datetime_0 + "/" + datetime_1 + "/" + datetime_2 + ":00";
+
+                        if (new_no.length() > 10) { //stop and go to line 1913
+
+                            if (dataTable_SSS != null) {
+                                dataTable_SSS.clear();
+                            } else {
+                                dataTable_SSS = new DataTable();
+                            }
+
+                            dataTable_SSS.TableName = "IMN";
+
+                            /*
+                            DataColumn xid = new DataColumn("id");
+                            DataColumn imn01 = new DataColumn("imn01");
+                            DataColumn imn02 = new DataColumn("imn02", Type.GetType("System.Int32"));
+                            DataColumn imn03 = new DataColumn("imn03");
+                            DataColumn imn04 = new DataColumn("imn04");
+                            DataColumn imn05 = new DataColumn("imn05");
+                            DataColumn imn06 = new DataColumn("imn06");
+                            DataColumn imn09 = new DataColumn("imn09");
+                            DataColumn imn10 = new DataColumn("imn10", Type.GetType("System.Decimal"));
+                            DataColumn imn15 = new DataColumn("imn15");
+                            DataColumn imn16 = new DataColumn("imn16");
+                            DataColumn imn17 = new DataColumn("imn17");
+                            DataColumn imn20 = new DataColumn("imn20");
+                            DataColumn imn21 = new DataColumn("imn21");
+                            DataColumn imn22 = new DataColumn("imn22", Type.GetType("System.Decimal"));
+                            DataColumn imn29 = new DataColumn("imn29");
+                            DataColumn imnplant = new DataColumn("imnplant");
+                            DataColumn imnlegal = new DataColumn("imnlegal");
+                            DataColumn imnud03 = new DataColumn("imnud03");*/
+                            DataColumn xid = new DataColumn("id");
+                            DataColumn imn01 = new DataColumn("imn01");
+                            DataColumn imn02 = new DataColumn("imn02"); //Type in32
+                            DataColumn imn03 = new DataColumn("imn03");
+                            DataColumn imn04 = new DataColumn("imn04");
+                            DataColumn imn05 = new DataColumn("imn05");
+                            DataColumn imn06 = new DataColumn("imn06");
+                            DataColumn imn09 = new DataColumn("imn09");
+                            DataColumn imn10 = new DataColumn("imn10"); //Type Decimal
+                            DataColumn imn15 = new DataColumn("imn15");
+                            DataColumn imn16 = new DataColumn("imn16");
+                            DataColumn imn17 = new DataColumn("imn17");
+                            DataColumn imn20 = new DataColumn("imn20");
+                            DataColumn imn21 = new DataColumn("imn21");
+                            DataColumn imn22 = new DataColumn("imn22"); //Type Decimal
+                            DataColumn imn29 = new DataColumn("imn29");
+                            DataColumn imnplant = new DataColumn("imnplant");
+                            DataColumn imnlegal = new DataColumn("imnlegal");
+                            DataColumn imnud03 = new DataColumn("imnud03");
+                            dataTable_SSS.Columns.Add(xid);
+                            dataTable_SSS.Columns.Add(imn01);
+                            dataTable_SSS.Columns.Add(imn02);
+                            dataTable_SSS.Columns.Add(imn03);
+                            dataTable_SSS.Columns.Add(imn04);
+                            dataTable_SSS.Columns.Add(imn05);
+                            dataTable_SSS.Columns.Add(imn06);
+                            dataTable_SSS.Columns.Add(imn09);
+                            dataTable_SSS.Columns.Add(imn10);
+                            dataTable_SSS.Columns.Add(imn15);
+                            dataTable_SSS.Columns.Add(imn16);
+                            dataTable_SSS.Columns.Add(imn17);
+                            dataTable_SSS.Columns.Add(imn20);
+                            dataTable_SSS.Columns.Add(imn21);
+                            dataTable_SSS.Columns.Add(imn22);
+                            dataTable_SSS.Columns.Add(imn29);
+                            dataTable_SSS.Columns.Add(imnplant);
+                            dataTable_SSS.Columns.Add(imnlegal);
+                            dataTable_SSS.Columns.Add(imnud03);
+
+                            int index = 0;
+                            //line 1942
+                            for (DataRow rs : msgDataTable.Rows) {
+                                double qty_double = Double.valueOf(rs.getValue("qty").toString());
+                                if ((int)qty_double == 0) {
+                                    continue;
+                                }
+                                index++;
+                                DataRow sk = dataTable_SSS.NewRow();
+                                sk.setValue("imn01", new_no);
+                                sk.setValue("imn02", String.valueOf(index));
+                                sk.setValue("imn03", rs.getValue("part_no"));
+                                sk.setValue("imn04", rs.getValue("src_stock_no"));
+                                sk.setValue("imn05", rs.getValue("src_locate_no"));
+                                sk.setValue("imn06", rs.getValue("src_batch_no"));
+                                sk.setValue("imn09", rs.getValue("sfa12"));
+                                sk.setValue("imn10", String.valueOf((int)qty_double));
+                                sk.setValue("imn15", s_tag_stock_no.getText().toString().trim().toUpperCase());
+                                sk.setValue("imn16", s_tag_locate_no.getText().toString().trim().toUpperCase());
+                                sk.setValue("imn17", rs.getValue("src_batch_no"));
+                                sk.setValue("imn20", rs.getValue("sfa12"));
+                                sk.setValue("imn21", "1.0");
+                                sk.setValue("imn22", String.valueOf((int)qty_double));
+                                sk.setValue("imn29", "N");
+                                sk.setValue("imnplant", plant);
+                                sk.setValue("imnlegal", plant);
+                                sk.setValue("imnud03", req_time);
+
+                                dataTable_SSS.Rows.add(sk);
+                            }
+
+                            //line 1977
+                            Intent insertIntent = new Intent(AllocationMsgDetailActivity.this, InsertTTImnFileNoTlfNoImgService.class);
+                            insertIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_ACTION);
+                            insertIntent.putExtra("PLANT_ID", plant);
+                            insertIntent.putExtra("NOTE", getResources().getString(R.string.allocation_detail_insert_tt_imn_string));
+                            insertIntent.putExtra("DEPT_NO", dept_no);
+                            insertIntent.putExtra("MADE_NO", made_no);
+                            startService(insertIntent);
+
+                        } else { //new_no length <= 10 && y < 30
+                            if (y<30) {
+                                y=y+1;
+
+                                Date cDate = new Date();
+                                String fDate = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cDate);
+
+                                Intent getPartNoCheckIntent = new Intent(AllocationMsgDetailActivity.this, GetNewDocNoService.class);
+                                getPartNoCheckIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_NEW_DOC_NO_ACTION);
+                                getPartNoCheckIntent.putExtra("PUR_CSO_TYPE", "11402"); //for pad
+                                getPartNoCheckIntent.putExtra("SESSION_DATE", fDate);
+                                getPartNoCheckIntent.putExtra("INSERT_SQL", isi);
+                                getPartNoCheckIntent.putExtra("DOC_TYPE", "imm");
+                                startService(getPartNoCheckIntent);
+
+                            } else { //y>=30
+                                toast(getResources().getString(R.string.allocation_detail_save_error_a1));
+                            }
+                        }
+
+
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_NEW_DOC_NO_FAILED)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_GET_NEW_DOC_NO_FAILED");
+
+                        if (y < 30) {
+                            y=y+1;
+
+                            Date cDate = new Date();
+                            String fDate = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(cDate);
+
+                            Intent getPartNoCheckIntent = new Intent(AllocationMsgDetailActivity.this, GetNewDocNoService.class);
+                            getPartNoCheckIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_NEW_DOC_NO_ACTION);
+                            getPartNoCheckIntent.putExtra("PUR_CSO_TYPE", "11402"); //for pad
+                            getPartNoCheckIntent.putExtra("SESSION_DATE", fDate);
+                            getPartNoCheckIntent.putExtra("INSERT_SQL", isi);
+                            getPartNoCheckIntent.putExtra("DOC_TYPE", "imm");
+                            startService(getPartNoCheckIntent);
+                        } else { //y>30
+                            toast(getResources().getString(R.string.allocation_detail_save_error_a1));
+                        }
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES");
+
+                        AlertDialog.Builder confirmdialog = new AlertDialog.Builder(AllocationMsgDetailActivity.this);
+                        confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
+                        confirmdialog.setTitle(getResources().getString(R.string.allocation_detail_generate_no, new_no));
+                        //confirmdialog.setMessage(getResources().getString(R.string.delete_this_item));
+                        confirmdialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        /*confirmdialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });*/
+                        confirmdialog.show();
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO");
+
+
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED");
 
                     } else if("unitech.scanservice.data" .equals(intent.getAction())) {
                         Log.d(TAG, "unitech.scanservice.data");
@@ -337,6 +654,9 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_DELETE_ROW);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_MSG_DETAIL_DELETE_ITEM_CONFIRM);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_FAILED);
             filter.addAction("unitech.scanservice.data");
             registerReceiver(mReceiver, filter);
             isRegister = true;
@@ -376,7 +696,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
         Log.e(TAG, "onCreateOptionsMenu");
 
-        //getMenuInflater().inflate(R.menu.divided_activity_menu, menu);
+        getMenuInflater().inflate(R.menu.allocation_receive_detail_menu, menu);
 
 
 
@@ -393,6 +713,36 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
 
         switch (item.getItemId()) {
+            case R.id.delete_this_item:
+                Log.e(TAG, "delete_this_item");
+
+                if (item_select != -1) {
+                    AlertDialog.Builder confirmdialog = new AlertDialog.Builder(this);
+                    confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
+                    confirmdialog.setTitle(getResources().getString(R.string.delete));
+                    confirmdialog.setMessage(getResources().getString(R.string.delete_this_item));
+                    confirmdialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent deleteIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_MSG_DETAIL_DELETE_ITEM_CONFIRM);
+                            deleteIntent.putExtra("DELETE_ROW", String.valueOf(item_select));
+                            sendBroadcast(deleteIntent);
+
+                            finish();
+                        }
+                    });
+                    confirmdialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                        }
+                    });
+                    confirmdialog.show();
+                }
+
+
+
+                break;
             case android.R.id.home:
                 finish();
                 break;
@@ -405,7 +755,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
     }
 
     public void toast(String message) {
-        Toast toast = Toast.makeText(AllocationMsgDetailActivity.this, message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(AllocationMsgDetailActivity.this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
     }

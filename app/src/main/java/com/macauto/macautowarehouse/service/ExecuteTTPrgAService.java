@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.ReceivingInspectionFragment.dataTable_PG_M;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -90,6 +91,7 @@ public class ExecuteTTPrgAService extends IntentService {
 
         if (dataTable_PG_M != null && dataTable_PG_M.Rows.size() > 0) {
             writer = parseDataTableToXml(dataTable_PG_M);
+            SoapObject mySoap = parseDataTableToSoapObject("rec_no_list", dataTable_PG_M);
 
             try {
                 // 建立一個 WebService 請求
@@ -101,8 +103,8 @@ public class ExecuteTTPrgAService extends IntentService {
 
                 request.addProperty("SID", "MAT");
 
-                //request.addProperty("rec_no", rec_no);
-                request.addProperty("rec_no_list", writer);
+                request.addSoapObject(mySoap);
+                //request.addProperty("rec_no_list", writer);
                 //request.addProperty("user_no", emp_no);
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");

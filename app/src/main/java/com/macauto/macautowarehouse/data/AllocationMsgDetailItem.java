@@ -9,6 +9,7 @@ public class AllocationMsgDetailItem {
     private String item_src_batch_no;
     private String item_sfa12;
     private String item_scan_desc;
+    private boolean selected;
 
 
     public String getItem_part_no() {
@@ -75,4 +76,11 @@ public class AllocationMsgDetailItem {
         this.item_scan_desc = item_scan_desc;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

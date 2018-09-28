@@ -354,7 +354,12 @@ public class MainActivity extends AppCompatActivity
                         }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGOUT_ACTION)) {
-                        Log.d(TAG, "receive ACTION_LOGIN_SUCCESS!");
+                        Log.d(TAG, "receive ACTION_LOGOUT_ACTION!");
+
+                        TextView empID = findViewById(R.id.empId);
+                        //TextView password = findViewById(R.id.empName);
+
+                        empID.setText("");
 
                         Fragment fragment = null;
                         Class fragmentClass;

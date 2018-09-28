@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MacautoWarehouse</string>
+    <string name="app_name">皇田倉管</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -181,6 +181,9 @@
     <string name="allocation_detail_scanned">已掃描</string>
     <string name="allocation_detail_scanned_not_found">無對應的料批, 請重新掃描!</string>
     <string name="allocation_detail_should_scan">料號 %s 應該要刷條碼, 但未刷, 無法扣帳!"</string>
+    <string name="allocation_detail_save_error_a1">存檔有問題 A1 , 請找資訊人員處理</string>
+    <string name="allocation_detail_generate_no">調撥單號 %s</string>
+    <string name="allocation_detail_insert_tt_imn_string">補料:庫存->備料區</string>
 
     <string name="look_up_in_stock_part_no">料件編號</string>
     <string name="look_up_in_stock_part_name">料件名稱</string>

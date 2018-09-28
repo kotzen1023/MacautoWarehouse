@@ -28,8 +28,8 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml2;
 
 public class ConfirmEnteringWarehouseService extends IntentService {
     public static final String TAG = "ConfirmEnteringService";
@@ -120,7 +120,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
             dataTable.TableName = "GOODS_IN";
 
             writer = parseDataTableToXml(dataTable);
-
+            SoapObject mySoap = parseDataTableToSoapObject("HAA", dataTable);
             //XmlToJson xmlToJson = new XmlToJson.Builder(writer.toString()).build();
 
 
@@ -145,9 +145,11 @@ public class ConfirmEnteringWarehouseService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
+
                 //request.addProperty("HAA", writer.toString());
                 //request.setInnerText("<HAA>"+writer+"</HAA>");
-                request.addProperty("HAA", writer);
+                request.addSoapObject(mySoap);
+                //request.addProperty("HAA", writer);
 
 
 

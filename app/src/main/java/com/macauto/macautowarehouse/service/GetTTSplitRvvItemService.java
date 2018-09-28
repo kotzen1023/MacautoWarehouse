@@ -19,6 +19,7 @@ import java.net.SocketTimeoutException;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -99,6 +100,7 @@ public class GetTTSplitRvvItemService extends IntentService {
         if (dataTable_Batch_area != null) {
 
             writer = parseDataTableToXml(dataTable_Batch_area);
+            SoapObject mySoap = parseDataTableToSoapObject("split_data", dataTable_Batch_area);
 
             /*XmlSerializer xmlSerializer = Xml.newSerializer();
 
@@ -296,7 +298,8 @@ public class GetTTSplitRvvItemService extends IntentService {
                 request.addProperty("SID", "MAT");
                 request.addProperty("in_no", in_no);
                 request.addProperty("item_no", Integer.valueOf(item_no));
-                request.addProperty("split_data", writer);
+                request.addSoapObject(mySoap);
+                //request.addProperty("split_data", writer);
                 request.addProperty("part_no", part_no);
                 request.addProperty("k_id", k_id);
 

@@ -99,7 +99,7 @@ public class ProductionStorageFragment extends Fragment {
 
         productList.clear();
 
-        ProductionStorageItem item1 = new ProductionStorageItem();
+        /*ProductionStorageItem item1 = new ProductionStorageItem();
         item1.setPart_no("test1");
         item1.setQty("qty1");
         item1.setStock_unit("unit1");
@@ -113,7 +113,7 @@ public class ProductionStorageFragment extends Fragment {
         item2.setStock_unit("unit2");
         item2.setLocate_no("Locate2");
         item2.setLocate_no_scan("scan2");
-        productList.add(item2);
+        productList.add(item2);*/
 
         productionStorageItemAdapter = new ProductionStorageItemAdapter(fragmentContext, R.layout.production_storage_fragment_swipe_item, productList);
         productListView.setAdapter(productionStorageItemAdapter);

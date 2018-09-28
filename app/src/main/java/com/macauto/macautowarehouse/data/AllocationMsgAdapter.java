@@ -89,7 +89,7 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
             //holder.itemDate.setText(allocationMsgItem.getDate());
 
 
-            /*if (allocationMsgItem.isSelected()) {
+            if (allocationMsgItem.isSelected()) {
                 //Log.e(TAG, ""+position+" is selected.");
                 //view.setSelected(true);
                 view.setBackgroundColor(Color.rgb(0x4d, 0x90, 0xfe));
@@ -97,9 +97,9 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
                 //Log.e(TAG, ""+position+" clear.");
                 //view.setSelected(false);
                 view.setBackgroundColor(Color.TRANSPARENT);
-            }*/
+            }
 
-            if (allocationMsgItem.isDelete()) {
+            /*if (allocationMsgItem.isDelete()) {
                 holder.btnDelete.setVisibility(View.VISIBLE);
                 holder.btnDelete.setEnabled(true);
             } else {
@@ -139,9 +139,7 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
                 @Override
                 public void onOpen(SwipeLayout layout) {
                     Log.i(TAG, "the BottomView totally show");
-                    /*Intent newNotifyIntent = new Intent();
-                    newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
-                    mContext.sendBroadcast(newNotifyIntent);*/
+
                 }
 
                 @Override
@@ -155,12 +153,12 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
                     //when user's hand released.
                     Log.i(TAG, "onHandRelease");
                 }
-            });
+            });*/
         }
         return view;
     }
 
-    private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
+    /*private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,20 +195,7 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
         getMessDetailIntent.putExtra("DATETIME_3", dateTime_3);
         mContext.startService(getMessDetailIntent);
 
-        /*holder.swipeLayout.close();
 
-        Intent detailIntent = new Intent(mContext, AllocationSendMsgStatusDetailActivity.class);
-        detailIntent.putExtra("ITEM_SFA03", items.get(position).getItem_SFA03());
-        detailIntent.putExtra("ITEM_IMA021", items.get(position).getItem_IMA021());
-        detailIntent.putExtra("ITEM_IMG10", items.get(position).getItem_IMG10());
-        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
-        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
-        detailIntent.putExtra("ITEM_MESS_QTY", items.get(position).getItem_MESS_QTY());
-        detailIntent.putExtra("ITEM_SFA05", items.get(position).getItem_SFA05());
-        detailIntent.putExtra("ITEM_SFA12", items.get(position).getItem_SFA12());
-        detailIntent.putExtra("ITEM_SFA11_NAME", items.get(position).getItem_SFA11_NAME());
-        detailIntent.putExtra("ITEM_TC_OBF013", items.get(position).getItem_TC_OBF013());
-        mContext.startActivity(detailIntent);*/
 
 
     }
@@ -252,59 +237,29 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
                 });
                 confirmdialog.show();
 
-                /*android.app.AlertDialog.Builder confirmdialog = new android.app.AlertDialog.Builder(mContext);
-                confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
-                confirmdialog.setTitle(mContext.getResources().getString(R.string.delete));
-                confirmdialog.setMessage(mContext.getResources().getString(R.string.delete_msg));
-                confirmdialog.setPositiveButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        items.remove(position);
-                        holder.swipeLayout.close();
-                        Intent newNotifyIntent = new Intent();
-                        newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
-                        mContext.sendBroadcast(newNotifyIntent);
-
-                    }
-                });
-                confirmdialog.setNegativeButton(mContext.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // btnScan.setVisibility(View.VISIBLE);
-                        // btnConfirm.setVisibility(View.GONE);
-
-                    }
-                });
-                confirmdialog.show();*/
-
-
-                //activity.updateAdapter();
-                /*items.remove(position);
-                holder.swipeLayout.close();
-                Intent newNotifyIntent = new Intent();
-                newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
-                mContext.sendBroadcast(newNotifyIntent);*/
 
 
             }
         };
-    }
+    }*/
 
     private class ViewHolder {
         private TextView itemTitle;
         //TextView itemDate;
-        private View btnDelete;
-        private View btnEdit;
+        //private View btnDelete;
+        //private View btnEdit;
 
-        private SwipeLayout swipeLayout;
-        private LinearLayout bottom_wrapper;
+        //private SwipeLayout swipeLayout;
+        //private LinearLayout bottom_wrapper;
 
         private ViewHolder(View view) {
             this.itemTitle = view.findViewById(R.id.itemTitle);
-            this.swipeLayout = view.findViewById(R.id.swipe_layout_msg_list);
-            this.bottom_wrapper = view.findViewById(R.id.bottom_wrapper_msg_list);
+            //this.swipeLayout = view.findViewById(R.id.swipe_layout_msg_list);
+            //this.bottom_wrapper = view.findViewById(R.id.bottom_wrapper_msg_list);
 
-            this.btnDelete = view.findViewById(R.id.delete_msg_list);
-            this.btnEdit = view.findViewById(R.id.edit_query_msg_list);
+            //this.btnDelete = view.findViewById(R.id.delete_msg_list);
+            //this.btnEdit = view.findViewById(R.id.edit_query_msg_list);
         }
     }
 }

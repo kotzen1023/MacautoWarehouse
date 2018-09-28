@@ -28,8 +28,9 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.product_table_X_M;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml2;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class ExecuteScriptTTService extends IntentService {
@@ -114,7 +115,7 @@ public class ExecuteScriptTTService extends IntentService {
 
             if (table_X_M != null) {
                 writer = parseDataTableToXml(table_X_M);
-
+                SoapObject mySoap = parseDataTableToSoapObject("script_list", table_X_M);
                 //XmlToJson xmlToJson = new XmlToJson.Builder(writer).build();
                 //Log.d(TAG, "xmlToJson = "+xmlToJson.toString());
 
@@ -129,7 +130,8 @@ public class ExecuteScriptTTService extends IntentService {
                     // 輸出值，帳號(account)、密碼(password)
 
                     request.addProperty("SID", "MAT");
-                    request.addProperty("script_list", writer);
+                    //request.addProperty("script_list", writer);
+                    request.addSoapObject(mySoap);
                     //request.addProperty("script_list", xmlToJson.toString());
                     //request.addProperty("barcode_no", barcode_no);
                     //request.addProperty("k_id", "123456");
@@ -214,7 +216,7 @@ public class ExecuteScriptTTService extends IntentService {
         } else if (process_type == 1) {
             if (product_table_X_M != null) {
                 writer = parseDataTableToXml(product_table_X_M);
-
+                SoapObject mySoap = parseDataTableToSoapObject("script_list", product_table_X_M);
                 try {
                     // 建立一個 WebService 請求
                     //Log.d(TAG, "==>1");
@@ -224,7 +226,8 @@ public class ExecuteScriptTTService extends IntentService {
                     // 輸出值，帳號(account)、密碼(password)
 
                     request.addProperty("SID", "MAT");
-                    request.addProperty("script_list", writer);
+                    //request.addProperty("script_list", writer);
+                    request.addSoapObject(mySoap);
                     //request.addProperty("barcode_no", barcode_no);
                     //request.addProperty("k_id", "123456");
                     //request.addProperty("start_date", "");

@@ -181,6 +181,9 @@
     <string name="allocation_detail_scanned">Scanned</string>
     <string name="allocation_detail_scanned_not_found">No matched batch No. Please re-scan!</string>
     <string name="allocation_detail_should_scan">Part No. %s should be scanned. But it did not!"</string>
+    <string name="allocation_detail_save_error_a1">Save error (A1) , Please contact IT.</string>
+    <string name="allocation_detail_generate_no">Allocation No. %s</string>
+    <string name="allocation_detail_insert_tt_imn_string">Replenish: Stock->Preparation area</string>
 
     <string name="look_up_in_stock_part_no">Part No.</string>
     <string name="look_up_in_stock_part_name">Part Name</string>

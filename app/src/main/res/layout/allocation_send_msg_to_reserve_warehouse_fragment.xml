@@ -116,12 +116,14 @@
                 android:layout_weight="1"
                 android:visibility="gone" />
 
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:id="@+id/rightArrow"
-                android:src="@drawable/baseline_keyboard_arrow_right_black_48"/>
+
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rightArrow"
+            android:src="@drawable/baseline_keyboard_arrow_right_black_48"/>
 
 
     </LinearLayout>

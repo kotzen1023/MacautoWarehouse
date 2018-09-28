@@ -2,6 +2,7 @@ package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,7 +83,17 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
             holder.textViewBottom.setText(items.get(position).getItem_src_stock_no()+" "+items.get(position).getItem_src_locate_no());
             holder.textViewScan.setText(items.get(position).getItem_scan_desc());
 
-            holder.btnEdit.setOnClickListener(onEditListener(position, holder));
+            if (allocationMsgDetailItem.isSelected()) {
+                //Log.e(TAG, ""+position+" is selected.");
+                //view.setSelected(true);
+                view.setBackgroundColor(Color.rgb(0x4d, 0x90, 0xfe));
+            } else {
+                //Log.e(TAG, ""+position+" clear.");
+                //view.setSelected(false);
+                view.setBackgroundColor(Color.TRANSPARENT);
+            }
+
+            /*holder.btnEdit.setOnClickListener(onEditListener(position, holder));
             holder.btnDelete.setOnClickListener(onDeleteListener(position, holder));
 
 
@@ -118,9 +129,7 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
                 @Override
                 public void onOpen(SwipeLayout layout) {
                     Log.i(TAG, "the BottomView totally show");
-                    /*Intent newNotifyIntent = new Intent();
-                    newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE);
-                    mContext.sendBroadcast(newNotifyIntent);*/
+
                 }
 
                 @Override
@@ -134,7 +143,7 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
                     //when user's hand released.
                     Log.i(TAG, "onHandRelease");
                 }
-            });
+            });*/
 
 
 
@@ -144,7 +153,7 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
         return view;
     }
 
-    private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
+    /*private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,55 +166,7 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
 
     private void showEditDialog(final int position, final ViewHolder holder) {
 
-        /*holder.swipeLayout.close();
 
-        Intent detailIntent = new Intent(mContext, AllocationSendMsgStatusDetailActivity.class);
-        detailIntent.putExtra("ITEM_SFA03", items.get(position).getItem_SFA03());
-        detailIntent.putExtra("ITEM_IMA021", items.get(position).getItem_IMA021());
-        detailIntent.putExtra("ITEM_IMG10", items.get(position).getItem_IMG10());
-        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
-        detailIntent.putExtra("ITEM_MOVED_QTY", items.get(position).getItem_MOVED_QTY());
-        detailIntent.putExtra("ITEM_MESS_QTY", items.get(position).getItem_MESS_QTY());
-        detailIntent.putExtra("ITEM_SFA05", items.get(position).getItem_SFA05());
-        detailIntent.putExtra("ITEM_SFA12", items.get(position).getItem_SFA12());
-        detailIntent.putExtra("ITEM_SFA11_NAME", items.get(position).getItem_SFA11_NAME());
-        detailIntent.putExtra("ITEM_TC_OBF013", items.get(position).getItem_TC_OBF013());
-        mContext.startActivity(detailIntent);*/
-
-        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-
-        alertDialogBuilder.setTitle("EDIT ELEMENT");
-        final EditText input = new EditText(mContext);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setText(items.get(position));
-        input.setLayoutParams(lp);
-        alertDialogBuilder.setView(input);
-
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // get user input and set it to result edit text
-                                friends.set(position, input.getText().toString().trim());
-
-                                //notify data set changed
-                                //activity.updateAdapter();
-                                holder.swipeLayout.close();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        // create alert dialog and show it
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();*/
     }
 
     private View.OnClickListener onDeleteListener(final int position, final ViewHolder holder) {
@@ -224,7 +185,7 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
 
             }
         };
-    }
+    }*/
 
     private class ViewHolder {
         private TextView textViewTop;
@@ -232,11 +193,11 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
         private TextView textViewBottom;
         private TextView textViewScan;
 
-        private View btnDelete;
-        private View btnEdit;
+        //private View btnDelete;
+        //private View btnEdit;
 
-        private SwipeLayout swipeLayout;
-        private LinearLayout bottom_wrapper;
+        //private SwipeLayout swipeLayout;
+        //private LinearLayout bottom_wrapper;
 
         //TextView itemHeader;
         //TextView itemContent;
@@ -249,11 +210,11 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
             this.textViewTop = view.findViewById(R.id.detailItemtitle);
             this.textViewCenter = view.findViewById(R.id.detailItemDecrypt);
             this.textViewBottom = view.findViewById(R.id.detailItemCount);
-            this.swipeLayout = view.findViewById(R.id.swipe_layout_detail);
-            this.bottom_wrapper = view.findViewById(R.id.bottom_wrapper_detail);
+            //this.swipeLayout = view.findViewById(R.id.swipe_layout_detail);
+            //this.bottom_wrapper = view.findViewById(R.id.bottom_wrapper_detail);
 
-            this.btnDelete = view.findViewById(R.id.delete_detail);
-            this.btnEdit = view.findViewById(R.id.edit_query_detail);
+            //this.btnDelete = view.findViewById(R.id.delete_detail);
+            //this.btnEdit = view.findViewById(R.id.edit_query_detail);
         }
     }
 }

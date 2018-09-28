@@ -135,260 +135,6 @@ public class WebServiceParse {
         return dataTable;
     }
 
-    public static StringWriter parseDataTableToXml2(DataTable dataTable) {
-        Log.e(TAG, "=== parseDataTableToXml start === ");
-
-        StringWriter writer = new StringWriter();
-
-        XmlSerializer xmlSerializer = Xml.newSerializer();
-
-
-
-        try {
-            /*
-            xmlSerializer.setOutput(writer);
-
-            xmlSerializer.startDocument("UTF-8", true);
-
-            xmlSerializer.startTag("", "printx");
-            //declare
-            //xs:schema
-            xmlSerializer.startTag("", "xs:schema");
-            xmlSerializer.attribute("", "id", "printx");
-            xmlSerializer.attribute("", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
-            xmlSerializer.attribute("", "xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
-            //xs:element
-            xmlSerializer.startTag("", "xs:element");
-            xmlSerializer.attribute("", "name", "printx");
-            xmlSerializer.attribute("", "msdata:IsDataSet", "true");
-            xmlSerializer.attribute("", "msdata:UseCurrentLocale", "true");
-            //xs:complexType
-            xmlSerializer.startTag("", "xs:complexType");
-            //xs:choice
-            xmlSerializer.startTag("", "xs:choice");
-            xmlSerializer.attribute("", "minOccurs", "0");
-            xmlSerializer.attribute("", "maxOccurs", "unbounded");
-            //xs:element
-            xmlSerializer.startTag("", "xs:element");
-            if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
-                xmlSerializer.attribute("", "name", dataTable.TableName);
-            } else {
-                xmlSerializer.attribute("", "name", "Table");
-            }
-
-            //xs:complexType
-            xmlSerializer.startTag("", "xs:complexType");
-            //xs:sequence
-            xmlSerializer.startTag("", "xs:sequence");
-            //xs:element
-
-            for (int i=0; i<dataTable.Columns.size(); i++) {
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", dataTable.Columns.get(i).ColumnName);
-
-                if (dataTable.getValue(0, i) != null) {
-                    if (dataTable.getValue(0, i).toString().equals("true") || dataTable.getValue(0, i).toString().equals("false")) {
-                        xmlSerializer.attribute("", "type", "xs:boolean");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("tc_obf013")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("inv_qty")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa06")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa063")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa161")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvb33")) { //數量
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvv02")) { //項次
-                        xmlSerializer.attribute("", "type", "xs:integer");
-                    }
-                    else {
-                        xmlSerializer.attribute("", "type", "xs:string");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    }
-                } else {
-                    xmlSerializer.attribute("", "type", "xs:string");
-                    xmlSerializer.attribute("", "minOccurs", "0");
-                }
-
-
-
-                xmlSerializer.endTag("", "xs:element");
-            }
-
-            xmlSerializer.endTag("", "xs:sequence");
-            xmlSerializer.endTag("", "xs:complexType");
-            xmlSerializer.endTag("", "xs:element");
-            xmlSerializer.endTag("", "xs:choice");
-            xmlSerializer.endTag("", "xs:complexType");
-            xmlSerializer.endTag("", "xs:element");
-            xmlSerializer.endTag("", "xs:schema");
-            //end tag <schema>
-            //table start
-            for (int i = 0; i < dataTable.Rows.size(); i++) {
-                xmlSerializer.startTag("", "Table");
-                for (int j = 0; j < dataTable.Columns.size(); j++) {
-
-                    xmlSerializer.startTag("", dataTable.Columns.get(j).ColumnName);
-                    if (dataTable.getValue(i, j) != null) {
-                        xmlSerializer.text(dataTable.getValue(i,j).toString());
-                    } else {
-                        xmlSerializer.text("null");
-                    }
-
-                    xmlSerializer.endTag("", dataTable.Columns.get(j).ColumnName);
-
-                }
-                //System.out.print("\n");
-                xmlSerializer.endTag("", "Table");
-            }
-            //table end
-            xmlSerializer.endTag("", "printx");
-            xmlSerializer.endDocument();*/
-
-            xmlSerializer.setOutput(writer);
-
-            xmlSerializer.startDocument("UTF-8", true);
-
-            xmlSerializer.startTag("", "NewDataSet");
-            //declare
-            //xs:schema
-            xmlSerializer.startTag("", "xs:schema");
-            xmlSerializer.attribute("", "id", "NewDataSet");
-            xmlSerializer.attribute("", "xmlns", "");
-            xmlSerializer.attribute("", "xmlns:xs", "http://www.w3.org/2001/XMLSchema");
-            xmlSerializer.attribute("", "xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
-            //xs:element
-            xmlSerializer.startTag("", "xs:element");
-            xmlSerializer.attribute("", "name", "NewDataSet");
-            xmlSerializer.attribute("", "msdata:IsDataSet", "true");
-
-            if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
-                xmlSerializer.attribute("", "msdata:MainDataTable", dataTable.TableName);
-            } else {
-                xmlSerializer.attribute("", "msdata:MainDataTable", "MainTable");
-            }
-
-            xmlSerializer.attribute("", "msdata:UseCurrentLocale", "true");
-            //xs:complexType
-            xmlSerializer.startTag("", "xs:complexType");
-            //xs:choice
-            xmlSerializer.startTag("", "xs:choice");
-            xmlSerializer.attribute("", "minOccurs", "0");
-            xmlSerializer.attribute("", "maxOccurs", "unbounded");
-            //xs:element
-            xmlSerializer.startTag("", "xs:element");
-            if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
-                xmlSerializer.attribute("", "name", dataTable.TableName);
-            } else {
-                xmlSerializer.attribute("", "name", "MainTable");
-            }
-
-            //xs:complexType
-            xmlSerializer.startTag("", "xs:complexType");
-            //xs:sequence
-            xmlSerializer.startTag("", "xs:sequence");
-            //xs:element
-
-            for (int i=0; i<dataTable.Columns.size(); i++) {
-                xmlSerializer.startTag("", "xs:element");
-                xmlSerializer.attribute("", "name", dataTable.Columns.get(i).ColumnName);
-
-                if (dataTable.getValue(0, i) != null) {
-                    if (dataTable.getValue(0, i).toString().equals("true") || dataTable.getValue(0, i).toString().equals("false")) {
-                        xmlSerializer.attribute("", "type", "xs:boolean");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("tc_obf013")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("inv_qty")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa06")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa063")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("sfa161")) {
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvb33")) { //數量
-                        xmlSerializer.attribute("", "type", "xs:decimal");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    } else if (dataTable.Columns.get(i).ColumnName.equals("rvv02")) { //項次
-                        xmlSerializer.attribute("", "type", "xs:int");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    }
-                    else {
-                        xmlSerializer.attribute("", "type", "xs:string");
-                        xmlSerializer.attribute("", "minOccurs", "0");
-                    }
-                } else {
-                    xmlSerializer.attribute("", "type", "xs:string");
-                    xmlSerializer.attribute("", "minOccurs", "0");
-                }
-
-
-
-                xmlSerializer.endTag("", "xs:element");
-            }
-
-            xmlSerializer.endTag("", "xs:sequence");
-            xmlSerializer.endTag("", "xs:complexType");
-            xmlSerializer.endTag("", "xs:element");
-            xmlSerializer.endTag("", "xs:choice");
-            xmlSerializer.endTag("", "xs:complexType");
-            xmlSerializer.endTag("", "xs:element");
-            xmlSerializer.endTag("", "xs:schema");
-            //end tag <schema>
-            //table start
-            for (int i = 0; i < dataTable.Rows.size(); i++) {
-
-                if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
-                    xmlSerializer.startTag("", dataTable.TableName);
-                } else {
-                    xmlSerializer.startTag("", "MainTable");
-                }
-
-
-                for (int j = 0; j < dataTable.Columns.size(); j++) {
-
-                    xmlSerializer.startTag("", dataTable.Columns.get(j).ColumnName);
-                    if (dataTable.getValue(i, j) != null) {
-                        xmlSerializer.text(dataTable.getValue(i,j).toString());
-                    } else {
-                        xmlSerializer.text("null");
-                    }
-
-                    xmlSerializer.endTag("", dataTable.Columns.get(j).ColumnName);
-
-                }
-                //System.out.print("\n");
-
-                if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
-                    xmlSerializer.endTag("", dataTable.TableName);
-                } else {
-                    xmlSerializer.endTag("", "MainTable");
-                }
-
-
-            }
-            //table end
-            xmlSerializer.endTag("", "NewDataSet");
-            xmlSerializer.endDocument();
-
-            Log.e(TAG, "xml = "+writer.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Log.e(TAG, "=== parseDataTableToXml end === ");
-
-        return writer;
-    }
-
     public static String parseDataTableToXml(DataTable dataTable) {
         Log.e(TAG, "=== parseDataTableToXml start === ");
 
@@ -674,6 +420,148 @@ public class WebServiceParse {
         Log.e(TAG, "=== parseDataTableToXml end === ");
 
         return remove_start_xml_tag;
+    }
+
+    public static SoapObject parseDataTableToSoapObject(String tagName, DataTable dataTable) {
+        SoapObject xmlxml = new SoapObject("", tagName);
+
+
+        //start schema
+        SoapObject schema = new SoapObject("", "xs:schema");
+
+        schema.addAttribute("id", "NewDataSet");
+        schema.addAttribute("xmlns", "");
+        schema.addAttribute("xmlns:xs", "http://www.w3.org/2001/XMLSchema");
+        schema.addAttribute("xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
+        //element
+        SoapObject element = new SoapObject("", "xs:element");
+        element.addAttribute("name", "NewDataSet");
+        element.addAttribute("msdata:IsDataSet", "true");
+        if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+            element.addAttribute("msdata:MainDataTable", dataTable.TableName);
+        } else {
+            element.addAttribute("msdata:MainDataTable", "MainTable");
+        }
+        element.addAttribute("msdata:UseCurrentLocale", "true");
+        //complexType
+        SoapObject complexType = new SoapObject("", "xs:complexType");
+        //choice
+        SoapObject choice = new SoapObject("", "xs:choice");
+        choice.addAttribute("minOccurs", "0");
+        choice.addAttribute("maxOccurs", "unbounded");
+        //element
+        SoapObject element2 = new SoapObject("", "xs:element");
+        if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+            element2.addAttribute("name", dataTable.TableName);
+        } else {
+            element2.addAttribute("name", "MainTable");
+        }
+        //complexType
+        SoapObject complexType2 = new SoapObject("", "xs:complexType");
+        //sequence
+        SoapObject sequence = new SoapObject("", "xs:sequence");
+        //element
+
+        for (int i=0; i<dataTable.Columns.size(); i++) {
+
+            SoapObject element_define = new SoapObject("", "xs:element");
+            element_define.addAttribute("name", dataTable.Columns.get(i).ColumnName);
+
+
+            if (dataTable.getValue(0, i) != null) {
+                if (dataTable.getValue(0, i).toString().equals("true") || dataTable.getValue(0, i).toString().equals("false")) {
+                    element_define.addAttribute("type", "xs:boolean");
+                } else if (dataTable.Columns.get(i).ColumnName.equals("tc_obf013")) {
+                    element_define.addAttribute("type", "xs:decimal");
+                    element_define.addAttribute("minOccurs", "0");
+                } else if (dataTable.Columns.get(i).ColumnName.equals("inv_qty")) {
+                    element_define.addAttribute("type", "xs:decimal");
+                    element_define.addAttribute("minOccurs", "0");
+                } else if (dataTable.Columns.get(i).ColumnName.equals("sfa06")) {
+                    element_define.addAttribute("type", "xs:decimal");
+                    element_define.addAttribute("minOccurs", "0");
+                } else if (dataTable.Columns.get(i).ColumnName.equals("sfa063")) {
+                    element_define.addAttribute("type", "xs:decimal");
+                    element_define.addAttribute("minOccurs", "0");
+                } else if (dataTable.Columns.get(i).ColumnName.equals("sfa161")) {
+                    element_define.addAttribute("type", "xs:decimal");
+                    element_define.addAttribute("minOccurs", "0");
+                } else if (dataTable.Columns.get(i).ColumnName.equals("rvb33")) { //數量
+                    element_define.addAttribute("type", "xs:decimal");
+                    element_define.addAttribute("minOccurs", "0");
+                } else if (dataTable.Columns.get(i).ColumnName.equals("rvv02")) { //項次
+                    element_define.addAttribute("type", "xs:int");
+                    element_define.addAttribute("minOccurs", "0");
+                }
+                else {
+                    element_define.addAttribute("type", "xs:string");
+                    element_define.addAttribute("minOccurs", "0");
+                }
+            } else {
+                element_define.addAttribute("type", "xs:string");
+                element_define.addAttribute("minOccurs", "0");
+            }
+
+            sequence.addSoapObject(element_define);
+        }
+
+
+
+
+        complexType2.addSoapObject(sequence);
+        element2.addSoapObject(complexType2);
+        choice.addSoapObject(element2);
+        complexType.addSoapObject(choice);
+        element.addSoapObject(complexType);
+        schema.addSoapObject(element);
+        //end schema
+        xmlxml.addSoapObject(schema);
+
+
+        SoapObject diffgram = new SoapObject("", "diffgr:diffgram");
+        diffgram.addAttribute("xmlns:msdata", "urn:schemas-microsoft-com:xml-msdata");
+        diffgram.addAttribute("xmlns:diffgr", "urn:schemas-microsoft-com:xml-diffgram-v1");
+        //DocumentElement
+        SoapObject document = new SoapObject("", "DocumentElement");
+        document.addAttribute("xmlns", "");
+        //start table
+        for (int i = 0; i < dataTable.Rows.size(); i++) {
+
+            SoapObject table;
+            if (dataTable.TableName != null && !dataTable.TableName.equals("")) {
+                table = new SoapObject("", dataTable.TableName);
+                table.addAttribute("diffgr:id", dataTable.TableName+String.valueOf(i+1));
+            } else {
+                table = new SoapObject("", "MainTable");
+                table.addAttribute("diffgr:id", "MainTable"+String.valueOf(i+1));
+            }
+            table.addAttribute("msdata:rowOrder", String.valueOf(i));
+            table.addAttribute("diffgr:hasChanges", "inserted");
+
+
+
+            for (int j = 0; j < dataTable.Columns.size(); j++) {
+
+                if (dataTable.getValue(i,j) != null) {
+                    table.addProperty(dataTable.Columns.get(j).ColumnName, dataTable.getValue(i,j).toString());
+                } else {
+                    table.addProperty(dataTable.Columns.get(j).ColumnName, "");
+                }
+
+
+            }
+
+            document.addSoapObject(table);
+        }
+
+
+        //end table
+        diffgram.addSoapObject(document);
+        xmlxml.addSoapObject(diffgram);
+
+
+
+        return xmlxml;
     }
 
     public static boolean parseToBoolean(SoapObject soapObject) {

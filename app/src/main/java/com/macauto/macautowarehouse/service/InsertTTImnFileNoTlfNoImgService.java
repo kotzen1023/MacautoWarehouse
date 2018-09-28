@@ -4,9 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-
 import com.macauto.macautowarehouse.data.Constants;
-
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -14,19 +12,15 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.hhh;
-
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
+import static com.macauto.macautowarehouse.AllocationMsgDetailActivity.dataTable_SSS;
+import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
-
-public class GetSfaDataMessMoveService extends IntentService {
-    public static final String TAG = "GetSfaDataMessMove";
+public class InsertTTImnFileNoTlfNoImgService extends IntentService {
+    public static final String TAG = "InsertTTImnFile";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -34,14 +28,16 @@ public class GetSfaDataMessMoveService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "get_sfa_data_mess_move"; // 方法名稱
+    private static final String METHOD_NAME = "Check_stock_no_exist"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/get_sfa_data_mess_move"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/Check_stock_no_exist"; // SOAP_ACTION
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    public GetSfaDataMessMoveService() {
-        super("GetSfaDataMessMoveService");
+    private boolean rpc = false;
+
+    public InsertTTImnFileNoTlfNoImgService() {
+        super("InsertTTImnFileNoTlfNoImgService");
     }
 
     @Override
@@ -73,31 +69,18 @@ public class GetSfaDataMessMoveService extends IntentService {
 
         //String device_id;
 
-        if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_ACTION)) {
-                Log.i(TAG, "ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_ACTION");
-            }
-        }
-
-        String user_no = intent.getStringExtra("USER_NO");
+        String plant_id = intent.getStringExtra("PLANT_ID");
+        String note = intent.getStringExtra("NOTE");
+        String dept_no = intent.getStringExtra("DEPT_NO");
         String made_no = intent.getStringExtra("MADE_NO");
-        String request_time = intent.getStringExtra("REQUEST_TIME");
-        //String stock_no = intent.getStringExtra("STOCK_NO");
-        //String locate_no = intent.getStringExtra("LOCATE_NO");
-        //String stock_no = intent.getStringExtra("STOCK_NO");
-        //String locate_no = intent.getStringExtra("LOCATE_NO");
-        //String batch_no = intent.getStringExtra("BATCH_NO");
-        //String ima02 = intent.getStringExtra("NAME");
+        //String user_id = intent.getStringExtra("USER_ID");
         //String ima021 = intent.getStringExtra("SPEC");
         //String query_all = intent.getStringExtra("QUERY_ALL");
 
-        Log.e(TAG, "user_no = "+user_no);
+        Log.e(TAG, "plant_id = "+plant_id);
+        Log.e(TAG, "note = "+note);
+        Log.e(TAG, "dept_no = "+dept_no);
         Log.e(TAG, "made_no = "+made_no);
-        Log.e(TAG, "request_time = "+request_time);
-        //Log.e(TAG, "locate_no = "+locate_no);
-        //Log.e(TAG, "batch_no = "+batch_no);
-        //Log.e(TAG, "ima02 = "+ima02);
-        //Log.e(TAG, "ima021 = "+ima021);
 
         //device_id = intent.getStringExtra("DEVICE_ID");
         //String service_ip = intent.getStringExtra(SERVICE_IP);
@@ -105,29 +88,17 @@ public class GetSfaDataMessMoveService extends IntentService {
 
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
-
-        Log.e(TAG, "========================================================");
-
-
-
-        for (int i=0; i<hhh.Rows.size(); i++) {
-
-            for (int j=0; j<hhh.Columns.size(); j++) {
-                System.out.print(hhh.Rows.get(i).getValue(j));
-                if (j < hhh.Columns.size() - 1) {
-                    System.out.print(", ");
-                }
+        if (intent.getAction() != null) {
+            if (intent.getAction().equals(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_ACTION)) {
+                Log.i(TAG, "ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_ACTION");
             }
-            System.out.print("\n");
         }
-        Log.e(TAG, "========================================================");
 
 
-        //String writer;
+        if (dataTable_SSS != null) {
 
-        if (hhh != null) {
-            //writer = parseDataTableToXml(hhh);
-            SoapObject mySoap = parseDataTableToSoapObject("HHH", hhh);
+            SoapObject mySoap = parseDataTableToSoapObject("tb", dataTable_SSS);
+
 
             try {
                 // 建立一個 WebService 請求
@@ -138,11 +109,13 @@ public class GetSfaDataMessMoveService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
-                //request.addProperty("HHH", writer);
+
                 request.addSoapObject(mySoap);
-                request.addProperty("user_no", user_no);
+                request.addProperty("plant_id", plant_id);
+                request.addProperty("note", note);
+                request.addProperty("dept_no", dept_no);
                 request.addProperty("made_no", made_no);
-                request.addProperty("request_time", request_time);
+                request.addProperty("user_id", emp_no);
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");
                 //request.addProperty("emp_no", account);
@@ -177,30 +150,25 @@ public class GetSfaDataMessMoveService extends IntentService {
 
                 // 將 WebService 資訊轉為 DataTable
                 if (envelope.bodyIn instanceof SoapFault) {
-                    String str= ((SoapFault) envelope.bodyIn).faultstring;
+                    String str = ((SoapFault) envelope.bodyIn).faultstring;
                     Log.e(TAG, str);
 
-                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED);
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
                     sendBroadcast(getSuccessIntent);
                 } else {
                     SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                     Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                    //SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("get_sfa_data_messResult");
-                    String ret = parseToString(resultsRequestSOAP);
+                    rpc = parseToBoolean(resultsRequestSOAP);
 
-                    Log.d(TAG, "ret = "+ret);
-
-                    if (ret.equals("anyType{}")) {
-                        Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_EMPTY);
-                        sendBroadcast(getFailedIntent);
+                    Intent checkResultIntent;
+                    if (!rpc) {
+                        checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO);
+                        sendBroadcast(checkResultIntent);
                     } else {
-                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_SUCCESS);
-                        getSuccessIntent.putExtra("MSG_RET", ret);
-                        sendBroadcast(getSuccessIntent);
+                        checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES);
+                        sendBroadcast(checkResultIntent);
                     }
-
-
 
 
 
@@ -227,15 +195,16 @@ public class GetSfaDataMessMoveService extends IntentService {
                 // 抓到錯誤訊息
 
                 e.printStackTrace();
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED);
+                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED);
                 sendBroadcast(getFailedIntent);
             }
+
+
+        } else {
+            Log.e(TAG, "dataTable_SSS = null");
         }
 
 
-
-
-        //MeetingAlarm.last_sync_setting = sync_option;
 
 
 
@@ -245,6 +214,8 @@ public class GetSfaDataMessMoveService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
+
+
 
     }
 }

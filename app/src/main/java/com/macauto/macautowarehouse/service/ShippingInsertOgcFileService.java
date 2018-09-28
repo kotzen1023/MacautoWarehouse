@@ -20,6 +20,7 @@ import java.io.StringWriter;
 
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ShipmentFragment.table_SCX;
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -82,6 +83,7 @@ public class ShippingInsertOgcFileService extends IntentService {
         if (table_SCX != null) {
 
             writer = parseDataTableToXml(table_SCX);
+            SoapObject mySoap = parseDataTableToSoapObject("HAA", table_SCX);
 
             /*XmlSerializer xmlSerializer = Xml.newSerializer();
 
@@ -277,7 +279,8 @@ public class ShippingInsertOgcFileService extends IntentService {
                 // 輸出值，帳號(account)、密碼(password)
 
                 request.addProperty("SID", "MAT");
-                request.addProperty("HAA", writer);
+                //request.addProperty("HAA", writer);
+                request.addSoapObject(mySoap);
 
                 //request.addProperty("start_date", "");
                 //request.addProperty("end_date", "");

@@ -78,6 +78,9 @@
         <service android:name=".service.ExecuteTTcqcp001SetService" />
         <service android:name=".service.DeleteTTReceiveGoodsReportDataQCTempService" />
         <service android:name=".service.GetTTSplitRvvItemService" />
+        <service android:name=".service.GetDeptNoService" />
+        <service android:name=".service.GetNewDocNoService" />
+        <service android:name=".service.InsertTTImnFileNoTlfNoImgService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
