@@ -837,6 +837,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                         btnAllocTransfer.setEnabled(true);
                         btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_EMPTY)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_EMPTY");
