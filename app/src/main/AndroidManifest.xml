@@ -81,6 +81,7 @@
         <service android:name=".service.GetDeptNoService" />
         <service android:name=".service.GetNewDocNoService" />
         <service android:name=".service.InsertTTImnFileNoTlfNoImgService" />
+        <service android:name=".service.ExecuteTTPrgAService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

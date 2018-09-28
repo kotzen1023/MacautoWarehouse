@@ -1,19 +1,19 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.macauto.macautowarehouse.AllocationSendMsgStatusDetailActivity;
+
+
 import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
@@ -24,15 +24,15 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
 
     private int layoutResourceId;
     private ArrayList<AllocationMsgDetailItem> items;
-    private Context mContext;
-    private SwipeLayout preswipes=null;
+    //private Context mContext;
+   //private SwipeLayout preswipes=null;
 
     public AllocationMsgDetailItemAdapter(Context context, int textViewResourceId,
                                           ArrayList<AllocationMsgDetailItem> objects) {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
-        this.mContext = context;
+        //this.mContext = context;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -79,8 +79,10 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
         AllocationMsgDetailItem allocationMsgDetailItem = items.get(position);
         if (allocationMsgDetailItem != null) {
             holder.textViewTop.setText(items.get(position).getItem_part_no());
-            holder.textViewCenter.setText(items.get(position).getItem_ima021()+" "+items.get(position).getItem_qty()+" "+items.get(position).getItem_sfa12());
-            holder.textViewBottom.setText(items.get(position).getItem_src_stock_no()+" "+items.get(position).getItem_src_locate_no());
+            String center = items.get(position).getItem_ima021()+" "+items.get(position).getItem_qty()+" "+items.get(position).getItem_sfa12();
+            String bottom = items.get(position).getItem_src_stock_no()+" "+items.get(position).getItem_src_locate_no();
+            holder.textViewCenter.setText(center);
+            holder.textViewBottom.setText(bottom);
             holder.textViewScan.setText(items.get(position).getItem_scan_desc());
 
             if (allocationMsgDetailItem.isSelected()) {

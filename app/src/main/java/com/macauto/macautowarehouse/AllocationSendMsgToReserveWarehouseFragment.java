@@ -26,7 +26,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-import com.daimajia.swipe.SwipeLayout;
+
 import com.macauto.macautowarehouse.data.AllocationMsgStatusItem;
 import com.macauto.macautowarehouse.data.AllocationMsgStatusItemAdapter;
 import com.macauto.macautowarehouse.data.AllocationSendMsgItem;
@@ -45,7 +45,7 @@ import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
 
-import java.text.DecimalFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -2,37 +2,30 @@ package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
 
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.macauto.macautowarehouse.EnteringWarehouseDetailActivity;
-import com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity;
+
 import com.macauto.macautowarehouse.R;
-import com.macauto.macautowarehouse.table.DataColumn;
-import com.macauto.macautowarehouse.table.DataRow;
-import com.macauto.macautowarehouse.table.DataTable;
+
 
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.item_select;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
+
+
 
 public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveItem> {
     public static final String TAG = "InspectedItemAdapter";
@@ -44,8 +37,8 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
     private ArrayList<InspectedReceiveItem> items;
 
     public SparseBooleanArray mSparseBooleanArray;
-    private SwipeLayout preswipes=null;
-    private int pre_open_swipe = -1;
+    //private SwipeLayout preswipes=null;
+    //private int pre_open_swipe = -1;
 
     public InspectedReceiveItemAdapter(Context context, int textViewResourceId,
                             ArrayList<InspectedReceiveItem> objects) {
@@ -105,7 +98,7 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
             if (inspectedReceiveItem.getCol_rvu01() != null && inspectedReceiveItem.getCol_rvu01().equals("")) {
 
                 String top = inspectedReceiveItem.getCol_pmn041() +" "+
-                        mContext.getResources().getString(R.string.item_total, inspectedReceiveItem.getCol_rvb33().toString());
+                        mContext.getResources().getString(R.string.item_total, inspectedReceiveItem.getCol_rvb33());
 
                 //holder.checkBox.setVisibility(View.INVISIBLE);
                 holder.textViewCenter.setVisibility(View.GONE);
@@ -254,7 +247,7 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
 
 
 
-    private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
+    /*private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,40 +266,7 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
         detailIntent.putExtra("INDEX", String.valueOf(position));
         mContext.startActivity(detailIntent);
 
-        /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
 
-        alertDialogBuilder.setTitle("EDIT ELEMENT");
-        final EditText input = new EditText(mContext);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setText(items.get(position));
-        input.setLayoutParams(lp);
-        alertDialogBuilder.setView(input);
-
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // get user input and set it to result edit text
-                                friends.set(position, input.getText().toString().trim());
-
-                                //notify data set changed
-                                //activity.updateAdapter();
-                                holder.swipeLayout.close();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        // create alert dialog and show it
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();*/
     }
 
     private View.OnClickListener onDivideListener(final int position, final ViewHolder holder) {
@@ -317,11 +277,7 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
 
                 //activity.updateAdapter();
                 //items.remove(position);
-                /*holder.swipeLayout.close();
-                Intent newNotifyIntent = new Intent();
-                newNotifyIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_DELETE_ROW);
-                newNotifyIntent.putExtra("DELETE_ROW", String.valueOf(position));
-                mContext.sendBroadcast(newNotifyIntent);*/
+
 
                 if (dataTable != null && dataTable.Rows.size() > 0) {
 
@@ -368,7 +324,7 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
                 }
             }
         };
-    }
+    }*/
 
     /*private CompoundButton.OnCheckedChangeListener mCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
 

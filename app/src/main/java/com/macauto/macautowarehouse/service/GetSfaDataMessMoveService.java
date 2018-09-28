@@ -14,14 +14,13 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.StringWriter;
+
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.hhh;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
 

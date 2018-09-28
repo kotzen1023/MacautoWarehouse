@@ -12,10 +12,9 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
+
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -35,7 +34,7 @@ public class CheckTTProductEntryAlreadyConfirm extends IntentService {
     //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private String doc_type = "";
-    private static boolean is_confirm = false;
+    //private static boolean is_confirm = false;
 
     public CheckTTProductEntryAlreadyConfirm() {
         super("CheckTTProductEntryAlreadyConfirm");
@@ -90,7 +89,7 @@ public class CheckTTProductEntryAlreadyConfirm extends IntentService {
             }
         }
 
-
+        boolean is_confirm;
         //StringWriter writer = new StringWriter();
         //XmlSerializer xmlSerializer = Xml.newSerializer();
 

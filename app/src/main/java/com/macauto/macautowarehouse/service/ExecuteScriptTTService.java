@@ -3,33 +3,25 @@ package com.macauto.macautowarehouse.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
-import android.util.Xml;
+
 
 import com.macauto.macautowarehouse.data.Constants;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.XML;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlSerializer;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.net.SocketTimeoutException;
 
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
 
-import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.product_table_X_M;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+//import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
 
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -49,8 +41,8 @@ public class ExecuteScriptTTService extends IntentService {
     //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private String doc_type = "";
-    private static boolean is_success = false;
-    private static int process_type = 0;
+    //private static boolean is_success = false;
+    //private static int process_type = 0;
 
     public ExecuteScriptTTService() {
         super("ExecuteScriptTTService");
@@ -93,7 +85,7 @@ public class ExecuteScriptTTService extends IntentService {
 
 
         String type = intent.getStringExtra("PROCESS_TYPE");
-        process_type = Integer.valueOf(type);
+        int process_type = Integer.valueOf(type);
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
@@ -105,16 +97,16 @@ public class ExecuteScriptTTService extends IntentService {
             }
         }
 
-
+        boolean is_success;
         //StringWriter writer = new StringWriter();
         //XmlSerializer xmlSerializer = Xml.newSerializer();
 
-        String writer;
+        //String writer;
 
         if (process_type == 0) {
 
             if (table_X_M != null) {
-                writer = parseDataTableToXml(table_X_M);
+                //writer = parseDataTableToXml(table_X_M);
                 SoapObject mySoap = parseDataTableToSoapObject("script_list", table_X_M);
                 //XmlToJson xmlToJson = new XmlToJson.Builder(writer).build();
                 //Log.d(TAG, "xmlToJson = "+xmlToJson.toString());
@@ -215,7 +207,7 @@ public class ExecuteScriptTTService extends IntentService {
             }
         } else if (process_type == 1) {
             if (product_table_X_M != null) {
-                writer = parseDataTableToXml(product_table_X_M);
+                //writer = parseDataTableToXml(product_table_X_M);
                 SoapObject mySoap = parseDataTableToSoapObject("script_list", product_table_X_M);
                 try {
                     // 建立一個 WebService 請求

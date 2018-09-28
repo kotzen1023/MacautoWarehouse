@@ -1,28 +1,22 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.macauto.macautowarehouse.EnteringWarehouseDetailActivity;
-import com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity;
-import com.macauto.macautowarehouse.ProductionStorageDetailActivity;
 import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
-import static com.macauto.macautowarehouse.ProductionStorageFragment.dataTable_RR;
+
 
 public class ProductionStorageItemAdapter extends ArrayAdapter<ProductionStorageItem> {
     public static final String TAG = "PStorageItemAdapter";
@@ -33,8 +27,8 @@ public class ProductionStorageItemAdapter extends ArrayAdapter<ProductionStorage
     private int layoutResourceId;
     private ArrayList<ProductionStorageItem> items;
 
-    private SwipeLayout preswipes=null;
-    private int pre_open_swipe = -1;
+    //private SwipeLayout preswipes=null;
+    //private int pre_open_swipe = -1;
 
     public ProductionStorageItemAdapter(Context context, int textViewResourceId,
                                           ArrayList<ProductionStorageItem> objects) {
@@ -199,7 +193,7 @@ public class ProductionStorageItemAdapter extends ArrayAdapter<ProductionStorage
         return view;
     }
 
-    private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
+    /*private View.OnClickListener onEditListener(final int position, final ViewHolder holder) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,7 +236,7 @@ public class ProductionStorageItemAdapter extends ArrayAdapter<ProductionStorage
 
             }
         };
-    }
+    }*/
 
     private class ViewHolder  {
         //TextView textViewIndex;

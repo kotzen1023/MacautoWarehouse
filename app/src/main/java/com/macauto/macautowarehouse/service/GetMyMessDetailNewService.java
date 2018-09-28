@@ -18,7 +18,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
 public class GetMyMessDetailNewService extends IntentService {

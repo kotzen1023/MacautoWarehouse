@@ -18,26 +18,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.data.ProductionStorageItemAdapter;
+
 import com.macauto.macautowarehouse.data.ReceivingInspectionItem;
 import com.macauto.macautowarehouse.data.ReceivingInspectionItemAdapter;
-import com.macauto.macautowarehouse.service.CheckStockLocateNoExistService;
-import com.macauto.macautowarehouse.service.CheckTTProductEntryAlreadyConfirm;
+
 import com.macauto.macautowarehouse.service.CheckTTRecNoAlreadyInQCItemService;
-import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
-import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService;
+
 import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsReportDataQCTempService;
-import com.macauto.macautowarehouse.service.ExecuteScriptTTService;
+
 import com.macauto.macautowarehouse.service.ExecuteTTPrgAService;
 import com.macauto.macautowarehouse.service.ExecuteTTcqcp001SetService;
-import com.macauto.macautowarehouse.service.GetTTProductEntryService;
+
 import com.macauto.macautowarehouse.service.GetTTReceiveGoodsReportDataQCService;
-import com.macauto.macautowarehouse.service.UpdateTTProductEntryLocateNoService;
+
 import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
@@ -46,7 +44,7 @@ import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
-import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+
 
 public class ReceivingInspectionFragment extends Fragment {
     private static final String TAG = ReceivingInspectionFragment.class.getName();
@@ -58,7 +56,7 @@ public class ReceivingInspectionFragment extends Fragment {
 
     private EditText editTextReceivingInspection;
     //private Button btnReceivingInspection;
-    private ListView listView;
+    //private ListView listView;
     private Button btnQCGenerate;
 
     public static DataTable dataTable_TTCP;
@@ -93,7 +91,7 @@ public class ReceivingInspectionFragment extends Fragment {
         editTextReceivingInspection = view.findViewById(R.id.editTextReceivingInspection);
         //btnReceivingInspection = view.findViewById(R.id.btnReceivingInspection);
         btnQCGenerate = view.findViewById(R.id.btnQCGenerate);
-        listView = view.findViewById(R.id.receivingInspectionListView);
+        ListView listView = view.findViewById(R.id.receivingInspectionListView);
 
         btnQCGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -444,13 +442,6 @@ public class ReceivingInspectionFragment extends Fragment {
                                     checkIntent.putExtra("PART_NO", codeArray[0]);
                                     checkIntent.putExtra("BARCODE_NO", text);
                                     context.startService(checkIntent);
-
-                                } else {
-
-
-
-
-
 
                                 }
 

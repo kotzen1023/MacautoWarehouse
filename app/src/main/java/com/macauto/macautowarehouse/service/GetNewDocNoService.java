@@ -14,7 +14,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.MainActivity.emp_no;
+
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 

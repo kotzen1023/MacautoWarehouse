@@ -21,7 +21,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 
 import android.widget.ListView;
@@ -29,10 +28,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
+
 
 import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater;
+
 
 import com.macauto.macautowarehouse.data.InspectedReceiveItem;
 import com.macauto.macautowarehouse.data.InspectedReceiveItemAdapter;
@@ -51,7 +50,7 @@ import java.util.HashMap;
 
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
-import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
+
 
 public class EnteringWarehouseFragmnet extends Fragment {
     private static final String TAG = EnteringWarehouseFragmnet.class.getName();
@@ -85,7 +84,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
     ProgressDialog loadDialog = null;
     InputMethodManager imm;
     //public static int current_expanded_group = -1;
-    public static int total_count_int = 0;
+    //public static int total_count_int = 0;
     public static ArrayList<String> pp_list = new ArrayList<>();
     public static HashMap<String, Integer> total_count_list = new HashMap<>();
     //public static DividedItemAdapter dividedItemAdapter;
@@ -795,6 +794,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SCAN_RESET)) {
+                        Log.d(TAG, "get ACTION_SCAN_RESET");
                         //btnScan.setVisibility(View.VISIBLE);
                         //btnConfirm.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_FAILED)) {
@@ -908,7 +908,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         Log.d(TAG, "get ACTION_EXECUTE_TT_SUCCESS");
                         String current_table = intent.getStringExtra("CURRENT_TABLE");
                         String next_table = intent.getStringExtra("NEXT_TABLE");
-                        int cur_index = Integer.valueOf(current_table);
+                        //int cur_index = Integer.valueOf(current_table);
 
                         Log.d(TAG, "get ACTION_EXECUTE_TT_SUCCESS: current_table = "+current_table+", next_table = "+next_table);
 

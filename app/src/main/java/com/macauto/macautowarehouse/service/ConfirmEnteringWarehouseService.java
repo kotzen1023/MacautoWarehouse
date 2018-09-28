@@ -3,15 +3,11 @@ package com.macauto.macautowarehouse.service;
 import android.app.IntentService;
 import android.content.Intent;
 
-import android.service.autofill.Dataset;
 import android.util.Log;
 
 import com.macauto.macautowarehouse.data.Constants;
 
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.XML;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
@@ -20,10 +16,6 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
-import java.io.StringWriter;
-
-
-import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 
@@ -47,7 +39,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
     //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private StringWriter writer;
-    private String rvu01="";
+    //private String rvu01="";
 
     public ConfirmEnteringWarehouseService() {
         super("ConfirmEnteringWarehouseService");
@@ -111,7 +103,7 @@ public class ConfirmEnteringWarehouseService extends IntentService {
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
 
-        Log.e(TAG, "rvu01 = "+rvu01);
+        //Log.e(TAG, "rvu01 = "+rvu01);
 
         String writer;
 

@@ -1,6 +1,7 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -26,9 +27,9 @@ public class ShippingWaitForScanItemAdapter extends RecyclerView.Adapter<Shippin
     //private ShippingWaitForScanItemAdapter.OnItemClickListener mOnItemClickListener = null;
 
     @Override
-    public ShippingWaitForScanItemAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.shipment_nofitication_dg1_recyclerview_item, viewGroup, false);
-        ShippingWaitForScanItemAdapter.ViewHolder viewHolder = new ShippingWaitForScanItemAdapter.ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
 
         //view.setOnClickListener(this);
 
@@ -36,7 +37,7 @@ public class ShippingWaitForScanItemAdapter extends RecyclerView.Adapter<Shippin
     }
 
     @Override
-    public void onBindViewHolder(ShippingWaitForScanItemAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
         //Log.e(TAG, "onBindViewHolder");
 
         ShippingWaitForScanItem shippingWaitForScanItem;
@@ -98,7 +99,7 @@ public class ShippingWaitForScanItemAdapter extends RecyclerView.Adapter<Shippin
         mOnItemClickListener = listener;
     }*/
 
-    class ViewHolder  extends RecyclerView.ViewHolder {
+    public class ViewHolder  extends RecyclerView.ViewHolder {
         private TextView textViewIndex;
         private TextView textViewTop;
         private TextView textViewCenter;

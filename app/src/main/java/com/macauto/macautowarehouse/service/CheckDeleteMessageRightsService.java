@@ -40,7 +40,7 @@ public class CheckDeleteMessageRightsService extends IntentService {
 
     //private String account;
     //private String device_id;
-    private boolean is_delete = false;
+    //private boolean is_delete = false;
 
 
     @Override
@@ -94,7 +94,7 @@ public class CheckDeleteMessageRightsService extends IntentService {
             }
         }
 
-
+        boolean is_delete;
 
         try {
             // 建立一個 WebService 請求

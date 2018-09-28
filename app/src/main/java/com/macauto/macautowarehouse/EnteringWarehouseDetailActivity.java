@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
-import static com.macauto.macautowarehouse.ProductionStorageFragment.productList;
+
 
 
 public class EnteringWarehouseDetailActivity extends AppCompatActivity {

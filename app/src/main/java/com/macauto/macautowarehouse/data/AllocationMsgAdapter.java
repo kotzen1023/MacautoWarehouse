@@ -1,35 +1,30 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
-import com.daimajia.swipe.SwipeLayout;
-import com.macauto.macautowarehouse.AllocationSendMsgStatusDetailActivity;
+
 import com.macauto.macautowarehouse.R;
-import com.macauto.macautowarehouse.service.DeleteMessageNoService;
-import com.macauto.macautowarehouse.service.GetMyMessDetailNewService;
+
 
 import java.util.ArrayList;
 
 
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.hhh;
-import static com.macauto.macautowarehouse.MainActivity.emp_no;
 
 public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
     public static final String TAG = "AllocationMsgAdapter";
     private LayoutInflater inflater;
 
-    private Context mContext;
+    //private Context mContext;
 
     private int layoutResourceId;
     private ArrayList<AllocationMsgItem> items;
@@ -39,7 +34,7 @@ public class AllocationMsgAdapter extends ArrayAdapter<AllocationMsgItem> {
         super(context, textViewResourceId, objects);
         this.layoutResourceId = textViewResourceId;
         this.items = objects;
-        this.mContext = context;
+        //this.mContext = context;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

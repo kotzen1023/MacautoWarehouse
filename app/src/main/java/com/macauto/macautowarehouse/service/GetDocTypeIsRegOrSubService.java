@@ -18,8 +18,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.pp_list;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.table_X_M;

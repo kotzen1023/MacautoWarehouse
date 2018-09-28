@@ -15,13 +15,12 @@ import org.ksoap2.transport.HttpTransportSE;
 
 
 
-import java.io.StringWriter;
 
 
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ShipmentFragment.table_SCX;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class ShippingInsertOgcFileService extends IntentService {
@@ -41,7 +40,7 @@ public class ShippingInsertOgcFileService extends IntentService {
 
     //private StringWriter writer;
     //private String rvu01="";
-    private boolean is_success = false;
+    //private boolean is_success = false;
 
     public ShippingInsertOgcFileService() {
         super("ShippingInsertOgcFileService");
@@ -78,11 +77,12 @@ public class ShippingInsertOgcFileService extends IntentService {
 
         //Log.e(TAG, "rvu01 = "+rvu01);
 
-        String writer;
+        //String writer;
+        boolean is_success;
 
         if (table_SCX != null) {
 
-            writer = parseDataTableToXml(table_SCX);
+            //writer = parseDataTableToXml(table_SCX);
             SoapObject mySoap = parseDataTableToSoapObject("HAA", table_SCX);
 
             /*XmlSerializer xmlSerializer = Xml.newSerializer();
@@ -324,7 +324,14 @@ public class ShippingInsertOgcFileService extends IntentService {
 
                     is_success = parseToBoolean(resultsRequestSOAP);
 
-
+                    Intent resultIntent;
+                    if (!is_success) {
+                        resultIntent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_FAILED);
+                        sendBroadcast(resultIntent);
+                    } else {
+                        resultIntent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_SUCCESS);
+                        sendBroadcast(resultIntent);
+                    }
                     //result.setText(String.valueOf(resultsRequestSOAP));
                     /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         InputStream stream = new ByteArrayInputStream(String.valueOf(resultsRequestSOAP).getBytes(StandardCharsets.UTF_8));
@@ -370,14 +377,7 @@ public class ShippingInsertOgcFileService extends IntentService {
         Log.d(TAG, "onDestroy()");
         //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
         //sendBroadcast(intent);
-        Intent resultIntent;
-        if (!is_success) {
-            resultIntent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_FAILED);
-            sendBroadcast(resultIntent);
-        } else {
-            resultIntent = new Intent(Constants.ACTION.ACTION_SHIPMENT_SHIPPING_INSERT_OGC_FILE_SUCCESS);
-            sendBroadcast(resultIntent);
-        }
+
 
     }
 }

@@ -12,12 +12,12 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.StringWriter;
+
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.ReceivingInspectionFragment.dataTable_PG_M;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class ExecuteTTPrgAService extends IntentService {
@@ -35,7 +35,7 @@ public class ExecuteTTPrgAService extends IntentService {
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    private boolean is_success = false;
+    //private boolean is_success = false;
 
     public ExecuteTTPrgAService() {
         super("ExecuteTTPrgAService");
@@ -87,10 +87,10 @@ public class ExecuteTTPrgAService extends IntentService {
             }
         }
 
-        String writer;
+        boolean is_success;
 
         if (dataTable_PG_M != null && dataTable_PG_M.Rows.size() > 0) {
-            writer = parseDataTableToXml(dataTable_PG_M);
+            //writer = parseDataTableToXml(dataTable_PG_M);
             SoapObject mySoap = parseDataTableToSoapObject("rec_no_list", dataTable_PG_M);
 
             try {

@@ -4,11 +4,10 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.R;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
+
 import com.macauto.macautowarehouse.data.ProductionStorageItem;
-import com.macauto.macautowarehouse.table.DataColumn;
+
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
@@ -18,11 +17,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.dataTable_RR;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.productList;

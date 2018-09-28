@@ -16,7 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,10 +26,10 @@ import android.widget.Toast;
 import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
 import com.macauto.macautowarehouse.data.AllocationMsgDetailItemAdapter;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
+
 import com.macauto.macautowarehouse.data.GenerateRandomString;
 import com.macauto.macautowarehouse.service.GetLotCodeVer2Service;
-import com.macauto.macautowarehouse.service.GetMyMessListService;
+
 import com.macauto.macautowarehouse.service.GetNewDocNoService;
 import com.macauto.macautowarehouse.service.GetPartNoNeedScanStatusService;
 import com.macauto.macautowarehouse.service.GetVarValueService;

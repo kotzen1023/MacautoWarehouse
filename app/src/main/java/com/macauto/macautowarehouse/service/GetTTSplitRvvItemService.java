@@ -12,7 +12,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.StringWriter;
+
 import java.net.SocketTimeoutException;
 
 
@@ -20,7 +20,7 @@ import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_B
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class GetTTSplitRvvItemService extends IntentService {
@@ -40,7 +40,7 @@ public class GetTTSplitRvvItemService extends IntentService {
 
     //private StringWriter writer;
     //private String rvu01="";
-    private static boolean is_split_success = false;
+    //private static boolean is_split_success = false;
 
 
     public GetTTSplitRvvItemService() {
@@ -95,11 +95,13 @@ public class GetTTSplitRvvItemService extends IntentService {
         Log.e(TAG, "item_no = "+item_no);
         Log.e(TAG, "part_no = "+part_no);
 
-        String writer;
+        //String writer;
+
+        boolean is_split_success;
 
         if (dataTable_Batch_area != null) {
 
-            writer = parseDataTableToXml(dataTable_Batch_area);
+            //writer = parseDataTableToXml(dataTable_Batch_area);
             SoapObject mySoap = parseDataTableToSoapObject("split_data", dataTable_Batch_area);
 
             /*XmlSerializer xmlSerializer = Xml.newSerializer();

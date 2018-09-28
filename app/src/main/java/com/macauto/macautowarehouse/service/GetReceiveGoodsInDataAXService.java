@@ -4,9 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.macauto.macautowarehouse.R;
+
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
+
 import com.macauto.macautowarehouse.data.InspectedReceiveItem;
 import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
@@ -19,12 +19,11 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
+
 
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
+
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.total_count_list;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
@@ -271,9 +270,9 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
                         }
                         //add total count
                         //String temp_rvb05 = swipe_list.get(no_list.get(0)).get(3).getName();
-                        double count_double = 0;
-                        int count_num = 0;
-                        String item_name = "";
+                        double count_double;
+                        int count_num;
+                        String item_name;
                         for (int i=0; i < dataTable.Rows.size(); i++) {
                             item_name = dataTable.Rows.get(i).getValue("pmn041").toString();
                             count_double = Double.valueOf(dataTable.Rows.get(i).getValue("rvb33").toString());

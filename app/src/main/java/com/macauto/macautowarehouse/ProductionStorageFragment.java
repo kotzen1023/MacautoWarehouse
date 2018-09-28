@@ -13,7 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,9 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater;
+
 import com.macauto.macautowarehouse.data.ProductionStorageItem;
 import com.macauto.macautowarehouse.data.ProductionStorageItemAdapter;
 import com.macauto.macautowarehouse.service.CheckStockLocateNoExistService;

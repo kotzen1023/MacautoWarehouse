@@ -1,7 +1,8 @@
 package com.macauto.macautowarehouse.data;
 
 import android.content.Context;
-import android.content.Intent;
+
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,9 +29,9 @@ public class ShippingNotificationItemAdapter extends RecyclerView.Adapter<Shippi
     private SearchItemAdapter.OnItemClickListener mOnItemClickListener = null;
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public @NonNull ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.shipment_nofitication_dg1_recyclerview_item, viewGroup, false);
-        ShippingNotificationItemAdapter.ViewHolder viewHolder = new ShippingNotificationItemAdapter.ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
 
         view.setOnClickListener(this);
 
@@ -38,7 +39,7 @@ public class ShippingNotificationItemAdapter extends RecyclerView.Adapter<Shippi
     }
 
     @Override
-    public void onBindViewHolder(ShippingNotificationItemAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         //Log.e(TAG, "onBindViewHolder");
 
         ShippingNotificationItem shippingNotificationItem;
@@ -101,11 +102,11 @@ public class ShippingNotificationItemAdapter extends RecyclerView.Adapter<Shippi
     }
 
 
-    class ViewHolder  extends RecyclerView.ViewHolder {
-        protected TextView textViewIndex;
-        protected TextView textViewTop;
-        protected TextView textViewCenter;
-        protected TextView textViewBottom;
+    public class ViewHolder  extends RecyclerView.ViewHolder {
+        private TextView textViewIndex;
+        private TextView textViewTop;
+        private TextView textViewCenter;
+        private TextView textViewBottom;
 
         public ViewHolder(View view) {
             super(view);

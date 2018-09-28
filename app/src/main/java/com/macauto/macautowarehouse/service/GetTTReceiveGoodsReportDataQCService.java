@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.InspectedReceiveItem;
+
 import com.macauto.macautowarehouse.data.ReceivingInspectionItem;
-import com.macauto.macautowarehouse.table.DataColumn;
-import com.macauto.macautowarehouse.table.DataRow;
+
 import com.macauto.macautowarehouse.table.DataTable;
 
 import org.ksoap2.SoapEnvelope;
@@ -19,9 +18,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.total_count_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ReceivingInspectionFragment.dataTable_TTCP;
 import static com.macauto.macautowarehouse.ReceivingInspectionFragment.receivingList;

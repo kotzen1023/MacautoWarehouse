@@ -1,33 +1,29 @@
 package com.macauto.macautowarehouse.data;
 
-import android.app.ProgressDialog;
+
 import android.content.Context;
 
-import android.content.DialogInterface;
-import android.content.Intent;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
 
-import com.daimajia.swipe.SwipeLayout;
-import com.macauto.macautowarehouse.AllocationSendMsgStatusDetailActivity;
+
+
 import com.macauto.macautowarehouse.R;
-import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
-import com.macauto.macautowarehouse.table.DataTable;
+
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.hhh;
+
 
 
 public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgStatusItem> {
@@ -38,8 +34,8 @@ public class AllocationMsgStatusItemAdapter extends ArrayAdapter<AllocationMsgSt
 
     private int layoutResourceId;
     private ArrayList<AllocationMsgStatusItem> items;
-    private SwipeLayout preswipes=null;
-    private int pre_open_swipe = -1;
+    //private SwipeLayout preswipes=null;
+    //private int pre_open_swipe = -1;
 
     public AllocationMsgStatusItemAdapter(Context context, int textViewResourceId,
                                 ArrayList<AllocationMsgStatusItem> objects) {

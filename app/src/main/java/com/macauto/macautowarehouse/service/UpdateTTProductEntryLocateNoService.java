@@ -34,7 +34,7 @@ public class UpdateTTProductEntryLocateNoService extends IntentService {
     //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private StringWriter writer;
-    private String rvu01="";
+    //private String rvu01="";
 
     public UpdateTTProductEntryLocateNoService() {
         super("UpdateTTProductEntryLocateNoService");

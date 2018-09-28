@@ -21,10 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
+
 import com.macauto.macautowarehouse.data.DividedItem;
 import com.macauto.macautowarehouse.data.DividedItemAdapter;
-import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
+
 import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService2;
 import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataAXService;
 import com.macauto.macautowarehouse.service.GetTTSplitRvvItemService;
@@ -32,12 +32,8 @@ import com.macauto.macautowarehouse.table.DataRow;
 
 import java.util.ArrayList;
 
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.check_stock_in;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.detailList;
-//import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.no_list;
-import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
+
 
 public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 

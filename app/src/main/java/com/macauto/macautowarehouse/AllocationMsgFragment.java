@@ -20,13 +20,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import android.widget.Button;
-import android.widget.LinearLayout;
+
 import android.widget.ListView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.AllocationMsgAdapter;
-import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
+
 import com.macauto.macautowarehouse.data.AllocationMsgItem;
 import com.macauto.macautowarehouse.data.Constants;
 
@@ -55,7 +55,7 @@ public class AllocationMsgFragment extends Fragment {
     ProgressDialog loadDialog = null;
     public static ArrayList<AllocationMsgItem> msg_list = new ArrayList<>();
 
-    private LinearLayout layoutMsgShow;
+    //private LinearLayout layoutMsgShow;
     //private LinearLayout layoutScan;
 
     //private Button btnMsgList;
@@ -99,7 +99,7 @@ public class AllocationMsgFragment extends Fragment {
 
         final  View view = inflater.inflate(R.layout.allocation_msg_fragment, container, false);
 
-        layoutMsgShow = view.findViewById(R.id.layoutMsgShow);
+        //layoutMsgShow = view.findViewById(R.id.layoutMsgShow);
         btnDelete = view.findViewById(R.id.btnMsgDelete);
         //layoutScan = view.findViewById(R.id.layoutScan);
 

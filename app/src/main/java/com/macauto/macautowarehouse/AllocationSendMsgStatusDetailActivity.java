@@ -11,26 +11,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
-import com.macauto.macautowarehouse.data.AllocationMsgDetailItemAdapter;
+
 import com.macauto.macautowarehouse.data.AllocationSendMsgDetailItem;
 import com.macauto.macautowarehouse.data.AllocationSendMsgDetailItemAdapter;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.SearchDetailItem;
-import com.macauto.macautowarehouse.data.SearchDetailItemAdapter;
+
 
 import java.util.ArrayList;
 
-
-import static com.macauto.macautowarehouse.MainActivity.searchList;
-import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
 
 public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
     private static final String TAG = "SendMsgStatusDetail";
 
     public static ArrayList<AllocationSendMsgDetailItem> detailList = new ArrayList<>();
 
-    private AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter;
+    //private AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter;
     //InputMethodManager imm;
     private static int index;
 
@@ -132,7 +127,7 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
         item9.setContent(item_TC_OBF013);
         detailList.add(item9);
 
-        allocationSendMsgDetailItemAdapter = new AllocationSendMsgDetailItemAdapter(AllocationSendMsgStatusDetailActivity.this, R.layout.allocation_msg_send_allocation_status_detail_item, detailList);
+        AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter = new AllocationSendMsgDetailItemAdapter(AllocationSendMsgStatusDetailActivity.this, R.layout.allocation_msg_send_allocation_status_detail_item, detailList);
         listView.setAdapter(allocationSendMsgDetailItemAdapter);
     }
 

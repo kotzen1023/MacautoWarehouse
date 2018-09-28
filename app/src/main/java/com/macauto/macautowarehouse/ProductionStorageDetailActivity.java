@@ -1,7 +1,7 @@
 package com.macauto.macautowarehouse;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,31 +14,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.InspectedDetailItem;
-import com.macauto.macautowarehouse.data.InspectedDetailItemAdapter;
+
 import com.macauto.macautowarehouse.data.ProductionStorageDetailItem;
 import com.macauto.macautowarehouse.data.ProductionStorageDetailItemAdapter;
-import com.macauto.macautowarehouse.data.ProductionStorageItem;
-import com.macauto.macautowarehouse.data.ProductionStorageItemAdapter;
-import com.macauto.macautowarehouse.service.CheckStockLocateNoExistService;
-import com.macauto.macautowarehouse.service.CheckTTProductEntryAlreadyConfirm;
-import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
-import com.macauto.macautowarehouse.service.ExecuteScriptTTService;
-import com.macauto.macautowarehouse.service.GetTTProductEntryService;
-import com.macauto.macautowarehouse.service.UpdateTTProductEntryLocateNoService;
-import com.macauto.macautowarehouse.table.DataColumn;
-import com.macauto.macautowarehouse.table.DataRow;
-import com.macauto.macautowarehouse.table.DataTable;
+
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.MainActivity.emp_no;
-import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.dataTable_RR;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.productList;

@@ -31,7 +31,7 @@ public class CheckStockNoExistService extends IntentService {
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    private boolean is_exist = false;
+    //private boolean is_exist = false;
 
     public CheckStockNoExistService() {
         super("CheckStockNoExistService");
@@ -91,7 +91,7 @@ public class CheckStockNoExistService extends IntentService {
             }
         }
 
-
+        boolean is_exist;
 
         try {
             // 建立一個 WebService 請求

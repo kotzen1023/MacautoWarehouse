@@ -7,17 +7,17 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.Layout;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.table.DataTable;
+
 
 public class ReceivingFragment extends Fragment {
     private static final String TAG = ReceivingFragment.class.getName();
@@ -26,7 +26,7 @@ public class ReceivingFragment extends Fragment {
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
-    public static DataTable ReceivingDataTable;
+    //public static DataTable ReceivingDataTable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +46,8 @@ public class ReceivingFragment extends Fragment {
         final  View view = inflater.inflate(R.layout.receiving_fragment, container, false);
 
         Button btnAdd = view.findViewById(R.id.btnReceivingAdd);
-        Button btnSave = view.findViewById(R.id.btnReceivingSave);
-        LinearLayout layoutBottom = view.findViewById(R.id.layoutReceivingBottom);
+        //Button btnSave = view.findViewById(R.id.btnReceivingSave);
+        //LinearLayout layoutBottom = view.findViewById(R.id.layoutReceivingBottom);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override

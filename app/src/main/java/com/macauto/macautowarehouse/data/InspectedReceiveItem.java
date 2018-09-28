@@ -1,6 +1,5 @@
 package com.macauto.macautowarehouse.data;
 
-import android.widget.CheckBox;
 
 public class InspectedReceiveItem {
     private boolean check_sp;

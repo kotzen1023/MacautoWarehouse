@@ -33,8 +33,8 @@ public class CheckStockLocateNoExistService extends IntentService {
     //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private String doc_type = "";
-    private static boolean is_exist = false;
-    private String current_index;
+    //private static boolean is_exist = false;
+    //private String current_index;
 
     public CheckStockLocateNoExistService() {
         super("CheckStockLocateNoExistService");
@@ -78,7 +78,7 @@ public class CheckStockLocateNoExistService extends IntentService {
 
         String stock_no = intent.getStringExtra("STOCK_NO");
         String locate_no = intent.getStringExtra("LOCATE_NO");
-        current_index = intent.getStringExtra("CURRENT_INDEX");
+        String current_index = intent.getStringExtra("CURRENT_INDEX");
         //String doc_type = intent.getStringExtra("DOC_TYPE");
         //String rvu01 = intent.getStringExtra("RVU01");
 
@@ -91,6 +91,8 @@ public class CheckStockLocateNoExistService extends IntentService {
             }
         }
 
+
+        boolean is_exist;
 
         //StringWriter writer = new StringWriter();
         //XmlSerializer xmlSerializer = Xml.newSerializer();

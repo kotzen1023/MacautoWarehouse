@@ -12,13 +12,13 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.StringWriter;
+
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.ReceivingInspectionFragment.dataTable_YIC;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToXml;
+
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class ExecuteTTcqcp001SetService extends IntentService {
@@ -36,7 +36,7 @@ public class ExecuteTTcqcp001SetService extends IntentService {
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    private boolean is_success = false;
+    //private boolean is_success = false;
 
     public ExecuteTTcqcp001SetService() {
         super("ExecuteTTcqcp001SetService");
@@ -88,10 +88,12 @@ public class ExecuteTTcqcp001SetService extends IntentService {
             }
         }
 
-        String writer;
+        boolean is_success;
+
+        //String writer;
 
         if (dataTable_YIC != null && dataTable_YIC.Rows.size() > 0) {
-            writer = parseDataTableToXml(dataTable_YIC);
+            //writer = parseDataTableToXml(dataTable_YIC);
             SoapObject mySoap = parseDataTableToSoapObject("exec_list", dataTable_YIC);
 
             try {

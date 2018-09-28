@@ -17,23 +17,19 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
 
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.DetailItem;
-import com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater;
-import com.macauto.macautowarehouse.service.ExecuteScriptTTService;
-import com.macauto.macautowarehouse.service.GetDocTypeIsRegOrSubService;
-import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataService;
+
 import com.macauto.macautowarehouse.service.GetTTReceiveGoodsDataService;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity.temp_count_list;
+
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
-import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
+
 
 
 public class ReceivingAddDialogActivity extends AppCompatActivity {
