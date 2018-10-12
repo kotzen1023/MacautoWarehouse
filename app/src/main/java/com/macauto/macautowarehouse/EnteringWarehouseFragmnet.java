@@ -90,7 +90,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
     //public static DividedItemAdapter dividedItemAdapter;
     //public static ArrayList<DividedItem> dividedList = new ArrayList<>();
     public static int item_select = -1;
-
+    private static String barcode;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,9 +169,13 @@ public class EnteringWarehouseFragmnet extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent detailIntent = new Intent(fragmentContext, EnteringWarehouseDetailActivity.class);
-                detailIntent.putExtra("INDEX", String.valueOf(position));
-                fragmentContext.startActivity(detailIntent);
+                if (position < dataTable.Rows.size()) {
+
+                    Intent detailIntent = new Intent(fragmentContext, EnteringWarehouseDetailActivity.class);
+                    detailIntent.putExtra("INDEX", String.valueOf(position));
+                    //detailIntent.putExtra("BARCODE", barcode);
+                    fragmentContext.startActivity(detailIntent);
+                }
 
                 return true;
             }
@@ -407,7 +411,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         found = true;
                         msg += swipe_list.get(i).getCol_pmn041()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
                                 swipe_list.get(i).getCol_rvv33()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
-                                swipe_list.get(i).getCol_rvb33();
+                                swipe_list.get(i).getCol_rvb33()+"]";
                     }
                 }
 
@@ -418,6 +422,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     confirmdialog.setMessage(head+"\n"+msg);
                     confirmdialog.setPositiveButton(fragmentContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+
+                            btnConfirm.setEnabled(false);
 
                             boolean found = false;
                             boolean same_in_no_but_not_check = false;
@@ -556,6 +562,11 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                         is_scan_receive = false;
 
+                        if (dataTable.Rows.size() > 0) {
+                            btnConfirm.setEnabled(true);
+                        }
+
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
                         if (loadDialog != null)
@@ -564,6 +575,11 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         is_scan_receive = false;
 
                         toast(getResources().getString(R.string.socket_timeout));
+
+                        if (dataTable.Rows.size() > 0) {
+                            btnConfirm.setEnabled(true);
+                        }
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SHOW_VIRTUAL_KEYBOARD_ACTION)) {
                         Log.d(TAG, "receive ACTION_SHOW_VIRTUAL_KEYBOARD_ACTION");
                         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -604,8 +620,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             String col = "COLUMN_" + String.valueOf(i);
                             Log.e(TAG, "col_" + i + " = " + intent.getStringExtra(col));
                         }*/
-                        String barcode = intent.getStringExtra("BARCODE");
-                        Log.e(TAG, "barcode = " + barcode);
+                        //String barcode = intent.getStringExtra("BARCODE");
+                        //Log.e(TAG, "barcode = " + barcode);
 
                         Intent getintent = new Intent(context, GetReceiveGoodsInDataService.class);
                         getintent.putExtra("PART_NO", intent.getStringExtra("COLUMN_0"));
@@ -624,12 +640,30 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY)) {
                         Log.d(TAG, "get ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY");
 
-                        swipe_list.clear();
-                        total_count_list.clear();
-                        if (inspectedReceiveItemAdapter != null)
-                            inspectedReceiveItemAdapter.notifyDataSetChanged();
+                        //swipe_list.clear();
+                        //total_count_list.clear();
+                        //if (inspectedReceiveItemAdapter != null)
+                        //    inspectedReceiveItemAdapter.notifyDataSetChanged();
 
+                        //toast(getResources().getString(R.string.entering_warehouse_split_complete));
 
+                        //regenerate new session id
+                        GenerateRandomString rString = new GenerateRandomString();
+                        k_id = rString.randomString(32);
+                        Log.e(TAG, "session_id = "+k_id);
+
+                        String codeArray[] = barcode.split("#");
+                        Intent scanResultIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
+                        for (int i = 0; i < codeArray.length; i++) {
+                            Log.e(TAG, "codeArray[" + i + "] = " + codeArray[i]);
+                            String column = "COLUMN_" + String.valueOf(i);
+                            scanResultIntent.putExtra(column, codeArray[i]);
+                        }
+                        //barcode = text;
+
+                        //scanResultIntent.putExtra("BARCODE", text);
+                        scanResultIntent.putExtra("K_ID", k_id);
+                        fragmentContext.sendBroadcast(scanResultIntent);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS)) {
                         //toast(context.getResources().getString(R.string.get_receive_goods_success));
@@ -714,6 +748,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         Log.d(TAG, "get ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW");
 
                         String index_string = intent.getStringExtra("INDEX");
+                        ///String barcode = intent.getStringExtra("BARCODE");
                         int index = Integer.valueOf(index_string);
 
                         if (dataTable != null && dataTable.Rows.size() > 0) {
@@ -755,6 +790,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             divideIntent.putExtra("LOCATE_NO", dataTable.getValue(index, "rvv33").toString());
                             divideIntent.putExtra("STOCK_NO", dataTable.getValue(index, "rvv32").toString());
                             divideIntent.putExtra("CHECK_SP", dataTable.getValue(index, 0).toString());
+                            divideIntent.putExtra("BARCODE", barcode);
 
                             fragmentContext.startActivity(divideIntent);
 
@@ -1048,9 +1084,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                             String column = "COLUMN_" + String.valueOf(i);
                                             scanResultIntent.putExtra(column, codeArray[i]);
                                         }
+                                        barcode = text;
 
-
-                                        scanResultIntent.putExtra("BARCODE", text);
+                                        //scanResultIntent.putExtra("BARCODE", text);
                                         scanResultIntent.putExtra("K_ID", k_id);
                                         fragmentContext.sendBroadcast(scanResultIntent);
                                     }

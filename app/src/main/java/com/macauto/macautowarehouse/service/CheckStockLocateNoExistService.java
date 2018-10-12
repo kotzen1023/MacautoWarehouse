@@ -85,6 +85,9 @@ public class CheckStockLocateNoExistService extends IntentService {
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
 
+        Log.e(TAG, "stock_no = "+stock_no);
+        Log.e(TAG, "locate_no = "+locate_no);
+
         if (intent.getAction() != null) {
             if (intent.getAction().equals(Constants.ACTION.ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_ACTION)) {
                 Log.i(TAG, "ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_ACTION");

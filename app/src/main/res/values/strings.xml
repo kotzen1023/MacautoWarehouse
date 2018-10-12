@@ -118,6 +118,7 @@
     <string name="entering_warehouse_locate_no_not_scan">Cannot run in stock procedure. Some locate no was not scanned</string>
     <string name="entering_warehouse_same_in_no_not_check">Cannot run in stock procedure. Some items with same In-No. were not checked.</string>
     <string name="entering_warehouse_set_check_before_in_stock">Check item before press in stock button.</string>
+    <string name="entering_warehouse_split_complete">Split quantity complete. Please re-scan.</string>
 
     <string name="receiving_rec_no">Receiving No.</string>
     <string name="receiving_rec_date">Receiving Date (yyyyMMdd)</string>
@@ -168,6 +169,15 @@
     <string name="allocation_button_scan_list">Scan List</string>
     <string name="allocation_button_delete_detail">Delete Selected</string>
     <string name="allocation_button_transfer">Transfer</string>
+    <string name="allocation_button_transfer_content">Generate transferring order?</string>
+    <string name="allocation_item_part_no">Part No</string>
+    <string name="allocation_item_name">Name</string>
+    <string name="allocation_item_qty">Quantity</string>
+    <string name="allocation_item_src_stock">Source Stock</string>
+    <string name="allocation_item_src_locate">Locate No</string>
+    <string name="allocation_item_src_batch">Batch No</string>
+    <string name="allocation_item_sfa12">Unit</string>
+    <string name="allocation_item_scan_desc">Scan</string>
     
     <string name="allocation_no_message">No Message</string>
     <string name="allocation_get_msg_detail_error">Get detail error!</string>
@@ -184,6 +194,7 @@
     <string name="allocation_detail_save_error_a1">Save error (A1) , Please contact IT.</string>
     <string name="allocation_detail_generate_no">Allocation No. %s</string>
     <string name="allocation_detail_insert_tt_imn_string">Replenish: Stock->Preparation area</string>
+    <string name="allocation_detail_get_var_value_return_not_yes">Scan lock sp is not YES. Please retry.</string>
 
     <string name="look_up_in_stock_part_no">Part No.</string>
     <string name="look_up_in_stock_part_name">Part Name</string>
@@ -247,6 +258,8 @@
     <string name="production_storage_qty">Quantity</string>
     <string name="production_storage_unit">Unit</string>
     <string name="production_storage_count_no">Count No.</string>
+    <string name="production_storage_dialog_title">Production Storage</string>
+    <string name="production_storage_dialog_content">Confirm this production storage?</string>
 
     <string name="production_storage_inbound_order_has_confirmed">This inbound order %s was been confirmed.</string>
     <string name="production_storage_not_inbound_order">This barcode is not for inbound work.</string>
@@ -254,6 +267,9 @@
     <string name="production_storage_in_stock_process_complete">Production In-stock process complete</string>
     <string name="production_storage_in_stock_process_abort">Cannot find locate No. Please set stock and locate code.</string>
     <string name="production_storage_update_process_error">Update TT data error. Please contact IT.</string>
+    <string name="production_storage_in_stock_error">Confirm production in-storage %s , error message: %s</string>
+    <string name="production_storage_confirm_in_stock_fail">Confirm error. Please Contact IT department. E-7</string>
+
 
     <string name="receiving_inspection_part_no">Part No.</string>
     <string name="receiving_inspection_search">Search</string>

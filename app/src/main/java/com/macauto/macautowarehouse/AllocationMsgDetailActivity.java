@@ -1,6 +1,7 @@
 package com.macauto.macautowarehouse;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +29,8 @@ import com.macauto.macautowarehouse.data.AllocationMsgDetailItemAdapter;
 import com.macauto.macautowarehouse.data.Constants;
 
 import com.macauto.macautowarehouse.data.GenerateRandomString;
+import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
+import com.macauto.macautowarehouse.service.GetDeptNoService;
 import com.macauto.macautowarehouse.service.GetLotCodeVer2Service;
 
 import com.macauto.macautowarehouse.service.GetNewDocNoService;
@@ -56,6 +59,8 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
+
+    ProgressDialog loadDialog = null;
 
     private ListView detailListView;
 
@@ -140,11 +145,27 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
             }
         });
 
+        detailListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position < showList.size()) {
+
+                    Intent detailIntent = new Intent(AllocationMsgDetailActivity.this, AllocationMsgDetailOfDetailActivity.class);
+                    detailIntent.putExtra("INDEX", String.valueOf(position));
+                    //detailIntent.putExtra("BARCODE", barcode);
+                    startActivity(detailIntent);
+                }
+
+                return true;
+            }
+        });
+
         btnTransfer = findViewById(R.id.btnTransfer);
 
         String iss_date = intent.getStringExtra("ISS_DATE");
         made_no = intent.getStringExtra("MADE_NO");
-        String tag_locate_no = intent.getStringExtra("TAG_LOCATE_NO");
+        final String tag_locate_no = intent.getStringExtra("TAG_LOCATE_NO");
         String tag_stock_no = intent.getStringExtra("TAG_STOCK_NO");
         String ima03 = intent.getStringExtra("IMA03");
         String pre_get_datetime = intent.getStringExtra("PRE_GET_DATETIME");
@@ -186,10 +207,43 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         btnTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent checkIntent = new Intent(AllocationMsgDetailActivity.this, GetVarValueService.class);
+                /*Intent checkIntent = new Intent(AllocationMsgDetailActivity.this, GetVarValueService.class);
                 checkIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_ACTION);
                 checkIntent.putExtra("TAG_ID", "MOVE_TAKE_SCAN_LOCK_SP");
-                startService(checkIntent);
+                startService(checkIntent);*/
+
+                AlertDialog.Builder confirmdialog = new AlertDialog.Builder(AllocationMsgDetailActivity.this);
+                confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
+                confirmdialog.setTitle(getResources().getString(R.string.allocation_button_transfer));
+                confirmdialog.setMessage(getResources().getString(R.string.allocation_button_transfer_content));
+                confirmdialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent checkIntent = new Intent(AllocationMsgDetailActivity.this, GetVarValueService.class);
+                        checkIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_ACTION);
+                        checkIntent.putExtra("TAG_ID", "MOVE_TAKE_SCAN_LOCK_SP");
+                        startService(checkIntent);
+
+                        loadDialog = new ProgressDialog(AllocationMsgDetailActivity.this);
+                        loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        loadDialog.setTitle(getResources().getString(R.string.Processing));
+                        loadDialog.setIndeterminate(false);
+                        loadDialog.setCancelable(false);
+                        loadDialog.show();
+
+
+
+
+                    }
+                });
+                confirmdialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // btnScan.setVisibility(View.VISIBLE);
+                        // btnConfirm.setVisibility(View.GONE);
+
+                    }
+                });
+                confirmdialog.show();
             }
         });
 
@@ -240,22 +294,44 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
                 if (intent.getAction() != null) {
 
-                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_EMPTY)) {
+                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
+                        Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
+                        Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
+
+                        toast(getResources().getString(R.string.socket_timeout));
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_EMPTY)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_LOT_CODE_EMPTY");
+
+
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_LOT_CODE_SUCCESS");
                         String ret_batch_no = intent.getStringExtra("BATCH_NO");
                         Log.e(TAG, "return batch_no = "+ret_batch_no+", scanned batch_no = "+batch_no);
+
                         batch_no = ret_batch_no;
 
                         boolean found = false;
                         int index = 0;
+                        Log.e(TAG, "msgDataTable.Rows = "+msgDataTable.Rows.size());
                         for (DataRow yx : msgDataTable.Rows) {
+                            Log.e(TAG, "yx.getValue(4).toString() = "+yx.getValue(4).toString()+", part_no = "+part_no);
+                            Log.e(TAG, "yx.getValue(9).toString() = "+yx.getValue(9).toString()+", batch_no = "+batch_no);
+
                             if (yx.getValue(4).toString().equals(part_no) && yx.getValue(9).toString().equals(batch_no)) {
+                                msgDataTable.Rows.get(index).setValue("scan_sp", "Y");
+                                msgDataTable.Rows.get(index).setValue("scan_desc", getResources().getString(R.string.allocation_detail_scanned));
                                 yx.setValue(17, "Y");
                                 yx.setValue("scan_desc", getResources().getString(R.string.allocation_detail_scanned));
                                 showList.get(index).setItem_scan_desc(getResources().getString(R.string.allocation_detail_scanned));
+                                showList.get(index).setChecked(true);
                                 found = true;
                             }
                             index = index + 1;
@@ -314,6 +390,23 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                             allocationMsgDetailItemAdapter.notifyDataSetChanged();
                         }
 
+                        //find not scan
+                        boolean found = false;
+
+                        for (DataRow yx : msgDataTable.Rows) {
+
+                            if (yx.getValue("scan_sp").equals("N")) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            btnTransfer.setEnabled(true);
+                        } else {
+                            btnTransfer.setEnabled(false);
+                        }
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_SUCCESS");
 
@@ -328,16 +421,49 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                             getPartNoCheckIntent.setAction(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_ACTION);
                             getPartNoCheckIntent.putExtra("PART_NO", msgDataTable.Rows.get(current_detail_row).getValue("part_no").toString());
                             startService(getPartNoCheckIntent);
+                        } else {
+                            toast(getResources().getString(R.string.allocation_detail_get_var_value_return_not_yes));
                         }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_FAILED");
 
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_YES)) {
                         Log.d(TAG, "receive ACTION_GET_PART_NO_NEED_SCAN_STATUS_YES");
 
-                        if (!msgDataTable.Rows.get(current_detail_row).getValue("scan_sp1").toString().equals("Y")) {
+                        Log.e(TAG, "scan_sp = "+msgDataTable.Rows.get(current_detail_row).getValue("scan_sp").toString());
+
+                        //if (!msgDataTable.Rows.get(current_detail_row).getValue("scan_sp1").toString().equals("Y")) {
+                        if (!msgDataTable.Rows.get(current_detail_row).getValue("scan_sp").toString().equals("Y")) {
+                            if (loadDialog != null)
+                                loadDialog.dismiss();
+
                             toast(getResources().getString(R.string.allocation_detail_should_scan, msgDataTable.Rows.get(current_detail_row).getValue("part_no").toString()));
+
+                        } else {
+                            //check next one
+                            current_detail_row = current_detail_row -1;
+
+                            if (current_detail_row >= 0) {
+                                Intent getPartNoCheckIntent = new Intent(AllocationMsgDetailActivity.this, GetPartNoNeedScanStatusService.class);
+                                getPartNoCheckIntent.setAction(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_ACTION);
+                                getPartNoCheckIntent.putExtra("PART_NO", msgDataTable.Rows.get(current_detail_row).getValue("part_no").toString());
+                                startService(getPartNoCheckIntent);
+                            } else { //current_detail_row = -1
+                                //start generate
+                                Log.e(TAG, " == Start remove column");
+
+                                //start from original code line 1881
+                                msgDataTable.Columns.Remove("scan_desc");
+
+                                //original code line 1897, get dept_no
+                                Intent getDeptNoIntent = new Intent(AllocationMsgDetailActivity.this, GetDeptNoService.class);
+                                getDeptNoIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_ACTION);
+                                startService(getDeptNoIntent);
+                            }
                         }
 
 
@@ -358,10 +484,12 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
                             //start from original code line 1881
                             msgDataTable.Columns.Remove("scan_desc");
+
+                            //original code line 1897, get dept_no
+                            Intent getDeptNoIntent = new Intent(AllocationMsgDetailActivity.this, GetDeptNoService.class);
+                            getDeptNoIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_ACTION);
+                            startService(getDeptNoIntent);
                         }
-
-                        //original code line 1897, get dept_no
-
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_FAILED)) {
                         Log.d(TAG, "receive ACTION_GET_PART_NO_NEED_SCAN_STATUS_FAILED");
@@ -583,6 +711,9 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES");
 
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
+
                         AlertDialog.Builder confirmdialog = new AlertDialog.Builder(AllocationMsgDetailActivity.this);
                         confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
                         confirmdialog.setTitle(getResources().getString(R.string.allocation_detail_generate_no, new_no));
@@ -603,10 +734,14 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO");
 
-
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED");
+
+                        if (loadDialog != null)
+                            loadDialog.dismiss();
 
                     } else if("unitech.scanservice.data" .equals(intent.getAction())) {
                         Log.d(TAG, "unitech.scanservice.data");
@@ -626,15 +761,17 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
                                 Log.e(TAG, "counter = " + counter);
 
+
+
                                 if (counter >= 0) {
                                     String codeArray[] = text.split("#");
                                     part_no = codeArray[0];
-                                    batch_no = codeArray[1];
+                                    //batch_no = codeArray[1];
 
                                     Intent getBarcodeIntent = new Intent(AllocationMsgDetailActivity.this, GetLotCodeVer2Service.class);
                                     getBarcodeIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_ACTION);
-                                    getBarcodeIntent.putExtra("PART_NO", part_no);
-                                    getBarcodeIntent.putExtra("BARCODE", text);
+                                    //getBarcodeIntent.putExtra("PART_NO", part_no);
+                                    getBarcodeIntent.putExtra("BARCODE_NO", text);
                                     startService(getBarcodeIntent);
 
                                 }
@@ -649,14 +786,26 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
         if (!isRegister) {
             filter = new IntentFilter();
+            filter.addAction(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_LOT_CODE_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_DELETE_ROW);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_MSG_DETAIL_DELETE_ITEM_CONFIRM);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED);
+            filter.addAction(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_NO);
+            filter.addAction(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_YES);
+            filter.addAction(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_DEPT_NO_FAILED);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_NEW_DOC_NO_SUCCESS);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_NEW_DOC_NO_FAILED);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED);
             filter.addAction("unitech.scanservice.data");
             registerReceiver(mReceiver, filter);
             isRegister = true;
@@ -728,7 +877,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                             deleteIntent.putExtra("DELETE_ROW", String.valueOf(item_select));
                             sendBroadcast(deleteIntent);
 
-                            finish();
+                            //finish();
                         }
                     });
                     confirmdialog.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {

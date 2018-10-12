@@ -10,6 +10,7 @@ public class AllocationMsgDetailItem {
     private String item_sfa12;
     private String item_scan_desc;
     private boolean selected;
+    private boolean checked;
 
 
     public String getItem_part_no() {
@@ -82,5 +83,13 @@ public class AllocationMsgDetailItem {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

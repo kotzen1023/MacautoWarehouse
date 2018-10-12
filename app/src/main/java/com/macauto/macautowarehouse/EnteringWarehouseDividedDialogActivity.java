@@ -64,6 +64,9 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        final String barcode = intent.getStringExtra("BARCODE");
+        Log.e(TAG, "barcode = "+barcode);
+
         setTitle(getResources().getString(R.string.entering_warehouse_dialog_head));
 
 
@@ -375,7 +378,7 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                         Log.d(TAG, "receive ACTION_GET_TT_SPLIT_RVV_ITEM_SUCCESS");
 
                         Intent splitIntent = new Intent(EnteringWarehouseDividedDialogActivity.this, DeleteTTReceiveGoodsInTempService2.class);
-                        splitIntent.setAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION);
+                        splitIntent.setAction(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP2_ACTION);
                         splitIntent.putExtra("IN_NO", in_no_string);
                         splitIntent.putExtra("ITEM_NO", item_no_string);
                         startService(splitIntent);
@@ -389,10 +392,11 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
                         //clear swipe_list only
                         Intent clearIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY);
+
                         sendBroadcast(clearIntent);
 
                         //reset item string
-                        String xx = "";
+                        /*String xx = "";
                         int start_index = Integer.valueOf(item_no_string);
                         for (int i=0; i<dataTable_Batch_area.Rows.size(); i++) {
                             xx = xx + "rvv02="+start_index;
@@ -406,12 +410,12 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
                         Log.e(TAG, "xx = "+xx);
 
                         Intent splitIntent = new Intent(EnteringWarehouseDividedDialogActivity.this, GetReceiveGoodsInDataAXService.class);
-                        splitIntent.setAction(Constants.ACTION.ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION);
+                        splitIntent.setAction(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_ACTION);
                         splitIntent.putExtra("IN_NO", in_no_string);
                         splitIntent.putExtra("ITEM_NO_LIST", xx);
                         splitIntent.putExtra("CHECK_SP", check_sp_string);
                         splitIntent.putExtra("ITEM_NO", item_no_string);
-                        startService(splitIntent);
+                        startService(splitIntent);*/
 
                         finish();
 

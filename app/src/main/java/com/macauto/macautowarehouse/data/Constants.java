@@ -55,10 +55,16 @@ public class Constants {
         String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_ADD = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogAdd";
         String ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW = "com.macauto.MacautoWarehoouse.EnteringWarehouseDividedDialogShow";
 
+
+        String ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_ACTION = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemAXAction";
+        String ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_SUCCESS = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemAXSuccess";
+        String ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_EMPTY = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemAXEmpty";
+        String ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_FAILED = "com.macauto.MacautoWarehoouse.GetInspectedReceiveItemAXFailed";
+
         //locate split
-        String ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSub";
-        String ACTION_GET_TT_SPLIT_RVV_ITEM_SUCCESS = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSubSuccess";
-        String ACTION_GET_TT_SPLIT_RVV_ITEM_FAILED = "com.macauto.MacautoWarehoouse.GetDocTypeIsRegOrSubFailed";
+        String ACTION_GET_TT_SPLIT_RVV_ITEM_ACTION = "com.macauto.MacautoWarehoouse.GetTTSplitRvvItemAction";
+        String ACTION_GET_TT_SPLIT_RVV_ITEM_SUCCESS = "com.macauto.MacautoWarehoouse.GetTTSplitRvvItemSuccess";
+        String ACTION_GET_TT_SPLIT_RVV_ITEM_FAILED = "com.macauto.MacautoWarehoouse.GetTTSplitRvvItemFailed";
 
         //receiving goods
         String ACTION_RECEIVING_GOODS_DATA_ACTION = "com.macauto.MacautoWarehoouse.ReceivingGoodsData";
@@ -212,6 +218,10 @@ public class Constants {
         String ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE = "com.macauto.MacautoWarehoouse.ProductInStockWorkComplete";
         String ACTION_PRODUCT_SWIPE_LAYOUT_UPDATE = "com.macauto.MacautoWarehoouse.ProductSwipeLayoutUpdate";
         String ACTION_PRODUCT_DELETE_ITEM_CONFIRM = "com.macauto.MacautoWarehoouse.ProductDeleteItemConfirm";
+
+        String ACTION_GET_TT_ERROR_STATUS_ACTION = "com.macauto.MacautoWarehoouse.GetTTErrorStatusAction";
+        String ACTION_GET_TT_ERROR_STATUS_FAILED = "com.macauto.MacautoWarehoouse.GetTTErrorStatusFailed";
+        String ACTION_GET_TT_ERROR_STATUS_SUCCESS = "com.macauto.MacautoWarehoouse.GetTTErrorStatusSuccess";
 
         //Receiving Inspection
         String ACTION_RECEIVING_INSPECTION_GET_TT_RECEIVE_GOODS_REPORT_DATA_QC_ACTION = "com.macauto.MacautoWarehoouse.ReceivingInspectionGetTTReceiveGoodsReportDataQCAction";

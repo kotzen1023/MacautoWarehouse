@@ -104,8 +104,8 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_CHECK_RECEIVE_GOODS)) {
-                Log.i(TAG, "GET_MESSAGE_LIST_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_ACTION)) {
+                Log.i(TAG, "ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_ACTION");
             }
         }
 
@@ -164,7 +164,7 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
             if (envelope.bodyIn instanceof SoapFault) {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED);
+                Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_FAILED);
                 sendBroadcast(getFailedIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
@@ -190,7 +190,7 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
                     Log.e(TAG, "dataTable.Rows.size() = "+dataTable.Rows.size());
 
                     if (dataTable.Rows.size() == 0) {
-                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
+                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_EMPTY);
                         sendBroadcast(getSuccessIntent);
                     } else {
                         DataColumn rvv33_scan = new DataColumn("rvv33_scan");
@@ -303,14 +303,14 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
                         Log.e(TAG, "================= total_count_list ==========================");
                         //count_num = (int) count_double;
 
-                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS);
+                        Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_SUCCESS);
                         sendBroadcast(getSuccessIntent);
                     }
 
 
 
                 } else {
-                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY);
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_EMPTY);
                     sendBroadcast(getSuccessIntent);
                 }
 
@@ -493,7 +493,7 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED);
+            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_AX_FAILED);
             sendBroadcast(getFailedIntent);
         }
 

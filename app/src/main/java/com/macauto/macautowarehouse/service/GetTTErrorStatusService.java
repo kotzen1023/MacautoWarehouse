@@ -14,10 +14,11 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
-public class GetPartNoNeedScanStatusService extends IntentService {
-    public static final String TAG = "CheckStockNoExist";
+import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
+
+public class GetTTErrorStatusService extends IntentService {
+    public static final String TAG = "GetTTErrorStatus";
 
     public static final String SERVICE_IP = "172.17.17.244";
 
@@ -25,18 +26,14 @@ public class GetPartNoNeedScanStatusService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "Get_part_no_need_scan_status"; // 方法名稱
+    private static final String METHOD_NAME = "Get_TT_error_status "; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/Get_part_no_need_scan_status"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/Get_TT_error_status "; // SOAP_ACTION
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    private boolean is_need_scan = false;
-    //private boolean soap_failed = false;
-    //private String current_detail_row;
-
-    public GetPartNoNeedScanStatusService() {
-        super("GetPartNoNeedScanStatusService");
+    public GetTTErrorStatusService() {
+        super("GetTTErrorStatusService");
     }
 
     @Override
@@ -68,8 +65,9 @@ public class GetPartNoNeedScanStatusService extends IntentService {
 
         //String device_id;
 
-        String part_no = intent.getStringExtra("PART_NO");
-        //String current_detail_row = intent.getStringExtra("CURRENT_DETAIL_ROW");
+        String in_no = intent.getStringExtra("IN_NO");
+
+
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");
         //String batch_no = intent.getStringExtra("BATCH_NO");
@@ -77,8 +75,8 @@ public class GetPartNoNeedScanStatusService extends IntentService {
         //String ima021 = intent.getStringExtra("SPEC");
         //String query_all = intent.getStringExtra("QUERY_ALL");
 
-        Log.e(TAG, "part_no = "+part_no);
-        //Log.e(TAG, "current_detail_row = "+current_detail_row);
+        //Log.e(TAG, "tag_id = "+tag_id);
+
         //Log.e(TAG, "batch_no = "+batch_no);
         //Log.e(TAG, "ima02 = "+ima02);
         //Log.e(TAG, "ima021 = "+ima021);
@@ -90,8 +88,8 @@ public class GetPartNoNeedScanStatusService extends IntentService {
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
         if (intent.getAction() != null) {
-            if (intent.getAction().equals(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_ACTION)) {
-                Log.i(TAG, "ACTION_GET_PART_NO_NEED_SCAN_STATUS_ACTION");
+            if (intent.getAction().equals(Constants.ACTION.ACTION_GET_TT_ERROR_STATUS_ACTION)) {
+                Log.i(TAG, "ACTION_GET_TT_ERROR_STATUS_ACTION");
             }
         }
 
@@ -107,7 +105,11 @@ public class GetPartNoNeedScanStatusService extends IntentService {
 
             request.addProperty("SID", "MAT");
 
-            request.addProperty("part_no", part_no);
+            request.addProperty("in_no", in_no);
+
+            //request.addProperty("req_qty", Integer.valueOf(req_qty));
+            //request.addProperty("stock_no", stock_no);
+            //request.addProperty("locate_no", locate_no);
             //request.addProperty("start_date", "");
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);
@@ -142,10 +144,8 @@ public class GetPartNoNeedScanStatusService extends IntentService {
 
             // 將 WebService 資訊轉為 DataTable
             if (envelope.bodyIn instanceof SoapFault) {
-                String str = ((SoapFault) envelope.bodyIn).faultstring;
+                String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
-
-                //soap_failed = true;
 
                 Intent getSuccessIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
                 sendBroadcast(getSuccessIntent);
@@ -153,18 +153,18 @@ public class GetPartNoNeedScanStatusService extends IntentService {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                is_need_scan = parseToBoolean(resultsRequestSOAP);
+                String ret = parseToString(resultsRequestSOAP);
 
-                //if (!soap_failed) {
-                    Intent checkResultIntent;
-                    if (!is_need_scan) {
-                        checkResultIntent = new Intent(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_NO);
-                        sendBroadcast(checkResultIntent);
-                    } else {
-                        checkResultIntent = new Intent(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_YES);
-                        sendBroadcast(checkResultIntent);
-                    }
-                //}
+                if (ret != null) {
+                    Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_GET_TT_ERROR_STATUS_SUCCESS);
+                    getSuccessIntent.putExtra("ERROR_STATUS_RETURN", ret);
+                    sendBroadcast(getSuccessIntent);
+                } else {
+                    Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_TT_ERROR_STATUS_FAILED);
+                    sendBroadcast(getFailedIntent);
+                }
+
+
 
 
 
@@ -191,7 +191,7 @@ public class GetPartNoNeedScanStatusService extends IntentService {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_FAILED);
+            Intent getFailedIntent = new Intent(Constants.ACTION.ACTION_GET_TT_ERROR_STATUS_FAILED);
             sendBroadcast(getFailedIntent);
         }
 
@@ -205,9 +205,6 @@ public class GetPartNoNeedScanStatusService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-
-
-
 
     }
 }

@@ -151,7 +151,14 @@ public class CheckMadeNoExistService extends IntentService {
 
                 is_exist = parseToBoolean(resultsRequestSOAP);
 
-
+                Intent checkResultIntent;
+                if (!is_exist) {
+                    checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_NOT_EXIST);
+                    sendBroadcast(checkResultIntent);
+                } else {
+                    checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_SUCCESS);
+                    sendBroadcast(checkResultIntent);
+                }
 
 
 
@@ -194,13 +201,6 @@ public class CheckMadeNoExistService extends IntentService {
         Log.d(TAG, "onDestroy()");
 
 
-        Intent checkResultIntent;
-        if (!is_exist) {
-            checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_NOT_EXIST);
-            sendBroadcast(checkResultIntent);
-        } else {
-            checkResultIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_SUCCESS);
-            sendBroadcast(checkResultIntent);
-        }
+
     }
 }

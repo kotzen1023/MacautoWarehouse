@@ -28,9 +28,9 @@ public class InsertTTImnFileNoTlfNoImgService extends IntentService {
 
     private static final String NAMESPACE = "http://tempuri.org/"; // 命名空間
 
-    private static final String METHOD_NAME = "Check_stock_no_exist"; // 方法名稱
+    private static final String METHOD_NAME = "Insert_TT_imn_file_no_tlf_no_img"; // 方法名稱
 
-    private static final String SOAP_ACTION1 = "http://tempuri.org/Check_stock_no_exist"; // SOAP_ACTION
+    private static final String SOAP_ACTION1 = "http://tempuri.org/Insert_TT_imn_file_no_tlf_no_img"; // SOAP_ACTION
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 

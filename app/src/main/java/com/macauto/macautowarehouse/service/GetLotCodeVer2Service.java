@@ -72,13 +72,13 @@ public class GetLotCodeVer2Service extends IntentService {
 
         //String device_id;
 
-        String part_no = intent.getStringExtra("PART_NO");
-        String barcode = intent.getStringExtra("BARCODE");
+        //String part_no = intent.getStringExtra("PART_NO");
+        String barcode_no = intent.getStringExtra("BARCODE_NO");
 
         String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
 
-        Log.e(TAG, "part_no = "+part_no);
-        Log.e(TAG, "barcode = "+barcode);
+        //Log.e(TAG, "part_no = "+part_no);
+        Log.e(TAG, "barcode_no = "+barcode_no);
 
         Log.e(TAG, "URL = "+URL);
 
@@ -110,7 +110,7 @@ public class GetLotCodeVer2Service extends IntentService {
 
 
             request.addProperty("SID", "MAT");
-            request.addProperty("barcode", barcode);
+            request.addProperty("barcode_no", barcode_no);
             //request.addProperty("user_no", user_no);
             //request.addProperty("end_date", "");
             //request.addProperty("emp_no", account);

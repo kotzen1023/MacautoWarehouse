@@ -207,6 +207,26 @@ public class ExecuteScriptTTService extends IntentService {
             }
         } else if (process_type == 1) {
             if (product_table_X_M != null) {
+                Log.e(TAG, "================= Column name ==========================");
+                for (int i=0; i<product_table_X_M.Columns.size(); i++) {
+                    System.out.print(product_table_X_M.Columns.get(i).ColumnName);
+                    if (i < product_table_X_M.Columns.size() - 1) {
+                        System.out.print(", ");
+                    }
+                }
+                System.out.print("\n");
+                Log.e(TAG, "========================================================");
+                for (int i=0; i<product_table_X_M.Rows.size(); i++) {
+
+                    for (int j=0; j<product_table_X_M.Columns.size(); j++) {
+                        System.out.print(product_table_X_M.Rows.get(i).getValue(j));
+                        if (j < product_table_X_M.Columns.size() - 1) {
+                            System.out.print(", ");
+                        }
+                    }
+                    System.out.print("\n");
+                }
+                Log.e(TAG, "========================================================");
                 //writer = parseDataTableToXml(product_table_X_M);
                 SoapObject mySoap = parseDataTableToSoapObject("script_list", product_table_X_M);
                 try {

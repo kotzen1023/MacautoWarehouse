@@ -5,9 +5,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp">
 
-
+        <ImageView
+            android:id="@+id/detailItemImg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_check_black_48dp"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,14 +58,14 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
         </LinearLayout>
-        <TextView
+        <!--TextView
             android:id="@+id/detailItemScan"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:text="scan"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
-            android:gravity="center"/>
+            android:gravity="center"/-->
     </LinearLayout>
 
 </LinearLayout>

@@ -22,14 +22,10 @@ import com.macauto.macautowarehouse.data.InspectedDetailItemAdapter;
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
-import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
+import static com.macauto.macautowarehouse.AllocationMsgDetailActivity.showList;
 
-
-
-public class EnteringWarehouseDetailActivity extends AppCompatActivity {
-    private static final String TAG = "WarehouseDetailActivity";
+public class AllocationMsgDetailOfDetailActivity extends AppCompatActivity {
+    private static final String TAG = "DetailOfDetailActivity";
 
     public static ArrayList<InspectedDetailItem> detailList = new ArrayList<>();
 
@@ -43,36 +39,16 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entering_warehouse_detail_activity);
+        setContentView(R.layout.allocation_msg_detail_of_detail_activity);
 
         Intent intent = getIntent();
 
         final int index = Integer.valueOf(intent.getStringExtra("INDEX"));
         //final String barcode = intent.getStringExtra("BARCODE");
 
-        ListView listView = findViewById(R.id.inspectedDetailListView);
+        ListView listView = findViewById(R.id.detailDetailListView);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (detailList.size() > 0) {
-                    if (position == 9) { //quantity
-                        Intent clearIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW);
-                        clearIntent.putExtra("INDEX", String.valueOf(index));
-                        //clearIntent.putExtra("BARCODE", barcode);
-                        sendBroadcast(clearIntent);
 
-                        finish();
-                    }
-                }
-            }
-        });
-        //setTitle(getResources().getString(R.string.entering_warehouse_dialog_head));
-
-        //imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        //View view = getCurrentFocus();
-        //imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -84,48 +60,48 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
 
         detailList.clear();
 
-        // V
+        // part_no
         InspectedDetailItem item1 = new InspectedDetailItem();
-        item1.setHeader(getResources().getString(R.string.item_title_check_sp));
-        item1.setContent(String.valueOf(swipe_list.get(index).isCheck_sp()));
+        item1.setHeader(getResources().getString(R.string.allocation_item_part_no));
+        item1.setContent(String.valueOf(showList.get(index).getItem_part_no()));
         detailList.add(item1);
-        //rvu01
-        InspectedDetailItem item2 = new InspectedDetailItem();
-        item2.setHeader(getResources().getString(R.string.item_title_rvu01));
-        item2.setContent(swipe_list.get(index).getCol_rvu01());
-        detailList.add(item2);
-        //rvv02
-        InspectedDetailItem item3 = new InspectedDetailItem();
-        item3.setHeader(getResources().getString(R.string.item_title_rvv02));
-        item3.setContent(swipe_list.get(index).getCol_rvv02());
-        detailList.add(item3);
-        //rvb05
-        InspectedDetailItem item4 = new InspectedDetailItem();
-        item4.setHeader(getResources().getString(R.string.item_title_rvb05));
-        item4.setContent(swipe_list.get(index).getCol_rvb05());
-        detailList.add(item4);
-        //pmn041
-        InspectedDetailItem item5 = new InspectedDetailItem();
-        item5.setHeader(getResources().getString(R.string.item_title_pmn041));
-        item5.setContent(swipe_list.get(index).getCol_pmn041());
-        detailList.add(item5);
         //ima021
+        InspectedDetailItem item2 = new InspectedDetailItem();
+        item2.setHeader(getResources().getString(R.string.allocation_item_name));
+        item2.setContent(showList.get(index).getItem_ima021());
+        detailList.add(item2);
+        //qty
+        InspectedDetailItem item3 = new InspectedDetailItem();
+        item3.setHeader(getResources().getString(R.string.allocation_item_qty));
+        item3.setContent(showList.get(index).getItem_qty());
+        detailList.add(item3);
+        //src stock
+        InspectedDetailItem item4 = new InspectedDetailItem();
+        item4.setHeader(getResources().getString(R.string.allocation_item_src_stock));
+        item4.setContent(showList.get(index).getItem_src_stock_no());
+        detailList.add(item4);
+        //src locate no
+        InspectedDetailItem item5 = new InspectedDetailItem();
+        item5.setHeader(getResources().getString(R.string.allocation_item_src_locate));
+        item5.setContent(showList.get(index).getItem_src_locate_no());
+        detailList.add(item5);
+        //src batch no
         InspectedDetailItem item6 = new InspectedDetailItem();
-        item6.setHeader(getResources().getString(R.string.item_title_ima021));
-        item6.setContent(swipe_list.get(index).getCol_ima021());
+        item6.setHeader(getResources().getString(R.string.allocation_item_src_batch));
+        item6.setContent(showList.get(index).getItem_src_batch_no());
         detailList.add(item6);
-        //rvv32
+        //sfa12
         InspectedDetailItem item7 = new InspectedDetailItem();
-        item7.setHeader(getResources().getString(R.string.item_title_rvv32));
-        item7.setContent(swipe_list.get(index).getCol_rvv32());
+        item7.setHeader(getResources().getString(R.string.allocation_item_sfa12));
+        item7.setContent(showList.get(index).getItem_sfa12());
         detailList.add(item7);
-        //rvv33
+        //scan desc
         InspectedDetailItem item8 = new InspectedDetailItem();
-        item8.setHeader(getResources().getString(R.string.item_title_rvv33));
-        item8.setContent(swipe_list.get(index).getCol_rvv33());
+        item8.setHeader(getResources().getString(R.string.allocation_item_scan_desc));
+        item8.setContent(showList.get(index).getItem_scan_desc());
         detailList.add(item8);
         //rvv34
-        InspectedDetailItem item9 = new InspectedDetailItem();
+        /*InspectedDetailItem item9 = new InspectedDetailItem();
         item9.setHeader(getResources().getString(R.string.item_title_rvv34));
         item9.setContent(swipe_list.get(index).getCol_rvv34());
         detailList.add(item9);
@@ -143,10 +119,10 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
         InspectedDetailItem item12 = new InspectedDetailItem();
         item12.setHeader(getResources().getString(R.string.item_title_gen02));
         item12.setContent(swipe_list.get(index).getCol_gen02());
-        detailList.add(item12);
+        detailList.add(item12);*/
 
 
-        inspectedDetailItemAdapter = new InspectedDetailItemAdapter(EnteringWarehouseDetailActivity.this, R.layout.inspected_receive_list_detail_item, detailList);
+        inspectedDetailItemAdapter = new InspectedDetailItemAdapter(AllocationMsgDetailOfDetailActivity.this, R.layout.inspected_receive_list_detail_item, detailList);
         listView.setAdapter(inspectedDetailItemAdapter);
 
         final IntentFilter filter;
@@ -178,7 +154,7 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
 
                                 Log.e(TAG, "counter = "+counter);
 
-                                if (counter >= 1) {
+                                /*if (counter >= 1) {
 
                                     toast(getResources().getString(R.string.not_locate_no_msg));
 
@@ -189,24 +165,24 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
 
                                     //if (text.length() == 6) {
 
-                                        if (item_select != -1) { //scan locate
-                                            if (dataTable != null && dataTable.Rows.size() > 0) {
-                                                dataTable.Rows.get(item_select).setValue("rvv33", text);
-                                                dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
-                                            }
-                                            swipe_list.get(item_select).setCol_rvv33(text);
-                                            swipe_list.get(item_select).setChecked(true);
-                                            //check_stock_in.set(item_select, true);
-
-                                            detailList.get(7).setContent(text);
-
-                                            if (inspectedDetailItemAdapter != null)
-                                                inspectedDetailItemAdapter.notifyDataSetChanged();
+                                    if (item_select != -1) { //scan locate
+                                        if (dataTable != null && dataTable.Rows.size() > 0) {
+                                            dataTable.Rows.get(item_select).setValue("rvv33", text);
+                                            dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
                                         }
+                                        swipe_list.get(item_select).setCol_rvv33(text);
+                                        swipe_list.get(item_select).setChecked(true);
+                                        //check_stock_in.set(item_select, true);
+
+                                        detailList.get(7).setContent(text);
+
+                                        if (inspectedDetailItemAdapter != null)
+                                            inspectedDetailItemAdapter.notifyDataSetChanged();
+                                    }
                                     //}
 
 
-                                }
+                                }*/
 
                             }
                         }

@@ -192,7 +192,7 @@ public class GetDocTypeIsRegOrSubService extends IntentService {
                 }
 
 
-                String script_string = "sh run_me " + s_p + " 1 " + doc_no + " " + doc_type + "";
+                String script_string = "sh run_me " + s_p + " 1 " + doc_no + " '" + doc_type + "'";
 
                 DataRow kr = table_X_M.NewRow();
                 kr.setValue("script", script_string);

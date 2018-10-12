@@ -332,8 +332,8 @@ public class MainActivity extends AppCompatActivity
                             menuItemAllocationSendMsg.setVisible(true);
                             menuItemEnteringWareHouse.setVisible(true);
                             menuItemProductionStorage.setVisible(true);
-                            menuItemShipment.setVisible(true);
-                            menuItemReceivingInspection.setVisible(true);
+                            //menuItemShipment.setVisible(true);
+                            //menuItemReceivingInspection.setVisible(true);
 
                             menuItemLogin.setVisible(false);
                             menuItemLogout.setVisible(true);
@@ -585,8 +585,8 @@ public class MainActivity extends AppCompatActivity
             menuItemAllocationSendMsg.setVisible(true);
             menuItemEnteringWareHouse.setVisible(true);
             menuItemProductionStorage.setVisible(true);
-            menuItemShipment.setVisible(true);
-            menuItemReceivingInspection.setVisible(true);
+            //menuItemShipment.setVisible(true);
+            //menuItemReceivingInspection.setVisible(true);
 
         } else {
             setting.setVisible(false);

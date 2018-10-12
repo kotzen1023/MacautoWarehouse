@@ -104,7 +104,14 @@ public class GetSfaDataMessMoveService extends IntentService {
 
         //String combine_url = "http://"+SERVICE_IP+":"+SERVICE_PORT+"/service.asmx";
 
-
+        Log.e(TAG, "================= Column name ==========================");
+        for (int i=0; i<hhh.Columns.size(); i++) {
+            System.out.print(hhh.Columns.get(i).ColumnName);
+            if (i < hhh.Columns.size() - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.print("\n");
         Log.e(TAG, "========================================================");
 
 

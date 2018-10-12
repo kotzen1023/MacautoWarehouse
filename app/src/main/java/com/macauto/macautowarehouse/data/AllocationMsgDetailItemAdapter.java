@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -83,7 +84,14 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
             String bottom = items.get(position).getItem_src_stock_no()+" "+items.get(position).getItem_src_locate_no();
             holder.textViewCenter.setText(center);
             holder.textViewBottom.setText(bottom);
-            holder.textViewScan.setText(items.get(position).getItem_scan_desc());
+            //holder.textViewScan.setText(items.get(position).getItem_scan_desc());
+
+            if (allocationMsgDetailItem.isChecked()) {
+                holder.imageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.imageView.setVisibility(View.GONE);
+            }
+
 
             if (allocationMsgDetailItem.isSelected()) {
                 //Log.e(TAG, ""+position+" is selected.");
@@ -193,7 +201,8 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
         private TextView textViewTop;
         private TextView textViewCenter;
         private TextView textViewBottom;
-        private TextView textViewScan;
+        private ImageView imageView;
+        //private TextView textViewScan;
 
         //private View btnDelete;
         //private View btnEdit;
@@ -208,7 +217,8 @@ public class AllocationMsgDetailItemAdapter extends ArrayAdapter<AllocationMsgDe
         private ViewHolder(View view) {
             //this.itemHeader = view.findViewById(R.id.itemDetailHeader);
             //this.itemContent = view.findViewById(R.id.itemDetailContent);
-            this.textViewScan = view.findViewById(R.id.detailItemScan);
+            //this.textViewScan = view.findViewById(R.id.detailItemScan);
+            this.imageView = view.findViewById(R.id.detailItemImg);
             this.textViewTop = view.findViewById(R.id.detailItemtitle);
             this.textViewCenter = view.findViewById(R.id.detailItemDecrypt);
             this.textViewBottom = view.findViewById(R.id.detailItemCount);
