@@ -401,11 +401,17 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                             }
                         }
 
-                        if (!found) {
-                            btnTransfer.setEnabled(true);
+                        if (msgDataTable.Rows.size() > 0) {
+                            if (!found) {
+                                btnTransfer.setEnabled(true);
+                            } else {
+                                btnTransfer.setEnabled(false);
+                            }
                         } else {
                             btnTransfer.setEnabled(false);
                         }
+
+
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_SUCCESS");
