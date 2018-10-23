@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +84,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
     public static DataTable dataTable_Batch_area;
     //private static boolean is_getScan = false;
     ProgressDialog loadDialog = null;
+    ProgressBar progressBar = null;
+    RelativeLayout relativeLayout;
     InputMethodManager imm;
     //public static int current_expanded_group = -1;
     //public static int total_count_int = 0;
@@ -112,6 +116,13 @@ public class EnteringWarehouseFragmnet extends Fragment {
         //imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
         listView = view.findViewById(R.id.listViewExpand);
+        relativeLayout = view.findViewById(R.id.enter_warehouse_list_container);
+
+        progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        relativeLayout.addView(progressBar,params);
+        progressBar.setVisibility(View.GONE);
         //textViewTotalCount = view.findViewById(R.id.textViewTotal);
 
         swipe_list.clear();
@@ -510,13 +521,13 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                 getintent.setAction(Constants.ACTION.ACTION_CONFIRM_ENTERING_WAREHOUSE_ACTION);
                                 fragmentContext.startService(getintent);
 
-
-                                loadDialog = new ProgressDialog(fragmentContext);
+                                progressBar.setVisibility(View.VISIBLE);
+                                /*loadDialog = new ProgressDialog(fragmentContext);
                                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 loadDialog.setTitle(getResources().getString(R.string.Processing));
                                 loadDialog.setIndeterminate(false);
                                 loadDialog.setCancelable(false);
-                                loadDialog.show();
+                                loadDialog.show();*/
                             }
 
 
@@ -557,8 +568,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                     if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
                         Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         is_scan_receive = false;
 
@@ -569,8 +581,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         is_scan_receive = false;
 
@@ -630,12 +643,14 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         context.startService(getintent);
 
                         //start loadDialog
-                        loadDialog = new ProgressDialog(fragmentContext);
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        /*loadDialog = new ProgressDialog(fragmentContext);
                         loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         loadDialog.setTitle(getResources().getString(R.string.Processing));
                         loadDialog.setIndeterminate(false);
                         loadDialog.setCancelable(false);
-                        loadDialog.show();
+                        loadDialog.show();*/
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY)) {
                         Log.d(TAG, "get ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY");
@@ -672,8 +687,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                         Log.d(TAG, "receive ACTION_GET_INSPECTED_RECEIVE_ITEM_SUCCESS");
 
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         if (inspectedReceiveItemAdapter != null)
                             inspectedReceiveItemAdapter.notifyDataSetChanged();
@@ -715,8 +731,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY)) {
                         Log.d(TAG, "receive ACTION_GET_INSPECTED_RECEIVE_ITEM_EMPTY");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         is_scan_receive = false;
 
@@ -725,8 +742,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         toast(context.getResources().getString(R.string.entering_warehouse_no_record));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_INSPECTED_RECEIVE_ITEM_FAILED)) {
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         is_scan_receive = false;
 
@@ -836,7 +854,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_FAILED)) {
                         Log.d(TAG, "get ACTION_UPDATE_TT_RECEIVE_IN_RVV33_FAILED");
                         toast(getResources().getString(R.string.entering_warehouse_failed));
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_UPDATE_TT_RECEIVE_IN_RVV33_SUCCESS)) {
                         Log.d(TAG, "get ACTION_UPDATE_TT_RECEIVE_IN_RVV33_SUCCESS");
 
@@ -867,7 +886,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_FAILED)) {
                         Log.d(TAG, "get ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_FAILED");
                         toast(getResources().getString(R.string.entering_warehouse_failed));
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS)) {
                         Log.d(TAG, "get ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_SUCCESS");
                         String current_table = intent.getStringExtra("CURRENT_TABLE");
@@ -912,7 +932,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_COMPLETE)) {
                         Log.d(TAG, "get ACTION_GET_DOC_TYPE_IS_REG_OR_SUB_COMPLETE");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         Log.e(TAG, "=================== table_X_M ==========================");
                         for (int i=0; i<table_X_M.Rows.size(); i++) {
@@ -939,7 +960,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_EXECUTE_TT_FAILED)) {
                         Log.d(TAG, "get ACTION_EXECUTE_TT_FAILED");
                         toast(getResources().getString(R.string.entering_warehouse_failed));
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_EXECUTE_TT_SUCCESS)) {
                         Log.d(TAG, "get ACTION_EXECUTE_TT_SUCCESS");
                         String current_table = intent.getStringExtra("CURRENT_TABLE");
@@ -1012,7 +1034,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         Log.e(TAG, "=== [ACTION_ENTERING_WAREHOUSE_COMPLETE] check stock in end ===");*/
 
                         toast(getResources().getString(R.string.entering_warehouse_complete));
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         //layoutBottom.setVisibility(View.GONE);
 
                         //if dataTable Rows = 0, delete temp

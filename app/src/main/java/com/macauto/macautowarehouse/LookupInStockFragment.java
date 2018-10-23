@@ -20,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
@@ -49,6 +51,8 @@ public class LookupInStockFragment extends Fragment {
     public SearchItemAdapter searchItemAdapter;
 
     ProgressDialog loadDialog = null;
+    ProgressBar progressBar = null;
+    RelativeLayout relativeLayout;
 
     public static DataTable lookUpDataTable;
 
@@ -74,6 +78,14 @@ public class LookupInStockFragment extends Fragment {
 
 
         final  View view = inflater.inflate(R.layout.look_up_in_stock_fragment, container, false);
+
+        //progress bar
+        relativeLayout = view.findViewById(R.id.lookup_in_stock_list_container);
+        progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        relativeLayout.addView(progressBar,params);
+        progressBar.setVisibility(View.GONE);
 
         imm = (InputMethodManager)fragmentContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -125,14 +137,14 @@ public class LookupInStockFragment extends Fragment {
                 getintent.putExtra("SPEC", spec.getText().toString());
                 fragmentContext.startService(getintent);
 
+                progressBar.setVisibility(View.VISIBLE);
 
-
-                loadDialog = new ProgressDialog(fragmentContext);
+                /*loadDialog = new ProgressDialog(fragmentContext);
                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loadDialog.setTitle(getResources().getString(R.string.Processing));
                 loadDialog.setIndeterminate(false);
                 loadDialog.setCancelable(false);
-                loadDialog.show();
+                loadDialog.show();*/
             }
         });
 
@@ -175,12 +187,14 @@ public class LookupInStockFragment extends Fragment {
                         //loadDialog.dismiss();
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_BATCH_FAILED)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_BATCH_FAILED");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         toast(fragmentContext.getResources().getString(R.string.look_up_in_stock_no_match_batch));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_BATCH_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_BATCH_SUCCESS");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         String batch_no = intent.getStringExtra("BATCH_NO");
                         Log.e(TAG, "batch_no = "+batch_no);
@@ -190,10 +204,12 @@ public class LookupInStockFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_CLEAN)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_LIST_CLEAN");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_FAILED)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_LIST_FAILED");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         toast(fragmentContext.getResources().getString(R.string.look_up_in_stock_no_match_batch));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS)) {
@@ -201,7 +217,8 @@ public class LookupInStockFragment extends Fragment {
 
                         String records = intent.getStringExtra("RECORDS");
 
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         Log.e(TAG, "searchList.size = " + searchList.size());
 
@@ -224,7 +241,8 @@ public class LookupInStockFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         if (searchItemAdapter != null)
                             searchItemAdapter.notifyDataSetChanged();
@@ -254,7 +272,8 @@ public class LookupInStockFragment extends Fragment {
                         recyclerViewResult.setAdapter(searchItemAdapter);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.socket_timeout));
 
                     }

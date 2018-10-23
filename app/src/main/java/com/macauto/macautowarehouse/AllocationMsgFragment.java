@@ -23,6 +23,8 @@ import android.widget.Button;
 
 import android.widget.ListView;
 
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.AllocationMsgAdapter;
@@ -53,6 +55,8 @@ public class AllocationMsgFragment extends Fragment {
     private static boolean isRegister = false;
 
     ProgressDialog loadDialog = null;
+    ProgressBar progressBar = null;
+    RelativeLayout relativeLayout;
     public static ArrayList<AllocationMsgItem> msg_list = new ArrayList<>();
 
     //private LinearLayout layoutMsgShow;
@@ -99,6 +103,12 @@ public class AllocationMsgFragment extends Fragment {
 
         final  View view = inflater.inflate(R.layout.allocation_msg_fragment, container, false);
 
+        relativeLayout = view.findViewById(R.id.allocation_msg_list_container);
+        progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        relativeLayout.addView(progressBar,params);
+        progressBar.setVisibility(View.GONE);
         //layoutMsgShow = view.findViewById(R.id.layoutMsgShow);
         btnDelete = view.findViewById(R.id.btnMsgDelete);
         //layoutScan = view.findViewById(R.id.layoutScan);
@@ -178,12 +188,13 @@ public class AllocationMsgFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                loadDialog = new ProgressDialog(fragmentContext);
+                progressBar.setVisibility(View.VISIBLE);
+                /*loadDialog = new ProgressDialog(fragmentContext);
                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loadDialog.setTitle(getResources().getString(R.string.Processing));
                 loadDialog.setIndeterminate(false);
                 loadDialog.setCancelable(false);
-                loadDialog.show();
+                loadDialog.show();*/
 
                 String[] p_no = msg_list.get(position).getWork_order().split("#");
 
@@ -232,12 +243,13 @@ public class AllocationMsgFragment extends Fragment {
                 confirmdialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
-                        loadDialog = new ProgressDialog(fragmentContext);
+                        /*loadDialog = new ProgressDialog(fragmentContext);
                         loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         loadDialog.setTitle(getResources().getString(R.string.Processing));
                         loadDialog.setIndeterminate(false);
                         loadDialog.setCancelable(false);
-                        loadDialog.show();
+                        loadDialog.show();*/
+                        progressBar.setVisibility(View.VISIBLE);
 
                         Intent deleteIntent = new Intent(fragmentContext, DeleteMessageNoService.class);
                         deleteIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_ACTION);
@@ -280,12 +292,13 @@ public class AllocationMsgFragment extends Fragment {
         getMessIntent.putExtra("USER_NO", emp_no);
         fragmentContext.startService(getMessIntent);
 
-        loadDialog = new ProgressDialog(fragmentContext);
+        progressBar.setVisibility(View.VISIBLE);
+        /*loadDialog = new ProgressDialog(fragmentContext);
         loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         loadDialog.setTitle(getResources().getString(R.string.Processing));
         loadDialog.setIndeterminate(false);
         loadDialog.setCancelable(false);
-        loadDialog.show();
+        loadDialog.show();*/
 
         final IntentFilter filter;
 
@@ -299,20 +312,24 @@ public class AllocationMsgFragment extends Fragment {
 
                     if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
                         Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.socket_timeout));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         if (allocationMsgAdapter != null)
                             allocationMsgAdapter.notifyDataSetChanged();
@@ -343,7 +360,8 @@ public class AllocationMsgFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.allocation_no_message));
 
 
@@ -367,12 +385,14 @@ public class AllocationMsgFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.allocation_get_msg_detail_error));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         String iss_date = intent.getStringExtra("ISS_DATE");
                         String made_no = intent.getStringExtra("MADE_NO");
                         String tag_locate_no = intent.getStringExtra("TAG_LOCATE_NO");
@@ -532,7 +552,8 @@ public class AllocationMsgFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED");
-                        loadDialog.dismiss();
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE");

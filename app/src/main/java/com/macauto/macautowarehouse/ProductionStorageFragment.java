@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +59,8 @@ public class ProductionStorageFragment extends Fragment {
     private static boolean isRegister = false;
 
     ProgressDialog loadDialog = null;
+    ProgressBar progressBar;
+    RelativeLayout relativeLayout;
 
     private EditText exitTextInNo;
     private Button btnUserInputConfirm;
@@ -89,6 +93,13 @@ public class ProductionStorageFragment extends Fragment {
         item_select = -1;
 
         final  View view = inflater.inflate(R.layout.production_storage_fragment, container, false);
+
+        relativeLayout = view.findViewById(R.id.production_storage_list_container);
+        progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        relativeLayout.addView(progressBar,params);
+        progressBar.setVisibility(View.GONE);
 
         exitTextInNo = view.findViewById(R.id.exitTextInNo);
         btnUserInputConfirm = view.findViewById(R.id.btnUserInputConfirm);
@@ -128,12 +139,13 @@ public class ProductionStorageFragment extends Fragment {
                 checkIntent.putExtra("IN_NO", exitTextInNo.getText().toString());
                 fragmentContext.startService(checkIntent);
 
-                loadDialog = new ProgressDialog(fragmentContext);
+                /*loadDialog = new ProgressDialog(fragmentContext);
                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loadDialog.setTitle(getResources().getString(R.string.Processing));
                 loadDialog.setIndeterminate(false);
                 loadDialog.setCancelable(false);
-                loadDialog.show();
+                loadDialog.show();*/
+                progressBar.setVisibility(View.VISIBLE);
             }
         });
 
@@ -219,12 +231,13 @@ public class ProductionStorageFragment extends Fragment {
                                 fragmentContext.startService(checkIntent);
 
 
-                                loadDialog = new ProgressDialog(fragmentContext);
+                                /*loadDialog = new ProgressDialog(fragmentContext);
                                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                 loadDialog.setTitle(getResources().getString(R.string.Processing));
                                 loadDialog.setIndeterminate(false);
                                 loadDialog.setCancelable(false);
-                                loadDialog.show();
+                                loadDialog.show();*/
+                                progressBar.setVisibility(View.VISIBLE);
 
 
                             }
@@ -271,19 +284,22 @@ public class ProductionStorageFragment extends Fragment {
 
                     if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
                         Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.socket_timeout));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_YES)) {
                         Log.d(TAG, "receive ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_YES");
 
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         toast(getResources().getString(R.string.production_storage_inbound_order_has_confirmed, exitTextInNo.getText().toString()));
 
@@ -297,16 +313,19 @@ public class ProductionStorageFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_FAILED)) {
                         Log.d(TAG, "receive ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_FAILED");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_PRODUCT_ENTRY_FAILED)) {
                         Log.d(TAG, "receive ACTION_GET_TT_PRODUCT_ENTRY_FAILED");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_PRODUCT_ENTRY_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_GET_TT_PRODUCT_ENTRY_SUCCESS");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         if (productionStorageItemAdapter != null) {
                             productionStorageItemAdapter.notifyDataSetChanged();
@@ -325,8 +344,9 @@ public class ProductionStorageFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_PRODUCT_ENTRY_EMPTY)) {
                         Log.d(TAG, "receive ACTION_GET_TT_PRODUCT_ENTRY_EMPTY");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_inbound_order_has_confirmed, exitTextInNo.getText().toString()));
 
                         btnInStockConfirm.setEnabled(false);
@@ -346,15 +366,17 @@ public class ProductionStorageFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_NO)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_NO");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         toast(getResources().getString(R.string.production_storage_in_stock_process_abort));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_FAILED)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_FAILED");
 
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_in_stock_process_abort));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_SUCCESS)) {
@@ -414,23 +436,27 @@ public class ProductionStorageFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_FAILED)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_FAILED");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_update_process_error));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_EXECUTE_TT_FAILED)) {
                         Log.d(TAG, "receive ACTION_EXECUTE_TT_FAILED");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_confirm_in_stock_fail));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_in_stock_process_complete));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
                         //toast(getResources().getString(R.string.production_storage_in_stock_process_complete));
 
                         Intent executeIntent = new Intent(context, GetTTErrorStatusService.class);
@@ -549,12 +575,13 @@ public class ProductionStorageFragment extends Fragment {
                                             checkIntent.putExtra("IN_NO", text);
                                             fragmentContext.startService(checkIntent);
 
-                                            loadDialog = new ProgressDialog(fragmentContext);
+                                            /*loadDialog = new ProgressDialog(fragmentContext);
                                             loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                                             loadDialog.setTitle(getResources().getString(R.string.Processing));
                                             loadDialog.setIndeterminate(false);
                                             loadDialog.setCancelable(false);
-                                            loadDialog.show();
+                                            loadDialog.show();*/
+                                            progressBar.setVisibility(View.VISIBLE);
                                         }
 
                                     }

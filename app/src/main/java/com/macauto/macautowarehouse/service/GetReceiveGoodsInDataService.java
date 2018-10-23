@@ -186,6 +186,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
                 dataTable.TableName = "GOODS_IN";
 
                 dataTable = parseXmlToDataTable(s_deals);
+                //sort by part no
+                dataTable.SortByColumn("rvb05");
 
                 if (dataTable != null) {
 
