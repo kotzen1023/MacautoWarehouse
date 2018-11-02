@@ -105,7 +105,7 @@ public class DataTable {
         }
     }
 
-    public void rowSwitch(int row1, int row2) {
+    private void rowSwitch(int row1, int row2) {
 
         if (row2 > row1) {
             DataRow rowTemp = this.Rows.get(row1);

@@ -586,7 +586,7 @@ public class ShipmentFragment extends Fragment {
 
         if (!b_part_no.equals(part_no))
         {
-            return ret;
+            return false;
         }
 
         if (need_scan_qty == 0) {

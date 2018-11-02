@@ -1,9 +1,9 @@
-package com.macauto.macautowarehouse.table;
+package com.macauto.macautowarehouse;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,18 +14,15 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.macauto.macautowarehouse.EnteringWarehouseDetailActivity;
-import com.macauto.macautowarehouse.R;
+
+
 import com.macauto.macautowarehouse.data.AllocationMsgShowItem;
 import com.macauto.macautowarehouse.data.AllocationMsgShowItemAdapter;
-import com.macauto.macautowarehouse.data.InspectedDetailItem;
-import com.macauto.macautowarehouse.data.InspectedDetailItemAdapter;
+
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
-import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
+
 
 public class AllocationShowActivity extends AppCompatActivity {
     private static final String TAG = "AllocationShowActivity";

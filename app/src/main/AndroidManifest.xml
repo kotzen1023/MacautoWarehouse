@@ -38,6 +38,7 @@
         <activity android:name=".EnteringWarehouseDetailActivity" />
         <activity android:name=".ProductionStorageDetailActivity" />
         <activity android:name=".AllocationMsgDetailOfDetailActivity" />
+        <activity android:name=".AllocationShowActivity" />
 
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />
