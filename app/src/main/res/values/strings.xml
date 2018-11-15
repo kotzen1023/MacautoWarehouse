@@ -17,6 +17,8 @@
     <string name="save">Save</string>
     <string name="exit_app_title">Exit</string>
     <string name="exit_app_msg">Exit from this App?</string>
+    <string name="login_no_emp">This account is not exist</string>
+    <string name="login_password_error">Password error</string>
     <string name="logout_title">Log out</string>
     <string name="logout_title_msg">Log out from this account?</string>
     <string name="Processing">Processing...</string>
@@ -29,7 +31,7 @@
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="title_activity_main">Barcode Reader Sample</string>
-    <string name="barcode_header">Click &quot;Read Barcode&quot; to read a barcode</string>
+    <string name="barcode_header">Click allocation_detail_should_scan&quot;Read Barcode&quot; to read a barcode</string>
     <string name="read_barcode">Read Barcode</string>
     <string name="auto_focus">Auto Focus</string>
     <string name="use_flash">Use Flash</string>
@@ -190,7 +192,7 @@
     <string name="allocation_detail_barcode">Barcode</string>
     <string name="allocation_detail_scanned">Scanned</string>
     <string name="allocation_detail_scanned_not_found">No matched batch No. Please re-scan!</string>
-    <string name="allocation_detail_should_scan">Part No. %s should be scanned. But it did not!"</string>
+    <string name="allocation_detail_should_scan">Part No. %s should be scanned. But it did not!</string>
     <string name="allocation_detail_save_error_a1">Save error (A1) , Please contact IT.</string>
     <string name="allocation_detail_generate_no">Allocation No. %s</string>
     <string name="allocation_detail_insert_tt_imn_string">Replenish: Stock->Preparation area</string>

@@ -446,13 +446,13 @@ public class ProductionStorageFragment extends Fragment {
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_confirm_in_stock_fail));
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
+                    } /*else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_in_stock_process_complete));
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
+                    }*/ else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();

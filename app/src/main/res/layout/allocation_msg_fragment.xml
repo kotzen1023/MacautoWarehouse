@@ -11,61 +11,61 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/layoutMsgShow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:visibility="visible">
 
-    </LinearLayout>
+            <!--Button
+                android:id="@+id/btnDelete"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/allocation_handle_message_delete_select"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:enabled="false"/-->
 
-    <LinearLayout
-        android:id="@+id/layoutMsgShow"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:visibility="visible">
+            <ListView
+                android:id="@+id/listViewAllocationMsg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice"
+                android:layout_weight="1">
 
-        <!--Button
-            android:id="@+id/btnDelete"
+
+            </ListView>
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/allocation_handle_message_delete_select"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:enabled="false"/-->
+            android:orientation="horizontal">
 
-        <ListView
-            android:id="@+id/listViewAllocationMsg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:choiceMode="singleChoice"
-            android:layout_weight="1">
+            <!--Button
+                android:id="@+id/btnMsgList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/allocation_button_message_list"
+                android:layout_weight="1"
+                android:enabled="false"/-->
 
-
-        </ListView>
+            <Button
+                android:id="@+id/btnMsgDelete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/allocation_handle_message_delete_select"
+                android:layout_weight="1"
+                android:enabled="false"/>
+        </LinearLayout>
     </LinearLayout>
 
 
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal">
-
-        <!--Button
-            android:id="@+id/btnMsgList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/allocation_button_message_list"
-            android:layout_weight="1"
-            android:enabled="false"/-->
-
-        <Button
-            android:id="@+id/btnMsgDelete"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/allocation_handle_message_delete_select"
-            android:layout_weight="1"
-            android:enabled="false"/>
-    </LinearLayout>
 
 
 

@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +62,11 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
+    private Context context;
+
     ProgressDialog loadDialog = null;
+    ProgressBar progressBar = null;
+    RelativeLayout relativeLayout;
 
     private ListView detailListView;
 
@@ -79,6 +85,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
     private static String iss_no;
     private static String new_no;
     private static int y;
+    private static String tag_locate_no;
 
     public static DataTable dataTable_SSS;
 
@@ -97,6 +104,15 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.allocation_msg_detail_activity);
+
+        context = getApplicationContext();
+
+        relativeLayout = findViewById(R.id.allocation_msg_detail_list_container);
+        progressBar = new ProgressBar(context,null,android.R.attr.progressBarStyleLarge);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        relativeLayout.addView(progressBar,params);
+        progressBar.setVisibility(View.GONE);
 
         Intent intent = getIntent();
 
@@ -165,7 +181,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
         String iss_date = intent.getStringExtra("ISS_DATE");
         made_no = intent.getStringExtra("MADE_NO");
-        final String tag_locate_no = intent.getStringExtra("TAG_LOCATE_NO");
+        tag_locate_no = intent.getStringExtra("TAG_LOCATE_NO");
         String tag_stock_no = intent.getStringExtra("TAG_STOCK_NO");
         String ima03 = intent.getStringExtra("IMA03");
         String pre_get_datetime = intent.getStringExtra("PRE_GET_DATETIME");
@@ -224,12 +240,13 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                         checkIntent.putExtra("TAG_ID", "MOVE_TAKE_SCAN_LOCK_SP");
                         startService(checkIntent);
 
-                        loadDialog = new ProgressDialog(AllocationMsgDetailActivity.this);
+                        /*loadDialog = new ProgressDialog(AllocationMsgDetailActivity.this);
                         loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                         loadDialog.setTitle(getResources().getString(R.string.Processing));
                         loadDialog.setIndeterminate(false);
                         loadDialog.setCancelable(false);
-                        loadDialog.show();
+                        loadDialog.show();*/
+                        progressBar.setVisibility(View.VISIBLE);
 
 
 
@@ -296,13 +313,15 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
                     if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
                         Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         toast(getResources().getString(R.string.socket_timeout));
 
@@ -434,8 +453,9 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_FAILED");
 
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_PART_NO_NEED_SCAN_STATUS_YES)) {
                         Log.d(TAG, "receive ACTION_GET_PART_NO_NEED_SCAN_STATUS_YES");
@@ -444,8 +464,9 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
                         //if (!msgDataTable.Rows.get(current_detail_row).getValue("scan_sp1").toString().equals("Y")) {
                         if (!msgDataTable.Rows.get(current_detail_row).getValue("scan_sp").toString().equals("Y")) {
-                            if (loadDialog != null)
-                                loadDialog.dismiss();
+                            //if (loadDialog != null)
+                            //    loadDialog.dismiss();
+                            progressBar.setVisibility(View.GONE);
 
                             toast(getResources().getString(R.string.allocation_detail_should_scan, msgDataTable.Rows.get(current_detail_row).getValue("part_no").toString()));
 
@@ -717,8 +738,9 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_YES");
 
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                         AlertDialog.Builder confirmdialog = new AlertDialog.Builder(AllocationMsgDetailActivity.this);
                         confirmdialog.setIcon(R.drawable.ic_warning_black_48dp);
@@ -740,14 +762,16 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO");
 
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED");
 
-                        if (loadDialog != null)
-                            loadDialog.dismiss();
+                        //if (loadDialog != null)
+                        //    loadDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
 
                     } else if("unitech.scanservice.data" .equals(intent.getAction())) {
                         Log.d(TAG, "unitech.scanservice.data");

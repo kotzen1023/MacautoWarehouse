@@ -98,7 +98,7 @@ public class LoginFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST)) {
                         Log.d(TAG, "emp_no is not exist!");
-                        toast("emp_no is not exist!");
+                        toast(getResources().getString(R.string.login_no_emp));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_SUCCESS)) {
                         Intent loginResultIntent = new Intent(Constants.ACTION.ACTION_LOGIN_SUCCESS);
                         loginResultIntent.putExtra("ACCOUNT", editTextAccount.getText().toString());
@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_FAILED)) {
                         Log.d(TAG, "emp_no is not exist!");
-                        toast("password error!");
+                        toast(getResources().getString(R.string.login_password_error));
                     }
                 }
             }

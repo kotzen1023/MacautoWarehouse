@@ -1,222 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:id="@+id/allocation_msg_detail_list_container">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="vertical">
 
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
+
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                <!--LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/allocation_detail_barcode"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/x_scan_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text=""
-                        android:gravity="center_vertical"/>
-                </LinearLayout-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <TextView
+                    <!--LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/allocation_detail_message_material_sending_date"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/s_iss_date"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/allocation_detail_barcode"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/x_scan_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+                    </LinearLayout-->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text=""
-                        android:gravity="center_vertical"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/allocation_detail_message_material_sending_date"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/s_iss_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/allocation_detail_message_work_order_no"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/sp_made_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/allocation_detail_send_material_to_warehouse"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/s_tag_stock_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/allocation_detail_stock_no"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/s_tag_locate_no"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/allocation_detail_request"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/s_pre_get_datetime"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/allocation_detail_model"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/s_ima03"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text=""
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            </ScrollView>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/allocation_detail_message_work_order_no"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/sp_made_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text=""
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/allocation_detail_send_material_to_warehouse"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/s_tag_stock_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text=""
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/allocation_detail_stock_no"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/s_tag_locate_no"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text=""
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/allocation_detail_request"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/s_pre_get_datetime"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text=""
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="@string/allocation_detail_model"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/s_ima03"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text=""
-                        android:gravity="center_vertical"/>
-                </LinearLayout>
-            </LinearLayout>
-        </ScrollView>
-
-        <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_weight="0"
-            android:background="#b7b7b7" />
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_weight="0"
+                android:background="#b7b7b7" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
 
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
-
-        <ListView
-            android:id="@+id/allocationDetailListView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_weight="1">
 
-
-        </ListView>
-        <!--Button
-            android:id="@+id/btnScanDelete"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/allocation_button_delete_detail"
-            android:layout_weight="1"/-->
+            <ListView
+                android:id="@+id/allocationDetailListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
 
-        <Button
-            android:id="@+id/btnTransfer"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="@string/allocation_button_transfer"
-            android:enabled="false"/>
+            </ListView>
+            <!--Button
+                android:id="@+id/btnScanDelete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/allocation_button_delete_detail"
+                android:layout_weight="1"/-->
+
+
+            <Button
+                android:id="@+id/btnTransfer"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/allocation_button_transfer"
+                android:enabled="false"/>
+        </LinearLayout>
     </LinearLayout>
 
 
-</LinearLayout>
+
+
+</RelativeLayout>

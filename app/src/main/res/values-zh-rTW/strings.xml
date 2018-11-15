@@ -19,6 +19,8 @@
     <string name="exit_app_msg">關閉這個App?</string>
     <string name="logout_title">登出</string>
     <string name="logout_title_msg">登出此帳號?</string>
+    <string name="login_no_emp">無此帳號</string>
+    <string name="login_password_error">密碼錯誤</string>
     <string name="Processing">處理中...</string>
     <string name="rescan">重新掃描</string>
     <string name="search">搜尋</string>
@@ -190,7 +192,7 @@
     <string name="allocation_detail_barcode">條碼</string>
     <string name="allocation_detail_scanned">已掃描</string>
     <string name="allocation_detail_scanned_not_found">無對應的料批, 請重新掃描!</string>
-    <string name="allocation_detail_should_scan">料號 %s 應該要刷條碼, 但未刷, 無法扣帳!"</string>
+    <string name="allocation_detail_should_scan">料號 %s 應該要刷條碼, 但未刷, 無法扣帳!</string>
     <string name="allocation_detail_save_error_a1">存檔有問題 A1 , 請找資訊人員處理</string>
     <string name="allocation_detail_generate_no">調撥單號 %s</string>
     <string name="allocation_detail_insert_tt_imn_string">補料:庫存->備料區</string>
