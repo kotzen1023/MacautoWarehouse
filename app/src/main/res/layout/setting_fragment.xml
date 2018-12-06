@@ -1,80 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/unitech_pa720"/>
-
-        <CheckBox
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/checkBoxPA720"
-            android:text="PA720"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checked="true"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/unitech_tb120"/>
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/unitech_pa720"/>
 
-        <CheckBox
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBoxPA720"
+                android:text="PA720"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:checked="true"
+                />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/checkBoxTB120"
-            android:text="TB120"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checked="false"
-            />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="#b7b7b7"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <CheckBox
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/unitech_tb120"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBoxTB120"
+                android:text="TB120"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:checked="false"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/checkBoxTestPort"
-            android:text="Port 8484(test)"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checked="true"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <CheckBox
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/saqunsuo_pda408"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBoxPDA408"
+                android:text="PDA408"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:checked="false"
+                />
+        </LinearLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/checkBoxRealPort"
-            android:text="Port 8000(Real)"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:checked="false"
-            />
+            android:layout_height="3dp"
+            android:background="#b7b7b7"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBoxTestPort"
+                android:text="Port 8484(test)"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:checked="true"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBoxRealPort"
+                android:text="Port 8000(Real)"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:checked="false"
+                />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+
+
+</ScrollView>

@@ -313,6 +313,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                 //set emp true
                 allocate_with_emp = true;
 
+                progressBar.setVisibility(View.VISIBLE);
+
                 statusList.clear();
                 if (allocationMsgStatusItemAdapter != null)
                     allocationMsgStatusItemAdapter.notifyDataSetChanged();
@@ -394,7 +396,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //clear table
-
+                allocate_with_emp = false;
                 /*loadDialog = new ProgressDialog(fragmentContext);
                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loadDialog.setTitle(getResources().getString(R.string.Processing));
@@ -491,7 +493,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             public void onClick(View v) {
 
                 if (locateList.size() == 0) {
-                    toast("allocation_send_message_to_material_get_Locate_no_failed");
+                    toast(getResources().getString(R.string.allocation_send_message_to_material_get_Locate_no_failed));
                 } else {
 
                     if (myList.get(3).getEditText().getText().toString().matches("[0-9]+") && myList.get(3).getEditText().getText().toString().length() > 0) {
@@ -687,43 +689,43 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         myList.add(item1);
 
         AllocationSendMsgItem item2 = new AllocationSendMsgItem();
-        item1.setIndex(1);
+        item2.setIndex(1);
         item2.setHeader(getResources().getString(R.string.allocation_send_message_to_material_staging_area));
         item2.setContent("9115");
         myList.add(item2);
 
         AllocationSendMsgItem item3 = new AllocationSendMsgItem();
-        item1.setIndex(2);
+        item3.setIndex(2);
         item3.setHeader(getResources().getString(R.string.allocation_send_message_to_material_stock_locate));
         item3.setContent("A001A01");
         myList.add(item3);
 
         AllocationSendMsgItem item4 = new AllocationSendMsgItem();
-        item1.setIndex(3);
+        item4.setIndex(3);
         item4.setHeader(getResources().getString(R.string.allocation_send_message_to_material_rate));
         item4.setContent("0");
         myList.add(item4);
 
         AllocationSendMsgItem item5 = new AllocationSendMsgItem();
-        item1.setIndex(4);
+        item5.setIndex(4);
         item5.setHeader(getResources().getString(R.string.allocation_send_message_to_material_production_no));
         item5.setContent("");
         myList.add(item5);
 
         AllocationSendMsgItem item6 = new AllocationSendMsgItem();
-        item1.setIndex(5);
+        item6.setIndex(5);
         item6.setHeader(getResources().getString(R.string.allocation_send_message_to_material_model_type));
         item6.setContent("");
         myList.add(item6);
 
         AllocationSendMsgItem item7 = new AllocationSendMsgItem();
-        item1.setIndex(6);
+        item7.setIndex(6);
         item7.setHeader(getResources().getString(R.string.allocation_send_message_to_material_predict_production_quantity));
         item7.setContent("");
         myList.add(item7);
 
         AllocationSendMsgItem item8 = new AllocationSendMsgItem();
-        item1.setIndex(7);
+        item8.setIndex(7);
         item8.setHeader(getResources().getString(R.string.allocation_send_message_to_material_real_production_quantity));
         item8.setContent("");
         myList.add(item8);
@@ -753,7 +755,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         dateAdapter = new ArrayAdapter<>(fragmentContext, R.layout.myspinner, dateList);
 
         AllocationSendMsgItem item9 = new AllocationSendMsgItem();
-        item1.setIndex(8);
+        item9.setIndex(8);
         item9.setHeader(getResources().getString(R.string.allocation_send_message_to_material_date_year_month_day));
         item9.setContent(fToday);
         myList.add(item9);
@@ -766,7 +768,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         hourAdapter = new ArrayAdapter<>(fragmentContext, R.layout.myspinner, hourList);
 
         AllocationSendMsgItem item10 = new AllocationSendMsgItem();
-        item1.setIndex(9);
+        item10.setIndex(9);
         item10.setHeader(getResources().getString(R.string.allocation_send_message_to_material_date_hour));
         item10.setContent(String.valueOf(hours));
         myList.add(item10);
@@ -780,7 +782,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         minAdapter = new ArrayAdapter<>(fragmentContext, R.layout.myspinner, minList);
 
         AllocationSendMsgItem item11 = new AllocationSendMsgItem();
-        item1.setIndex(10);
+        item11.setIndex(10);
         item11.setHeader(getResources().getString(R.string.allocation_send_message_to_material_date_minute));
         item11.setContent(String.valueOf(minutes));
         myList.add(item11);

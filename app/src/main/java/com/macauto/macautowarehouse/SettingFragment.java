@@ -30,6 +30,7 @@ public class SettingFragment extends Fragment {
 
     CheckBox checkBoxPA720;
     CheckBox checkBoxTB120;
+    CheckBox checkBoxPDA408;
     CheckBox checkBoxTestPort;
     CheckBox checkBoxRealPort;
 
@@ -52,6 +53,7 @@ public class SettingFragment extends Fragment {
 
         checkBoxPA720 = view.findViewById(R.id.checkBoxPA720);
         checkBoxTB120 = view.findViewById(R.id.checkBoxTB120);
+        checkBoxPDA408 = view.findViewById(R.id.checkBoxPDA408);
         checkBoxTestPort = view.findViewById(R.id.checkBoxTestPort);
         checkBoxRealPort = view.findViewById(R.id.checkBoxRealPort);
 
@@ -63,9 +65,15 @@ public class SettingFragment extends Fragment {
         if (pda_type == 0) {
             checkBoxPA720.setChecked(true);
             checkBoxTB120.setChecked(false);
-        } else {
+            checkBoxPDA408.setChecked(false);
+        } else if (pda_type == 1) {
             checkBoxPA720.setChecked(false);
             checkBoxTB120.setChecked(true);
+            checkBoxPDA408.setChecked(false);
+        } else {
+            checkBoxPA720.setChecked(false);
+            checkBoxTB120.setChecked(false);
+            checkBoxPDA408.setChecked(true);
         }
 
         if (web_soap_port.equals("8484")) {
@@ -82,8 +90,9 @@ public class SettingFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (checkBoxPA720.isChecked()) {
+                /*if (checkBoxPA720.isChecked()) {
                     checkBoxTB120.setChecked(false);
+
 
                     settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
                     settingIntent.putExtra("MODEL_TYPE", "0");
@@ -93,7 +102,13 @@ public class SettingFragment extends Fragment {
 
                     settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
                     settingIntent.putExtra("MODEL_TYPE", "1");
-                }
+                }*/
+                checkBoxPA720.setChecked(true);
+                checkBoxTB120.setChecked(false);
+                checkBoxPDA408.setChecked(false);
+                settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
+                settingIntent.putExtra("MODEL_TYPE", "0");
+
                 context.sendBroadcast(settingIntent);
             }
         });
@@ -102,7 +117,7 @@ public class SettingFragment extends Fragment {
             Intent settingIntent;
             @Override
             public void onClick(View v) {
-                if (checkBoxTB120.isChecked()) {
+                /*if (checkBoxTB120.isChecked()) {
                     checkBoxPA720.setChecked(false);
 
                     settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
@@ -112,7 +127,25 @@ public class SettingFragment extends Fragment {
 
                     settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
                     settingIntent.putExtra("MODEL_TYPE", "0");
-                }
+                }*/
+                checkBoxPA720.setChecked(false);
+                checkBoxTB120.setChecked(true);
+                checkBoxPDA408.setChecked(false);
+                settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
+                settingIntent.putExtra("MODEL_TYPE", "1");
+                context.sendBroadcast(settingIntent);
+            }
+        });
+
+        checkBoxPDA408.setOnClickListener(new View.OnClickListener() {
+            Intent settingIntent;
+            @Override
+            public void onClick(View v) {
+                checkBoxPA720.setChecked(false);
+                checkBoxTB120.setChecked(false);
+                checkBoxPDA408.setChecked(true);
+                settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
+                settingIntent.putExtra("MODEL_TYPE", "2");
                 context.sendBroadcast(settingIntent);
             }
         });

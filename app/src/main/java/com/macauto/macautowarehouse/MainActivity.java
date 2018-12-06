@@ -4,18 +4,23 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.SearchManager;
 
+import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 //import android.net.Uri;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 
 import android.support.v4.app.ActivityCompat;
@@ -45,6 +50,7 @@ import android.widget.Toast;
 //import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.SearchItem;
+import com.qs408.aidl.IQSService;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,6 +135,8 @@ public class MainActivity extends AppCompatActivity
     public static ArrayList<SearchItem> sortedSearchList = new ArrayList<>();
     public static Process process;
     public static String log_filename;
+
+    private IQSService iqspda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -439,6 +447,15 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
 
+                if ("com.qs.scancode".equals(intent.getAction()))
+                {
+                    Bundle bundle = intent.getExtras();
+                    if(bundle != null )
+                    {
+                        String text = bundle.getString("code");
+                        Log.e(TAG, "code = "+text);
+                    }
+                }
             }
         };
 
@@ -455,10 +472,18 @@ public class MainActivity extends AppCompatActivity
             filter.addAction(Constants.ACTION.ACTION_MAIN_RESET_TITLE);
             filter.addAction("unitech.scanservice.data");
             filter.addAction("unitech.scanservice.datatype");
+            //pda408
+            filter.addAction("com.qs.scancode");
             context.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
         }
+
+        //for pda408
+        Intent pda_intent = new Intent("COM.QS.DEMO.QSSERVICE");
+        Intent eintent = new Intent(getExplicitIntent(this, pda_intent));
+        this.startService(eintent);
+        bindService(eintent, conn, Service.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -477,6 +502,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         process.destroy();
+
+        if (conn != null)
+            unbindService(conn);
 
         super.onDestroy();
     }
@@ -1374,5 +1402,41 @@ public class MainActivity extends AppCompatActivity
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    //for pda408
+    private ServiceConnection conn = new ServiceConnection() {
+        @Override
+        synchronized public void onServiceConnected(ComponentName name,
+                                                    IBinder service) {
+            iqspda = IQSService.Stub.asInterface(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            iqspda = null;
+        }
+    };
+
+    public static Intent getExplicitIntent(Context context,
+                                           Intent implicitIntent) {
+        // Retrieve all services that can match the given intent
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> resolveInfo = pm.queryIntentServices(implicitIntent,
+                0);
+        // Make sure only one match was found
+        if (resolveInfo == null || resolveInfo.size() != 1) {
+            return null;
+        }
+        // Get component info and create ComponentName
+        ResolveInfo serviceInfo = resolveInfo.get(0);
+        String packageName = serviceInfo.serviceInfo.packageName;
+        String className = serviceInfo.serviceInfo.name;
+        ComponentName component = new ComponentName(packageName, className);
+        // Create a new intent. Use the old one for extras and such reuse
+        Intent explicitIntent = new Intent(implicitIntent);
+        // Set the component to be explicit
+        explicitIntent.setComponent(component);
+        return explicitIntent;
     }
 }

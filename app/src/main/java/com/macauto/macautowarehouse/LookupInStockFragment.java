@@ -30,6 +30,7 @@ import com.macauto.macautowarehouse.service.GetPartWarehouseListService;
 import com.macauto.macautowarehouse.table.DataTable;
 
 
+import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
 import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
 
@@ -278,12 +279,19 @@ public class LookupInStockFragment extends Fragment {
 
                     }
 
-                    else if("unitech.scanservice.data" .equals(intent.getAction())) {
-                        Log.d(TAG, "unitech.scanservice.data");
+                    else if("unitech.scanservice.data" .equals(intent.getAction()) || "com.qs.scancode".equals(intent.getAction()) ) {
+                        Log.d(TAG, "unitech.scanservice.data | com.qs.scancode");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
                         {
-                            String text = bundle.getString("text");
+                            String text;
+                            if (pda_type == 2) {
+                                text = bundle.getString("code");
+                            } else {
+                                text = bundle.getString("text");
+                            }
+
+                            //String text = bundle.getString("text");
                             Log.e(TAG, "msg = "+text);
 
                             if (text != null && text.length() > 0 ) {
@@ -382,6 +390,7 @@ public class LookupInStockFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_GET_ORIGINAL_LIST);
             filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             filter.addAction("unitech.scanservice.data");
+            filter.addAction("com.qs.scancode");
             fragmentContext.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");

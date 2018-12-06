@@ -301,7 +301,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
             //set TextView gone
             barCodeLayout.setVisibility(View.GONE);
 
-        } else { //TB120
+        } else if (pda_type == 1) { //TB120
             Intent scanIntent = new Intent();
             scanIntent.setAction("unitech.scanservice.scan2key_setting");
             scanIntent.putExtra("scan2key", true);
@@ -309,6 +309,13 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
             //set TextView gone
             barCodeLayout.setVisibility(View.VISIBLE);
+        } else {
+            Intent scanIntent = new Intent();
+            scanIntent.setAction("unitech.scanservice.scan2key_setting");
+            scanIntent.putExtra("scan2key", false);
+            fragmentContext.sendBroadcast(scanIntent);
+            //set TextView gone
+            barCodeLayout.setVisibility(View.GONE);
         }
 
         /*textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -1069,12 +1076,18 @@ public class EnteringWarehouseFragmnet extends Fragment {
 
 
 
-                    else if("unitech.scanservice.data" .equals(intent.getAction())) {
-                        Log.d(TAG, "unitech.scanservice.data");
+                    else if("unitech.scanservice.data" .equals(intent.getAction()) || "com.qs.scancode".equals(intent.getAction())) {
+                        Log.d(TAG, "unitech.scanservice.data | com.qs.scancode");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
                         {
-                            String text = bundle.getString("text");
+                            //String text = bundle.getString("text");
+                            String text;
+                            if (pda_type == 2) {
+                                text = bundle.getString("code");
+                            } else {
+                                text = bundle.getString("text");
+                            }
                             Log.e(TAG, "msg = "+text);
 
                             //is_barcode_receive = false;
@@ -1223,6 +1236,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
             //filter.addAction(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_HIDE_CONFIRM_BUTTON);
             filter.addAction(Constants.ACTION.ACTION_SCAN_RESET);
             filter.addAction("unitech.scanservice.data");
+            filter.addAction("com.qs.scancode");
             //filter.addAction("unitech.scanservice.datatype");
             //filter.addAction("unitech.scanservice.scan2key_setting");
             fragmentContext.registerReceiver(mReceiver, filter);

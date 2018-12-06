@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import static android.content.Context.POWER_SERVICE;
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
 
@@ -510,12 +511,18 @@ public class ProductionStorageFragment extends Fragment {
                     }
 
 
-                    else if("unitech.scanservice.data".equals(intent.getAction())) {
-                        Log.d(TAG, "unitech.scanservice.data");
+                    else if("unitech.scanservice.data".equals(intent.getAction()) || "com.qs.scancode".equals(intent.getAction())) {
+                        Log.d(TAG, "unitech.scanservice.data | com.qs.scancode");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
                         {
-                            String text = bundle.getString("text");
+                            //String text = bundle.getString("text");
+                            String text;
+                            if (pda_type == 2) {
+                                text = bundle.getString("code");
+                            } else {
+                                text = bundle.getString("text");
+                            }
                             Log.e(TAG, "msg = "+text);
 
                             if (text != null && text.length() > 0 ) {
@@ -626,7 +633,7 @@ public class ProductionStorageFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_PRODUCT_DELETE_ITEM_CONFIRM);
 
             filter.addAction("unitech.scanservice.data");
-
+            filter.addAction("com.qs.scancode");
             fragmentContext.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");

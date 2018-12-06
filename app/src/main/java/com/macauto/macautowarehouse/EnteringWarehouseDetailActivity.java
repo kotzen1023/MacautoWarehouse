@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
+import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
 
 
@@ -159,12 +160,18 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
 
                 if (intent.getAction() != null) {
 
-                    if("unitech.scanservice.data".equals(intent.getAction())) {
-                        Log.d(TAG, "unitech.scanservice.data");
+                    if("unitech.scanservice.data".equals(intent.getAction()) || "com.qs.scancode".equals(intent.getAction())) {
+                        Log.d(TAG, "unitech.scanservice.data | com.qs.scancode");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
                         {
-                            String text = bundle.getString("text");
+                            //String text = bundle.getString("text");
+                            String text;
+                            if (pda_type == 2) {
+                                text = bundle.getString("code");
+                            } else {
+                                text = bundle.getString("text");
+                            }
                             Log.e(TAG, "msg = "+text);
 
                             if (text != null && text.length() > 0 ) {
@@ -221,7 +228,7 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
 
 
             filter.addAction("unitech.scanservice.data");
-
+            filter.addAction("com.qs.scancode");
             registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");

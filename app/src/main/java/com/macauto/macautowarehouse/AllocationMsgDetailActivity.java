@@ -52,6 +52,7 @@ import java.util.Locale;
 import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.pda_type;
 
 
 public class AllocationMsgDetailActivity extends AppCompatActivity {
@@ -773,12 +774,18 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
 
-                    } else if("unitech.scanservice.data" .equals(intent.getAction())) {
-                        Log.d(TAG, "unitech.scanservice.data");
+                    } else if("unitech.scanservice.data" .equals(intent.getAction()) || "com.qs.scancode".equals(intent.getAction())) {
+                        Log.d(TAG, "unitech.scanservice.data | com.qs.scancode");
                         Bundle bundle = intent.getExtras();
                         if(bundle != null )
                         {
-                            String text = bundle.getString("text");
+                            //String text = bundle.getString("text");
+                            String text;
+                            if (pda_type == 2) {
+                                text = bundle.getString("code");
+                            } else {
+                                text = bundle.getString("text");
+                            }
                             Log.e(TAG, "msg = "+text);
 
                             if (text.length() > 0 ) {
@@ -837,6 +844,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_NO);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_INSERT_TT_IMN_FILE_NO_TLF_NO_IMG_FAILED);
             filter.addAction("unitech.scanservice.data");
+            filter.addAction("com.qs.scancode");
             registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");
