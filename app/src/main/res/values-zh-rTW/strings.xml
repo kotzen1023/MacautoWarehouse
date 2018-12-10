@@ -46,6 +46,7 @@
     <string name="nav_entering_warehouse">收貨驗收入庫確認</string>
     <string name="nav_production_storage">生產入庫確認</string>
     <string name="nav_receiving_inspection">收貨檢驗</string>
+    <string name="nav_print_test">列印測試</string>
     <string name="nav_other">其他</string>
     <string name="nav_setting">設定</string>
     <string name="nav_logout">登出</string>

@@ -46,6 +46,7 @@
     <string name="nav_entering_warehouse">Entering Warehouse</string>
     <string name="nav_production_storage">Production Storage</string>
     <string name="nav_receiving_inspection">Receiving Inpsection</string>
+    <string name="nav_print_test">Print Test</string>
     <string name="nav_other">Other</string>
     <string name="nav_setting">Setting</string>
     <string name="nav_logout">Logout</string>

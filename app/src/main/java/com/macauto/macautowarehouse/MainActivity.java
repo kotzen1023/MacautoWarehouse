@@ -17,12 +17,16 @@ import android.content.pm.PackageManager;
 
 //import android.net.Uri;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -53,6 +57,7 @@ import com.macauto.macautowarehouse.data.SearchItem;
 import com.qs408.aidl.IQSService;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem menuItemEnteringWareHouse;
     private MenuItem menuItemProductionStorage;
     private MenuItem menuItemReceivingInspection;
+    private MenuItem menuItemPrintTest;
     private MenuItem menuItemLogin;
     private MenuItem menuItemLogout;
 
@@ -137,6 +143,8 @@ public class MainActivity extends AppCompatActivity
     public static String log_filename;
 
     private IQSService iqspda;
+    FloatingActionButton fabBack;
+    FloatingActionButton fabPrint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,14 +188,34 @@ public class MainActivity extends AppCompatActivity
         //get virtual keyboard
         imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabBack = findViewById(R.id.fabBack);
+        fabPrint = findViewById(R.id.fabPrint);
+        fabBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                fabBack.setVisibility(View.GONE);
+                fabPrint.setVisibility(View.GONE);
+
+                Intent genIntent = new Intent();
+                genIntent.setAction(Constants.ACTION.ACTION_PRINT_TEST_SHOW_GENERATE);
+                sendBroadcast(genIntent);
             }
-        });*/
+        });
+        fabPrint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bitmap bitmap = takeScreenshot();
+                if (bitmap != null) {
+                    try {
+                        iqspda.printBitmap(1, bitmap);
+                        sendCmd(new byte[]{0x1d,0x0c});
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -208,7 +236,7 @@ public class MainActivity extends AppCompatActivity
         menuItemEnteringWareHouse = navigationView.getMenu().findItem(R.id.nav_entering_warehouse);
         menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
         menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
-
+        menuItemPrintTest = navigationView.getMenu().findItem(R.id.nav_print_test);
 
 
 
@@ -287,6 +315,16 @@ public class MainActivity extends AppCompatActivity
                         editor.putInt("PDA_TYPE", pda_type);
                         editor.apply();
 
+                        if (pda_type == 2 && isLogin)
+                            menuItemPrintTest.setVisible(true);
+                        else
+                            menuItemPrintTest.setVisible(false);
+
+
+
+
+
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SETTING_WEB_SOAP_PORT_ACTION)) {
                         Log.d(TAG, "receive ACTION_SETTING_WEB_SOAP_PORT_ACTION !");
 
@@ -340,6 +378,10 @@ public class MainActivity extends AppCompatActivity
                             menuItemAllocationSendMsg.setVisible(true);
                             menuItemEnteringWareHouse.setVisible(true);
                             menuItemProductionStorage.setVisible(true);
+                            if (pda_type == 2)
+                                menuItemPrintTest.setVisible(true);
+                            else
+                                menuItemPrintTest.setVisible(false);
                             //menuItemShipment.setVisible(true);
                             //menuItemReceivingInspection.setVisible(true);
 
@@ -380,6 +422,7 @@ public class MainActivity extends AppCompatActivity
                             menuItemAllocationSendMsg.setVisible(false);
                             menuItemEnteringWareHouse.setVisible(false);
                             menuItemProductionStorage.setVisible(false);
+                            menuItemPrintTest.setVisible(false);
                             menuItemShipment.setVisible(false);
                             menuItemReceivingInspection.setVisible(false);
 
@@ -421,6 +464,14 @@ public class MainActivity extends AppCompatActivity
                         String new_title = intent.getStringExtra("NEW_TITLE");
 
                         setTitle(new_title);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRINT_TEST_HIDE_FAB_BUTTON)) {
+                        Log.d(TAG, "receive ACTION_PRINT_TEST_HIDE_FAB_BUTTON!");
+                        fabBack.setVisibility(View.GONE);
+                        fabPrint.setVisibility(View.GONE);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRINT_TEST_SHOW_FAB_BUTTON)) {
+                        Log.d(TAG, "receive ACTION_PRINT_TEST_SHOW_FAB_BUTTON!");
+                        fabBack.setVisibility(View.VISIBLE);
+                        fabPrint.setVisibility(View.VISIBLE);
                     }
 
 
@@ -470,6 +521,8 @@ public class MainActivity extends AppCompatActivity
             filter.addAction(Constants.ACTION.ACTION_SEARCH_MENU_HIDE_ACTION);
             filter.addAction(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK);
             filter.addAction(Constants.ACTION.ACTION_MAIN_RESET_TITLE);
+            filter.addAction(Constants.ACTION.ACTION_PRINT_TEST_SHOW_FAB_BUTTON);
+            filter.addAction(Constants.ACTION.ACTION_PRINT_TEST_HIDE_FAB_BUTTON);
             filter.addAction("unitech.scanservice.data");
             filter.addAction("unitech.scanservice.datatype");
             //pda408
@@ -613,6 +666,10 @@ public class MainActivity extends AppCompatActivity
             menuItemAllocationSendMsg.setVisible(true);
             menuItemEnteringWareHouse.setVisible(true);
             menuItemProductionStorage.setVisible(true);
+            if (pda_type == 2)
+                menuItemPrintTest.setVisible(true);
+            else
+                menuItemPrintTest.setVisible(false);
             //menuItemShipment.setVisible(true);
             //menuItemReceivingInspection.setVisible(true);
 
@@ -651,6 +708,7 @@ public class MainActivity extends AppCompatActivity
             menuItemAllocationSendMsg.setVisible(false);
             menuItemEnteringWareHouse.setVisible(false);
             menuItemProductionStorage.setVisible(false);
+            menuItemPrintTest.setVisible(false);
             menuItemShipment.setVisible(false);
             menuItemReceivingInspection.setVisible(false);
         }
@@ -842,6 +900,9 @@ public class MainActivity extends AppCompatActivity
         View view = getCurrentFocus();
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         //initializing the fragment object which is selected
+
+        fabBack.setVisibility(View.GONE);
+        fabPrint.setVisibility(View.GONE);
         switch (menuItem.getItemId()) {
 
             /*case R.id.nav_receiving:
@@ -1027,6 +1088,30 @@ public class MainActivity extends AppCompatActivity
                 production_storage_scan.setVisible(false);
                 keyboard.setVisible(true);
                 break;
+            case R.id.nav_print_test:
+                Log.d(TAG, "nav_print_test");
+                fragmentClass = PrintTestFragment.class;
+                title = getResources().getString(R.string.nav_print_test);
+                receiving_main.setVisible(false);
+                receiving_record.setVisible(false);
+                receiving_board.setVisible(false);
+                receiving_multi.setVisible(false);
+                shipment_main.setVisible(false);
+                shipment_find.setVisible(false);
+                allocation_find.setVisible(false);
+                allocation_replenishment.setVisible(false);
+                allocation_send_msg.setVisible(false);
+                allocation_msg.setVisible(false);
+                allocation_area_confirm.setVisible(false);
+                allocation_direct.setVisible(false);
+                entering_warehouse_main.setVisible(false);
+                entering_warehouse_find.setVisible(false);
+                production_storage_main.setVisible(false);
+                production_storage_find.setVisible(false);
+                production_storage_scan.setVisible(false);
+                keyboard.setVisible(false);
+                break;
+
             case R.id.nav_setting:
                 fragmentClass = SettingFragment.class;
 
@@ -1172,9 +1257,9 @@ public class MainActivity extends AppCompatActivity
         //int accessWiFiStatePermission = ContextCompat.checkSelfPermission(this,
         //        Manifest.permission.ACCESS_WIFI_STATE);
 
-        //int readPermission = ContextCompat.checkSelfPermission(this,
-        //        Manifest.permission.READ_EXTERNAL_STORAGE);
-        //int writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        int writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         int networkPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET);
 
@@ -1182,13 +1267,13 @@ public class MainActivity extends AppCompatActivity
 
         List<String> listPermissionsNeeded = new ArrayList<>();
 
-        /*f (readPermission != PackageManager.PERMISSION_GRANTED) {
+        if (readPermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE);
         }
 
         if (writePermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }*/
+        }
 
         if (networkPermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(android.Manifest.permission.INTERNET);
@@ -1252,8 +1337,8 @@ public class MainActivity extends AppCompatActivity
 
                 Map<String, Integer> perms = new HashMap<>();
                 // Initialize the map with both permissions
-                //perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-                //perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
                 perms.put(android.Manifest.permission.INTERNET, PackageManager.PERMISSION_GRANTED);
                 //perms.put(Manifest.permission.ACCESS_NETWORK_STATE, PackageManager.PERMISSION_GRANTED);
                 //perms.put(Manifest.permission.ACCESS_WIFI_STATE, PackageManager.PERMISSION_GRANTED);
@@ -1262,9 +1347,9 @@ public class MainActivity extends AppCompatActivity
                     for (int i = 0; i < permissions.length; i++)
                         perms.put(permissions[i], grantResults[i]);
                     // Check for both permissions
-                    if (//perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                        //    && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                             perms.get(Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
+                    if (perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                             && perms.get(Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED
                             //&& perms.get(Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED &&
                             //perms.get(Manifest.permission.ACCESS_WIFI_STATE) == PackageManager.PERMISSION_GRANTED
                             )
@@ -1281,9 +1366,9 @@ public class MainActivity extends AppCompatActivity
                         //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
 //                        // shouldShowRequestPermissionRationale will return true
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
-                        if (//ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                            //    || ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.INTERNET )
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                                || ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                || ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.INTERNET )
                                 //|| ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NETWORK_STATE )
                                 //|| ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_WIFI_STATE )
                                 ) {
@@ -1438,5 +1523,53 @@ public class MainActivity extends AppCompatActivity
         // Set the component to be explicit
         explicitIntent.setComponent(component);
         return explicitIntent;
+    }
+
+    private Bitmap takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+
+        Bitmap croppedBitmap = null;
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+
+            croppedBitmap = Bitmap.createBitmap(bitmap, 0, 120, bitmap.getWidth(), 250);
+
+
+
+            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            //openScreenshot(imageFile);
+        } catch (Throwable e) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace();
+        }
+
+        return croppedBitmap;
+    }
+
+    public void sendCmd(byte[] b) {
+        try {
+            iqspda.sendCMD(b);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

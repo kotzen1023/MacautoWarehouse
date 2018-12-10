@@ -41,9 +41,14 @@
             android:title="@string/nav_shipment" />
 
         <item
-            android:id="@+id/nav_receiving_inspection"
-            android:icon="@drawable/baseline_check_circle_black_36"
-            android:title="@string/nav_receiving_inspection" />
+        android:id="@+id/nav_receiving_inspection"
+        android:icon="@drawable/baseline_check_circle_black_36"
+        android:title="@string/nav_receiving_inspection" />
+
+        <item
+            android:id="@+id/nav_print_test"
+            android:icon="@drawable/baseline_print_black_36"
+            android:title="@string/nav_print_test" />
     </group>
 
     <item android:title="@string/nav_other">

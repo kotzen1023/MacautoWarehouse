@@ -249,6 +249,8 @@ public class Constants {
 
         String ACTION_RECEIVING_INSPECTION_ITEM_SELECT_CHANGE = "com.macauto.MacautoWarehoouse.ReceivingInspectionItemSelectChange";
 
-
+        String ACTION_PRINT_TEST_SHOW_FAB_BUTTON = "com.macauto.MacautoWarehoouse.PrintTestShowFabButton";
+        String ACTION_PRINT_TEST_HIDE_FAB_BUTTON = "com.macauto.MacautoWarehoouse.PrintTestHideFabButton";
+        String ACTION_PRINT_TEST_SHOW_GENERATE = "com.macauto.MacautoWarehoouse.PrintTestShowGenerate";
     }
 }
