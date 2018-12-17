@@ -145,6 +145,8 @@ public class MainActivity extends AppCompatActivity
     private IQSService iqspda;
     FloatingActionButton fabBack;
     FloatingActionButton fabPrint;
+    private Intent pda_408_intent;
+    private boolean pda_408_intent_bind = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -315,10 +317,37 @@ public class MainActivity extends AppCompatActivity
                         editor.putInt("PDA_TYPE", pda_type);
                         editor.apply();
 
-                        if (pda_type == 2 && isLogin)
+                        if (pda_type == 2 && isLogin) { //pda408
                             menuItemPrintTest.setVisible(true);
-                        else
+
+                            if (pda_408_intent == null && !pda_408_intent_bind) { //pda408
+                                Log.e(TAG, "pda408 start service");
+                                try {
+                                    Intent pda_intent = new Intent("COM.QS.DEMO.QSSERVICE");
+                                    pda_408_intent = new Intent(getExplicitIntent(context, pda_intent));
+                                    startService(pda_408_intent);
+                                    bindService(pda_408_intent, conn, Service.BIND_AUTO_CREATE);
+                                    pda_408_intent_bind = true;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        } else {
+                            Log.e(TAG, "Not pda408, stop service");
                             menuItemPrintTest.setVisible(false);
+
+                            try {
+                                unbindService(conn);
+                                stopService(pda_408_intent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                            pda_408_intent = null;
+                            pda_408_intent_bind = false;
+                        }
 
 
 
@@ -533,10 +562,21 @@ public class MainActivity extends AppCompatActivity
         }
 
         //for pda408
-        Intent pda_intent = new Intent("COM.QS.DEMO.QSSERVICE");
-        Intent eintent = new Intent(getExplicitIntent(this, pda_intent));
-        this.startService(eintent);
-        bindService(eintent, conn, Service.BIND_AUTO_CREATE);
+        if (pda_type == 2) {
+            try {
+                Intent pda_intent = new Intent("COM.QS.DEMO.QSSERVICE");
+                pda_408_intent = new Intent(getExplicitIntent(this, pda_intent));
+                this.startService(pda_408_intent);
+                bindService(pda_408_intent, conn, Service.BIND_AUTO_CREATE);
+                pda_408_intent_bind = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            pda_408_intent = null;
+            pda_408_intent_bind = false;
+        }
+
     }
 
     @Override
