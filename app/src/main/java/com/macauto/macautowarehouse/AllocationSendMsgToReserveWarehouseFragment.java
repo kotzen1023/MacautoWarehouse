@@ -313,6 +313,11 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                 //set emp true
                 allocate_with_emp = true;
 
+                btnAllocTransferEmp.setEnabled(false);
+                btnAllocTransfer.setEnabled(false);
+                btnReset.setEnabled(false);
+                btnSend.setEnabled(false);
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 statusList.clear();
@@ -397,6 +402,10 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             public void onClick(View v) {
                 //clear table
                 allocate_with_emp = false;
+                btnAllocTransferEmp.setEnabled(false);
+                btnAllocTransfer.setEnabled(false);
+                btnReset.setEnabled(false);
+                btnSend.setEnabled(false);
                 /*loadDialog = new ProgressDialog(fragmentContext);
                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loadDialog.setTitle(getResources().getString(R.string.Processing));
@@ -515,6 +524,10 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             loadDialog.setIndeterminate(false);
                             loadDialog.setCancelable(false);
                             loadDialog.show();*/
+                            btnAllocTransferEmp.setEnabled(false);
+                            btnAllocTransfer.setEnabled(false);
+                            btnReset.setEnabled(false);
+                            btnSend.setEnabled(false);
                             progressBar.setVisibility(View.VISIBLE);
 
                             statusList.clear();
@@ -651,6 +664,10 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                     loadDialog.setIndeterminate(false);
                     loadDialog.setCancelable(false);
                     loadDialog.show();*/
+                    btnAllocTransferEmp.setEnabled(false);
+                    btnAllocTransfer.setEnabled(false);
+                    btnReset.setEnabled(false);
+                    btnSend.setEnabled(false);
                     progressBar.setVisibility(View.VISIBLE);
 
                     hhh.TableName = "ZOO";
@@ -818,6 +835,13 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnAllocTransfer.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
@@ -825,6 +849,23 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        if (locateList.size() > 0) {
+                            btnAllocTransferEmp.setEnabled(true);
+                            btnAllocTransfer.setEnabled(true);
+                            btnReset.setEnabled(true);
+                        } else {
+                            btnAllocTransferEmp.setEnabled(false);
+                            btnAllocTransfer.setEnabled(false);
+                            btnReset.setEnabled(false);
+                        }
+
+
+
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
+
 
                         toast(getResources().getString(R.string.socket_timeout));
 
@@ -942,21 +983,41 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnAllocTransfer.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
                         //toast(getResources().getString(R.string.allocation_send_message_to_material_get_Locate_no_failed));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_MADE_INFO_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_MADE_INFO_FAILED");
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnAllocTransfer.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
                         //toast(getResources().getString(R.string.allocation_send_message_to_material_get_Locate_no_failed));
-                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_FAILED)){
-                        Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_FAILED");
-                        toast(getResources().getString(R.string.allocation_send_message_to_material_get_Locate_no_failed));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_NOT_EXIST)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_NOT_EXIST");
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnAllocTransfer.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
+
                         toast(getResources().getString(R.string.allocation_send_message_to_material_made_no_not_matched));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_SUCCESS)){
@@ -983,12 +1044,27 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnAllocTransfer.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_NOT_EXIST)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_NOT_EXIST");
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.allocation_send_message_to_material_staging_area_not_matched));
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnAllocTransfer.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_SUCCESS)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_SUCCESS");
@@ -1004,10 +1080,25 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             //if(loadDialog != null)
                             //    loadDialog.dismiss();
                             progressBar.setVisibility(View.GONE);
+                            btnAllocTransferEmp.setEnabled(true);
+                            btnAllocTransfer.setEnabled(true);
+                            btnReset.setEnabled(true);
+                            if (statusList.size() > 0)
+                                btnSend.setEnabled(true);
+                            else
+                                btnSend.setEnabled(false);
                         }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_CHECK_STOCK_NO_EXIST_FAILED");
+                        progressBar.setVisibility(View.GONE);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnAllocTransfer.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_EMPTY)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_EMPTY");
@@ -1015,12 +1106,30 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.allocation_send_message_to_material_get_sfa_empty));
+
+                        btnAllocTransfer.setEnabled(true);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_FAILED");
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.allocation_send_message_to_material_get_sfa_mess_failed));
+
+                        btnAllocTransfer.setEnabled(true);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_SUCCESS");
 
@@ -1040,6 +1149,14 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             allocationMsgStatusItemAdapter = new AllocationMsgStatusItemAdapter(fragmentContext, R.layout.allocation_msg_send_allocation_status_swipe_item, statusList);
                             statusListView.setAdapter(allocationMsgStatusItemAdapter);
                         }
+
+                        btnAllocTransfer.setEnabled(true);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                         toast(getResources().getString(R.string.look_up_in_stock_find_records, String.valueOf(statusList.size())));
 
@@ -1165,6 +1282,13 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_TAG_ID_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_TAG_ID_FAILED");
+                        btnAllocTransfer.setEnabled(true);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_SUCCESS)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_SUCCESS");
@@ -1174,6 +1298,13 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnAllocTransfer.setEnabled(true);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                         if (new_mess_no.equals("NOQTY")) {
 
@@ -1216,12 +1347,26 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnAllocTransfer.setEnabled(true);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_MOVE_FAILED");
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnAllocTransfer.setEnabled(true);
+                        btnAllocTransferEmp.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        if (statusList.size() > 0)
+                            btnSend.setEnabled(true);
+                        else
+                            btnSend.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SWIPE_LAYOUT_UPDATE");

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
@@ -36,10 +38,16 @@ public class LoginFragment extends Fragment {
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
+    private Button btnLogin;
+
+    ProgressBar progressBar = null;
+    RelativeLayout relativeLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loginContext = getContext();
     }
 
     @Override
@@ -53,10 +61,16 @@ public class LoginFragment extends Fragment {
         final  View view = inflater.inflate(R.layout.login_fragment, container, false);
 
         //TextView textView = view.findViewById(R.id.textLogin);
+        relativeLayout = view.findViewById(R.id.login_container);
+        progressBar = new ProgressBar(loginContext,null,android.R.attr.progressBarStyleLarge);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        relativeLayout.addView(progressBar,params);
+        progressBar.setVisibility(View.GONE);
 
-        loginContext = getContext();
 
-        Button btnLogin = view.findViewById(R.id.btnLoginConfirm);
+
+        btnLogin = view.findViewById(R.id.btnLoginConfirm);
 
         editTextAccount = view.findViewById(R.id.accountInput);
         editTextPassword = view.findViewById(R.id.passwordInput);
@@ -66,7 +80,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
+                progressBar.setVisibility(View.VISIBLE);
+                btnLogin.setEnabled(false);
 
 
                 Intent intent = new Intent(loginContext, CheckEmpExistService.class);
@@ -99,7 +114,14 @@ public class LoginFragment extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST)) {
                         Log.d(TAG, "emp_no is not exist!");
                         toast(getResources().getString(R.string.login_no_emp));
+
+                        progressBar.setVisibility(View.GONE);
+                        btnLogin.setEnabled(true);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_SUCCESS)) {
+                        progressBar.setVisibility(View.GONE);
+                        btnLogin.setEnabled(true);
+
                         Intent loginResultIntent = new Intent(Constants.ACTION.ACTION_LOGIN_SUCCESS);
                         loginResultIntent.putExtra("ACCOUNT", editTextAccount.getText().toString());
                         loginResultIntent.putExtra("PASSWORD", editTextPassword.getText().toString());
@@ -107,9 +129,13 @@ public class LoginFragment extends Fragment {
                         //intent.putExtra("PASSWORD", editTextPassword.getText().toString());
 
 
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_FAILED)) {
                         Log.d(TAG, "emp_no is not exist!");
                         toast(getResources().getString(R.string.login_password_error));
+
+                        progressBar.setVisibility(View.GONE);
+                        btnLogin.setEnabled(true);
                     }
                 }
             }

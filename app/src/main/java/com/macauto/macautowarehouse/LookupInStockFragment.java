@@ -48,6 +48,7 @@ public class LookupInStockFragment extends Fragment {
     private EditText batchNo;
     private EditText name;
     private EditText spec;
+    private Button btnSearch;
     private RecyclerView recyclerViewResult;
     public SearchItemAdapter searchItemAdapter;
 
@@ -90,7 +91,7 @@ public class LookupInStockFragment extends Fragment {
 
         imm = (InputMethodManager)fragmentContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Button btnSearch = view.findViewById(R.id.btnSearch);
+        btnSearch = view.findViewById(R.id.btnSearch);
         Button btnResearch = view.findViewById(R.id.btnResearch);
 
         layoutSearchView = view.findViewById(R.id.layoutSearchView);
@@ -139,6 +140,7 @@ public class LookupInStockFragment extends Fragment {
                 fragmentContext.startService(getintent);
 
                 progressBar.setVisibility(View.VISIBLE);
+                btnSearch.setEnabled(false);
 
                 /*loadDialog = new ProgressDialog(fragmentContext);
                 loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -190,12 +192,14 @@ public class LookupInStockFragment extends Fragment {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_BATCH_FAILED");
                         //loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
-
+                        btnSearch.setEnabled(true);
                         toast(fragmentContext.getResources().getString(R.string.look_up_in_stock_no_match_batch));
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_BATCH_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_BATCH_SUCCESS");
                         //loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnSearch.setEnabled(true);
 
                         String batch_no = intent.getStringExtra("BATCH_NO");
                         Log.e(TAG, "batch_no = "+batch_no);
@@ -207,11 +211,12 @@ public class LookupInStockFragment extends Fragment {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_LIST_CLEAN");
                         //loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        btnSearch.setEnabled(true);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_FAILED)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_LIST_FAILED");
                         //loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
-
+                        btnSearch.setEnabled(true);
                         toast(fragmentContext.getResources().getString(R.string.look_up_in_stock_no_match_batch));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_LIST_SUCCESS");
@@ -240,6 +245,8 @@ public class LookupInStockFragment extends Fragment {
                         Intent showIntent = new Intent(Constants.ACTION.ACTION_SEARCH_MENU_SHOW_ACTION);
                         fragmentContext.sendBroadcast(showIntent);
 
+                        btnSearch.setEnabled(true);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_LIST_EMPTY");
                         //loadDialog.dismiss();
@@ -252,6 +259,8 @@ public class LookupInStockFragment extends Fragment {
                         fragmentContext.sendBroadcast(showIntent);
 
                         toast(fragmentContext.getResources().getString(R.string.look_up_in_stock_find_records, "0"));
+
+                        btnSearch.setEnabled(true);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SEARCH_PART_WAREHOUSE_SORT_COMPLETE)) {
                         Log.d(TAG, "receive ACTION_SEARCH_PART_WAREHOUSE_SORT_COMPLETE");
@@ -277,6 +286,7 @@ public class LookupInStockFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.socket_timeout));
 
+                        btnSearch.setEnabled(true);
                     }
 
                     else if("unitech.scanservice.data" .equals(intent.getAction()) || "com.qs.scancode".equals(intent.getAction()) ) {

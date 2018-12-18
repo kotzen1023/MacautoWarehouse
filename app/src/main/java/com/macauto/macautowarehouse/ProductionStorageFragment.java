@@ -239,7 +239,7 @@ public class ProductionStorageFragment extends Fragment {
                                 loadDialog.setCancelable(false);
                                 loadDialog.show();*/
                                 progressBar.setVisibility(View.VISIBLE);
-
+                                btnInStockConfirm.setEnabled(false);
 
                             }
                         });
@@ -288,12 +288,23 @@ public class ProductionStorageFragment extends Fragment {
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.socket_timeout));
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_YES)) {
                         Log.d(TAG, "receive ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_YES");
@@ -303,6 +314,11 @@ public class ProductionStorageFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
 
                         toast(getResources().getString(R.string.production_storage_inbound_order_has_confirmed, exitTextInNo.getText().toString()));
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_NO)) {
                         Log.d(TAG, "receive ACTION_CHECK_TT_PRODUCT_ENTRY_ALREADY_CONFIRM_NO");
@@ -317,11 +333,23 @@ public class ProductionStorageFragment extends Fragment {
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_PRODUCT_ENTRY_FAILED)) {
                         Log.d(TAG, "receive ACTION_GET_TT_PRODUCT_ENTRY_FAILED");
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_TT_PRODUCT_ENTRY_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_GET_TT_PRODUCT_ENTRY_SUCCESS");
                         //if (loadDialog != null)
@@ -372,6 +400,12 @@ public class ProductionStorageFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
 
                         toast(getResources().getString(R.string.production_storage_in_stock_process_abort));
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_FAILED)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_CHECK_STOCK_LOCATE_NO_EXIST_FAILED");
 
@@ -379,6 +413,11 @@ public class ProductionStorageFragment extends Fragment {
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_in_stock_process_abort));
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_UPDATE_TT_PRODUCT_ENTRY_LOCATE_NO_SUCCESS");
@@ -441,19 +480,24 @@ public class ProductionStorageFragment extends Fragment {
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_update_process_error));
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_EXECUTE_TT_FAILED)) {
                         Log.d(TAG, "receive ACTION_EXECUTE_TT_FAILED");
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.production_storage_confirm_in_stock_fail));
-                    } /*else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
-                        Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
-                        //if (loadDialog != null)
-                        //    loadDialog.dismiss();
-                        progressBar.setVisibility(View.GONE);
-                        toast(getResources().getString(R.string.production_storage_in_stock_process_complete));
-                    }*/ else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
+
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_IN_STOCK_WORK_COMPLETE");
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
@@ -465,6 +509,10 @@ public class ProductionStorageFragment extends Fragment {
                         executeIntent.putExtra("IN_NO", c_in_no.getText().toString());
                         context.startService(executeIntent);
 
+                        if (productList.size() > 0)
+                            btnInStockConfirm.setEnabled(true);
+                        else
+                            btnInStockConfirm.setEnabled(false);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRODUCT_SWIPE_LAYOUT_UPDATE)) {
                         Log.d(TAG, "receive ACTION_PRODUCT_SWIPE_LAYOUT_UPDATE");

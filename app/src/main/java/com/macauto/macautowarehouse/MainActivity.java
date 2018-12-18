@@ -1582,18 +1582,19 @@ public class MainActivity extends AppCompatActivity
             Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
             v1.setDrawingCacheEnabled(false);
 
-            File imageFile = new File(mPath);
+            //save as a file
+            //File imageFile = new File(mPath);
+            //FileOutputStream outputStream = new FileOutputStream(imageFile);
 
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
+            //int quality = 100;
 
             croppedBitmap = Bitmap.createBitmap(bitmap, 0, 120, bitmap.getWidth(), 250);
 
 
 
-            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
+            //croppedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            //outputStream.flush();
+            //outputStream.close();
 
             //openScreenshot(imageFile);
         } catch (Throwable e) {
