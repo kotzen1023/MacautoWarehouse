@@ -20,9 +20,9 @@ import com.macauto.macautowarehouse.R;
 import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity.dividedItemAdapter;
-import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity.dividedList;
-import static com.macauto.macautowarehouse.EnteringWarehouseDividedDialogActivity.temp_count_list;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
+import static com.macauto.macautowarehouse.MainActivity.dividedList;
+import static com.macauto.macautowarehouse.MainActivity.temp_count_list;
+import static com.macauto.macautowarehouse.MainActivity.dataTable_Batch_area;
 
 
 public class DividedItemAdapter extends ArrayAdapter<DividedItem> {

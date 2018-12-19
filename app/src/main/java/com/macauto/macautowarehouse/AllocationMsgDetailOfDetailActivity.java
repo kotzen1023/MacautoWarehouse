@@ -11,30 +11,30 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
+
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.macauto.macautowarehouse.data.Constants;
+
 import com.macauto.macautowarehouse.data.InspectedDetailItem;
 import com.macauto.macautowarehouse.data.InspectedDetailItemAdapter;
 
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.AllocationMsgDetailActivity.showList;
+
+import static com.macauto.macautowarehouse.MainActivity.msgDetailOfDetailList;
+import static com.macauto.macautowarehouse.MainActivity.msgDetailShowList;
 
 public class AllocationMsgDetailOfDetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailOfDetailActivity";
 
-    public static ArrayList<InspectedDetailItem> detailList = new ArrayList<>();
+    //public static ArrayList<InspectedDetailItem> detailList = new ArrayList<>();
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
     //private SearchDetailItemAdapter searchDetailItemAdapter;
     //InputMethodManager imm;
-    private InspectedDetailItemAdapter inspectedDetailItemAdapter;
+    //private InspectedDetailItemAdapter inspectedDetailItemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,48 +58,48 @@ public class AllocationMsgDetailOfDetailActivity extends AppCompatActivity {
         }
 
 
-        detailList.clear();
+        msgDetailOfDetailList.clear();
 
         // part_no
         InspectedDetailItem item1 = new InspectedDetailItem();
         item1.setHeader(getResources().getString(R.string.allocation_item_part_no));
-        item1.setContent(String.valueOf(showList.get(index).getItem_part_no()));
-        detailList.add(item1);
+        item1.setContent(String.valueOf(msgDetailShowList.get(index).getItem_part_no()));
+        msgDetailOfDetailList.add(item1);
         //ima021
         InspectedDetailItem item2 = new InspectedDetailItem();
         item2.setHeader(getResources().getString(R.string.allocation_item_name));
-        item2.setContent(showList.get(index).getItem_ima021());
-        detailList.add(item2);
+        item2.setContent(msgDetailShowList.get(index).getItem_ima021());
+        msgDetailOfDetailList.add(item2);
         //qty
         InspectedDetailItem item3 = new InspectedDetailItem();
         item3.setHeader(getResources().getString(R.string.allocation_item_qty));
-        item3.setContent(showList.get(index).getItem_qty());
-        detailList.add(item3);
+        item3.setContent(msgDetailShowList.get(index).getItem_qty());
+        msgDetailOfDetailList.add(item3);
         //src stock
         InspectedDetailItem item4 = new InspectedDetailItem();
         item4.setHeader(getResources().getString(R.string.allocation_item_src_stock));
-        item4.setContent(showList.get(index).getItem_src_stock_no());
-        detailList.add(item4);
+        item4.setContent(msgDetailShowList.get(index).getItem_src_stock_no());
+        msgDetailOfDetailList.add(item4);
         //src locate no
         InspectedDetailItem item5 = new InspectedDetailItem();
         item5.setHeader(getResources().getString(R.string.allocation_item_src_locate));
-        item5.setContent(showList.get(index).getItem_src_locate_no());
-        detailList.add(item5);
+        item5.setContent(msgDetailShowList.get(index).getItem_src_locate_no());
+        msgDetailOfDetailList.add(item5);
         //src batch no
         InspectedDetailItem item6 = new InspectedDetailItem();
         item6.setHeader(getResources().getString(R.string.allocation_item_src_batch));
-        item6.setContent(showList.get(index).getItem_src_batch_no());
-        detailList.add(item6);
+        item6.setContent(msgDetailShowList.get(index).getItem_src_batch_no());
+        msgDetailOfDetailList.add(item6);
         //sfa12
         InspectedDetailItem item7 = new InspectedDetailItem();
         item7.setHeader(getResources().getString(R.string.allocation_item_sfa12));
-        item7.setContent(showList.get(index).getItem_sfa12());
-        detailList.add(item7);
+        item7.setContent(msgDetailShowList.get(index).getItem_sfa12());
+        msgDetailOfDetailList.add(item7);
         //scan desc
         InspectedDetailItem item8 = new InspectedDetailItem();
         item8.setHeader(getResources().getString(R.string.allocation_item_scan_desc));
-        item8.setContent(showList.get(index).getItem_scan_desc());
-        detailList.add(item8);
+        item8.setContent(msgDetailShowList.get(index).getItem_scan_desc());
+        msgDetailOfDetailList.add(item8);
         //rvv34
         /*InspectedDetailItem item9 = new InspectedDetailItem();
         item9.setHeader(getResources().getString(R.string.item_title_rvv34));
@@ -122,7 +122,7 @@ public class AllocationMsgDetailOfDetailActivity extends AppCompatActivity {
         detailList.add(item12);*/
 
 
-        inspectedDetailItemAdapter = new InspectedDetailItemAdapter(AllocationMsgDetailOfDetailActivity.this, R.layout.inspected_receive_list_detail_item, detailList);
+        InspectedDetailItemAdapter inspectedDetailItemAdapter = new InspectedDetailItemAdapter(AllocationMsgDetailOfDetailActivity.this, R.layout.inspected_receive_list_detail_item, msgDetailOfDetailList);
         listView.setAdapter(inspectedDetailItemAdapter);
 
         final IntentFilter filter;
@@ -219,6 +219,8 @@ public class AllocationMsgDetailOfDetailActivity extends AppCompatActivity {
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        dataClear();
+
         super.onDestroy();
     }
 
@@ -268,5 +270,10 @@ public class AllocationMsgDetailOfDetailActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void dataClear() {
+        if (msgDetailOfDetailList != null)
+            msgDetailOfDetailList.clear();
     }
 }

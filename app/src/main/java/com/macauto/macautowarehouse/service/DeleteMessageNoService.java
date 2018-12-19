@@ -12,6 +12,9 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -180,6 +183,13 @@ public class DeleteMessageNoService extends IntentService {
             //DataTable dt = soapToDataTable(bodyIn);
 
 
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            sendBroadcast(timeoutIntent);
+        } catch (ConnectException e) {
+            Intent failedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            sendBroadcast(failedIntent);
         } catch (Exception e) {
             // 抓到錯誤訊息
 

@@ -52,6 +52,7 @@
     <string name="nav_logout">登出</string>
     <string name="nav_login">登入</string>
     <string name="socket_timeout">連線逾時, 請重新嘗試</string>
+    <string name="socket_failed">無法連線到伺服器.</string>
     <string name="login_account">帳號</string>
     <string name="login_password">密碼</string>
     <string name="login_confirm">確定</string>
@@ -264,7 +265,7 @@
     <string name="production_storage_dialog_title">生產入庫作業</string>
     <string name="production_storage_dialog_content">確認入庫?</string>
 
-    <string name="production_storage_inbound_order_has_confirmed">本張生產入庫單 %s 已經確認入庫,請勿再掃描.</string>
+    <string name="production_storage_inbound_order_has_confirmed">本張生產入庫單 %s 已經確認入庫或不存在.</string>
     <string name="production_storage_not_inbound_order">非生產入庫單條碼</string>
     <string name="production_storage_product_locate_not_scanned">仍有料件儲位未掃描</string>
     <string name="production_storage_in_stock_process_complete">生產入庫作業完成</string>

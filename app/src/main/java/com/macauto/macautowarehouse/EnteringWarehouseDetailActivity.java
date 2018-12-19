@@ -20,11 +20,12 @@ import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.InspectedDetailItem;
 import com.macauto.macautowarehouse.data.InspectedDetailItemAdapter;
 
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
+
+import static com.macauto.macautowarehouse.MainActivity.dataTable;
+import static com.macauto.macautowarehouse.MainActivity.scan_list;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
+import static com.macauto.macautowarehouse.MainActivity.wareHouseDetailList;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
 
 
@@ -32,7 +33,7 @@ import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select
 public class EnteringWarehouseDetailActivity extends AppCompatActivity {
     private static final String TAG = "WarehouseDetailActivity";
 
-    public static ArrayList<InspectedDetailItem> detailList = new ArrayList<>();
+    //public static ArrayList<InspectedDetailItem> detailList = new ArrayList<>();
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
@@ -56,7 +57,7 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (detailList.size() > 0) {
+                if (wareHouseDetailList.size() > 0) {
                     if (position == 9) { //quantity
                         Intent clearIntent = new Intent(Constants.ACTION.ACTION_ENTERING_WAREHOUSE_DIVIDED_DIALOG_SHOW);
                         clearIntent.putExtra("INDEX", String.valueOf(index));
@@ -83,71 +84,71 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
         }
 
 
-        detailList.clear();
+        wareHouseDetailList.clear();
 
         // V
         InspectedDetailItem item1 = new InspectedDetailItem();
         item1.setHeader(getResources().getString(R.string.item_title_check_sp));
-        item1.setContent(String.valueOf(swipe_list.get(index).isCheck_sp()));
-        detailList.add(item1);
+        item1.setContent(String.valueOf(scan_list.get(index).isCheck_sp()));
+        wareHouseDetailList.add(item1);
         //rvu01
         InspectedDetailItem item2 = new InspectedDetailItem();
         item2.setHeader(getResources().getString(R.string.item_title_rvu01));
-        item2.setContent(swipe_list.get(index).getCol_rvu01());
-        detailList.add(item2);
+        item2.setContent(scan_list.get(index).getCol_rvu01());
+        wareHouseDetailList.add(item2);
         //rvv02
         InspectedDetailItem item3 = new InspectedDetailItem();
         item3.setHeader(getResources().getString(R.string.item_title_rvv02));
-        item3.setContent(swipe_list.get(index).getCol_rvv02());
-        detailList.add(item3);
+        item3.setContent(scan_list.get(index).getCol_rvv02());
+        wareHouseDetailList.add(item3);
         //rvb05
         InspectedDetailItem item4 = new InspectedDetailItem();
         item4.setHeader(getResources().getString(R.string.item_title_rvb05));
-        item4.setContent(swipe_list.get(index).getCol_rvb05());
-        detailList.add(item4);
+        item4.setContent(scan_list.get(index).getCol_rvb05());
+        wareHouseDetailList.add(item4);
         //pmn041
         InspectedDetailItem item5 = new InspectedDetailItem();
         item5.setHeader(getResources().getString(R.string.item_title_pmn041));
-        item5.setContent(swipe_list.get(index).getCol_pmn041());
-        detailList.add(item5);
+        item5.setContent(scan_list.get(index).getCol_pmn041());
+        wareHouseDetailList.add(item5);
         //ima021
         InspectedDetailItem item6 = new InspectedDetailItem();
         item6.setHeader(getResources().getString(R.string.item_title_ima021));
-        item6.setContent(swipe_list.get(index).getCol_ima021());
-        detailList.add(item6);
+        item6.setContent(scan_list.get(index).getCol_ima021());
+        wareHouseDetailList.add(item6);
         //rvv32
         InspectedDetailItem item7 = new InspectedDetailItem();
         item7.setHeader(getResources().getString(R.string.item_title_rvv32));
-        item7.setContent(swipe_list.get(index).getCol_rvv32());
-        detailList.add(item7);
+        item7.setContent(scan_list.get(index).getCol_rvv32());
+        wareHouseDetailList.add(item7);
         //rvv33
         InspectedDetailItem item8 = new InspectedDetailItem();
         item8.setHeader(getResources().getString(R.string.item_title_rvv33));
-        item8.setContent(swipe_list.get(index).getCol_rvv33());
-        detailList.add(item8);
+        item8.setContent(scan_list.get(index).getCol_rvv33());
+        wareHouseDetailList.add(item8);
         //rvv34
         InspectedDetailItem item9 = new InspectedDetailItem();
         item9.setHeader(getResources().getString(R.string.item_title_rvv34));
-        item9.setContent(swipe_list.get(index).getCol_rvv34());
-        detailList.add(item9);
+        item9.setContent(scan_list.get(index).getCol_rvv34());
+        wareHouseDetailList.add(item9);
         //rvb33
         InspectedDetailItem item10 = new InspectedDetailItem();
         item10.setHeader(getResources().getString(R.string.item_title_rvb33));
-        item10.setContent(swipe_list.get(index).getCol_rvb33());
-        detailList.add(item10);
+        item10.setContent(scan_list.get(index).getCol_rvb33());
+        wareHouseDetailList.add(item10);
         //pmc03
         InspectedDetailItem item11 = new InspectedDetailItem();
         item11.setHeader(getResources().getString(R.string.item_title_pmc03));
-        item11.setContent(swipe_list.get(index).getCol_pmc03());
-        detailList.add(item11);
+        item11.setContent(scan_list.get(index).getCol_pmc03());
+        wareHouseDetailList.add(item11);
         //gen02
         InspectedDetailItem item12 = new InspectedDetailItem();
         item12.setHeader(getResources().getString(R.string.item_title_gen02));
-        item12.setContent(swipe_list.get(index).getCol_gen02());
-        detailList.add(item12);
+        item12.setContent(scan_list.get(index).getCol_gen02());
+        wareHouseDetailList.add(item12);
 
 
-        inspectedDetailItemAdapter = new InspectedDetailItemAdapter(EnteringWarehouseDetailActivity.this, R.layout.inspected_receive_list_detail_item, detailList);
+        inspectedDetailItemAdapter = new InspectedDetailItemAdapter(EnteringWarehouseDetailActivity.this, R.layout.inspected_receive_list_detail_item, wareHouseDetailList);
         listView.setAdapter(inspectedDetailItemAdapter);
 
         final IntentFilter filter;
@@ -201,11 +202,11 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
                                                 dataTable.Rows.get(item_select).setValue("rvv33", text);
                                                 dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
                                             }
-                                            swipe_list.get(item_select).setCol_rvv33(text);
-                                            swipe_list.get(item_select).setChecked(true);
+                                            scan_list.get(item_select).setCol_rvv33(text);
+                                            scan_list.get(item_select).setChecked(true);
                                             //check_stock_in.set(item_select, true);
 
-                                            detailList.get(7).setContent(text);
+                                            wareHouseDetailList.get(7).setContent(text);
 
                                             if (inspectedDetailItemAdapter != null)
                                                 inspectedDetailItemAdapter.notifyDataSetChanged();
@@ -249,6 +250,8 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
             mReceiver = null;
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
+
+        dataClear();
 
         super.onDestroy();
     }
@@ -299,5 +302,11 @@ public class EnteringWarehouseDetailActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void dataClear() {
+
+        if (wareHouseDetailList != null)
+            wareHouseDetailList.clear();
     }
 }

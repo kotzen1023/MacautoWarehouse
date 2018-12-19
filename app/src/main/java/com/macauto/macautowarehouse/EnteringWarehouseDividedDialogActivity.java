@@ -26,13 +26,16 @@ import com.macauto.macautowarehouse.data.DividedItem;
 import com.macauto.macautowarehouse.data.DividedItemAdapter;
 
 import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService2;
-import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataAXService;
+
 import com.macauto.macautowarehouse.service.GetTTSplitRvvItemService;
 import com.macauto.macautowarehouse.table.DataRow;
 
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable_Batch_area;
+
+
+import static com.macauto.macautowarehouse.MainActivity.dataTable_Batch_area;
+import static com.macauto.macautowarehouse.MainActivity.dividedList;
+import static com.macauto.macautowarehouse.MainActivity.temp_count_list;
 
 
 public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
@@ -40,7 +43,7 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
     private static final String TAG = "DividedDialog";
 
     public static DividedItemAdapter dividedItemAdapter;
-    public static ArrayList<DividedItem> dividedList = new ArrayList<>();
+    //public static ArrayList<DividedItem> dividedList = new ArrayList<>();
     //private static Button btnAdd;
     //private static Button btnCancel;
     private Button btnOk;
@@ -55,7 +58,7 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
-    public static ArrayList<Integer> temp_count_list = new ArrayList<>();
+    //public static ArrayList<Integer> temp_count_list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
         final String batch_no_string = intent.getStringExtra("BATCH_NO");
         final String locate_no_string = intent.getStringExtra("LOCATE_NO");
         final String stock_no_string = intent.getStringExtra("STOCK_NO");
-        final String check_sp_string = intent.getStringExtra("CHECK_SP");
+        //final String check_sp_string = intent.getStringExtra("CHECK_SP");
 
         float quantity = Float.valueOf(quantity_string);
 
@@ -460,6 +463,8 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        dataClear();
+
         super.onDestroy();
     }
 
@@ -510,5 +515,13 @@ public class EnteringWarehouseDividedDialogActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void dataClear() {
+
+        if (dividedList != null)
+            dividedList.clear();
+        if (temp_count_list != null)
+            temp_count_list.clear();
     }
 }

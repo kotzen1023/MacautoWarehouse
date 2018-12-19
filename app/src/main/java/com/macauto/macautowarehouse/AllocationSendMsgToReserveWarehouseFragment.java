@@ -1,6 +1,6 @@
 package com.macauto.macautowarehouse;
 
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -54,7 +54,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.macauto.macautowarehouse.MainActivity.dateList;
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
+import static com.macauto.macautowarehouse.MainActivity.hhh;
+import static com.macauto.macautowarehouse.MainActivity.hourList;
+import static com.macauto.macautowarehouse.MainActivity.locateList;
+import static com.macauto.macautowarehouse.MainActivity.locateNoTable;
+import static com.macauto.macautowarehouse.MainActivity.madeInfoTable;
+import static com.macauto.macautowarehouse.MainActivity.minList;
+import static com.macauto.macautowarehouse.MainActivity.myList;
+import static com.macauto.macautowarehouse.MainActivity.sfaMessTable;
+import static com.macauto.macautowarehouse.MainActivity.statusList;
 
 public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
     private static final String TAG = "AllocationSendMsg";
@@ -82,7 +92,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
     private TextView s_part_desc;
     private TextView s_pdt_qty;
     private TextView s_pdted_qty;*/
-    ProgressDialog loadDialog = null;
+    //ProgressDialog loadDialog = null;
     ProgressBar progressBar = null;
     RelativeLayout relativeLayout;
 
@@ -92,27 +102,29 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
     public static ArrayAdapter<String> hourAdapter;
     public static ArrayAdapter<String> minAdapter;
 
-    public static ArrayList<String> locateList = new ArrayList<>();
+    /*ublic static ArrayList<String> locateList = new ArrayList<>();
     public static ArrayList<String> dateList = new ArrayList<>();
     public static ArrayList<String> hourList = new ArrayList<>();
     public static ArrayList<String> minList = new ArrayList<>();
     public static DataTable locateNoTable = new DataTable();
     public static DataTable madeInfoTable = new DataTable();
     public static DataTable sfaMessTable = new DataTable();
-    public static DataTable hhh = new DataTable();
+    public static DataTable hhh = new DataTable();*/
 
     private static int current_btn_state = 0;
 
     public AllocationSendMsgItemAdapter allocationSendMsgItemAdapter;
-    private static ArrayList<AllocationSendMsgItem> myList = new ArrayList<>();
+    //private static ArrayList<AllocationSendMsgItem> myList = new ArrayList<>();
 
     public AllocationMsgStatusItemAdapter allocationMsgStatusItemAdapter;
-    public static ArrayList<AllocationMsgStatusItem> statusList = new ArrayList<>();
+    //public static ArrayList<AllocationMsgStatusItem> statusList = new ArrayList<>();
     public ListView statusListView;
     private Locale current;
     //private SwipeLayout swipeLayout;
     private static boolean allocate_with_emp = false;
     public static int item_select = -1;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -656,6 +668,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                Log.e(TAG, "statusList.size() = "+statusList.size()+", hhh.Rows.size() = "+hhh.Rows.size());
+
                 if (statusList.size() > 0 && hhh.Rows.size() > 0) {
 
                     /*loadDialog = new ProgressDialog(fragmentContext);
@@ -753,7 +767,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         //add 30 minutes
         calendar.add(Calendar.MINUTE, 30);
-        Date today = calendar.getTime();
+        final Date today = calendar.getTime();
         calendar.setTime(today);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
@@ -832,6 +846,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                     if (intent.getAction().equalsIgnoreCase(Constants.ACTION.SOAP_CONNECTION_FAIL)) {
                         Log.d(TAG, "receive SOAP_CONNECTION_FAIL");
 
+                        toast(fragmentContext.getResources().getString(R.string.socket_failed));
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
@@ -842,6 +857,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             btnSend.setEnabled(true);
                         else
                             btnSend.setEnabled(false);
+
+                        toast(fragmentContext.getResources().getString(R.string.socket_failed));
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
@@ -1455,6 +1472,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             mReceiver = null;
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
+        dataClear();
 
         super.onDestroyView();
     }
@@ -1472,5 +1490,40 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         toast.show();
     }
 
+    private void dataClear() {
 
+        progressBar = null;
+
+        if (locateList != null)
+            locateList.clear();
+        if (dateList != null)
+            dateList.clear();
+        if (hourList != null)
+            hourList.clear();
+        if (minList != null)
+            minList.clear();
+        if (locateNoTable != null)
+            locateNoTable.clear();
+        if (madeInfoTable != null)
+            madeInfoTable.clear();
+        if (sfaMessTable != null)
+            sfaMessTable.clear();
+        if (hhh != null)
+            hhh.clear();
+        if (myList != null)
+            myList.clear();
+        if (statusList != null)
+            statusList.clear();
+
+
+
+        locateAdapter = null;
+        dateAdapter = null;
+        hourAdapter = null;
+        minAdapter = null;
+
+
+        allocationSendMsgItemAdapter = null;
+        allocationMsgStatusItemAdapter = null;
+    }
 }

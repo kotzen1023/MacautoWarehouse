@@ -15,6 +15,8 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
@@ -177,12 +179,20 @@ public class CheckEmpPasswordService extends IntentService {
 
             //DataTable dt = soapToDataTable(bodyIn);
 
-        } catch (Exception e) {
+        } catch (SocketTimeoutException e) {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            //Intent decryptDoneIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-            //sendBroadcast(decryptDoneIntent);
+            Intent failedIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            sendBroadcast(failedIntent);
+        } catch (ConnectException e) {
+            e.printStackTrace();
+            Intent failedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            sendBroadcast(failedIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Intent failedIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_FAILED);
+            sendBroadcast(failedIntent);
         }
 
         //MeetingAlarm.last_sync_setting = sync_option;

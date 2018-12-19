@@ -1,7 +1,7 @@
 package com.macauto.macautowarehouse;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,7 +31,7 @@ import com.macauto.macautowarehouse.data.AllocationMsgDetailItemAdapter;
 import com.macauto.macautowarehouse.data.Constants;
 
 import com.macauto.macautowarehouse.data.GenerateRandomString;
-import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
+
 import com.macauto.macautowarehouse.service.GetDeptNoService;
 import com.macauto.macautowarehouse.service.GetLotCodeVer2Service;
 
@@ -44,14 +44,16 @@ import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.Locale;
 
 
-import static com.macauto.macautowarehouse.AllocationMsgFragment.msgDataTable;
+import static com.macauto.macautowarehouse.MainActivity.dataTable_SSS;
+import static com.macauto.macautowarehouse.MainActivity.msgDataTable;
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.msgDetailShowList;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
 
 
@@ -65,7 +67,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
     private Context context;
 
-    ProgressDialog loadDialog = null;
+    //ProgressDialog loadDialog = null;
     ProgressBar progressBar = null;
     RelativeLayout relativeLayout;
 
@@ -88,13 +90,13 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
     private static int y;
     private static String tag_locate_no;
 
-    public static DataTable dataTable_SSS;
+    //public static DataTable dataTable_SSS;
 
     private static String part_no;
     private static String batch_no;
     private static Button btnTransfer;
 
-    public static ArrayList<AllocationMsgDetailItem> showList = new ArrayList<>();
+    //public static ArrayList<AllocationMsgDetailItem> showList = new ArrayList<>();
 
     private static int current_detail_row = -1;
     private static int current_index;
@@ -139,21 +141,21 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //deselect other
-                for (int i=0; i<showList.size(); i++) {
+                for (int i=0; i<msgDetailShowList.size(); i++) {
 
                     if (i == position) {
 
-                        if (showList.get(i).isSelected()) {
-                            showList.get(i).setSelected(false);
+                        if (msgDetailShowList.get(i).isSelected()) {
+                            msgDetailShowList.get(i).setSelected(false);
                             item_select = -1;
                         } else {
-                            showList.get(i).setSelected(true);
+                            msgDetailShowList.get(i).setSelected(true);
                             item_select = position;
 
                         }
 
                     } else {
-                        showList.get(i).setSelected(false);
+                        msgDetailShowList.get(i).setSelected(false);
 
                     }
                 }
@@ -166,7 +168,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (position < showList.size()) {
+                if (position < msgDetailShowList.size()) {
 
                     Intent detailIntent = new Intent(AllocationMsgDetailActivity.this, AllocationMsgDetailOfDetailActivity.class);
                     detailIntent.putExtra("INDEX", String.valueOf(position));
@@ -198,7 +200,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         s_ima03.setText(ima03);
         s_pre_get_datetime.setText(pre_get_datetime);
 
-        showList.clear();
+        msgDetailShowList.clear();
 
         if (msgDataTable.Rows.size() > 0) {
             for (DataRow rx : msgDataTable.Rows) {
@@ -217,7 +219,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                 item.setItem_sfa12(rx.getValue("sfa12").toString());
                 item.setItem_scan_desc(rx.getValue("scan_desc").toString());
 
-                showList.add(item);
+                msgDetailShowList.add(item);
             }
         }
 
@@ -299,7 +301,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         item7.setHeader(getResources().getString(R.string.allocation_detail_barcode));
         showList.add(item7);*/
 
-        allocationMsgDetailItemAdapter = new AllocationMsgDetailItemAdapter(this, R.layout.allocation_msg_detail_item, showList);
+        allocationMsgDetailItemAdapter = new AllocationMsgDetailItemAdapter(this, R.layout.allocation_msg_detail_item, msgDetailShowList);
         detailListView.setAdapter(allocationMsgDetailItemAdapter);
 
         IntentFilter filter;
@@ -350,8 +352,8 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                                 msgDataTable.Rows.get(index).setValue("scan_desc", getResources().getString(R.string.allocation_detail_scanned));
                                 yx.setValue(17, "Y");
                                 yx.setValue("scan_desc", getResources().getString(R.string.allocation_detail_scanned));
-                                showList.get(index).setItem_scan_desc(getResources().getString(R.string.allocation_detail_scanned));
-                                showList.get(index).setChecked(true);
+                                msgDetailShowList.get(index).setItem_scan_desc(getResources().getString(R.string.allocation_detail_scanned));
+                                msgDetailShowList.get(index).setChecked(true);
                                 found = true;
                             }
                             index = index + 1;
@@ -391,7 +393,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                         int delete_row = Integer.valueOf(delete_row_string);
 
                         msgDataTable.Rows.remove(delete_row);
-                        showList.remove(delete_row);
+                        msgDetailShowList.remove(delete_row);
 
                         if (allocationMsgDetailItemAdapter != null) {
                             allocationMsgDetailItemAdapter.notifyDataSetChanged();
@@ -404,7 +406,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
                         int delete_row = Integer.valueOf(delete_row_string);
 
                         msgDataTable.Rows.remove(delete_row);
-                        showList.remove(delete_row);
+                        msgDetailShowList.remove(delete_row);
 
                         if (allocationMsgDetailItemAdapter != null) {
                             allocationMsgDetailItemAdapter.notifyDataSetChanged();
@@ -866,6 +868,8 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        dataClear();
+
         super.onDestroy();
     }
 
@@ -945,5 +949,20 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(AllocationMsgDetailActivity.this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void dataClear() {
+
+        progressBar = null;
+
+        if (dataTable_SSS != null)
+            dataTable_SSS.clear();
+        if (msgDataTable != null)
+            msgDataTable.clear();
+        if (msgDetailShowList != null)
+            msgDetailShowList.clear();
+
+        if (allocationMsgDetailItemAdapter != null)
+            allocationMsgDetailItemAdapter = null;
     }
 }

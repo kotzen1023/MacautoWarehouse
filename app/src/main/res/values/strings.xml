@@ -52,6 +52,7 @@
     <string name="nav_logout">Logout</string>
     <string name="nav_login">Login</string>
     <string name="socket_timeout">Connection Timeout. Please try again.</string>
+    <string name="socket_failed">Cannot connect to server.</string>
     <string name="login_account">Account</string>
     <string name="login_password">Password</string>
     <string name="login_confirm">Confirm</string>
@@ -264,7 +265,7 @@
     <string name="production_storage_dialog_title">Production Storage</string>
     <string name="production_storage_dialog_content">Confirm this production storage?</string>
 
-    <string name="production_storage_inbound_order_has_confirmed">This inbound order %s was been confirmed.</string>
+    <string name="production_storage_inbound_order_has_confirmed">This inbound order %s was confirmed or not exist.</string>
     <string name="production_storage_not_inbound_order">This barcode is not for inbound work.</string>
     <string name="production_storage_product_locate_not_scanned">Some item were not scanned.</string>
     <string name="production_storage_in_stock_process_complete">Production In-stock process complete</string>

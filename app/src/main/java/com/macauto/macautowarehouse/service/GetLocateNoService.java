@@ -13,10 +13,11 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateList;
-import static com.macauto.macautowarehouse.AllocationSendMsgToReserveWarehouseFragment.locateNoTable;
+import static com.macauto.macautowarehouse.MainActivity.locateList;
+import static com.macauto.macautowarehouse.MainActivity.locateNoTable;
 
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
@@ -198,6 +199,10 @@ public class GetLocateNoService extends IntentService {
             e.printStackTrace();
             Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             sendBroadcast(timeoutIntent);
+        } catch (ConnectException e) {
+            e.printStackTrace();
+            Intent failedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            sendBroadcast(failedIntent);
         } catch (Exception e) {
             // 抓到錯誤訊息
 

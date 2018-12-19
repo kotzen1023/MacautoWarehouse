@@ -1,7 +1,7 @@
 package com.macauto.macautowarehouse;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,14 +27,13 @@ import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.Constants;
 
-import com.macauto.macautowarehouse.data.ProductionStorageItem;
+
 import com.macauto.macautowarehouse.data.ProductionStorageItemAdapter;
 import com.macauto.macautowarehouse.service.CheckStockLocateNoExistService;
 import com.macauto.macautowarehouse.service.CheckTTProductEntryAlreadyConfirm;
-import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService;
+
 import com.macauto.macautowarehouse.service.ExecuteScriptTTService;
-import com.macauto.macautowarehouse.service.GetDocTypeIsRegOrSubService;
-import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataService;
+
 import com.macauto.macautowarehouse.service.GetTTErrorStatusService;
 import com.macauto.macautowarehouse.service.GetTTProductEntryService;
 import com.macauto.macautowarehouse.service.UpdateTTProductEntryLocateNoService;
@@ -42,14 +41,14 @@ import com.macauto.macautowarehouse.table.DataColumn;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
-import java.util.ArrayList;
 
-import static android.content.Context.POWER_SERVICE;
+import static com.macauto.macautowarehouse.MainActivity.dataTable_RR;
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
-import static com.macauto.macautowarehouse.MainActivity.k_id;
+
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
-import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
-import static com.macauto.macautowarehouse.data.InspectedReceiveExpanedAdater.mSparseBooleanArray;
+import static com.macauto.macautowarehouse.MainActivity.productList;
+import static com.macauto.macautowarehouse.MainActivity.product_table_X_M;
+
 
 public class ProductionStorageFragment extends Fragment {
     private static final String TAG = ProductionStorageFragment.class.getName();
@@ -59,12 +58,12 @@ public class ProductionStorageFragment extends Fragment {
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
-    ProgressDialog loadDialog = null;
+    //ProgressDialog loadDialog = null;
     ProgressBar progressBar;
     RelativeLayout relativeLayout;
 
     private EditText exitTextInNo;
-    private Button btnUserInputConfirm;
+    //private Button btnUserInputConfirm;
     private TextView c_in_no;
     private TextView c_in_date;
     private TextView c_made_no;
@@ -72,10 +71,10 @@ public class ProductionStorageFragment extends Fragment {
     private ListView productListView;
     private Button btnInStockConfirm;
 
-    public static DataTable dataTable_RR;
-    public static DataTable product_table_X_M;
+    //public static DataTable dataTable_RR;
+    //public static DataTable product_table_X_M;
     private ProductionStorageItemAdapter productionStorageItemAdapter;
-    public static ArrayList<ProductionStorageItem> productList = new ArrayList<>();
+    //public static ArrayList<ProductionStorageItem> productList = new ArrayList<>();
     public static int item_select = -1;
 
     @Override
@@ -103,7 +102,7 @@ public class ProductionStorageFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
 
         exitTextInNo = view.findViewById(R.id.exitTextInNo);
-        btnUserInputConfirm = view.findViewById(R.id.btnUserInputConfirm);
+        Button btnUserInputConfirm = view.findViewById(R.id.btnUserInputConfirm);
         c_in_no = view.findViewById(R.id.c_in_no);
         c_in_date = view.findViewById(R.id.c_in_date);
         c_made_no = view.findViewById(R.id.c_made_no);
@@ -705,6 +704,8 @@ public class ProductionStorageFragment extends Fragment {
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        dataClear();
+
         super.onDestroyView();
     }
 
@@ -719,5 +720,20 @@ public class ProductionStorageFragment extends Fragment {
         Toast toast = Toast.makeText(fragmentContext, message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void dataClear() {
+
+        progressBar = null;
+
+        if (dataTable_RR != null)
+            dataTable_RR.clear();
+        if (productList != null)
+            productList.clear();
+        if (product_table_X_M != null)
+            product_table_X_M.clear();
+
+        if (productionStorageItemAdapter != null)
+            productionStorageItemAdapter = null;
     }
 }

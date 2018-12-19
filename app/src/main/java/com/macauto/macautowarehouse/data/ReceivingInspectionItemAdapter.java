@@ -22,7 +22,7 @@ import com.macauto.macautowarehouse.R;
 
 import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+import static com.macauto.macautowarehouse.MainActivity.dataTable;
 import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.item_select;
 import static com.macauto.macautowarehouse.ReceivingInspectionFragment.dataTable_TTCP;
 

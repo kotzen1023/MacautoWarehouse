@@ -24,17 +24,18 @@ import com.macauto.macautowarehouse.data.ProductionStorageDetailItem;
 import com.macauto.macautowarehouse.data.ProductionStorageDetailItemAdapter;
 
 
-import java.util.ArrayList;
 
-import static com.macauto.macautowarehouse.ProductionStorageFragment.dataTable_RR;
+
+import static com.macauto.macautowarehouse.MainActivity.ProductionDetailList;
+import static com.macauto.macautowarehouse.MainActivity.dataTable_RR;
 import static com.macauto.macautowarehouse.ProductionStorageFragment.item_select;
-import static com.macauto.macautowarehouse.ProductionStorageFragment.productList;
+import static com.macauto.macautowarehouse.MainActivity.productList;
 
 
 public class ProductionStorageDetailActivity extends AppCompatActivity {
     private static final String TAG = "ProductionDetail";
 
-    public static ArrayList<ProductionStorageDetailItem> ProductionDetailList = new ArrayList<>();
+    //public static ArrayList<ProductionStorageDetailItem> ProductionDetailList = new ArrayList<>();
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
@@ -265,6 +266,8 @@ public class ProductionStorageDetailActivity extends AppCompatActivity {
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        dataClear();
+
         super.onDestroy();
     }
 
@@ -340,5 +343,14 @@ public class ProductionStorageDetailActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void dataClear() {
+
+        if (ProductionDetailList != null)
+            ProductionDetailList.clear();
+
+        if (productionStorageDetailItemAdapter != null)
+            productionStorageDetailItemAdapter = null;
     }
 }

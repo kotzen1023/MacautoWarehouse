@@ -1,6 +1,6 @@
 package com.macauto.macautowarehouse;
 
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,9 +27,10 @@ import android.widget.Toast;
 import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.SearchItemAdapter;
 import com.macauto.macautowarehouse.service.GetPartWarehouseListService;
-import com.macauto.macautowarehouse.table.DataTable;
 
 
+
+import static com.macauto.macautowarehouse.MainActivity.lookUpDataTable;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
 import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
@@ -52,11 +53,11 @@ public class LookupInStockFragment extends Fragment {
     private RecyclerView recyclerViewResult;
     public SearchItemAdapter searchItemAdapter;
 
-    ProgressDialog loadDialog = null;
+    //ProgressDialog loadDialog = null;
     ProgressBar progressBar = null;
     RelativeLayout relativeLayout;
 
-    public static DataTable lookUpDataTable;
+    //public static DataTable lookUpDataTable;
 
 
     InputMethodManager imm;
@@ -154,6 +155,8 @@ public class LookupInStockFragment extends Fragment {
         btnResearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                searchList.clear();
 
                 Intent resetIntent = new Intent(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK);
                 fragmentContext.sendBroadcast(resetIntent);
@@ -423,6 +426,14 @@ public class LookupInStockFragment extends Fragment {
             mReceiver = null;
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
+
+        //clear list
+        if (searchList != null)
+            searchList.clear();
+        if (sortedSearchList != null)
+            sortedSearchList.clear();
+        if (lookUpDataTable != null)
+            lookUpDataTable.clear();
 
         super.onDestroyView();
     }

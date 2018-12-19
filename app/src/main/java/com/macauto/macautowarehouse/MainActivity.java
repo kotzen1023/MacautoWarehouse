@@ -15,7 +15,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
-//import android.net.Uri;
+
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -51,13 +51,25 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.macauto.macautowarehouse.data.AllocationMsgDetailItem;
+import com.macauto.macautowarehouse.data.AllocationMsgItem;
+import com.macauto.macautowarehouse.data.AllocationMsgStatusItem;
+import com.macauto.macautowarehouse.data.AllocationSendMsgDetailItem;
+import com.macauto.macautowarehouse.data.AllocationSendMsgItem;
 import com.macauto.macautowarehouse.data.Constants;
+import com.macauto.macautowarehouse.data.DividedItem;
+import com.macauto.macautowarehouse.data.InspectedDetailItem;
+import com.macauto.macautowarehouse.data.InspectedReceiveItem;
+import com.macauto.macautowarehouse.data.ProductionStorageDetailItem;
+import com.macauto.macautowarehouse.data.ProductionStorageItem;
+
+import com.macauto.macautowarehouse.data.SearchDetailItem;
 import com.macauto.macautowarehouse.data.SearchItem;
+import com.macauto.macautowarehouse.table.DataTable;
 import com.qs408.aidl.IQSService;
 
 import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -137,8 +149,45 @@ public class MainActivity extends AppCompatActivity
     public static String web_soap_port;
     public static String emp_no;
 
+    //for search fragment
     public static ArrayList<SearchItem> searchList = new ArrayList<>();
     public static ArrayList<SearchItem> sortedSearchList = new ArrayList<>();
+    public static DataTable lookUpDataTable;
+    public static ArrayList<SearchDetailItem> lookUpDetailList = new ArrayList<>();
+    //allocation send msg
+    public static ArrayList<String> locateList = new ArrayList<>();
+    public static ArrayList<String> dateList = new ArrayList<>();
+    public static ArrayList<String> hourList = new ArrayList<>();
+    public static ArrayList<String> minList = new ArrayList<>();
+    public static DataTable locateNoTable = new DataTable();
+    public static DataTable madeInfoTable = new DataTable();
+    public static DataTable sfaMessTable = new DataTable();
+    public static DataTable hhh = new DataTable();
+    public static ArrayList<AllocationSendMsgItem> myList = new ArrayList<>();
+    public static ArrayList<AllocationMsgStatusItem> statusList = new ArrayList<>();
+    public static ArrayList<AllocationSendMsgDetailItem> sendMsgDetailList = new ArrayList<>();
+    //msg fragment
+    public static ArrayList<AllocationMsgItem> msg_list = new ArrayList<>();
+    public static DataTable msgDataTable;
+    public static DataTable dataTable_SSS;
+    public static ArrayList<AllocationMsgDetailItem> msgDetailShowList = new ArrayList<>();
+    public static ArrayList<InspectedDetailItem> msgDetailOfDetailList = new ArrayList<>();
+    //entering warehouse
+    public static ArrayList<InspectedReceiveItem> scan_list = new ArrayList<>();
+    public static ArrayList<String> pp_list = new ArrayList<>();
+    public static HashMap<String, Integer> total_count_list = new HashMap<>();
+    public static DataTable dataTable;
+    public static DataTable table_X_M;
+    public static DataTable dataTable_Batch_area;
+    public static ArrayList<DividedItem> dividedList = new ArrayList<>();
+    public static ArrayList<Integer> temp_count_list = new ArrayList<>();
+    public static ArrayList<InspectedDetailItem> wareHouseDetailList = new ArrayList<>();
+    //production storage
+    public static DataTable dataTable_RR;
+    public static DataTable product_table_X_M;
+    public static ArrayList<ProductionStorageItem> productList = new ArrayList<>();
+    public static ArrayList<ProductionStorageDetailItem> ProductionDetailList = new ArrayList<>();
+
     public static Process process;
     public static String log_filename;
 

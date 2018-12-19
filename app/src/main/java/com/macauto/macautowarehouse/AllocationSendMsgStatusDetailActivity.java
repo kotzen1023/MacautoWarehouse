@@ -19,11 +19,13 @@ import com.macauto.macautowarehouse.data.Constants;
 
 import java.util.ArrayList;
 
+import static com.macauto.macautowarehouse.MainActivity.sendMsgDetailList;
+
 
 public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
     private static final String TAG = "SendMsgStatusDetail";
 
-    public static ArrayList<AllocationSendMsgDetailItem> detailList = new ArrayList<>();
+    //public static ArrayList<AllocationSendMsgDetailItem> detailList = new ArrayList<>();
 
     //private AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter;
     //InputMethodManager imm;
@@ -79,61 +81,63 @@ public class AllocationSendMsgStatusDetailActivity extends AppCompatActivity {
 
         aw1 = aw1 > aw4 ? aw4 : aw1;
 
-        detailList.clear();
+        sendMsgDetailList.clear();
 
         //item_SFA03
         AllocationSendMsgDetailItem item1 = new AllocationSendMsgDetailItem();
         item1.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA03));
         item1.setContent(item_SFA03);
-        detailList.add(item1);
+        sendMsgDetailList.add(item1);
         //item_IMA021
         AllocationSendMsgDetailItem item2 = new AllocationSendMsgDetailItem();
         item2.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_IMA021));
         item2.setContent(item_IMA021);
-        detailList.add(item2);
+        sendMsgDetailList.add(item2);
         //item_IMG10
         AllocationSendMsgDetailItem item3 = new AllocationSendMsgDetailItem();
         item3.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_IMG10));
         item3.setContent(String.valueOf(aw1));
-        detailList.add(item3);
+        sendMsgDetailList.add(item3);
         //item_MOVED_QTY
         AllocationSendMsgDetailItem item4 = new AllocationSendMsgDetailItem();
         item4.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_MOVED_QTY));
         item4.setContent(item_MOVED_QTY);
-        detailList.add(item4);
+        sendMsgDetailList.add(item4);
         //item_MESS_QTY
         AllocationSendMsgDetailItem item5 = new AllocationSendMsgDetailItem();
         item5.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_MESS_QTY));
         item5.setContent(item_MESS_QTY);
-        detailList.add(item5);
+        sendMsgDetailList.add(item5);
         //item_SFA05
         AllocationSendMsgDetailItem item6 = new AllocationSendMsgDetailItem();
         item6.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA05));
         item6.setContent(item_SFA05);
-        detailList.add(item6);
+        sendMsgDetailList.add(item6);
         //item_SFA12
         AllocationSendMsgDetailItem item7 = new AllocationSendMsgDetailItem();
         item7.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA12));
         item7.setContent(item_SFA12);
-        detailList.add(item7);
+        sendMsgDetailList.add(item7);
         //item_SFA11_NAME
         AllocationSendMsgDetailItem item8 = new AllocationSendMsgDetailItem();
         item8.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_SFA11_NAME));
         item8.setContent(item_SFA11_NAME);
-        detailList.add(item8);
+        sendMsgDetailList.add(item8);
         //item_TC_OBF013
         AllocationSendMsgDetailItem item9 = new AllocationSendMsgDetailItem();
         item9.setHeader(getResources().getString(R.string.allocation_send_message_to_material_status_detail_TC_OBF013));
         item9.setContent(item_TC_OBF013);
-        detailList.add(item9);
+        sendMsgDetailList.add(item9);
 
-        AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter = new AllocationSendMsgDetailItemAdapter(AllocationSendMsgStatusDetailActivity.this, R.layout.allocation_msg_send_allocation_status_detail_item, detailList);
+        AllocationSendMsgDetailItemAdapter allocationSendMsgDetailItemAdapter = new AllocationSendMsgDetailItemAdapter(AllocationSendMsgStatusDetailActivity.this, R.layout.allocation_msg_send_allocation_status_detail_item, sendMsgDetailList);
         listView.setAdapter(allocationSendMsgDetailItemAdapter);
     }
 
     @Override
     protected void onDestroy() {
         Log.i(TAG, "onDestroy");
+
+        sendMsgDetailList.clear();
 
         super.onDestroy();
     }

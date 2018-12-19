@@ -21,18 +21,19 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.dataTable;
+import static com.macauto.macautowarehouse.MainActivity.dataTable;
 
 
 
 
 
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.swipe_list;
-import static com.macauto.macautowarehouse.EnteringWarehouseFragmnet.total_count_list;
+import static com.macauto.macautowarehouse.MainActivity.scan_list;
+import static com.macauto.macautowarehouse.MainActivity.total_count_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
@@ -232,7 +233,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                             item.setCol_pmc03(dataTable.Rows.get(i).getValue("pmc03").toString());
                             item.setCol_gen02(dataTable.Rows.get(i).getValue("gen02").toString());
 
-                            swipe_list.add(item);
+                            scan_list.add(item);
                             /*for (int j=0; j < dataTable.Columns.size(); j++) {
                                 //DetailItem item = new DetailItem();
                                 InspectedReceiveItem item = new InspectedReceiveItem();
@@ -254,7 +255,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
 
                         }
                         //add total count
-                        //String temp_rvb05 = swipe_list.get(no_list.get(0)).get(3).getName();
+                        //String temp_rvb05 = scan_list.get(no_list.get(0)).get(3).getName();
                         double count_double;
                         int count_num;
                         String item_name;
@@ -285,7 +286,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
                             item.setCheck_sp(true);
                             item.setCol_pmn041(key.toString());
                             item.setCol_rvb33(String.valueOf(total_count_list.get(key)));
-                            swipe_list.add(item);
+                            scan_list.add(item);
                         }
                         Log.e(TAG, "================= total_count_list ==========================");
                         //count_num = (int) count_double;
@@ -478,6 +479,9 @@ public class GetReceiveGoodsInDataService extends IntentService {
             e.printStackTrace();
             Intent timeoutIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
             sendBroadcast(timeoutIntent);
+        } catch (ConnectException e) {
+            Intent failedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            sendBroadcast(failedIntent);
         } catch (Exception e) {
             // 抓到錯誤訊息
 

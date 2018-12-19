@@ -15,6 +15,9 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -142,6 +145,15 @@ public class CheckEmpExistService extends IntentService {
 
                 is_exist = parseToBoolean(resultsRequestSOAP);
 
+                Intent loginResultIntent;
+                if (!is_exist) {
+                    loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
+                    sendBroadcast(loginResultIntent);
+                } else {
+                    loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
+                    sendBroadcast(loginResultIntent);
+                }
+
                 /*if (String.valueOf(resultsRequestSOAP).indexOf("true") > 0) {
                     Log.e(TAG, "ret = true");
                     is_exist = true;
@@ -175,12 +187,20 @@ public class CheckEmpExistService extends IntentService {
 
             //DataTable dt = soapToDataTable(bodyIn);
 
-        } catch (Exception e) {
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            Intent failedIntent = new Intent(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            sendBroadcast(failedIntent);
+        } catch (ConnectException e) {
             // 抓到錯誤訊息
 
             e.printStackTrace();
-            //Intent decryptDoneIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
-            //sendBroadcast(decryptDoneIntent);
+            Intent failedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            sendBroadcast(failedIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Intent failedIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+            sendBroadcast(failedIntent);
         }
 
         //MeetingAlarm.last_sync_setting = sync_option;
@@ -194,14 +214,7 @@ public class CheckEmpExistService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
-        Intent loginResultIntent;
-        if (!is_exist) {
-            loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
-            sendBroadcast(loginResultIntent);
-        } else {
-            loginResultIntent = new Intent(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
-            sendBroadcast(loginResultIntent);
-        }
+
 
         //Intent intent = new Intent(Constants.ACTION.GET_MESSAGE_LIST_COMPLETE);
         //sendBroadcast(intent);

@@ -12,9 +12,10 @@ import android.widget.ListView;
 import com.macauto.macautowarehouse.data.SearchDetailItem;
 import com.macauto.macautowarehouse.data.SearchDetailItemAdapter;
 
-import java.util.ArrayList;
+
 
 import static com.macauto.macautowarehouse.LookupInStockFragment.isSorted;
+import static com.macauto.macautowarehouse.MainActivity.lookUpDetailList;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
 import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
 
@@ -22,7 +23,7 @@ import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
 public class LookupInStockDetailActivity extends AppCompatActivity {
     private static final String TAG = "LookupInStockDetail";
 
-    public static ArrayList<SearchDetailItem> detailList = new ArrayList<>();
+    //public static ArrayList<SearchDetailItem> detailList = new ArrayList<>();
 
     //private SearchDetailItemAdapter searchDetailItemAdapter;
     //InputMethodManager imm;
@@ -50,7 +51,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
         }
 
         int index = Integer.valueOf(intent.getStringExtra("INDEX"));
-        detailList.clear();
+        lookUpDetailList.clear();
 
         //item_IMG01
         SearchDetailItem item1 = new SearchDetailItem();
@@ -59,7 +60,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item1.setContent(searchList.get(index).getItem_IMG01());
         else
             item1.setContent(sortedSearchList.get(index).getItem_IMG01());
-        detailList.add(item1);
+        lookUpDetailList.add(item1);
         //item_IMA02
         SearchDetailItem item2 = new SearchDetailItem();
         item2.setHeader(getResources().getString(R.string.look_up_in_stock_part_name));
@@ -67,7 +68,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item2.setContent(searchList.get(index).getItem_IMA02());
         else
             item2.setContent(sortedSearchList.get(index).getItem_IMA02());
-        detailList.add(item2);
+        lookUpDetailList.add(item2);
         //item_IMA021
         SearchDetailItem item3 = new SearchDetailItem();
         item3.setHeader(getResources().getString(R.string.look_up_in_stock_spec));
@@ -75,7 +76,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item3.setContent(searchList.get(index).getItem_IMA021());
         else
             item3.setContent(sortedSearchList.get(index).getItem_IMA021());
-        detailList.add(item3);
+        lookUpDetailList.add(item3);
         //item_IMG02
         SearchDetailItem item4 = new SearchDetailItem();
         item4.setHeader(getResources().getString(R.string.look_up_in_stock_stock_no));
@@ -83,7 +84,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item4.setContent(searchList.get(index).getItem_IMG02());
         else
             item4.setContent(sortedSearchList.get(index).getItem_IMG02());
-        detailList.add(item4);
+        lookUpDetailList.add(item4);
         //item_IMD02
         SearchDetailItem item5 = new SearchDetailItem();
         item5.setHeader(getResources().getString(R.string.look_up_in_stock_stock_name));
@@ -91,7 +92,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item5.setContent(searchList.get(index).getItem_IMD02());
         else
             item5.setContent(sortedSearchList.get(index).getItem_IMD02());
-        detailList.add(item5);
+        lookUpDetailList.add(item5);
         //item_IMG03
         SearchDetailItem item6 = new SearchDetailItem();
         item6.setHeader(getResources().getString(R.string.look_up_in_stock_stock_locate));
@@ -99,7 +100,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item6.setContent(searchList.get(index).getItem_IMG03());
         else
             item6.setContent(sortedSearchList.get(index).getItem_IMG03());
-        detailList.add(item6);
+        lookUpDetailList.add(item6);
         //item_IMG04
         SearchDetailItem item7 = new SearchDetailItem();
         item7.setHeader(getResources().getString(R.string.look_up_in_stock_batch_no));
@@ -107,7 +108,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item7.setContent(searchList.get(index).getItem_IMG04());
         else
             item7.setContent(sortedSearchList.get(index).getItem_IMG04());
-        detailList.add(item7);
+        lookUpDetailList.add(item7);
         //item_IMG10
         SearchDetailItem item8 = new SearchDetailItem();
         item8.setHeader(getResources().getString(R.string.look_up_in_stock_quantity));
@@ -115,7 +116,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item8.setContent(searchList.get(index).getItem_IMG10());
         else
             item8.setContent(sortedSearchList.get(index).getItem_IMG10());
-        detailList.add(item8);
+        lookUpDetailList.add(item8);
         //item_IMA25
         SearchDetailItem item9 = new SearchDetailItem();
         item9.setHeader(getResources().getString(R.string.look_up_in_stock_part_stock_quantity));
@@ -123,7 +124,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item9.setContent(searchList.get(index).getItem_IMA25());
         else
             item9.setContent(sortedSearchList.get(index).getItem_IMA25());
-        detailList.add(item9);
+        lookUpDetailList.add(item9);
         //item_IMG23
         SearchDetailItem item10 = new SearchDetailItem();
         item10.setHeader(getResources().getString(R.string.look_up_in_stock_available));
@@ -131,7 +132,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item10.setContent(searchList.get(index).getItem_IMG23());
         else
             item10.setContent(sortedSearchList.get(index).getItem_IMG23());
-        detailList.add(item10);
+        lookUpDetailList.add(item10);
         //item_IMA08
         SearchDetailItem item11 = new SearchDetailItem();
         item11.setHeader(getResources().getString(R.string.look_up_in_stock_source_code));
@@ -139,7 +140,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item11.setContent(searchList.get(index).getItem_IMA08());
         else
             item11.setContent(sortedSearchList.get(index).getItem_IMA08());
-        detailList.add(item11);
+        lookUpDetailList.add(item11);
         //item_STOCK_MAN
         SearchDetailItem item12 = new SearchDetailItem();
         item12.setHeader(getResources().getString(R.string.look_up_in_stock_stock_man));
@@ -147,7 +148,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item12.setContent(searchList.get(index).getItem_STOCK_MAN());
         else
             item12.setContent(sortedSearchList.get(index).getItem_STOCK_MAN());
-        detailList.add(item12);
+        lookUpDetailList.add(item12);
         //item_IMA03
         SearchDetailItem item13 = new SearchDetailItem();
         item13.setHeader(getResources().getString(R.string.look_up_in_stock_model));
@@ -155,7 +156,7 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item13.setContent(searchList.get(index).getItem_IMA03());
         else
             item13.setContent(sortedSearchList.get(index).getItem_IMA03());
-        detailList.add(item13);
+        lookUpDetailList.add(item13);
         //item_PMC03
         SearchDetailItem item14 = new SearchDetailItem();
         item14.setHeader(getResources().getString(R.string.look_up_in_stock_vender_name));
@@ -163,15 +164,18 @@ public class LookupInStockDetailActivity extends AppCompatActivity {
             item14.setContent(searchList.get(index).getItem_PMC03());
         else
             item14.setContent(sortedSearchList.get(index).getItem_PMC03());
-        detailList.add(item14);
+        lookUpDetailList.add(item14);
 
-        SearchDetailItemAdapter searchDetailItemAdapter = new SearchDetailItemAdapter(LookupInStockDetailActivity.this, R.layout.look_up_in_stock_detail_item, detailList);
+        SearchDetailItemAdapter searchDetailItemAdapter = new SearchDetailItemAdapter(LookupInStockDetailActivity.this, R.layout.look_up_in_stock_detail_item, lookUpDetailList);
         listView.setAdapter(searchDetailItemAdapter);
     }
 
     @Override
     protected void onDestroy() {
         Log.i(TAG, "onDestroy");
+
+        lookUpDetailList.clear();
+
 
         super.onDestroy();
     }

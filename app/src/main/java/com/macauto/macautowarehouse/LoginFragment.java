@@ -99,8 +99,19 @@ public class LoginFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction() != null) {
+                    if (intent.getAction().equalsIgnoreCase((Constants.ACTION.ACTION_SOCKET_TIMEOUT))) {
+                        Log.d(TAG, "ACTION_SOCKET_TIMEOUT");
 
-                    if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS)) {
+                        toast(loginContext.getResources().getString(R.string.socket_timeout));
+                        progressBar.setVisibility(View.GONE);
+                        btnLogin.setEnabled(true);
+                    } else if (intent.getAction().equalsIgnoreCase((Constants.ACTION.SOAP_CONNECTION_FAIL))) {
+                        Log.d(TAG, "SOAP_CONNECTION_FAIL");
+
+                        toast(loginContext.getResources().getString(R.string.socket_failed));
+                        progressBar.setVisibility(View.GONE);
+                        btnLogin.setEnabled(true);
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS)) {
                         Log.d(TAG, "emp_no exist!");
 
                         Intent checkPasswordIntent = new Intent(context, CheckEmpPasswordService.class);
@@ -144,6 +155,8 @@ public class LoginFragment extends Fragment {
 
         if (!isRegister) {
             filter = new IntentFilter();
+            filter.addAction(Constants.ACTION.ACTION_SOCKET_TIMEOUT);
+            filter.addAction(Constants.ACTION.SOAP_CONNECTION_FAIL);
             filter.addAction(Constants.ACTION.ACTION_CHECK_EMP_EXIST_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_CHECK_EMP_EXIST_NOT_EXIST);
             filter.addAction(Constants.ACTION.ACTION_CHECK_EMP_PASSWORD_SUCCESS);

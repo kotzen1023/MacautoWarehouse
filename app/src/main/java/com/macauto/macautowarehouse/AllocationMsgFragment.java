@@ -1,6 +1,6 @@
 package com.macauto.macautowarehouse;
 
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.macauto.macautowarehouse.data.AllocationMsgAdapter;
 
-import com.macauto.macautowarehouse.data.AllocationMsgItem;
+
 import com.macauto.macautowarehouse.data.Constants;
 
 import com.macauto.macautowarehouse.service.CheckDeleteMessageRightsService;
@@ -39,11 +39,10 @@ import com.macauto.macautowarehouse.service.DeleteMessageNoService;
 import com.macauto.macautowarehouse.service.GetMyMessDetailNewService;
 import com.macauto.macautowarehouse.service.GetMyMessListService;
 
-import com.macauto.macautowarehouse.table.DataTable;
 
-import java.util.ArrayList;
 
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
+import static com.macauto.macautowarehouse.MainActivity.msg_list;
 
 
 public class AllocationMsgFragment extends Fragment {
@@ -54,10 +53,10 @@ public class AllocationMsgFragment extends Fragment {
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
-    ProgressDialog loadDialog = null;
+    //ProgressDialog loadDialog = null;
     ProgressBar progressBar = null;
     RelativeLayout relativeLayout;
-    public static ArrayList<AllocationMsgItem> msg_list = new ArrayList<>();
+    //public static ArrayList<AllocationMsgItem> msg_list = new ArrayList<>();
 
     //private LinearLayout layoutMsgShow;
     //private LinearLayout layoutScan;
@@ -77,7 +76,7 @@ public class AllocationMsgFragment extends Fragment {
     private TextView s_pre_get_datetime;
     private TextView s_ima03;*/
 
-    public static DataTable msgDataTable;
+    //public static DataTable msgDataTable;
 
     private static String iss_no;
     private static String dateTime_0, dateTime_1, dateTime_2, dateTime_3;
@@ -315,6 +314,7 @@ public class AllocationMsgFragment extends Fragment {
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
+                        toast(fragmentContext.getResources().getString(R.string.socket_failed));
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SOCKET_TIMEOUT)) {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
                         //if (loadDialog != null)
@@ -641,6 +641,8 @@ public class AllocationMsgFragment extends Fragment {
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        dataClear();
+
         super.onDestroyView();
     }
 
@@ -655,5 +657,13 @@ public class AllocationMsgFragment extends Fragment {
         Toast toast = Toast.makeText(fragmentContext, message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
         toast.show();
+    }
+
+    private void dataClear() {
+
+        progressBar = null;
+
+        if (msg_list != null)
+            msg_list.clear();
     }
 }

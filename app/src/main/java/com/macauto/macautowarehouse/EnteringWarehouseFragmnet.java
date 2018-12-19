@@ -1,7 +1,7 @@
 package com.macauto.macautowarehouse;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,7 +35,7 @@ import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.data.GenerateRandomString;
 
 
-import com.macauto.macautowarehouse.data.InspectedReceiveItem;
+
 import com.macauto.macautowarehouse.data.InspectedReceiveItemAdapter;
 import com.macauto.macautowarehouse.service.ConfirmEnteringWarehouseService;
 import com.macauto.macautowarehouse.service.DeleteTTReceiveGoodsInTempService;
@@ -47,11 +47,17 @@ import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
+
+import static com.macauto.macautowarehouse.MainActivity.dataTable;
+import static com.macauto.macautowarehouse.MainActivity.dataTable_Batch_area;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
+import static com.macauto.macautowarehouse.MainActivity.pp_list;
+import static com.macauto.macautowarehouse.MainActivity.scan_list;
+import static com.macauto.macautowarehouse.MainActivity.table_X_M;
+import static com.macauto.macautowarehouse.MainActivity.total_count_list;
 
 
 public class EnteringWarehouseFragmnet extends Fragment {
@@ -73,24 +79,24 @@ public class EnteringWarehouseFragmnet extends Fragment {
     //public static HashMap<String, ArrayList<ContactItem>> staticContactList = new HashMap<> ();
     //public static HashMap<String, ArrayList<DetailItem>> detailList = new HashMap<> ();
     //public static ArrayList<Boolean> check_stock_in = new ArrayList<>();
-    public static ArrayList<InspectedReceiveItem> swipe_list = new ArrayList<>();
+    //public static ArrayList<InspectedReceiveItem> scan_list = new ArrayList<>();
 
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
     private boolean is_scan_receive = false;
-    public static DataTable dataTable;
-    public static DataTable table_X_M;
-    public static DataTable dataTable_Batch_area;
+    //public static DataTable dataTable;
+    //public static DataTable table_X_M;
+    //public static DataTable dataTable_Batch_area;
     //private static boolean is_getScan = false;
-    ProgressDialog loadDialog = null;
+    //ProgressDialog loadDialog = null;
     ProgressBar progressBar = null;
     RelativeLayout relativeLayout;
     InputMethodManager imm;
     //public static int current_expanded_group = -1;
     //public static int total_count_int = 0;
-    public static ArrayList<String> pp_list = new ArrayList<>();
-    public static HashMap<String, Integer> total_count_list = new HashMap<>();
+    //public static ArrayList<String> pp_list = new ArrayList<>();
+    //public static HashMap<String, Integer> total_count_list = new HashMap<>();
     //public static DividedItemAdapter dividedItemAdapter;
     //public static ArrayList<DividedItem> dividedList = new ArrayList<>();
     public static int item_select = -1;
@@ -125,7 +131,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
         progressBar.setVisibility(View.GONE);
         //textViewTotalCount = view.findViewById(R.id.textViewTotal);
 
-        swipe_list.clear();
+        scan_list.clear();
 
         /*InspectedReceiveItem item1 = new InspectedReceiveItem();
         item1.setCol_rvb05("item1");
@@ -134,7 +140,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
         item1.setCol_rvv32("item1");
         item1.setCol_rvv33("item1");
         item1.setCol_rvb33("8000.000");
-        swipe_list.add(item1);
+        scan_list.add(item1);
 
         InspectedReceiveItem item2 = new InspectedReceiveItem();
         item2.setCol_rvb05("item2");
@@ -143,9 +149,9 @@ public class EnteringWarehouseFragmnet extends Fragment {
         item2.setCol_rvv32("item2");
         item2.setCol_rvv33("item2");
         item2.setCol_rvb33("4000.000");
-        swipe_list.add(item2);*/
+        scan_list.add(item2);*/
 
-        inspectedReceiveItemAdapter = new InspectedReceiveItemAdapter(fragmentContext, R.layout.inspected_receive_list_swipe_item, swipe_list);
+        inspectedReceiveItemAdapter = new InspectedReceiveItemAdapter(fragmentContext, R.layout.inspected_receive_list_swipe_item, scan_list);
         listView.setAdapter(inspectedReceiveItemAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,18 +162,18 @@ public class EnteringWarehouseFragmnet extends Fragment {
                 item_select = position;
 
                 //deselect other
-                for (int i=0; i<swipe_list.size(); i++) {
+                for (int i=0; i<scan_list.size(); i++) {
 
                     if (i == position) {
-                        if (swipe_list.get(i).isSelected()) {
-                            swipe_list.get(i).setSelected(false);
+                        if (scan_list.get(i).isSelected()) {
+                            scan_list.get(i).setSelected(false);
                             item_select = -1;
                         }
                         else
-                            swipe_list.get(i).setSelected(true);
+                            scan_list.get(i).setSelected(true);
 
                     } else {
-                        swipe_list.get(i).setSelected(false);
+                        scan_list.get(i).setSelected(false);
 
                     }
                 }
@@ -422,14 +428,14 @@ public class EnteringWarehouseFragmnet extends Fragment {
                 boolean found = false;
                 //for (int i=0; i< check_stock_in.size(); i++) {
                 for (int i=0; i< dataTable.Rows.size(); i++) {
-                    if (swipe_list.get(i).isChecked()) {
+                    if (scan_list.get(i).isChecked()) {
                         /*msg += detailList.get(no_list.get(i)).get(4).getName()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
                                 detailList.get(no_list.get(i)).get(8).getName()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
                                 detailList.get(no_list.get(i)).get(10).getName()+"]\n\n";*/
                         found = true;
-                        msg += swipe_list.get(i).getCol_pmn041()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
-                                swipe_list.get(i).getCol_rvv33()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
-                                swipe_list.get(i).getCol_rvb33()+"]";
+                        msg += scan_list.get(i).getCol_pmn041()+"\n["+fragmentContext.getResources().getString(R.string.item_title_rvv33)+" "+
+                                scan_list.get(i).getCol_rvv33()+"]\n["+fragmentContext.getResources().getString(R.string.item_title_rvb33)+" "+
+                                scan_list.get(i).getCol_rvb33()+"]";
                     }
                 }
 
@@ -449,7 +455,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             //check if set in-stock check, but not scan
                             for (int i=0; i<dataTable.Rows.size(); i++) {
 
-                                if (swipe_list.get(i).isSelected()) {
+                                if (scan_list.get(i).isSelected()) {
 
                                     if (dataTable.Rows.get(i).getValue("rvv33_scan").toString().equals("")) {
                                         found = true;
@@ -463,8 +469,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
                             ArrayList<String> rvu01_list = new ArrayList<>();
                             String temp_rvu01 = "";
                             for (int i=0; i<dataTable.Rows.size(); i++) {
-                                if (!temp_rvu01.equals(swipe_list.get(i).getCol_rvu01())) {
-                                    temp_rvu01 = swipe_list.get(i).getCol_rvu01();
+                                if (!temp_rvu01.equals(scan_list.get(i).getCol_rvu01())) {
+                                    temp_rvu01 = scan_list.get(i).getCol_rvu01();
                                     rvu01_list.add(temp_rvu01);
                                 }
                             }
@@ -475,10 +481,10 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                 int check_count = 0;
                                 int tatal_count = 0;
                                 for (int j=0; j<dataTable.Rows.size(); j++) {
-                                    if (rvu01_list.get(i).equals(swipe_list.get(i).getCol_rvu01())) {
+                                    if (rvu01_list.get(i).equals(scan_list.get(i).getCol_rvu01())) {
                                         tatal_count = tatal_count + 1;
 
-                                        if (swipe_list.get(j).isChecked()) {
+                                        if (scan_list.get(j).isChecked()) {
                                             check_count = check_count + 1;
                                         }
                                     }
@@ -518,7 +524,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                     if (!ss.equals(dataTable.Rows.get(index).getValue("rvu01").toString())) {
                                         ss = rx.getValue("rvu01").toString();
                                         //if (check_stock_in.get(index)) //if check, then set
-                                        if (swipe_list.get(index).isChecked()) //if check, then set
+                                        if (scan_list.get(index).isChecked()) //if check, then set
                                             pp_list.add(rx.getValue("rvu01").toString());
                                     }
                                     index++;
@@ -623,7 +629,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN)) {
                         Log.d(TAG, "get ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN");
 
-                        swipe_list.clear();
+                        scan_list.clear();
                         total_count_list.clear();
                         if (inspectedReceiveItemAdapter != null)
                             inspectedReceiveItemAdapter.notifyDataSetChanged();
@@ -662,7 +668,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY)) {
                         Log.d(TAG, "get ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN_ONLY");
 
-                        //swipe_list.clear();
+                        //scan_list.clear();
                         //total_count_list.clear();
                         //if (inspectedReceiveItemAdapter != null)
                         //    inspectedReceiveItemAdapter.notifyDataSetChanged();
@@ -1012,7 +1018,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                         //remove
                         //for (int i=check_stock_in.size()-1; i>=0; i--) {
                         for (int i=dataTable.Rows.size()-1; i>=0; i--) {
-                            if (swipe_list.get(i).isChecked()) {
+                            if (scan_list.get(i).isChecked()) {
                                 //detailList.get(no_list.get(i)).clear();
                                 //no_list.remove(i);
                                 dataTable.Rows.remove(i);
@@ -1058,7 +1064,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS)) {
                         Log.d(TAG, "get ACTION_DELETE_TT_RECEIVE_GOODS_IN_TEMP_SUCCESS");
 
-                        swipe_list.clear();
+                        scan_list.clear();
 
                         if (inspectedReceiveItemAdapter != null) {
                             inspectedReceiveItemAdapter.mSparseBooleanArray.clear();
@@ -1132,15 +1138,15 @@ public class EnteringWarehouseFragmnet extends Fragment {
                                     text = text.replaceAll("\\n","");
                                     toast(text);
                                     //if (no_list.size() > 0 && detailList.size() > 0) {
-                                    if (swipe_list.size() > 0) {
+                                    if (scan_list.size() > 0) {
 
                                         if (item_select != -1) { //scan locate
                                             if (dataTable != null && dataTable.Rows.size() > 0) {
                                                 dataTable.Rows.get(item_select).setValue("rvv33", text);
                                                 dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
                                             }
-                                            swipe_list.get(item_select).setCol_rvv33(text);
-                                            swipe_list.get(item_select).setChecked(true);
+                                            scan_list.get(item_select).setCol_rvv33(text);
+                                            scan_list.get(item_select).setChecked(true);
                                             //check_stock_in.set(item_select, true);
 
                                             if (inspectedReceiveItemAdapter != null)
@@ -1344,6 +1350,8 @@ public class EnteringWarehouseFragmnet extends Fragment {
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
+        dataClear();
+
         super.onDestroyView();
     }
 
@@ -1360,5 +1368,23 @@ public class EnteringWarehouseFragmnet extends Fragment {
         toast.show();
     }
 
+    private void dataClear() {
 
+        progressBar = null;
+
+        if (scan_list != null)
+            scan_list.clear();
+        if (dataTable != null)
+            dataTable.clear();
+        if (table_X_M != null)
+            table_X_M.clear();
+        if (dataTable_Batch_area != null)
+            dataTable_Batch_area.clear();
+        if (pp_list != null)
+            pp_list.clear();
+        if (total_count_list != null)
+            total_count_list.clear();
+
+        inspectedReceiveItemAdapter = null;
+    }
 }
