@@ -164,10 +164,11 @@
     <string name="allocation_send_message_to_material_status_detail_TC_OBF013">備料區收容數</string>
     <string name="allocation_send_message_to_material_reg_qty_zero">請輸入備料比例</string>
     <string name="allocation_send_message_to_material_reg_qty_mismatch">請輸入正確的備料比例數字</string>
-    <string name="allocation_send_message_to_material_sotck_no_mismatch">備料倉位置錯誤</string>
+    <string name="allocation_send_message_to_material_stock_no_mismatch">備料倉位置錯誤</string>
     <string name="allocation_send_message_to_material_send_stock_empty">預計發送的備料訊息內的料件, 均無庫存可備料</string>
     <string name="allocation_send_message_to_material_send_error">發送訊息有誤,請洽資訊部</string>
     <string name="allocation_send_message_to_material_the_msg_order_below">產生的訊息單號如下: </string>
+    <string name="allocation_send_message_to_material_locate_list_empty">無法取得儲位資訊</string>
     <string name="allocation_handle_message_delete_select">刪除已選擇訊息單</string>
     <string name="allocation_button_message_list">待處理訊息</string>
     <string name="allocation_button_scan_list">掃描列表</string>

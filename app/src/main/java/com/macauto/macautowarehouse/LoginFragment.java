@@ -24,6 +24,8 @@ import com.macauto.macautowarehouse.data.Constants;
 import com.macauto.macautowarehouse.service.CheckEmpExistService;
 import com.macauto.macautowarehouse.service.CheckEmpPasswordService;
 
+import static com.macauto.macautowarehouse.MainActivity.screen_width;
+
 
 public class LoginFragment extends Fragment {
     private static final String TAG = LoginFragment.class.getName();
@@ -63,7 +65,7 @@ public class LoginFragment extends Fragment {
         //TextView textView = view.findViewById(R.id.textLogin);
         relativeLayout = view.findViewById(R.id.login_container);
         progressBar = new ProgressBar(loginContext,null,android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.addView(progressBar,params);
         progressBar.setVisibility(View.GONE);

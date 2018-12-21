@@ -48,6 +48,7 @@ import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.MainActivity.productList;
 import static com.macauto.macautowarehouse.MainActivity.product_table_X_M;
+import static com.macauto.macautowarehouse.MainActivity.screen_width;
 
 
 public class ProductionStorageFragment extends Fragment {
@@ -96,7 +97,7 @@ public class ProductionStorageFragment extends Fragment {
 
         relativeLayout = view.findViewById(R.id.production_storage_list_container);
         progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.addView(progressBar,params);
         progressBar.setVisibility(View.GONE);

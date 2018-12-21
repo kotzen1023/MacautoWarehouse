@@ -32,6 +32,7 @@ import com.macauto.macautowarehouse.service.GetPartWarehouseListService;
 
 import static com.macauto.macautowarehouse.MainActivity.lookUpDataTable;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
+import static com.macauto.macautowarehouse.MainActivity.screen_width;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
 import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
 
@@ -85,7 +86,7 @@ public class LookupInStockFragment extends Fragment {
         //progress bar
         relativeLayout = view.findViewById(R.id.lookup_in_stock_list_container);
         progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.addView(progressBar,params);
         progressBar.setVisibility(View.GONE);
@@ -156,7 +157,9 @@ public class LookupInStockFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                searchList.clear();
+                //searchList.clear();
+
+
 
                 Intent resetIntent = new Intent(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK);
                 fragmentContext.sendBroadcast(resetIntent);

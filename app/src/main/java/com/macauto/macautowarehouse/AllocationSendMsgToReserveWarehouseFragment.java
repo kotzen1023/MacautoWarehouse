@@ -63,6 +63,7 @@ import static com.macauto.macautowarehouse.MainActivity.locateNoTable;
 import static com.macauto.macautowarehouse.MainActivity.madeInfoTable;
 import static com.macauto.macautowarehouse.MainActivity.minList;
 import static com.macauto.macautowarehouse.MainActivity.myList;
+import static com.macauto.macautowarehouse.MainActivity.screen_width;
 import static com.macauto.macautowarehouse.MainActivity.sfaMessTable;
 import static com.macauto.macautowarehouse.MainActivity.statusList;
 
@@ -148,7 +149,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
         relativeLayout = view.findViewById(R.id.allocation_send_msg_list_container);
         progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.addView(progressBar,params);
         progressBar.setVisibility(View.GONE);
@@ -528,7 +529,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                         if (szs <= 0) {
                             toast(getResources().getString(R.string.allocation_send_message_to_material_reg_qty_zero));
                         } else if (myList.get(1).getEditText().getText().length() != 4) {
-                            toast(getResources().getString(R.string.allocation_send_message_to_material_sotck_no_mismatch));
+                            toast(getResources().getString(R.string.allocation_send_message_to_material_stock_no_mismatch));
                         } else {
                             /*loadDialog = new ProgressDialog(fragmentContext);
                             loadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -884,14 +885,21 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             btnSend.setEnabled(false);
 
 
-                        toast(getResources().getString(R.string.socket_timeout));
+
+
+
 
                         //try to get locate again
                         if (locateList.size() == 0) {
+
+                            toast(fragmentContext.getResources().getString(R.string.allocation_send_message_to_material_locate_list_empty));
+
                             Intent getLocateNoIntent = new Intent(fragmentContext, GetLocateNoService.class);
                             getLocateNoIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_ACTION);
                             getLocateNoIntent.putExtra("STOCK_NO", myList.get(1).getContent());
                             fragmentContext.startService(getLocateNoIntent);
+                        } else {
+                            toast(getResources().getString(R.string.socket_timeout));
                         }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_SUCCESS)) {

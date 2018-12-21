@@ -34,7 +34,7 @@ public class CheckMadeNoExistService extends IntentService {
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    private boolean is_exist = false;
+    //private boolean is_exist = false;
 
     public CheckMadeNoExistService() {
         super("CheckMadeNoExistService");
@@ -150,7 +150,7 @@ public class CheckMadeNoExistService extends IntentService {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                is_exist = parseToBoolean(resultsRequestSOAP);
+                boolean is_exist = parseToBoolean(resultsRequestSOAP);
 
                 Intent checkResultIntent;
                 if (!is_exist) {

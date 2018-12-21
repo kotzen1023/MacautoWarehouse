@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
+
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,8 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,19 +29,13 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.macauto.macautowarehouse.data.Constants;
-import com.macauto.macautowarehouse.data.SearchItemAdapter;
-import com.macauto.macautowarehouse.service.GetPartWarehouseListService;
 
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Date;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
-import static com.macauto.macautowarehouse.MainActivity.pda_type;
-import static com.macauto.macautowarehouse.MainActivity.searchList;
-import static com.macauto.macautowarehouse.MainActivity.sortedSearchList;
+
+
+
 
 public class PrintTestFragment extends Fragment {
     private static final String TAG = PrintTestFragment.class.getName();
@@ -54,8 +45,8 @@ public class PrintTestFragment extends Fragment {
     private static BroadcastReceiver mReceiver = null;
     private static boolean isRegister = false;
 
-    ProgressBar progressBar = null;
-    RelativeLayout relativeLayout;
+    //ProgressBar progressBar = null;
+    //RelativeLayout relativeLayout;
 
     InputMethodManager imm;
 
@@ -87,12 +78,12 @@ public class PrintTestFragment extends Fragment {
         final  View view = inflater.inflate(R.layout.print_test_fragment, container, false);
         imm = (InputMethodManager)fragmentContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         //progress bar
-        relativeLayout = view.findViewById(R.id.print_test_container);
-        progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        relativeLayout.addView(progressBar,params);
-        progressBar.setVisibility(View.GONE);
+        //relativeLayout = view.findViewById(R.id.print_test_container);
+        //progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
+        //RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
+        //params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        //relativeLayout.addView(progressBar,params);
+        //progressBar.setVisibility(View.GONE);
 
         imm = (InputMethodManager)fragmentContext.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -127,7 +118,7 @@ public class PrintTestFragment extends Fragment {
 
                     try {
                         // generate a 150x150 QR code
-                        Bitmap bm = encodeAsBitmap(input,135, 135);
+                        Bitmap bm = encodeAsBitmap(input,100, 100);
 
                         if(bm != null) {
                             imageViewQRCode.setImageBitmap(bm);

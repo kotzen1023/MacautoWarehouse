@@ -32,7 +32,7 @@ public class GetPartNoNeedScanStatusService extends IntentService {
 
     private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
-    private boolean is_need_scan = false;
+    //private boolean is_need_scan = false;
     //private boolean soap_failed = false;
     //private String current_detail_row;
 
@@ -154,7 +154,7 @@ public class GetPartNoNeedScanStatusService extends IntentService {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
                 Log.e(TAG, String.valueOf(resultsRequestSOAP));
 
-                is_need_scan = parseToBoolean(resultsRequestSOAP);
+                boolean is_need_scan = parseToBoolean(resultsRequestSOAP);
 
                 //if (!soap_failed) {
                     Intent checkResultIntent;

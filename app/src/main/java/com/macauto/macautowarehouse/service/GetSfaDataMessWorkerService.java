@@ -155,7 +155,7 @@ public class GetSfaDataMessWorkerService extends IntentService {
                 String str= ((SoapFault) envelope.bodyIn).faultstring;
                 Log.e(TAG, str);
 
-                Intent getSuccessIntent = new Intent(Constants.ACTION.SOAP_CONNECTION_FAIL);
+                Intent getSuccessIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_SFA_MESS_FAILED);
                 sendBroadcast(getSuccessIntent);
             } else {
                 SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;

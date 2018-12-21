@@ -22,6 +22,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -29,16 +30,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScannedBarcodeActivity" />
-        <activity android:name=".EnteringWarehouseDividedDialogActivity" />
-        <activity android:name=".ReceivingAddDialogActivity" />
-        <activity android:name=".LookupInStockDetailActivity" />
-        <activity android:name=".AllocationMsgDetailActivity" />
-        <activity android:name=".AllocationSendMsgStatusDetailActivity" />
-        <activity android:name=".EnteringWarehouseDetailActivity" />
-        <activity android:name=".ProductionStorageDetailActivity" />
-        <activity android:name=".AllocationMsgDetailOfDetailActivity" />
-        <activity android:name=".AllocationShowActivity" />
+        <activity android:name=".ScannedBarcodeActivity" android:screenOrientation="portrait" />
+        <activity android:name=".EnteringWarehouseDividedDialogActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ReceivingAddDialogActivity" android:screenOrientation="portrait" />
+        <activity android:name=".LookupInStockDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name=".AllocationMsgDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name=".AllocationSendMsgStatusDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name=".EnteringWarehouseDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ProductionStorageDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name=".AllocationMsgDetailOfDetailActivity" android:screenOrientation="portrait" />
+        <activity android:name=".AllocationShowActivity" android:screenOrientation="portrait" />
 
         <service android:name=".service.CheckEmpExistService" />
         <service android:name=".service.CheckEmpPasswordService" />

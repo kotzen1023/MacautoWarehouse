@@ -1,195 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/print_test_container">
+    android:layout_height="match_parent">
 
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
+            android:id="@+id/layoutPrintView"
+            android:visibility="visible">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/testPartNo"
+                android:hint="@string/search_in_stock_part_no"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/testBatchNo"
+                android:hint="@string/search_in_stock_batch_no"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/testName"
+                android:hint="@string/search_in_stock_name"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/testSpec"
+                android:hint="@string/search_in_stock_spec"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/testQuantity"
+                android:hint="Quantity"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Generate"
+                    android:id="@+id/btnGenerate"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_weight="1" />
+
+                <!--Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scm_clear"
+                    android:id="@+id/btnLoginClear"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_weight="1" /-->
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/printResultView"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/layoutPrintView"
-                android:visibility="visible">
+                android:orientation="vertical">
 
-                <EditText
+                <TextView
+                    android:id="@+id/resultPartNo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/testPartNo"
-                    android:hint="@string/search_in_stock_part_no"
-                    />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Part No"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <EditText
+                <TextView
+                    android:id="@+id/resultBatchNo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/testBatchNo"
-                    android:hint="@string/search_in_stock_batch_no"
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/testName"
-                    android:hint="@string/search_in_stock_name"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/testSpec"
-                    android:hint="@string/search_in_stock_spec"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/testQuantity"
-                    android:hint="Quantity"/>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal">
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Generate"
-                        android:id="@+id/btnGenerate"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:layout_weight="1" />
-
-                    <!--Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/scm_clear"
-                        android:id="@+id/btnLoginClear"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:layout_weight="1" /-->
-                </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Batch No"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/printResultView"
-                android:visibility="gone">
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageViewQRCode"
+                    android:layout_width="135dp"
+                    android:layout_height="135dp"
+                    android:layout_gravity="center_vertical"
+
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical">
+
+
 
                     <TextView
-                        android:id="@+id/resultPartNo"
+                        android:id="@+id/resultName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Part No"
+                        android:text="Name"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     <TextView
-                        android:id="@+id/resultBatchNo"
+                        android:id="@+id/resultSpec"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Batch No"
+                        android:text="Spec"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <TextView
+                        android:id="@+id/resultQuantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Quantity"
                         android:textStyle="bold"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageViewQRCode"
-                        android:layout_width="135dp"
-                        android:layout_height="135dp"
-                        android:layout_gravity="center_vertical"
-
-                        />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_vertical">
-
-
-
-                        <TextView
-                            android:id="@+id/resultName"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="Name"
-                            android:textStyle="bold"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                        <TextView
-                            android:id="@+id/resultSpec"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="Spec"
-                            android:textStyle="bold"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                        <TextView
-                            android:id="@+id/resultQuantity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="Quantity"
-                            android:textStyle="bold"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium" />
-                    </LinearLayout>
-                </LinearLayout>
-
             </LinearLayout>
-
 
         </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</ScrollView>

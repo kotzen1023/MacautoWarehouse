@@ -55,6 +55,7 @@ import static com.macauto.macautowarehouse.MainActivity.emp_no;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.msgDetailShowList;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
+import static com.macauto.macautowarehouse.MainActivity.screen_width;
 
 
 public class AllocationMsgDetailActivity extends AppCompatActivity {
@@ -112,7 +113,7 @@ public class AllocationMsgDetailActivity extends AppCompatActivity {
 
         relativeLayout = findViewById(R.id.allocation_msg_detail_list_container);
         progressBar = new ProgressBar(context,null,android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.addView(progressBar,params);
         progressBar.setVisibility(View.GONE);

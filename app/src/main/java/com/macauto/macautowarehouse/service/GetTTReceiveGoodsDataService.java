@@ -140,7 +140,7 @@ public class GetTTReceiveGoodsDataService extends IntentService {
 
                 //append_record(String.valueOf(resultsRequestSOAP)+"\n\n\n\n", "test");
 
-                SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("Get_TT_ReceiveGoods_DataResult");
+                //SoapObject s_deals = (SoapObject) resultsRequestSOAP.getProperty("Get_TT_ReceiveGoods_DataResult");
 
 
 

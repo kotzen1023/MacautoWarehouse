@@ -164,10 +164,11 @@
     <string name="allocation_send_message_to_material_status_detail_TC_OBF013">Capacity</string>
     <string name="allocation_send_message_to_material_reg_qty_zero">Input proper quantity</string>
     <string name="allocation_send_message_to_material_reg_qty_mismatch">Quantity mismatch</string>
-    <string name="allocation_send_message_to_material_sotck_no_mismatch">Stock No. mismatch</string>
+    <string name="allocation_send_message_to_material_stock_no_mismatch">Stock No. mismatch</string>
     <string name="allocation_send_message_to_material_send_stock_empty">The part in stock is empty. Cannot send msg. </string>
     <string name="allocation_send_message_to_material_send_error">Send message error. Please Contact IT department.</string>
     <string name="allocation_send_message_to_material_the_msg_order_below">The message order below: </string>
+    <string name="allocation_send_message_to_material_locate_list_empty">Cannot get locate information.</string>
     <string name="allocation_handle_message_delete_select">Delete elected message</string>
     <string name="allocation_button_message_list">Message List</string>
     <string name="allocation_button_scan_list">Scan List</string>

@@ -43,7 +43,7 @@ public class CheckEmpExistService extends IntentService {
 
     //private String account;
     //private String device_id;
-    private boolean is_exist = false;
+    //private boolean is_exist = false;
 
 
     @Override
@@ -143,7 +143,7 @@ public class CheckEmpExistService extends IntentService {
 
                 //Log.e(TAG, "parseToBoolean = "+ parseToBoolean(resultsRequestSOAP));
 
-                is_exist = parseToBoolean(resultsRequestSOAP);
+                boolean is_exist = parseToBoolean(resultsRequestSOAP);
 
                 Intent loginResultIntent;
                 if (!is_exist) {

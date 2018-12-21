@@ -56,6 +56,7 @@ import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
 import static com.macauto.macautowarehouse.MainActivity.pp_list;
 import static com.macauto.macautowarehouse.MainActivity.scan_list;
+import static com.macauto.macautowarehouse.MainActivity.screen_width;
 import static com.macauto.macautowarehouse.MainActivity.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.total_count_list;
 
@@ -125,7 +126,7 @@ public class EnteringWarehouseFragmnet extends Fragment {
         relativeLayout = view.findViewById(R.id.enter_warehouse_list_container);
 
         progressBar = new ProgressBar(fragmentContext,null,android.R.attr.progressBarStyleLarge);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100,100);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.addView(progressBar,params);
         progressBar.setVisibility(View.GONE);

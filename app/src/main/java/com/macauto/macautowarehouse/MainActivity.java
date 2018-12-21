@@ -34,6 +34,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 
 import android.support.v7.widget.SearchView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import android.view.Gravity;
@@ -76,6 +77,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.macauto.macautowarehouse.data.FileOperation.init_folder_and_files;
@@ -197,6 +199,9 @@ public class MainActivity extends AppCompatActivity
     private Intent pda_408_intent;
     private boolean pda_408_intent_bind = false;
 
+    public static int screen_width;
+    public static int screen_height;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,7 +209,12 @@ public class MainActivity extends AppCompatActivity
 
         Log.d(TAG, "onCreate");
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        screen_height = displayMetrics.heightPixels;
+        screen_width = displayMetrics.widthPixels;
 
+        Log.e(TAG, "width = "+screen_width+", height = "+screen_height);
 
         //create a new kid
         //GenerateRandomString rString = new GenerateRandomString();
@@ -221,7 +231,7 @@ public class MainActivity extends AppCompatActivity
         context = getApplicationContext();
 
         Log.e(TAG, "=== start log ===");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
         String currentDateandTime = sdf.format(new Date());
         log_filename = "logcat_"+currentDateandTime+".txt";
         File outputFile = new File(context.getExternalCacheDir(),log_filename);
@@ -314,19 +324,10 @@ public class MainActivity extends AppCompatActivity
             return;
         }*/
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            //init_folder_and_files();
-            //init_setting();
-            //init_folder_and_files();
-            //loadSongs();
+        //permission
 
-        } else {
-            if(checkAndRequestPermissions()) {
-                // carry on the normal flow, as the case of  permissions  granted.
-
-                //init_folder_and_files();
-                //loadSongs();
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkAndRequestPermissions();
         }
 
         Log.d(TAG, "isLogin = "+isLogin);
@@ -428,8 +429,8 @@ public class MainActivity extends AppCompatActivity
 
 
                         Fragment fragment = null;
-                        Class fragmentClass=null;
-                        fragmentClass = LookupInStockFragment.class;
+                        Class fragmentClass = LookupInStockFragment.class;
+                        //fragmentClass = LookupInStockFragment.class;
 
                         try {
                             fragment = (Fragment) fragmentClass.newInstance();
@@ -933,7 +934,11 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.main_hide_or_show_keyboard:
                 View view = getCurrentFocus();
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                if (view != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
                 break;
         }
 
@@ -987,7 +992,11 @@ public class MainActivity extends AppCompatActivity
 
 
         View view = getCurrentFocus();
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (view != null)
+        {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
         //initializing the fragment object which is selected
 
         fabBack.setVisibility(View.GONE);
@@ -1338,7 +1347,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private  boolean checkAndRequestPermissions() {
+    private void checkAndRequestPermissions() {
 
         //int accessNetworkStatePermission = ContextCompat.checkSelfPermission(this,
         //        Manifest.permission.ACCESS_NETWORK_STATE);
@@ -1384,9 +1393,9 @@ public class MainActivity extends AppCompatActivity
 
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
-            return false;
+            //return false;
         }
-        return true;
+        //return true;
     }
 
 
@@ -1623,7 +1632,7 @@ public class MainActivity extends AppCompatActivity
 
         try {
             // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+            //String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
 
             // create bitmap screen capture
             View v1 = getWindow().getDecorView().getRootView();
