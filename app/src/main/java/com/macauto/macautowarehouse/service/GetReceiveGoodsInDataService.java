@@ -258,23 +258,26 @@ public class GetReceiveGoodsInDataService extends IntentService {
                         //String temp_rvb05 = scan_list.get(no_list.get(0)).get(3).getName();
                         double count_double;
                         int count_num;
-                        String item_name;
+                        //String item_name;
+                        String part_no_compare;
                         for (int i=0; i < dataTable.Rows.size(); i++) {
-                            item_name = dataTable.Rows.get(i).getValue("pmn041").toString();
+                            //item_name = dataTable.Rows.get(i).getValue("pmn041").toString();
+                            part_no_compare = dataTable.Rows.get(i).getValue("rvb05").toString();
                             count_double = Double.valueOf(dataTable.Rows.get(i).getValue("rvb33").toString());
                             count_num = (int) count_double;
                             if (total_count_list.size() == 0) {
 
 
-                                total_count_list.put(item_name, count_num);
+                                total_count_list.put(part_no_compare, count_num);
                             } else {
-                                if (total_count_list.containsKey(item_name)) {
-                                    int prev_count = total_count_list.get(item_name);
+                                //if (total_count_list.containsKey(part_no_compare)) {
+                                if (total_count_list.containsKey(part_no_compare)) {
+                                    int prev_count = total_count_list.get(part_no_compare);
                                     count_num = count_num + prev_count;
-                                    total_count_list.remove(item_name);
-                                    total_count_list.put(item_name, count_num);
+                                    total_count_list.remove(part_no_compare);
+                                    total_count_list.put(part_no_compare, count_num);
                                 } else {
-                                    total_count_list.put(item_name, count_num);
+                                    total_count_list.put(part_no_compare, count_num);
                                 }
                             }
                         }
@@ -284,7 +287,8 @@ public class GetReceiveGoodsInDataService extends IntentService {
                             InspectedReceiveItem item = new InspectedReceiveItem();
                             item.setCol_rvu01("");
                             item.setCheck_sp(true);
-                            item.setCol_pmn041(key.toString());
+                            //item.setCol_pmn041(key.toString());
+                            item.setCol_rvb05(key.toString());
                             item.setCol_rvb33(String.valueOf(total_count_list.get(key)));
                             scan_list.add(item);
                         }

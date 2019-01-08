@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/picking_change_container">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:id="@+id/layoutPickingChange"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_part_no"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangePartNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_date"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangeDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_batch_no"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangeBatchNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_send_no"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangeSendNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_package_type"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangePackageType"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_package_serial"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangePackageSerial"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_quantity"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <EditText
+                        android:id="@+id/pickingChangeQuantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_support"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangeSupplierNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_name"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/picking_change_storage"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/pickingChangeStorage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp">
+
+                    <Button
+                        android:id="@+id/btnPickingChangeConfirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/confirm"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPickingPrint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/pickingChangeTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="title 2018-12-11"
+                    android:textStyle="bold"
+                    android:textSize="14dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/pickingChangeSendNoPrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Send No : 18121051-1"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+
+                        <TextView
+                            android:id="@+id/pickingChangePartNoPrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Part No : 52151A05209-0101"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+
+                        <TextView
+                            android:id="@+id/pickingChangeQuantityPrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Quantity : 20 PCS"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+
+                        <TextView
+                            android:id="@+id/pickingChangeSupplierNoPrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Supplier : CT086"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+
+                        <TextView
+                            android:id="@+id/pickingChangeStorageTypePrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Type : General"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+
+                        <TextView
+                            android:id="@+id/pickingChangeNamePrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Name : Cover"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+
+                        <TextView
+                            android:id="@+id/pickingProductionDatePrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Product Date : 20181211"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+
+                        <TextView
+                            android:id="@+id/pickingBatchPrint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Batch No : 5209"
+                            android:textStyle="bold"
+                            android:textSize="12dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/pickingPackageTypePrint"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Small box"
+                                    android:gravity="center"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:id="@+id/pickingPackageSerialPrint"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="No. 1"
+                                    android:gravity="center"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/imageViewQRCodePrint"
+                                android:layout_width="90dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+
+                                />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/qc_tag"
+                            android:scaleType="fitEnd"
+                            android:adjustViewBounds="true"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+
+</RelativeLayout>

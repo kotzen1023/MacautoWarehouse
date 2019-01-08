@@ -46,7 +46,7 @@
     <string name="nav_entering_warehouse">Entering Warehouse</string>
     <string name="nav_production_storage">Production Storage</string>
     <string name="nav_receiving_inspection">Receiving Inpsection</string>
-    <string name="nav_print_test">Print Test</string>
+    <string name="nav_print_tag">Print Tag</string>
     <string name="nav_other">Other</string>
     <string name="nav_setting">Setting</string>
     <string name="nav_logout">Logout</string>
@@ -274,8 +274,7 @@
     <string name="production_storage_update_process_error">Update TT data error. Please contact IT.</string>
     <string name="production_storage_in_stock_error">Confirm production in-storage %s , error message: %s</string>
     <string name="production_storage_confirm_in_stock_fail">Confirm error. Please Contact IT department. E-7</string>
-
-
+    
     <string name="receiving_inspection_part_no">Part No.</string>
     <string name="receiving_inspection_search">Search</string>
     <string name="receiving_inspection_qc_generate">Generate QC Order</string>
@@ -287,4 +286,31 @@
     <string name="receiving_inspection_execute_tt_oqcp_failed">Generate QC failed. Or error occurred in generating QC. Please contact IT. (ERROR-K1)</string>
     <string name="receiving_inspection_qc_was_been_confirmed">QC order was been confirmed</string>
     <string name="receiving_inspection_qc_was_been_confirmed_failed">Check if QC order was been confirmed failed. Please contact IT.</string>
+    <string name="picking_change_part_no">Part No</string>
+    <string name="picking_change_date">Date</string>
+    <string name="picking_change_batch_no">Batch No</string>
+    <string name="picking_change_send_no">Send No</string>
+    <string name="picking_change_package_type">Package Type</string>
+    <string name="picking_change_package_serial">Package Serial</string>
+    <string name="picking_change_quantity">Quantity</string>
+    <string name="picking_change_support">Supplier No</string>
+    <string name="picking_change_name">Name</string>
+    <string name="picking_change_storage">Storage</string>
+
+    <string name="picking_change_title_print">Macauto Group  Date: %s</string>
+    <string name="picking_change_part_no_print">Part No: %s</string>
+    <string name="picking_change_date_print">V Date: %s</string>
+    <string name="picking_change_batch_no_print">V Serial: %s</string>
+    <string name="picking_change_send_no_print">Send No.: %s</string>
+    <string name="picking_change_package_type_print_na">NA</string>
+    <string name="picking_change_package_type_print_small">Small</string>
+    <string name="picking_change_package_type_print_large">Large</string>
+    <string name="picking_change_package_serial_print">box %s</string>
+    <string name="picking_change_quantity_print">Quantity: %s PCS</string>
+    <string name="picking_change_support_print">Supplier: %s</string>
+    <string name="picking_change_name_print">Name: %s</string>
+    <string name="picking_change_storage_print">Storage: %s</string>
+    <string name="picking_change_quantity_much_more">Your new quantity is more than the original.</string>
+    <string name="picking_change_quantity_less_than_zero">Quantity cannot be negative.</string>
+    <string name="picking_change_quantity_format_error">Input format error.</string>
 </resources>

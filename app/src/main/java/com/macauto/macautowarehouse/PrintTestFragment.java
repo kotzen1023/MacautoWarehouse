@@ -29,12 +29,17 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.macauto.macautowarehouse.data.Constants;
+import com.macauto.macautowarehouse.data.GenerateRandomString;
+import com.macauto.macautowarehouse.service.GetLotCodeService;
+import com.macauto.macautowarehouse.service.GetReceiveGoodsInDataService;
 
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
-
-
+import static com.macauto.macautowarehouse.MainActivity.dataTable;
+import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.pda_type;
+import static com.macauto.macautowarehouse.MainActivity.scan_list;
 
 
 public class PrintTestFragment extends Fragment {
@@ -169,6 +174,90 @@ public class PrintTestFragment extends Fragment {
                         linearLayoutInputView.setVisibility(View.VISIBLE);
                         linearLayoutPrintView.setVisibility(View.GONE);
 
+                    } else if("unitech.scanservice.data" .equals(intent.getAction()) || "com.qs.scancode".equals(intent.getAction())) {
+                        Log.d(TAG, "unitech.scanservice.data | com.qs.scancode");
+                        Bundle bundle = intent.getExtras();
+                        if(bundle != null )
+                        {
+                            //String text = bundle.getString("text");
+                            String text;
+                            if (pda_type == 2) {
+                                text = bundle.getString("code");
+                            } else {
+                                text = bundle.getString("text");
+                            }
+                            Log.e(TAG, "msg = "+text);
+
+                            text = text.replaceAll("\\n","");
+                            toast(text);
+
+                            Intent getintent = new Intent(context, GetLotCodeService.class);
+                            getintent.putExtra("BAR_CODE", text);
+                            context.startService(getintent);
+
+                            //is_barcode_receive = false;
+                            if (text.length() > 0 ) {
+                                int counter = 0;
+                                for( int i=0; i<text.length(); i++ ) {
+                                    if( text.charAt(i) == '#' ) {
+                                        counter++;
+                                    }
+                                }
+
+                                Log.e(TAG, "counter = "+counter);
+
+                            /*if (counter == 8) {
+
+                                if (!is_scan_receive) {
+                                    //set scan true
+                                    is_scan_receive = true;
+                                    //regenerate new session id
+                                    GenerateRandomString rString = new GenerateRandomString();
+                                    k_id = rString.randomString(32);
+                                    Log.e(TAG, "session_id = "+k_id);
+
+
+
+                                    String codeArray[] = text.split("#");
+                                    Intent scanResultIntent = new Intent(Constants.ACTION.ACTION_SET_INSPECTED_RECEIVE_ITEM_CLEAN);
+                                    for (int i = 0; i < codeArray.length; i++) {
+                                        Log.e(TAG, "codeArray[" + i + "] = " + codeArray[i]);
+                                        String column = "COLUMN_" + String.valueOf(i);
+                                        scanResultIntent.putExtra(column, codeArray[i]);
+                                    }
+                                    barcode = text;
+
+                                    //scanResultIntent.putExtra("BARCODE", text);
+                                    scanResultIntent.putExtra("K_ID", k_id);
+                                    fragmentContext.sendBroadcast(scanResultIntent);
+                                }
+
+                            } else {
+
+                                text = text.replaceAll("\\n","");
+                                toast(text);
+                                //if (no_list.size() > 0 && detailList.size() > 0) {
+                                if (scan_list.size() > 0) {
+
+                                    if (item_select != -1) { //scan locate
+                                        if (dataTable != null && dataTable.Rows.size() > 0) {
+                                            dataTable.Rows.get(item_select).setValue("rvv33", text);
+                                            dataTable.Rows.get(item_select).setValue("rvv33_scan", text);
+                                        }
+                                        scan_list.get(item_select).setCol_rvv33(text);
+                                        scan_list.get(item_select).setChecked(true);
+                                        //check_stock_in.set(item_select, true);
+
+                                        if (inspectedReceiveItemAdapter != null)
+                                            inspectedReceiveItemAdapter.notifyDataSetChanged();
+                                    }
+
+
+                                }
+                            }*/
+
+                            }
+                        }
                     }
 
 
@@ -181,7 +270,8 @@ public class PrintTestFragment extends Fragment {
         if (!isRegister) {
             filter = new IntentFilter();
             filter.addAction(Constants.ACTION.ACTION_PRINT_TEST_SHOW_GENERATE);
-
+            filter.addAction("unitech.scanservice.data");
+            filter.addAction("com.qs.scancode");
             fragmentContext.registerReceiver(mReceiver, filter);
             isRegister = true;
             Log.d(TAG, "registerReceiver mReceiver");

@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem menuItemEnteringWareHouse;
     private MenuItem menuItemProductionStorage;
     private MenuItem menuItemReceivingInspection;
-    private MenuItem menuItemPrintTest;
+    private MenuItem menuItemPrintTag;
     private MenuItem menuItemLogin;
     private MenuItem menuItemLogout;
 
@@ -189,6 +189,9 @@ public class MainActivity extends AppCompatActivity
     public static DataTable product_table_X_M;
     public static ArrayList<ProductionStorageItem> productList = new ArrayList<>();
     public static ArrayList<ProductionStorageDetailItem> ProductionDetailList = new ArrayList<>();
+    //for print
+    public static ArrayList<String> printArray = new ArrayList<>();
+
 
     public static Process process;
     public static String log_filename;
@@ -258,7 +261,7 @@ public class MainActivity extends AppCompatActivity
                 fabPrint.setVisibility(View.GONE);
 
                 Intent genIntent = new Intent();
-                genIntent.setAction(Constants.ACTION.ACTION_PRINT_TEST_SHOW_GENERATE);
+                genIntent.setAction(Constants.ACTION.ACTION_PICKING_CHANGE_HIDE_GENERATE);
                 sendBroadcast(genIntent);
             }
         });
@@ -297,7 +300,7 @@ public class MainActivity extends AppCompatActivity
         menuItemEnteringWareHouse = navigationView.getMenu().findItem(R.id.nav_entering_warehouse);
         menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
         menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
-        menuItemPrintTest = navigationView.getMenu().findItem(R.id.nav_print_test);
+        menuItemPrintTag = navigationView.getMenu().findItem(R.id.nav_print_tag);
 
 
 
@@ -368,7 +371,7 @@ public class MainActivity extends AppCompatActivity
                         editor.apply();
 
                         if (pda_type == 2 && isLogin) { //pda408
-                            menuItemPrintTest.setVisible(true);
+                            menuItemPrintTag.setVisible(true);
 
                             if (pda_408_intent == null && !pda_408_intent_bind) { //pda408
                                 Log.e(TAG, "pda408 start service");
@@ -385,7 +388,7 @@ public class MainActivity extends AppCompatActivity
 
                         } else {
                             Log.e(TAG, "Not pda408, stop service");
-                            menuItemPrintTest.setVisible(false);
+                            menuItemPrintTag.setVisible(false);
 
                             try {
                                 unbindService(conn);
@@ -458,9 +461,9 @@ public class MainActivity extends AppCompatActivity
                             menuItemEnteringWareHouse.setVisible(true);
                             menuItemProductionStorage.setVisible(true);
                             if (pda_type == 2)
-                                menuItemPrintTest.setVisible(true);
+                                menuItemPrintTag.setVisible(true);
                             else
-                                menuItemPrintTest.setVisible(false);
+                                menuItemPrintTag.setVisible(false);
                             //menuItemShipment.setVisible(true);
                             //menuItemReceivingInspection.setVisible(true);
 
@@ -501,7 +504,7 @@ public class MainActivity extends AppCompatActivity
                             menuItemAllocationSendMsg.setVisible(false);
                             menuItemEnteringWareHouse.setVisible(false);
                             menuItemProductionStorage.setVisible(false);
-                            menuItemPrintTest.setVisible(false);
+                            menuItemPrintTag.setVisible(false);
                             menuItemShipment.setVisible(false);
                             menuItemReceivingInspection.setVisible(false);
 
@@ -757,9 +760,9 @@ public class MainActivity extends AppCompatActivity
             menuItemEnteringWareHouse.setVisible(true);
             menuItemProductionStorage.setVisible(true);
             if (pda_type == 2)
-                menuItemPrintTest.setVisible(true);
+                menuItemPrintTag.setVisible(true);
             else
-                menuItemPrintTest.setVisible(false);
+                menuItemPrintTag.setVisible(false);
             //menuItemShipment.setVisible(true);
             //menuItemReceivingInspection.setVisible(true);
 
@@ -798,7 +801,7 @@ public class MainActivity extends AppCompatActivity
             menuItemAllocationSendMsg.setVisible(false);
             menuItemEnteringWareHouse.setVisible(false);
             menuItemProductionStorage.setVisible(false);
-            menuItemPrintTest.setVisible(false);
+            menuItemPrintTag.setVisible(false);
             menuItemShipment.setVisible(false);
             menuItemReceivingInspection.setVisible(false);
         }
@@ -1047,7 +1050,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-                keyboard.setVisible(true);
+                keyboard .setVisible(true);
                 break;
 
             case R.id.nav_allocation_send_msg:
@@ -1186,10 +1189,10 @@ public class MainActivity extends AppCompatActivity
                 production_storage_scan.setVisible(false);
                 keyboard.setVisible(true);
                 break;
-            case R.id.nav_print_test:
-                Log.d(TAG, "nav_print_test");
-                fragmentClass = PrintTestFragment.class;
-                title = getResources().getString(R.string.nav_print_test);
+            case R.id.nav_print_tag:
+                Log.d(TAG, "nav_print_tag");
+                fragmentClass = PickingChangePrintFragment.class;
+                title = getResources().getString(R.string.nav_print_tag);
                 receiving_main.setVisible(false);
                 receiving_record.setVisible(false);
                 receiving_board.setVisible(false);
@@ -1207,7 +1210,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_main.setVisible(false);
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
-                keyboard.setVisible(false);
+                keyboard.setVisible(true);
                 break;
 
             case R.id.nav_setting:
@@ -1646,7 +1649,7 @@ public class MainActivity extends AppCompatActivity
 
             //int quality = 100;
 
-            croppedBitmap = Bitmap.createBitmap(bitmap, 0, 120, bitmap.getWidth(), 250);
+            croppedBitmap = Bitmap.createBitmap(bitmap, 0, 120, bitmap.getWidth(), 260);
 
 
 

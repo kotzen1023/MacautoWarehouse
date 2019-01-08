@@ -252,5 +252,11 @@ public class Constants {
         String ACTION_PRINT_TEST_SHOW_FAB_BUTTON = "com.macauto.MacautoWarehoouse.PrintTestShowFabButton";
         String ACTION_PRINT_TEST_HIDE_FAB_BUTTON = "com.macauto.MacautoWarehoouse.PrintTestHideFabButton";
         String ACTION_PRINT_TEST_SHOW_GENERATE = "com.macauto.MacautoWarehoouse.PrintTestShowGenerate";
+        String ACTION_PICKING_CHANGE_HIDE_GENERATE = "com.macauto.MacautoWarehoouse.PickingChangeHideGenerate";
+
+        String ACTION_GET_LOT_CODE_ACTION = "com.macauto.MacautoWarehoouse.GetLotCodeAction";
+        String ACTION_GET_LOT_CODE_EMPTY = "com.macauto.MacautoWarehoouse.GetLotCodeEmpty";
+        String ACTION_GET_LOT_CODE_SUCCESS = "com.macauto.MacautoWarehoouse.GetLotCodeSuccess";
+        String ACTION_GET_LOT_CODE_FAILED = "com.macauto.MacautoWarehoouse.GetLotCodeFailed";
     }
 }

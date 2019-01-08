@@ -86,6 +86,7 @@
         <service android:name=".service.InsertTTImnFileNoTlfNoImgService" />
         <service android:name=".service.ExecuteTTPrgAService" />
         <service android:name=".service.GetTTErrorStatusService" />
+        <service android:name=".service.GetLotCodeService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

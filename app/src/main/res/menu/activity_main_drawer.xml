@@ -46,9 +46,9 @@
         android:title="@string/nav_receiving_inspection" />
 
         <item
-            android:id="@+id/nav_print_test"
+            android:id="@+id/nav_print_tag"
             android:icon="@drawable/baseline_print_black_36"
-            android:title="@string/nav_print_test" />
+            android:title="@string/nav_print_tag" />
     </group>
 
     <item android:title="@string/nav_other">

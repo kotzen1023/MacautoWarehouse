@@ -97,7 +97,9 @@ public class InspectedReceiveItemAdapter extends ArrayAdapter<InspectedReceiveIt
 
             if (inspectedReceiveItem.getCol_rvu01() != null && inspectedReceiveItem.getCol_rvu01().equals("")) {
 
-                String top = inspectedReceiveItem.getCol_pmn041() +" "+
+                //String top = inspectedReceiveItem.getCol_pmn041() +" "+
+                        mContext.getResources().getString(R.string.item_total, inspectedReceiveItem.getCol_rvb33());
+                String top = inspectedReceiveItem.getCol_rvb05() +" "+
                         mContext.getResources().getString(R.string.item_total, inspectedReceiveItem.getCol_rvb33());
 
                 //holder.checkBox.setVisibility(View.INVISIBLE);

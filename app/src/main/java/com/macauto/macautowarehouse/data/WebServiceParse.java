@@ -8,11 +8,13 @@ import android.util.Xml;
 import com.macauto.macautowarehouse.table.DataRow;
 import com.macauto.macautowarehouse.table.DataTable;
 
+import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 
 
 public class WebServiceParse {
@@ -594,5 +596,48 @@ public class WebServiceParse {
         Log.e(TAG, "=== parseToString end === ");
 
         return ret;
+    }
+
+    public static ArrayList<String> parseToArrayString(SoapObject soapObject) {
+
+
+        ArrayList<String> retArray = new ArrayList<>();
+
+        Log.e(TAG, "=== parseToString === "+soapObject.getPropertyCount());
+
+        SoapObject childSoap = (SoapObject) soapObject.getProperty(0);
+
+
+
+        Log.e(TAG, "childSoap count = "+childSoap.getPropertyCount());
+
+        for (int i=0; i<childSoap.getPropertyCount(); i++) {
+            if (!childSoap.getProperty(i).toString().equals("anyType{}")) {
+                retArray.add(childSoap.getProperty(i).toString());
+            } else {
+                retArray.add("");
+            }
+        }
+
+        for (int i=0; i<retArray.size(); i++) {
+            Log.e(TAG, "retArray["+i+"] = "+retArray.get(i));
+        }
+
+        //SoapObject grandSoap = (SoapObject) childSoap.getProperty(0);
+
+        //Log.e(TAG, "grandSoap = "+grandSoap.getProperty(0));
+
+        //PropertyInfo grandSoap = childSoap.getElementType();
+
+        //Log.e(TAG, "grandSoap = "+grandSoap.getName());
+
+
+
+        /*if (soapObject.getPropertyCount() == 1) {
+            Log.e(TAG, "soapObject getPropertyInfo = "+soapObject.getPropertyInfo(0).toString());
+            ret = soapObject.getProperty(0).toString();
+        }*/
+
+        return retArray;
     }
 }

@@ -46,7 +46,7 @@
     <string name="nav_entering_warehouse">收貨驗收入庫確認</string>
     <string name="nav_production_storage">生產入庫確認</string>
     <string name="nav_receiving_inspection">收貨檢驗</string>
-    <string name="nav_print_test">列印測試</string>
+    <string name="nav_print_tag">標籤列印</string>
     <string name="nav_other">其他</string>
     <string name="nav_setting">設定</string>
     <string name="nav_logout">登出</string>
@@ -286,4 +286,31 @@
     <string name="receiving_inspection_execute_tt_oqcp_failed">已轉成QC單失敗 或 已經產生QC單時發生錯誤, 請洽資訊部 (ERROR-K1)</string>
     <string name="receiving_inspection_qc_was_been_confirmed">QC單已確認</string>
     <string name="receiving_inspection_qc_was_been_confirmed_failed">QC單已確認--失敗, 請洽資訊部 (ERROR-K2)</string>
+    <string name="picking_change_part_no">料件編號</string>
+    <string name="picking_change_date">廠商製造日期</string>
+    <string name="picking_change_batch_no">廠商製造批號</string>
+    <string name="picking_change_send_no">送貨單號</string>
+    <string name="picking_change_package_type">包裝類別</string>
+    <string name="picking_change_package_serial">包裝序號</string>
+    <string name="picking_change_quantity">數量</string>
+    <string name="picking_change_support">供應商編號</string>
+    <string name="picking_change_name">品名</string>
+    <string name="picking_change_storage">儲存方式</string>
+
+    <string name="picking_change_title_print">皇田進料交貨明細表  日期: %s</string>
+    <string name="picking_change_part_no_print">料件編號: %s</string>
+    <string name="picking_change_date_print">廠商製造日期: %s</string>
+    <string name="picking_change_batch_no_print">廠商製造批號: %s</string>
+    <string name="picking_change_send_no_print">送貨單號: %s</string>
+    <string name="picking_change_package_type_print_na">NA</string>
+    <string name="picking_change_package_type_print_small">小包裝</string>
+    <string name="picking_change_package_type_print_large">大包裝</string>
+    <string name="picking_change_package_serial_print">第 %s 箱</string>
+    <string name="picking_change_quantity_print">數量: %s PCS</string>
+    <string name="picking_change_support_print">供應商編號: %s</string>
+    <string name="picking_change_name_print">品名: %s</string>
+    <string name="picking_change_storage_print">儲存方式: %s</string>
+    <string name="picking_change_quantity_much_more">新的數量超出原來數量範圍</string>
+    <string name="picking_change_quantity_less_than_zero">數量不能小於0</string>
+    <string name="picking_change_quantity_format_error">輸入格式錯誤</string>
 </resources>
