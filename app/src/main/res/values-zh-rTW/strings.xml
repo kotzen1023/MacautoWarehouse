@@ -27,7 +27,7 @@
     <string name="search_again">重新搜尋</string>
     <string name="hide_keyboard">隱藏鍵盤</string>
     <string name="show_keyboard">顯示鍵盤</string>
-    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <!--string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="title_activity_main">Barcode Reader Sample</string>
@@ -37,7 +37,7 @@
     <string name="use_flash">Use Flash</string>
     <string name="barcode_success">Barcode read successfully</string>
     <string name="barcode_failure">No barcode captured</string>
-    <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="barcode_error">"Error reading barcode: %1$s"</string-->
 
     <string name="nav_receiving">收貨模組</string>
     <string name="nav_shipment">出貨模組</string>

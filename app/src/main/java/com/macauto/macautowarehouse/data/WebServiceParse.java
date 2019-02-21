@@ -603,7 +603,7 @@ public class WebServiceParse {
 
         ArrayList<String> retArray = new ArrayList<>();
 
-        Log.e(TAG, "=== parseToString === "+soapObject.getPropertyCount());
+        Log.e(TAG, "=== parseToArrayString === "+soapObject.getPropertyCount());
 
         SoapObject childSoap = (SoapObject) soapObject.getProperty(0);
 
@@ -637,6 +637,8 @@ public class WebServiceParse {
             Log.e(TAG, "soapObject getPropertyInfo = "+soapObject.getPropertyInfo(0).toString());
             ret = soapObject.getProperty(0).toString();
         }*/
+
+        Log.e(TAG, "=== parseToArrayString === ");
 
         return retArray;
     }

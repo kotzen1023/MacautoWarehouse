@@ -21,7 +21,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.os.Environment;
+//import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity
 
         context = getApplicationContext();
 
-        Log.e(TAG, "=== start log ===");
+        /*Log.e(TAG, "=== start log ===");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
         String currentDateandTime = sdf.format(new Date());
         log_filename = "logcat_"+currentDateandTime+".txt";
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity
             process = Runtime.getRuntime().exec("logcat -f " + outputFile);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -257,8 +257,11 @@ public class MainActivity extends AppCompatActivity
         fabBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabBack.setVisibility(View.GONE);
-                fabPrint.setVisibility(View.GONE);
+                //fabBack.setVisibility(View.GONE);
+                //fabPrint.setVisibility(View.GONE);
+
+                fabBack.hide();
+                fabPrint.hide();
 
                 Intent genIntent = new Intent();
                 genIntent.setAction(Constants.ACTION.ACTION_PICKING_CHANGE_HIDE_GENERATE);
@@ -548,12 +551,20 @@ public class MainActivity extends AppCompatActivity
                         setTitle(new_title);
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRINT_TEST_HIDE_FAB_BUTTON)) {
                         Log.d(TAG, "receive ACTION_PRINT_TEST_HIDE_FAB_BUTTON!");
-                        fabBack.setVisibility(View.GONE);
-                        fabPrint.setVisibility(View.GONE);
+                        //fabBack.setVisibility(View.GONE);
+                        //fabPrint.setVisibility(View.GONE);
+
+                        fabBack.hide();
+                        fabPrint.hide();
+
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_PRINT_TEST_SHOW_FAB_BUTTON)) {
                         Log.d(TAG, "receive ACTION_PRINT_TEST_SHOW_FAB_BUTTON!");
-                        fabBack.setVisibility(View.VISIBLE);
-                        fabPrint.setVisibility(View.VISIBLE);
+
+                        //fabBack.setVisibility(View.VISIBLE);
+                        //fabPrint.setVisibility(View.VISIBLE);
+
+                        fabBack.show();
+                        fabPrint.show();
                     }
 
 
@@ -1002,8 +1013,12 @@ public class MainActivity extends AppCompatActivity
 
         //initializing the fragment object which is selected
 
-        fabBack.setVisibility(View.GONE);
-        fabPrint.setVisibility(View.GONE);
+        //fabBack.setVisibility(View.GONE);
+        //fabPrint.setVisibility(View.GONE);
+
+        fabBack.hide();
+        fabPrint.hide();
+
         switch (menuItem.getItemId()) {
 
             /*case R.id.nav_receiving:
