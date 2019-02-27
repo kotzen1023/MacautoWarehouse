@@ -12,6 +12,20 @@
     </item>
 
     <item
+        android:id="@+id/main_sync_msg"
+        android:title=""
+        android:icon="@drawable/baseline_sync_white_18"
+        app:showAsAction="always"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/main_sync_locate_no"
+        android:title=""
+        android:icon="@drawable/baseline_sync_white_18"
+        app:showAsAction="always"
+        android:visible="false" />
+
+    <item
         android:id="@+id/main_hide_or_show_keyboard"
         android:title="@string/hide_keyboard"
         android:icon="@drawable/baseline_keyboard_hide_white_18"

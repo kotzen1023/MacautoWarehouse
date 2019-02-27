@@ -148,7 +148,9 @@
     <string name="allocation_send_message_to_material_re_produce_transfer">重新产生调拨数据</string>
     <string name="allocation_send_message_to_material_delete_detail">删除细项</string>
     <string name="allocation_send_message_to_material_send_msg_to_material">发送调拨讯息给物料人员</string>
-    <string name="allocation_send_message_to_material_get_Locate_no_failed">无法找到储位信息</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_failed">无法找到储位信息, 请使用上方同步按钮重新寻找储位信息</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_success">已取得储位信息</string>
+    <string name="allocation_send_message_to_material_check_made_no_failed">工单检查失败, 请重新尝试</string>
     <string name="allocation_send_message_to_material_made_no_not_matched">没有符合的工单号码. 请输入正确的工单编号</string>
     <string name="allocation_send_message_to_material_staging_area_not_matched">没有符合的仓库编号</string>
     <string name="allocation_send_message_to_material_request_time">需求时间</string>

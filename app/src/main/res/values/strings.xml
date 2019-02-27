@@ -147,7 +147,9 @@
     <string name="allocation_send_message_to_material_re_produce_transfer">Re-Allocate and Transfer</string>
     <string name="allocation_send_message_to_material_delete_detail">Delete Item</string>
     <string name="allocation_send_message_to_material_send_msg_to_material">Send Message</string>
-    <string name="allocation_send_message_to_material_get_Locate_no_failed">Cannot find any Locate No.</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_failed">Cannot find any Locate No. Please retry with the sync button in Action Bar.</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_success">Get Locate no success!</string>
+    <string name="allocation_send_message_to_material_check_made_no_failed">Check Made-No failed. Please retry.</string>
     <string name="allocation_send_message_to_material_made_no_not_matched">No matched work order. Please input correct work order.</string>
     <string name="allocation_send_message_to_material_staging_area_not_matched">No matched staging area</string>
     <string name="allocation_send_message_to_material_request_time">Request Time</string>

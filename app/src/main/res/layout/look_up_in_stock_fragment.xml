@@ -14,6 +14,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/searchOptionForTB120"
+            android:visibility="gone">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Barcode Scan"
+                android:enabled="false"
+                android:id="@+id/btnBarcodeScan"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Input Search"
+                android:id="@+id/btnInputSearch"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/layoutSearchView"
             android:visibility="visible">
@@ -78,6 +102,30 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:layout_weight="1" /-->
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/layoutSearchViewTB120"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/searchFromBluetoothBarcoder"
+                android:hint="@string/search_in_stock_spec"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear Barcode"
+                android:id="@+id/btnClear"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
 
         <LinearLayout

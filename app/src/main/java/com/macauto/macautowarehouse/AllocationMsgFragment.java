@@ -320,6 +320,10 @@ public class AllocationMsgFragment extends Fragment {
                         Log.d(TAG, "receive ACTION_SOCKET_TIMEOUT");
                         //if (loadDialog != null)
                         //    loadDialog.dismiss();
+
+                        Intent showIntent = new Intent(Constants.ACTION.ACTION_GET_MSG_SYNC_ICON_SHOW);
+                        fragmentContext.sendBroadcast(showIntent);
+
                         progressBar.setVisibility(View.GONE);
                         toast(getResources().getString(R.string.socket_timeout));
 
@@ -383,6 +387,22 @@ public class AllocationMsgFragment extends Fragment {
                                 fragmentContext.startService(getDeleteRightIntent);
                             }
                         }
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_RESEND)) {
+                        Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_LIST_RESEND");
+                        //loadDialog.dismiss();
+                        progressBar.setVisibility(View.VISIBLE);
+                        //hide menu icon
+                        Intent hideIconIntent = new Intent(Constants.ACTION.ACTION_GET_MSG_SYNC_ICON_HIDE);
+                        fragmentContext.sendBroadcast(hideIconIntent);
+
+                        //get my mess list
+                        Intent getMessIntent = new Intent(fragmentContext, GetMyMessListService.class);
+                        getMessIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_ACTION);
+                        getMessIntent.putExtra("USER_NO", emp_no);
+                        fragmentContext.startService(getMessIntent);
+
+
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED");
@@ -604,6 +624,7 @@ public class AllocationMsgFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_RESEND);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_CHECK_IS_DELETE_RIGHT_YES);

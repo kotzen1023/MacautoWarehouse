@@ -103,11 +103,13 @@ public class Constants {
         String ACTION_ALLOCATION_HANDLE_MSG_DELETE_ACTION = "com.macauto.MacautoWarehoouse.AllocationHandleMsgDeleteAction";
         String ACTION_ALLOCATION_HANDLE_MSG_DELETE_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationHandleMsgDeleteSuccess";
         String ACTION_ALLOCATION_HANDLE_MSG_DELETE_FAILED = "com.macauto.MacautoWarehoouse.AllocationHandleMsgDeleteFailed";
+        String ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_RESEND = "com.macauto.MacautoWarehoouse.AllocationSendMsgGetLocateNoResend";
 
         String ACTION_ALLOCATION_GET_MY_MESS_LIST_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListAction";
         String ACTION_ALLOCATION_GET_MY_MESS_LIST_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListSuccess";
         String ACTION_ALLOCATION_GET_MY_MESS_LIST_EMPTY = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListEmpty";
         String ACTION_ALLOCATION_GET_MY_MESS_LIST_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListFailed";
+        String ACTION_ALLOCATION_GET_MY_MESS_LIST_RESEND = "com.macauto.MacautoWarehoouse.AllocationGetMyMessListResend";
         String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_ACTION = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailAction";
         String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_SUCCESS = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailSuccess";
         String ACTION_ALLOCATION_GET_MY_MESS_DETAIL_FAILED = "com.macauto.MacautoWarehoouse.AllocationGetMyMessDetailFailed";
@@ -258,5 +260,11 @@ public class Constants {
         String ACTION_GET_LOT_CODE_EMPTY = "com.macauto.MacautoWarehoouse.GetLotCodeEmpty";
         String ACTION_GET_LOT_CODE_SUCCESS = "com.macauto.MacautoWarehoouse.GetLotCodeSuccess";
         String ACTION_GET_LOT_CODE_FAILED = "com.macauto.MacautoWarehoouse.GetLotCodeFailed";
+
+        String ACTION_GET_LOCATE_NO_ICON_SHOW = "com.macauto.MacautoWarehoouse.GetLocateNoIconShow";
+        String ACTION_GET_LOCATE_NO_ICON_HIDE = "com.macauto.MacautoWarehoouse.GetLocateNoIconHide";
+
+        String ACTION_GET_MSG_SYNC_ICON_SHOW = "com.macauto.MacautoWarehoouse.GetMsgSyncIconShow";
+        String ACTION_GET_MSG_SYNC_ICON_HIDE = "com.macauto.MacautoWarehoouse.GetMsgSyncIconHide";
     }
 }

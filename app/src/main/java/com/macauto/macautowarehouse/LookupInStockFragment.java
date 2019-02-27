@@ -54,6 +54,14 @@ public class LookupInStockFragment extends Fragment {
     private RecyclerView recyclerViewResult;
     public SearchItemAdapter searchItemAdapter;
 
+    //for TB120
+    private LinearLayout layoutSearchViewTB120;
+    private EditText searchFromBluetoothBarcoder;
+    private Button btnClear;
+    private LinearLayout searchOptionForTB120;
+    private Button btnBarcodeScan;
+    private Button btnInputSearch;
+
     //ProgressDialog loadDialog = null;
     ProgressBar progressBar = null;
     RelativeLayout relativeLayout;
@@ -108,6 +116,25 @@ public class LookupInStockFragment extends Fragment {
         recyclerViewResult.setLayoutManager(new LinearLayoutManager(fragmentContext));
         recyclerViewResult.addItemDecoration(new DividerItemDecoration(fragmentContext,
                 DividerItemDecoration.VERTICAL));
+
+        layoutSearchViewTB120 = view.findViewById(R.id.layoutSearchViewTB120);
+        searchFromBluetoothBarcoder = view.findViewById(R.id.searchFromBluetoothBarcoder);
+        btnClear = view.findViewById(R.id.btnClear);
+        searchOptionForTB120 = view.findViewById(R.id.searchOptionForTB120);
+        btnBarcodeScan = view.findViewById(R.id.btnBarcodeScan);
+        btnInputSearch = view.findViewById(R.id.btnInputSearch);
+
+        if (pda_type == 1) {//TB120
+            layoutSearchView.setVisibility(View.GONE);
+            layoutSearchViewTB120.setVisibility(View.VISIBLE);
+            searchOptionForTB120.setVisibility(View.VISIBLE);
+            btnBarcodeScan.setEnabled(false);
+            btnInputSearch.setEnabled(true);
+        } else {
+            layoutSearchView.setVisibility(View.VISIBLE);
+            layoutSearchViewTB120.setVisibility(View.GONE);
+            searchOptionForTB120.setVisibility(View.GONE);
+        }
 
         if (searchItemAdapter != null) {
             searchItemAdapter.setOnItemClickListener(new SearchItemAdapter.OnItemClickListener() {
@@ -164,8 +191,46 @@ public class LookupInStockFragment extends Fragment {
                 Intent resetIntent = new Intent(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK);
                 fragmentContext.sendBroadcast(resetIntent);
 
-                layoutSearchView.setVisibility(View.VISIBLE);
+                if (pda_type == 1) { //TB120
+                    layoutSearchView.setVisibility(View.GONE);
+                    layoutSearchViewTB120.setVisibility(View.VISIBLE);
+                    searchOptionForTB120.setVisibility(View.VISIBLE);
+                } else {
+                    layoutSearchView.setVisibility(View.VISIBLE);
+                    layoutSearchViewTB120.setVisibility(View.GONE);
+                    searchOptionForTB120.setVisibility(View.GONE);
+                }
+
+
                 layoutResultView.setVisibility(View.GONE);
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchFromBluetoothBarcoder.setText("");
+            }
+        });
+
+        btnInputSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                layoutSearchView.setVisibility(View.VISIBLE);
+                layoutSearchViewTB120.setVisibility(View.GONE);
+                btnInputSearch.setEnabled(false);
+                btnBarcodeScan.setEnabled(true);
+            }
+        });
+
+        btnBarcodeScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutSearchView.setVisibility(View.GONE);
+                layoutSearchViewTB120.setVisibility(View.VISIBLE);
+                btnInputSearch.setEnabled(true);
+                btnBarcodeScan.setEnabled(false);
             }
         });
 
@@ -235,7 +300,16 @@ public class LookupInStockFragment extends Fragment {
                         Log.e(TAG, "searchList.size = " + searchList.size());
 
                         layoutResultView.setVisibility(View.VISIBLE);
-                        layoutSearchView.setVisibility(View.GONE);
+
+                        if (pda_type == 1) { //TB120
+                            layoutSearchView.setVisibility(View.GONE);
+                            layoutSearchViewTB120.setVisibility(View.VISIBLE);
+                            searchOptionForTB120.setVisibility(View.VISIBLE);
+                        } else {
+                            layoutSearchView.setVisibility(View.VISIBLE);
+                            layoutSearchViewTB120.setVisibility(View.GONE);
+                            searchOptionForTB120.setVisibility(View.GONE);
+                        }
 
                         if (searchItemAdapter != null) {
                             searchItemAdapter.notifyDataSetChanged();

@@ -152,7 +152,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screen_width/4,screen_width/4);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         relativeLayout.addView(progressBar,params);
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
 
         /*editTextWorkOrder = view.findViewById(R.id.allocationSendMsgWorkOrder);
         editTextStagingArea = view.findViewById(R.id.allocationSendMsgStagingArea);
@@ -720,7 +720,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
         item1.setContent("13112-1411210003");
         myList.add(item1);
 
-        AllocationSendMsgItem item2 = new AllocationSendMsgItem();
+        final AllocationSendMsgItem item2 = new AllocationSendMsgItem();
         item2.setIndex(1);
         item2.setHeader(getResources().getString(R.string.allocation_send_message_to_material_staging_area));
         item2.setContent("9115");
@@ -898,12 +898,19 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                             getLocateNoIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_ACTION);
                             getLocateNoIntent.putExtra("STOCK_NO", myList.get(1).getContent());
                             fragmentContext.startService(getLocateNoIntent);
+
+                            progressBar.setVisibility(View.VISIBLE);
                         } else {
                             toast(getResources().getString(R.string.socket_timeout));
                         }
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_SUCCESS");
+
+                        toast(fragmentContext.getResources().getString(R.string.allocation_send_message_to_material_get_Locate_no_success));
+
+                        progressBar.setVisibility(View.GONE);
+
                         AllocationSendMsgItem item = myList.get(2);
 
                         //AllocationSendMsgItem item_date = allocationSendMsgItemAdapter.getItem(8);
@@ -928,6 +935,26 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_FAILED");
                         toast(getResources().getString(R.string.allocation_send_message_to_material_get_Locate_no_failed));
+
+                        progressBar.setVisibility(View.GONE);
+
+                        Intent showIntent = new Intent(Constants.ACTION.ACTION_GET_LOCATE_NO_ICON_SHOW);
+                        fragmentContext.sendBroadcast(showIntent);
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_RESEND)){
+                        Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_RESEND");
+
+                        //hide menu icon
+                        Intent hideIconIntent = new Intent(Constants.ACTION.ACTION_GET_LOCATE_NO_ICON_HIDE);
+                        fragmentContext.sendBroadcast(hideIconIntent);
+
+                        progressBar.setVisibility(View.VISIBLE);
+
+                        //get locate list
+                        Intent getLocateNoIntent = new Intent(fragmentContext, GetLocateNoService.class);
+                        getLocateNoIntent.setAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_ACTION);
+                        getLocateNoIntent.putExtra("STOCK_NO", item2.getContent());
+                        fragmentContext.startService(getLocateNoIntent);
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_MADE_INFO_SUCCESS)) {
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_GET_MADE_INFO_SUCCESS");
@@ -1066,6 +1093,8 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_FAILED)){
                         Log.d(TAG, "receive ACTION_ALLOCATION_SEND_MSG_CHECK_MADE_NO_EXIST_FAILED");
+
+                        toast(getResources().getString(R.string.allocation_send_message_to_material_check_made_no_failed));
                         //if(loadDialog != null)
                         //    loadDialog.dismiss();
                         progressBar.setVisibility(View.GONE);
@@ -1430,6 +1459,7 @@ public class AllocationSendMsgToReserveWarehouseFragment extends Fragment {
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_EMPTY);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_FAILED);
+            filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_RESEND);
 
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_MADE_INFO_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_MADE_INFO_EMPTY);

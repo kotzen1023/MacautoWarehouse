@@ -106,13 +106,13 @@ public class MainActivity extends AppCompatActivity
     private static boolean isRegister = false;
 
     //private MenuItem menuItemReceiveGoods;
-    private MenuItem menuItemShipment;
+    //private MenuItem menuItemShipment;
     private MenuItem menuItemSearch;
     private MenuItem menuItemAllocation;
     private MenuItem menuItemAllocationSendMsg;
     private MenuItem menuItemEnteringWareHouse;
     private MenuItem menuItemProductionStorage;
-    private MenuItem menuItemReceivingInspection;
+    //private MenuItem menuItemReceivingInspection;
     private MenuItem menuItemPrintTag;
     private MenuItem menuItemLogin;
     private MenuItem menuItemLogout;
@@ -144,6 +144,9 @@ public class MainActivity extends AppCompatActivity
     private MenuItem production_storage_scan;
     private MenuItem keyboard;
     private MenuItem searchFilter;
+
+    private MenuItem getLocateNo;
+    private MenuItem getMsg;
 
     public static int pda_type;
     private InputMethodManager imm;
@@ -192,9 +195,9 @@ public class MainActivity extends AppCompatActivity
     //for print
     public static ArrayList<String> printArray = new ArrayList<>();
 
-
-    public static Process process;
-    public static String log_filename;
+    //write log
+    //public static Process process;
+    //public static String log_filename;
 
     private IQSService iqspda;
     FloatingActionButton fabBack;
@@ -204,6 +207,8 @@ public class MainActivity extends AppCompatActivity
 
     public static int screen_width;
     public static int screen_height;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,12 +301,12 @@ public class MainActivity extends AppCompatActivity
         menuItemLogin = navigationView.getMenu().findItem(R.id.nav_login);
         menuItemLogout = navigationView.getMenu().findItem(R.id.nav_logout);
         //menuItemReceiveGoods = navigationView.getMenu().findItem(R.id.nav_receiving);
-        menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
+        //menuItemShipment = navigationView.getMenu().findItem(R.id.nav_shipment);
         menuItemSearch = navigationView.getMenu().findItem(R.id.nav_search);
         menuItemAllocation = navigationView.getMenu().findItem(R.id.nav_allocation);
         menuItemAllocationSendMsg = navigationView.getMenu().findItem(R.id.nav_allocation_send_msg);
         menuItemEnteringWareHouse = navigationView.getMenu().findItem(R.id.nav_entering_warehouse);
-        menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
+        //menuItemReceivingInspection = navigationView.getMenu().findItem(R.id.nav_receiving_inspection);
         menuItemProductionStorage = navigationView.getMenu().findItem(R.id.nav_production_storage);
         menuItemPrintTag = navigationView.getMenu().findItem(R.id.nav_print_tag);
 
@@ -508,8 +513,8 @@ public class MainActivity extends AppCompatActivity
                             menuItemEnteringWareHouse.setVisible(false);
                             menuItemProductionStorage.setVisible(false);
                             menuItemPrintTag.setVisible(false);
-                            menuItemShipment.setVisible(false);
-                            menuItemReceivingInspection.setVisible(false);
+                            //menuItemShipment.setVisible(false);
+                            //menuItemReceivingInspection.setVisible(false);
 
                             menuItemLogin.setVisible(true);
                             menuItemLogout.setVisible(false);
@@ -565,8 +570,23 @@ public class MainActivity extends AppCompatActivity
 
                         fabBack.show();
                         fabPrint.show();
-                    }
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_LOCATE_NO_ICON_SHOW)) {
+                        Log.d(TAG, "receive ACTION_GET_LOCATE_NO_ICON_SHOW !");
+                        getLocateNo.setVisible(true);
 
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_LOCATE_NO_ICON_HIDE)) {
+                        Log.d(TAG, "receive ACTION_GET_LOCATE_NO_ICON_HIDE !");
+                        getLocateNo.setVisible(false);
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_MSG_SYNC_ICON_SHOW)) {
+                        Log.d(TAG, "receive ACTION_GET_MSG_SYNC_ICON_SHOW !");
+                        getMsg.setVisible(true);
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_GET_MSG_SYNC_ICON_HIDE)) {
+                        Log.d(TAG, "receive ACTION_GET_MSG_SYNC_ICON_HIDE !");
+                        getMsg.setVisible(false);
+
+                    }
 
                 }
 
@@ -616,6 +636,10 @@ public class MainActivity extends AppCompatActivity
             filter.addAction(Constants.ACTION.ACTION_MAIN_RESET_TITLE);
             filter.addAction(Constants.ACTION.ACTION_PRINT_TEST_SHOW_FAB_BUTTON);
             filter.addAction(Constants.ACTION.ACTION_PRINT_TEST_HIDE_FAB_BUTTON);
+            filter.addAction(Constants.ACTION.ACTION_GET_LOCATE_NO_ICON_SHOW);
+            filter.addAction(Constants.ACTION.ACTION_GET_LOCATE_NO_ICON_HIDE);
+            filter.addAction(Constants.ACTION.ACTION_GET_MSG_SYNC_ICON_SHOW);
+            filter.addAction(Constants.ACTION.ACTION_GET_MSG_SYNC_ICON_HIDE);
             filter.addAction("unitech.scanservice.data");
             filter.addAction("unitech.scanservice.datatype");
             //pda408
@@ -658,10 +682,11 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "unregisterReceiver mReceiver");
         }
 
-        process.destroy();
+        //process.destroy();
 
-        if (conn != null)
+        if (conn != null && pda_408_intent_bind) {
             unbindService(conn);
+        }
 
         super.onDestroy();
     }
@@ -731,6 +756,8 @@ public class MainActivity extends AppCompatActivity
         production_storage_scan = menu.findItem(R.id.action_production_storage_scan);
 
         keyboard = menu.findItem(R.id.main_hide_or_show_keyboard);
+        getLocateNo = menu.findItem(R.id.main_sync_locate_no);
+        getMsg = menu.findItem(R.id.main_sync_msg);
 
         if (isLogin) {
             setting.setVisible(false);
@@ -813,8 +840,8 @@ public class MainActivity extends AppCompatActivity
             menuItemEnteringWareHouse.setVisible(false);
             menuItemProductionStorage.setVisible(false);
             menuItemPrintTag.setVisible(false);
-            menuItemShipment.setVisible(false);
-            menuItemReceivingInspection.setVisible(false);
+            //menuItemShipment.setVisible(false);
+            //menuItemReceivingInspection.setVisible(false);
         }
         /*setting.setVisible(false);
 
@@ -953,6 +980,14 @@ public class MainActivity extends AppCompatActivity
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
+                break;
+            case R.id.main_sync_locate_no:
+                Intent getLocateIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_SEND_MSG_GET_LOCATE_NO_RESEND);
+                sendBroadcast(getLocateIntent);
+                break;
+            case R.id.main_sync_msg:
+                Intent getMsgIntent = new Intent(Constants.ACTION.ACTION_ALLOCATION_GET_MY_MESS_LIST_RESEND);
+                sendBroadcast(getMsgIntent);
                 break;
         }
 
@@ -1160,7 +1195,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_scan.setVisible(false);
                 keyboard.setVisible(true);
                 break;
-            case R.id.nav_shipment:
+            /*case R.id.nav_shipment:
                 fragmentClass = ShipmentFragment.class;
                 title = getResources().getString(R.string.action_shipment_main);
                 receiving_main.setVisible(false);
@@ -1203,7 +1238,7 @@ public class MainActivity extends AppCompatActivity
                 production_storage_find.setVisible(false);
                 production_storage_scan.setVisible(false);
                 keyboard.setVisible(true);
-                break;
+                break;*/
             case R.id.nav_print_tag:
                 Log.d(TAG, "nav_print_tag");
                 fragmentClass = PickingChangePrintFragment.class;

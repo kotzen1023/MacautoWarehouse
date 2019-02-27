@@ -147,7 +147,9 @@
     <string name="allocation_send_message_to_material_re_produce_transfer">重新產生調撥資料</string>
     <string name="allocation_send_message_to_material_delete_detail">刪除細項</string>
     <string name="allocation_send_message_to_material_send_msg_to_material">發送調撥訊息給物料人員</string>
-    <string name="allocation_send_message_to_material_get_Locate_no_failed">無法找到儲位資訊</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_failed">無法找到儲位資訊, 請使用上方同步按鈕重新尋找儲位資訊.</string>
+    <string name="allocation_send_message_to_material_get_Locate_no_success">已取得儲位資訊</string>
+    <string name="allocation_send_message_to_material_check_made_no_failed">工單檢查失敗, 請重新嘗試</string>
     <string name="allocation_send_message_to_material_made_no_not_matched">沒有符合的工單號碼. 請輸入正確的工單編號</string>
     <string name="allocation_send_message_to_material_staging_area_not_matched">沒有符合的倉庫編號</string>
     <string name="allocation_send_message_to_material_request_time">需求時間</string>
