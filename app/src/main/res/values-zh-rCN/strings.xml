@@ -316,4 +316,7 @@
     <string name="picking_change_quantity_much_more">新的数量超出原来数量范围</string>
     <string name="picking_change_quantity_less_than_zero">数量不能小于0</string>
     <string name="picking_change_quantity_format_error">输入格式错误</string>
+    <string name="look_up_in_stock_barcode_scan">Barcode扫描</string>
+    <string name="look_up_in_stock_input_search">手动输入</string>
+    <string name="look_up_in_stock_clear_barcode">清除Barcode</string>
 </resources>

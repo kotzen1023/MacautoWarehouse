@@ -301,15 +301,19 @@ public class LookupInStockFragment extends Fragment {
 
                         layoutResultView.setVisibility(View.VISIBLE);
 
-                        if (pda_type == 1) { //TB120
+                        /*if (pda_type == 1) { //TB120
                             layoutSearchView.setVisibility(View.GONE);
-                            layoutSearchViewTB120.setVisibility(View.VISIBLE);
-                            searchOptionForTB120.setVisibility(View.VISIBLE);
+                            layoutSearchViewTB120.setVisibility(View.GONE);
+                            searchOptionForTB120.setVisibility(View.GONE);
                         } else {
                             layoutSearchView.setVisibility(View.VISIBLE);
                             layoutSearchViewTB120.setVisibility(View.GONE);
                             searchOptionForTB120.setVisibility(View.GONE);
-                        }
+                        }*/
+
+                        layoutSearchView.setVisibility(View.GONE);
+                        layoutSearchViewTB120.setVisibility(View.GONE);
+                        searchOptionForTB120.setVisibility(View.GONE);
 
                         if (searchItemAdapter != null) {
                             searchItemAdapter.notifyDataSetChanged();

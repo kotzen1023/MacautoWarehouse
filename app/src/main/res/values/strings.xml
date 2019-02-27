@@ -315,4 +315,7 @@
     <string name="picking_change_quantity_much_more">Your new quantity is more than the original.</string>
     <string name="picking_change_quantity_less_than_zero">Quantity cannot be negative.</string>
     <string name="picking_change_quantity_format_error">Input format error.</string>
+    <string name="look_up_in_stock_barcode_scan">Barcode Scan</string>
+    <string name="look_up_in_stock_input_search">Input Search</string>
+    <string name="look_up_in_stock_clear_barcode">Clear Barcode</string>
 </resources>

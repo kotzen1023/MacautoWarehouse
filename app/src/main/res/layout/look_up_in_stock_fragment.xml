@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Barcode Scan"
+                android:text="@string/look_up_in_stock_barcode_scan"
                 android:enabled="false"
                 android:id="@+id/btnBarcodeScan"/>
 
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Input Search"
+                android:text="@string/look_up_in_stock_input_search"
                 android:id="@+id/btnInputSearch"/>
 
         </LinearLayout>
@@ -123,7 +123,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Clear Barcode"
+                android:text="@string/look_up_in_stock_clear_barcode"
                 android:id="@+id/btnClear"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
