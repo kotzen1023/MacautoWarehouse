@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity
 
         //String account = pref.getString("PDA_TYPE", "");
         pda_type = pref.getInt("PDA_TYPE", 0);
-        web_soap_port = pref.getString("WEB_SOAP_PORT", "8484");
+        web_soap_port = pref.getString("WEB_SOAP_PORT", "8000");
 
         context = getApplicationContext();
 
