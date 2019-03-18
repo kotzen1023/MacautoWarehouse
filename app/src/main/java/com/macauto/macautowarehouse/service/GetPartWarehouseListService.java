@@ -22,6 +22,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.lookUpDataTable;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
@@ -112,7 +113,7 @@ public class GetPartWarehouseListService extends IntentService {
 
             // 輸出值，帳號(account)、密碼(password)
 
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
             if (part_no != null)
                 request.addProperty("part_no", part_no);
             else

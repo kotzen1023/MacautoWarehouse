@@ -15,6 +15,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
@@ -109,7 +110,7 @@ public class GetPartNoNeedScanStatusService extends IntentService {
 
             // 輸出值，帳號(account)、密碼(password)
 
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
 
             request.addProperty("part_no", part_no);
             //request.addProperty("start_date", "");

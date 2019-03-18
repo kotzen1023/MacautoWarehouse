@@ -18,6 +18,7 @@ import java.net.SocketTimeoutException;
 
 
 import static com.macauto.macautowarehouse.MainActivity.dataTable_Batch_area;
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
@@ -299,7 +300,7 @@ public class GetTTSplitRvvItemService extends IntentService {
 
                 // 輸出值，帳號(account)、密碼(password)
 
-                request.addProperty("SID", "MAT");
+                request.addProperty("SID", global_sid);
                 request.addProperty("in_no", in_no);
                 request.addProperty("item_no", Integer.valueOf(item_no));
                 request.addSoapObject(mySoap);

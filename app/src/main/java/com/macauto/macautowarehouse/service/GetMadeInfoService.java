@@ -16,6 +16,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.madeInfoTable;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
@@ -105,7 +106,7 @@ public class GetMadeInfoService extends IntentService {
 
             // 輸出值，帳號(account)、密碼(password)
 
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
 
             request.addProperty("made_no", made_no);
             //request.addProperty("start_date", "");

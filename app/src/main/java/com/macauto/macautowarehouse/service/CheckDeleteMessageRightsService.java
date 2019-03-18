@@ -17,6 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
@@ -113,7 +114,7 @@ public class CheckDeleteMessageRightsService extends IntentService {
             envelope.dotNet = true; // 設定為 .net 預設編碼
 
 
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
             request.addProperty("iss_no", iss_no);
             request.addProperty("user_no", user_no);
             //request.addProperty("end_date", "");

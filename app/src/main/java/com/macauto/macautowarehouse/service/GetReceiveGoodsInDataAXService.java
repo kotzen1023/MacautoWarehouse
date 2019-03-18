@@ -25,6 +25,7 @@ import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.dataTable;
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.scan_list;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.total_count_list;
@@ -124,7 +125,7 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
 
 
 
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
             request.addProperty("k_id", "k_id");
             request.addProperty("in_no", in_no);
             request.addProperty("item_no_list", item_no_list);

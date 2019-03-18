@@ -17,6 +17,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.table_X_M;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
@@ -122,7 +123,7 @@ public class ExecuteScriptTTService extends IntentService {
 
                     // 輸出值，帳號(account)、密碼(password)
 
-                    request.addProperty("SID", "MAT");
+                    request.addProperty("SID", global_sid);
                     //request.addProperty("script_list", writer);
                     request.addSoapObject(mySoap);
                     //request.addProperty("script_list", xmlToJson.toString());

@@ -20,6 +20,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.dataTable;
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.printArray;
 import static com.macauto.macautowarehouse.MainActivity.scan_list;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
@@ -118,7 +119,7 @@ public class GetLotCodeService extends IntentService {
 
 
 
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
             request.addProperty("barcode_no", bar_code);
             //request.addProperty("barcode_no", barcode_no);
             //request.addProperty("k_id", k_id);

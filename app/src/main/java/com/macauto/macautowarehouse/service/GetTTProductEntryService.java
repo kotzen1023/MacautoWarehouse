@@ -21,6 +21,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.MainActivity.dataTable_RR;
@@ -116,7 +117,7 @@ public class GetTTProductEntryService extends IntentService {
 
 
             request.addProperty("in_no", in_no);
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
             //request.addProperty("part_no", part_no);
             //request.addProperty("barcode_no", barcode_no);
             //request.addProperty("k_id", k_id);

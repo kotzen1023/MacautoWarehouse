@@ -212,6 +212,7 @@ public class SettingFragment extends Fragment {
 
                 settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_WEB_SERVICE_IP_ACTION);
                 settingIntent.putExtra("SERVICE_IP", "172.17.17.244");
+                settingIntent.putExtra("GLOBAL_SID", "MAT");
                 context.sendBroadcast(settingIntent);
             }
         });
@@ -225,6 +226,7 @@ public class SettingFragment extends Fragment {
 
                 settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_WEB_SERVICE_IP_ACTION);
                 settingIntent.putExtra("SERVICE_IP", "172.17.17.183");
+                settingIntent.putExtra("GLOBAL_SID", "MAC");
                 context.sendBroadcast(settingIntent);
             }
         });

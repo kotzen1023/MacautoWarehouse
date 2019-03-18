@@ -16,6 +16,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.global_sid;
 import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
@@ -108,7 +109,7 @@ public class SearchPartNoByScanService extends IntentService {
 
 
 
-            request.addProperty("SID", "MAT");
+            request.addProperty("SID", global_sid);
             request.addProperty("barcode_no", barcode);
 
             //request.addProperty("start_date", "");

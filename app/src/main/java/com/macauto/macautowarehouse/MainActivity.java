@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity
     public static String k_id;
     public static String web_soap_port;
     public static String service_ip;
+    public static String global_sid;
     public static String emp_no;
 
     //for search fragment
@@ -237,6 +238,7 @@ public class MainActivity extends AppCompatActivity
         pda_type = pref.getInt("PDA_TYPE", 0);
         web_soap_port = pref.getString("WEB_SOAP_PORT", "8000");
         service_ip = pref.getString("SERVICE_IP", "172.17.17.244");
+        global_sid = pref.getString("GLOBAL_SID", "MAT");
         context = getApplicationContext();
 
         /*Log.e(TAG, "=== start log ===");
@@ -430,10 +432,12 @@ public class MainActivity extends AppCompatActivity
                         Log.d(TAG, "receive ACTION_SETTING_WEB_SERVICE_IP_ACTION !");
 
                         service_ip = intent.getStringExtra("SERVICE_IP");
-                        Log.e(TAG, "service_ip = "+service_ip);
+                        global_sid = intent.getStringExtra("GLOBAL_SID");
+                        Log.e(TAG, "service_ip = "+service_ip+", sid = "+global_sid);
 
                         editor = pref.edit();
                         editor.putString("SERVICE_IP", service_ip);
+                        editor.putString("GLOBAL_SID", global_sid);
                         editor.apply();
 
                     } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGIN_SUCCESS)) {
