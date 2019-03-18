@@ -101,6 +101,39 @@
                 android:checked="false"
                 />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#b7b7b7"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBoxServerTaiwan"
+                android:text="MAT"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:checked="true"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/checkBoxServerChina"
+                android:text="MAC"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:checked="false"
+                />
+        </LinearLayout>
     </LinearLayout>
 
 

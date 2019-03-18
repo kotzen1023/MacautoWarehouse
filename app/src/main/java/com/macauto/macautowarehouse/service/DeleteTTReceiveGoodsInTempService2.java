@@ -16,6 +16,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 public class DeleteTTReceiveGoodsInTempService2 extends IntentService {
@@ -61,7 +62,7 @@ public class DeleteTTReceiveGoodsInTempService2 extends IntentService {
         String in_no = intent.getStringExtra("IN_NO");
         String item_no = intent.getStringExtra("ITEM_NO");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
 
         Log.e(TAG, "in_no = "+in_no);

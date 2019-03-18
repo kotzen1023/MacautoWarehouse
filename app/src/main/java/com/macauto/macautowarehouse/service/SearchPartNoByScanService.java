@@ -16,6 +16,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
@@ -77,7 +78,7 @@ public class SearchPartNoByScanService extends IntentService {
         String barcode = intent.getStringExtra("BARCODE");
 
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
 
         Log.e(TAG, "part_no = "+part_no);
         Log.e(TAG, "barcode = "+barcode);

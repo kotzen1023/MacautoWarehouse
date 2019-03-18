@@ -15,6 +15,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -76,7 +77,7 @@ public class DeleteMessageNoService extends IntentService {
         String user_no = intent.getStringExtra("USER_NO");
         String delete_index = intent.getStringExtra("DELETE_INDEX");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
 
         Log.e(TAG, "message_no = "+message_no);
         Log.e(TAG, "user_no = "+user_no);

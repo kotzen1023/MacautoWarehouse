@@ -33,6 +33,7 @@ import static com.macauto.macautowarehouse.MainActivity.dataTable;
 
 
 import static com.macauto.macautowarehouse.MainActivity.scan_list;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.total_count_list;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
@@ -96,7 +97,7 @@ public class GetReceiveGoodsInDataService extends IntentService {
         String barcode_no = intent.getStringExtra("BARCODE_NO");
         String k_id = intent.getStringExtra("K_ID");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
 
         Log.e(TAG, "part_no = "+part_no);
         Log.e(TAG, "barcode_no = "+barcode_no);

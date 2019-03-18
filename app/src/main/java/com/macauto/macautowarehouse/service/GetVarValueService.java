@@ -17,6 +17,8 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
 
@@ -33,7 +35,7 @@ public class GetVarValueService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/get_var_value"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public GetVarValueService() {
         super("GetVarValueService");
@@ -69,7 +71,7 @@ public class GetVarValueService extends IntentService {
         //String device_id;
 
         String tag_id = intent.getStringExtra("TAG_ID");
-
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");
         //String batch_no = intent.getStringExtra("BATCH_NO");

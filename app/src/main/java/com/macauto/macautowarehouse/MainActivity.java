@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity
     private InputMethodManager imm;
     public static String k_id;
     public static String web_soap_port;
+    public static String service_ip;
     public static String emp_no;
 
     //for search fragment
@@ -235,7 +236,7 @@ public class MainActivity extends AppCompatActivity
         //String account = pref.getString("PDA_TYPE", "");
         pda_type = pref.getInt("PDA_TYPE", 0);
         web_soap_port = pref.getString("WEB_SOAP_PORT", "8000");
-
+        service_ip = pref.getString("SERVICE_IP", "172.17.17.244");
         context = getApplicationContext();
 
         /*Log.e(TAG, "=== start log ===");
@@ -425,7 +426,17 @@ public class MainActivity extends AppCompatActivity
                         editor.putString("WEB_SOAP_PORT", web_soap_port);
                         editor.apply();
 
-                    }  else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGIN_SUCCESS)) {
+                    }  else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_SETTING_WEB_SERVICE_IP_ACTION)) {
+                        Log.d(TAG, "receive ACTION_SETTING_WEB_SERVICE_IP_ACTION !");
+
+                        service_ip = intent.getStringExtra("SERVICE_IP");
+                        Log.e(TAG, "service_ip = "+service_ip);
+
+                        editor = pref.edit();
+                        editor.putString("SERVICE_IP", service_ip);
+                        editor.apply();
+
+                    } else if (intent.getAction().equalsIgnoreCase(Constants.ACTION.ACTION_LOGIN_SUCCESS)) {
                         Log.d(TAG, "receive brocast !");
 
                         isLogin = true;
@@ -629,7 +640,8 @@ public class MainActivity extends AppCompatActivity
             filter.addAction(Constants.ACTION.ACTION_LOGIN_SUCCESS);
             filter.addAction(Constants.ACTION.ACTION_LOGOUT_ACTION);
             filter.addAction(Constants.ACTION.ACTION_SETTING_PDA_TYPE_ACTION);
-            filter.addAction((Constants.ACTION.ACTION_SETTING_WEB_SOAP_PORT_ACTION));
+            filter.addAction(Constants.ACTION.ACTION_SETTING_WEB_SOAP_PORT_ACTION);
+            filter.addAction(Constants.ACTION.ACTION_SETTING_WEB_SERVICE_IP_ACTION);
             filter.addAction(Constants.ACTION.ACTION_SEARCH_MENU_SHOW_ACTION);
             filter.addAction(Constants.ACTION.ACTION_SEARCH_MENU_HIDE_ACTION);
             filter.addAction(Constants.ACTION.ACTION_RESET_TITLE_PART_IN_STOCK);

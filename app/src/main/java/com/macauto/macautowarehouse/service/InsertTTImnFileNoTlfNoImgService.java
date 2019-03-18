@@ -17,6 +17,8 @@ import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.dataTable_SSS;
 import static com.macauto.macautowarehouse.MainActivity.emp_no;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -33,7 +35,7 @@ public class InsertTTImnFileNoTlfNoImgService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/Insert_TT_imn_file_no_tlf_no_img"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private boolean rpc = false;
 
@@ -74,6 +76,7 @@ public class InsertTTImnFileNoTlfNoImgService extends IntentService {
         String note = intent.getStringExtra("NOTE");
         String dept_no = intent.getStringExtra("DEPT_NO");
         String made_no = intent.getStringExtra("MADE_NO");
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String user_id = intent.getStringExtra("USER_ID");
         //String ima021 = intent.getStringExtra("SPEC");
         //String query_all = intent.getStringExtra("QUERY_ALL");

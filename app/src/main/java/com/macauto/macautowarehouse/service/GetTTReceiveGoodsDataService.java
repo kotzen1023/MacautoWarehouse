@@ -18,6 +18,9 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
+
 
 public class GetTTReceiveGoodsDataService extends IntentService {
     public static final String TAG = "GetTTReceiveGoods";
@@ -32,7 +35,7 @@ public class GetTTReceiveGoodsDataService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/Get_TT_ReceiveGoods_Data"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private String doc_type = "";
 
@@ -71,7 +74,7 @@ public class GetTTReceiveGoodsDataService extends IntentService {
 
 
         String shipping_no = intent.getStringExtra("SHIPPING_NO");
-
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
 
 
         if (intent.getAction() != null) {

@@ -18,6 +18,8 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ShipmentFragment.dg4_table;
 import static com.macauto.macautowarehouse.ShipmentFragment.preShippingDataTable;
 import static com.macauto.macautowarehouse.ShipmentFragment.shippingWaitForScanList;
@@ -36,7 +38,7 @@ public class ShippingGetWarehouseQtyService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/SHIPPING_get_warehouse_qty"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public ShippingGetWarehouseQtyService() {
         super("ShippingGetWarehouseQtyService");
@@ -77,6 +79,7 @@ public class ShippingGetWarehouseQtyService extends IntentService {
 
         String av_qty = intent.getStringExtra("AV_QTY");
         String shipping_qty = intent.getStringExtra("SHIPPING_QTY");
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String ima02 = intent.getStringExtra("NAME");
         //String ima021 = intent.getStringExtra("SPEC");
         //String query_all = intent.getStringExtra("QUERY_ALL");

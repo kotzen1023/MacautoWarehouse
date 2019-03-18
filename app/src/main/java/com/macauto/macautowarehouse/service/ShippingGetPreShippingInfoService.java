@@ -19,6 +19,8 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.ShipmentFragment.preShippingDataTable;
 
 import static com.macauto.macautowarehouse.ShipmentFragment.shippingNotifyList;
@@ -37,7 +39,7 @@ public class ShippingGetPreShippingInfoService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/SHIPPING_get_pre_shipping_info"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public ShippingGetPreShippingInfoService() {
         super("ShippingGetPreShippingInfoService");
@@ -73,6 +75,7 @@ public class ShippingGetPreShippingInfoService extends IntentService {
         //String device_id;
 
         String pre_shipping_no = intent.getStringExtra("PRE_SHIPPING_NO");
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");
         //String batch_no = intent.getStringExtra("BATCH_NO");

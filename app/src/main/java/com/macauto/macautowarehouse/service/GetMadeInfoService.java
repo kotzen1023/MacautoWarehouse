@@ -17,6 +17,8 @@ import java.net.SocketTimeoutException;
 
 
 import static com.macauto.macautowarehouse.MainActivity.madeInfoTable;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
 public class GetMadeInfoService extends IntentService {
@@ -32,7 +34,7 @@ public class GetMadeInfoService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/get_made_info"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public GetMadeInfoService() {
         super("GetMadeInfoService");
@@ -68,6 +70,7 @@ public class GetMadeInfoService extends IntentService {
         //String device_id;
 
         String made_no = intent.getStringExtra("MADE_NO");
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");
         //String batch_no = intent.getStringExtra("BATCH_NO");

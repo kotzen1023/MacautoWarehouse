@@ -17,6 +17,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -79,7 +80,7 @@ public class CheckDeleteMessageRightsService extends IntentService {
         String user_no = intent.getStringExtra("USER_NO");
         String current_check_delete = intent.getStringExtra("CURRENT_CHECK_DELETE");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx"; // 網址
 
         Log.e(TAG, "iss_no = "+iss_no);
 

@@ -16,6 +16,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -81,7 +82,7 @@ public class CheckTTProductEntryAlreadyConfirm extends IntentService {
         //String doc_type = intent.getStringExtra("DOC_TYPE");
         //String rvu01 = intent.getStringExtra("RVU01");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
 
         if (intent.getAction() != null) {

@@ -19,6 +19,7 @@ import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.dataTable_Batch_area;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseDataTableToSoapObject;
 
@@ -89,7 +90,7 @@ public class GetTTSplitRvvItemService extends IntentService {
         String item_no = intent.getStringExtra("ITEM_NO");
         String part_no = intent.getStringExtra("PART_NO");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
 
         Log.e(TAG, "in_no = "+in_no);

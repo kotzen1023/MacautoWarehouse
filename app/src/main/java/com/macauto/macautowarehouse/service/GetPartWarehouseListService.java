@@ -24,6 +24,8 @@ import java.net.SocketTimeoutException;
 
 import static com.macauto.macautowarehouse.MainActivity.lookUpDataTable;
 import static com.macauto.macautowarehouse.MainActivity.searchList;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseXmlToDataTable;
 
 public class GetPartWarehouseListService extends IntentService {
@@ -39,7 +41,7 @@ public class GetPartWarehouseListService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/get_part_warehouse_list"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public GetPartWarehouseListService() {
         super("GetPartWarehouseListService");
@@ -80,6 +82,7 @@ public class GetPartWarehouseListService extends IntentService {
         String batch_no = intent.getStringExtra("BATCH_NO");
         String ima02 = intent.getStringExtra("NAME");
         String ima021 = intent.getStringExtra("SPEC");
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String query_all = intent.getStringExtra("QUERY_ALL");
 
         Log.e(TAG, "part_no = "+part_no);

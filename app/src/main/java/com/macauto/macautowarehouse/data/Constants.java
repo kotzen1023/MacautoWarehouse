@@ -18,6 +18,7 @@ public class Constants {
         //setting
         String ACTION_SETTING_PDA_TYPE_ACTION = "com.macauto.MacautoWarehoouse.SettingPdaTypeAction";
         String ACTION_SETTING_WEB_SOAP_PORT_ACTION = "com.macauto.MacautoWarehoouse.SettingWebSoapPortAction";
+        String ACTION_SETTING_WEB_SERVICE_IP_ACTION = "com.macauto.MacautoWarehoouse.SettingWebServiceIpAction";
 
         //into stock
         String ACTION_CHECK_EMP_EXIST_ACTION = "com.macauto.MacautoWarehoouse.CheckEmpExistAction";

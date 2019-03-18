@@ -17,6 +17,8 @@ import java.net.SocketTimeoutException;
 
 
 import static com.macauto.macautowarehouse.MainActivity.k_id;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToString;
 
 public class GetNewDocNoService extends IntentService {
@@ -32,7 +34,7 @@ public class GetNewDocNoService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/Get_New_Doc_No"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     public GetNewDocNoService() {
         super("GetNewDocNoService");
@@ -71,7 +73,7 @@ public class GetNewDocNoService extends IntentService {
         String session_date = intent.getStringExtra("SESSION_DATE");
         String insert_sql = intent.getStringExtra("INSERT_SQL");
         String doc_type = intent.getStringExtra("DOC_TYPE");
-
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");
         //String batch_no = intent.getStringExtra("BATCH_NO");

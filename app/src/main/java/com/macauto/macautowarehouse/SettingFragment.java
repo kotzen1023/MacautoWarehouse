@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import com.macauto.macautowarehouse.data.Constants;
 
 import static com.macauto.macautowarehouse.MainActivity.pda_type;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 
 public class SettingFragment extends Fragment {
@@ -33,6 +34,8 @@ public class SettingFragment extends Fragment {
     CheckBox checkBoxPDA408;
     CheckBox checkBoxTestPort;
     CheckBox checkBoxRealPort;
+    CheckBox checkBoxTaiwan;
+    CheckBox checkBoxChina;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class SettingFragment extends Fragment {
         checkBoxPDA408 = view.findViewById(R.id.checkBoxPDA408);
         checkBoxTestPort = view.findViewById(R.id.checkBoxTestPort);
         checkBoxRealPort = view.findViewById(R.id.checkBoxRealPort);
+        checkBoxTaiwan = view.findViewById(R.id.checkBoxServerTaiwan);
+        checkBoxChina = view.findViewById(R.id.checkBoxServerChina);
 
         //pref = context.getSharedPreferences(FILE_NAME, MODE_PRIVATE);
 
@@ -82,6 +87,14 @@ public class SettingFragment extends Fragment {
         } else { //port 8000
             checkBoxTestPort.setChecked(false);
             checkBoxRealPort.setChecked(true);
+        }
+
+        if (service_ip.equals("172.17.17.183")) {
+            checkBoxTaiwan.setChecked(false);
+            checkBoxChina.setChecked(true);
+        } else {
+            checkBoxTaiwan.setChecked(true);
+            checkBoxChina.setChecked(false);
         }
 
 
@@ -186,6 +199,32 @@ public class SettingFragment extends Fragment {
                     settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_WEB_SOAP_PORT_ACTION);
                     settingIntent.putExtra("WEB_SOAP_PORT", "8484");
                 }
+                context.sendBroadcast(settingIntent);
+            }
+        });
+
+        checkBoxTaiwan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingIntent;
+                checkBoxTaiwan.setChecked(true);
+                checkBoxChina.setChecked(false);
+
+                settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_WEB_SERVICE_IP_ACTION);
+                settingIntent.putExtra("SERVICE_IP", "172.17.17.244");
+                context.sendBroadcast(settingIntent);
+            }
+        });
+
+        checkBoxChina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingIntent;
+                checkBoxTaiwan.setChecked(false);
+                checkBoxChina.setChecked(true);
+
+                settingIntent = new Intent(Constants.ACTION.ACTION_SETTING_WEB_SERVICE_IP_ACTION);
+                settingIntent.putExtra("SERVICE_IP", "172.17.17.183");
                 context.sendBroadcast(settingIntent);
             }
         });

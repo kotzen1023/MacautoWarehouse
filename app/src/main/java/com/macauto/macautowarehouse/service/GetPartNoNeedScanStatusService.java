@@ -15,6 +15,8 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
+import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
 public class GetPartNoNeedScanStatusService extends IntentService {
@@ -30,7 +32,7 @@ public class GetPartNoNeedScanStatusService extends IntentService {
 
     private static final String SOAP_ACTION1 = "http://tempuri.org/Get_part_no_need_scan_status"; // SOAP_ACTION
 
-    private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
+    //private static final String URL = "http://172.17.17.244:8484/service.asmx"; // 網址
 
     //private boolean is_need_scan = false;
     //private boolean soap_failed = false;
@@ -70,6 +72,7 @@ public class GetPartNoNeedScanStatusService extends IntentService {
         //String device_id;
 
         String part_no = intent.getStringExtra("PART_NO");
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         //String current_detail_row = intent.getStringExtra("CURRENT_DETAIL_ROW");
         //String stock_no = intent.getStringExtra("STOCK_NO");
         //String locate_no = intent.getStringExtra("LOCATE_NO");

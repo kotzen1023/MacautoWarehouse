@@ -26,6 +26,7 @@ import java.net.SocketTimeoutException;
 import static com.macauto.macautowarehouse.MainActivity.dataTable;
 
 import static com.macauto.macautowarehouse.MainActivity.scan_list;
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.total_count_list;
 import static com.macauto.macautowarehouse.MainActivity.k_id;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
@@ -90,7 +91,7 @@ public class GetReceiveGoodsInDataAXService extends IntentService {
         String check_sp = intent.getStringExtra("CHECK_SP");
         String item_no = intent.getStringExtra("ITEM_NO");
 
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx"; // 網址
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
 
 
         Log.e(TAG, "URL = "+URL);

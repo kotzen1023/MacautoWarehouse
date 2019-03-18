@@ -18,6 +18,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import static com.macauto.macautowarehouse.MainActivity.service_ip;
 import static com.macauto.macautowarehouse.MainActivity.web_soap_port;
 import static com.macauto.macautowarehouse.data.WebServiceParse.parseToBoolean;
 
@@ -74,7 +75,7 @@ public class CheckEmpPasswordService extends IntentService {
 
         String emp_no = intent.getStringExtra("EMP_NO");
         String emp_password = intent.getStringExtra("EMP_PASSWORD");
-        String URL = "http://172.17.17.244:"+web_soap_port+"/service.asmx";
+        String URL = "http://"+service_ip+":"+web_soap_port+"/service.asmx";
         Log.e(TAG, "URL = "+URL);
 
         //device_id = intent.getStringExtra("DEVICE_ID");
