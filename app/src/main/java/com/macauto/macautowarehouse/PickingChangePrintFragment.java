@@ -406,6 +406,10 @@ public class PickingChangePrintFragment extends Fragment {
             Log.d(TAG, "registerReceiver mReceiver");
         }
 
+        //Intent getintent = new Intent(fragmentContext, GetLotCodeService.class);
+        //getintent.putExtra("BAR_CODE", "28123A00789-0102#20181105#181105#190309059##1#5#100#");
+        //fragmentContext.startService(getintent);
+
 
         return view;
     }

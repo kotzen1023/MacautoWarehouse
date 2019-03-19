@@ -283,7 +283,10 @@ public class MainActivity extends AppCompatActivity
                 if (bitmap != null) {
                     try {
                         iqspda.printBitmap(1, bitmap);
-                        sendCmd(new byte[]{0x1d,0x0c});
+
+                        //sendCmd(new byte[]{0x1d,0x0c}); //for MAT old machine
+                        sendCmd(new byte[] { 0x1b, 0x61, 0x01 }); //for MAC 20190319 new machine
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1693,6 +1696,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private Bitmap takeScreenshot() {
+        Log.e(TAG, "takeScreenshot start");
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
 
@@ -1724,10 +1728,17 @@ public class MainActivity extends AppCompatActivity
             //outputStream.close();
 
             //openScreenshot(imageFile);
+
+            if (croppedBitmap == null) {
+                Log.e(TAG, "croppedBitmap is null");
+            }
+
         } catch (Throwable e) {
             // Several error may come out with file handling or DOM
             e.printStackTrace();
         }
+
+        Log.e(TAG, "takeScreenshot stop");
 
         return croppedBitmap;
     }
